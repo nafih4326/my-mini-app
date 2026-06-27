@@ -49,7 +49,7 @@
 
     <div class="wallet-card">
         <div class="wallet-title">Verified Vault Balance</div>
-        <div class="wallet-val" id="appBalanceDisplay">₹0.00</div>
+        <div class="wallet-val" id="appBalanceDisplay">$0.00</div>
     </div>
 
     <div class="section-header">⚡ Available Premium Tasks</div>
@@ -58,14 +58,16 @@
 </div>
 
 <script>
+    // ⚠️ IMPORTANT: Replace this with your public Ngrok/Server URL from Termux
+    const BACKEND_API_URL = "https://your-ngrok-link.ngrok-free.app"; 
+
     let loggedUserId = null;
     let cachedSettings = {};
 
     function autoTelegramSync() {
-        // ടെലിഗ്രാമിൽ നിന്നും യൂസർ ഡാറ്റ നേരിട്ട് എടുക്കുന്നു
         const tg = window.Telegram.WebApp;
         tg.ready();
-        tg.expand(); // ആപ്പ് ഫുൾ സ്ക്രീൻ ആക്കാൻ
+        tg.expand();
 
         const user = tg.initDataUnsafe?.user;
 
@@ -77,8 +79,8 @@
         loggedUserId = user.id;
         const firstName = user.first_name || "User";
 
-        // ബാക്കെൻഡിലേക്ക് ഡാറ്റ അയച്ചു സിങ്ക് ചെയ്യുന്നു
-        fetch('/api/mini-app/sync', {
+        // Syncing with Backend Server Using Absolute URL
+        fetch(`${BACKEND_API_URL}/api/mini-app/sync`, {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({ userId: loggedUserId, username: firstName })
@@ -91,7 +93,8 @@
             document.getElementById('appBalanceDisplay').innerText = "₹" + data.user.balance.toFixed(2);
             buildTasksUI();
         })
-        .catch(() => {
+        .catch((err) => {
+            console.error(err);
             document.getElementById('loadingGate').innerHTML = "❌ Connection Error!";
         });
     }
@@ -121,7 +124,7 @@
     }
 
     function executeBounty(taskId) {
-        fetch('/api/mini-app/claim-task', {
+        fetch(`${BACKEND_API_URL}/api/mini-app/claim-task`, {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({ userId: loggedUserId, taskId })
@@ -131,9 +134,7 @@
         });
     }
 
-    // ആപ്പ് തുറക്കുമ്പോൾ തന്നെ ഓട്ടോമാറ്റിക് ആയി റൺ ചെയ്യും
     window.onload = autoTelegramSync;
 </script>
 </body>
 </html>
-
