@@ -3,19 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>BountyHub Premium Mini App</title>
+    <title>EXTRA EARN Premium</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
         :root {
-            --bg: #08090c;
-            --surface: #12141c;
-            --surface-card: #1a1d29;
-            --accent: #45f3ff;
-            --accent-gradient: linear-gradient(135deg, #45f3ff, #2979ff);
+            --bg: #0b0c10;
+            --surface: #141722;
+            --surface-card: #1f2336;
+            --accent-red: #ff0033;
+            --accent-white: #ffffff;
             --text: #ffffff;
-            --text-muted: #8e94a5;
-            --success: #2ecc71;
-            --error: #e74c3c;
+            --text-muted: #94a3b8;
+            --success: #00e676;
+            --error: #ff3d00;
+            --nav-bg: rgba(20, 23, 34, 0.85);
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, sans-serif; }
@@ -23,141 +24,136 @@
         
         .phone-layout { width: 100%; max-width: 430px; height: 100vh; background: var(--bg); position: relative; display: flex; flex-direction: column; }
         
-        /* Loading gate */
-        .loading-view { position: absolute; top:0; left:0; width:100%; height:100%; background:var(--bg); display:flex; justify-content:center; align-items:center; z-index:100; font-size:16px; color:var(--accent); text-align:center; }
+        /* Premium Loading Gate */
+        .loading-view { position: absolute; top:0; left:0; width:100%; height:100%; background:var(--bg); display:flex; flex-direction:column; justify-content:center; align-items:center; z-index:100; text-align:center; }
+        .spinner { width: 40px; height: 40px; border: 4px solid rgba(255,0,51,0.1); border-left-color: var(--accent-red); border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 15px; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        .loading-text { font-size: 16px; font-weight: 600; letter-spacing: 1px; color: var(--text); }
 
         /* Top Bar */
-        .top-bar { padding: 16px 20px; display: flex; justify-content: space-between; align-items: center; background: var(--surface); border-bottom: 1px solid #232838; }
-        .top-bar .logo { font-size: 20px; font-weight: 800; background: var(--accent-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .live-balance-btn { background: rgba(69, 243, 255, 0.1); border: 1px solid rgba(69, 243, 255, 0.3); padding: 6px 14px; border-radius: 20px; color: var(--accent); font-weight: 700; font-size: 14px; cursor: pointer; transition: 0.2s; }
+        .top-bar { padding: 18px 20px; display: flex; justify-content: space-between; align-items: center; background: var(--surface); border-bottom: 1px solid #24293e; }
+        .top-bar .logo { font-size: 22px; font-weight: 900; letter-spacing: 0.5px; }
+        .top-bar .logo .red-text { color: var(--accent-red); }
+        .top-bar .logo .white-text { color: var(--accent-white); }
+        .live-balance-btn { background: rgba(255, 0, 51, 0.1); border: 1px solid rgba(255, 0, 51, 0.3); padding: 8px 16px; border-radius: 25px; color: #fff; font-weight: 700; font-size: 14px; cursor: pointer; transition: 0.2s; }
         .live-balance-btn:active { transform: scale(0.95); }
 
         /* Main Scrollable Content */
-        .main-content { flex: 1; overflow-y: auto; padding: 20px; padding-bottom: 90px; display: none; }
+        .main-content { flex: 1; overflow-y: auto; padding: 20px; padding-bottom: 100px; display: none; }
         .main-content.active { display: block; }
 
-        /* Banner Slider Component */
-        .banner-container { width: 100%; height: 140px; background: var(--surface-card); border-radius: 16px; margin-bottom: 20px; overflow: hidden; position: relative; border: 1px solid #232838; }
-        .banner-slide { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; text-align: center; background-size: cover; background-position: center; padding: 20px; }
+        /* Dynamic Banner Component */
+        .banner-container { width: 100%; height: 140px; background: linear-gradient(135deg, #2c161a, #1f2336); border-radius: 16px; margin-bottom: 20px; overflow: hidden; display: none; border: 1px solid rgba(255, 0, 51, 0.2); position: relative; }
+        .banner-slide { width: 100%; height: 100%; display: flex; align-items: center; padding: 20px; }
         .banner-text h3 { font-size: 18px; color: #fff; font-weight: 700; margin-bottom: 4px; }
-        .banner-text p { font-size: 12px; color: var(--accent); }
+        .banner-text p { font-size: 12px; color: var(--text-muted); }
 
-        /* Category Filter Tabs */
-        .category-row { display: flex; gap: 10px; margin-bottom: 20px; overflow-x: auto; scrollbar-width: none; }
-        .category-chip { padding: 8px 16px; background: var(--surface); border: 1px solid #232838; border-radius: 20px; font-size: 13px; color: var(--text-muted); white-space: nowrap; cursor: pointer; }
-        .category-chip.active { background: var(--accent); color: #000; font-weight: 600; border-color: var(--accent); }
-
-        /* Task Architecture */
+        /* Task System */
         .task-list { display: flex; flex-direction: column; gap: 12px; }
-        .task-card { background: var(--surface-card); border-radius: 16px; padding: 16px; border: 1px solid #232838; display: flex; justify-content: space-between; align-items: center; }
-        .task-info h4 { font-size: 15px; font-weight: 600; margin-bottom: 4px; }
+        .task-card { background: var(--surface-card); border-radius: 16px; padding: 16px; border: 1px solid #24293e; display: flex; justify-content: space-between; align-items: center; }
+        .task-info h4 { font-size: 15px; font-weight: 600; margin-bottom: 4px; color: #fff; }
         .task-info p { font-size: 12px; color: var(--text-muted); margin-bottom: 6px; }
-        .task-reward { font-size: 13px; color: var(--success); font-weight: 700; }
-        .action-btn { padding: 10px 18px; background: var(--accent-gradient); border: none; color: #000; font-weight: 700; font-size: 13px; border-radius: 10px; cursor: pointer; text-decoration: none; }
-        .action-btn.claimed { background: #232838; color: var(--text-muted); pointer-events: none; }
+        .task-reward { font-size: 14px; color: var(--success); font-weight: 700; }
+        .action-btn { padding: 10px 20px; background: linear-gradient(135deg, var(--accent-red), #b30022); border: none; color: #fff; font-weight: 700; font-size: 13px; border-radius: 12px; cursor: pointer; text-decoration: none; transition: 0.2s; }
+        .action-btn:active { transform: scale(0.95); }
+        .action-btn.claimed { background: #24293e; color: var(--text-muted); pointer-events: none; border: 1px solid rgba(255,255,255,0.05); }
 
-        /* Pay Interface (G-Pay Style Premium) */
-        .premium-input-box { background: var(--surface-card); border: 1px solid #232838; padding: 16px; border-radius: 16px; margin-top: 15px; }
-        .premium-input-box label { font-size: 12px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; display: block; margin-bottom: 8px; }
+        /* Wallet Premium Sub-Tabs Design */
+        .wallet-display-card { background: linear-gradient(135deg, #141722, #1f2336); border-radius: 20px; padding: 24px; border: 1px solid #24293e; margin-bottom: 20px; }
+        .wallet-subtabs { display: grid; grid-template-columns: 1fr 1fr; background: var(--surface); padding: 4px; border-radius: 12px; margin-bottom: 15px; border: 1px solid #24293e; }
+        .subtab-btn { padding: 10px; text-align: center; font-size: 13px; font-weight: 600; color: var(--text-muted); border-radius: 10px; cursor: pointer; border: none; background: transparent; transition: 0.2s; }
+        .subtab-btn.active { background: var(--surface-card); color: #fff; box-shadow: 0 4px 12px rgba(0,0,0,0.2); }
+        .wallet-tab-content { display: none; }
+        .wallet-tab-content.active { display: block; }
+        .history-item { display: flex; justify-content: space-between; align-items: center; padding: 14px; background: var(--surface); border-radius: 12px; margin-bottom: 8px; border: 1px solid #24293e; }
+
+        /* Pay UI */
+        .premium-input-box { background: var(--surface-card); border: 1px solid #24293e; padding: 16px; border-radius: 16px; margin-top: 15px; }
+        .premium-input-box label { font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; display: block; margin-bottom: 8px; }
         .premium-input-box input { width: 100%; background: transparent; border: none; font-size: 18px; color: #fff; outline: none; }
-        .pay-submit-btn { width: 100%; padding: 16px; margin-top: 20px; background: var(--accent-gradient); border: none; border-radius: 16px; font-size: 15px; font-weight: 700; color: #000; cursor: pointer; }
+        .pay-submit-btn { width: 100%; padding: 16px; margin-top: 20px; background: linear-gradient(135deg, var(--accent-red), #b30022); border: none; border-radius: 16px; font-size: 15px; font-weight: 700; color: #fff; cursor: pointer; box-shadow: 0 4px 15px rgba(255, 0, 51, 0.3); }
 
-        /* Wallet Interface Layout */
-        .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 15px; }
-        .stat-box { background: var(--surface-card); border: 1px solid #232838; padding: 16px; border-radius: 16px; }
-        .stat-box p { font-size: 12px; color: var(--text-muted); }
-        .stat-box h3 { font-size: 18px; font-weight: 700; margin-top: 4px; }
-        .history-section { margin-top: 25px; }
-        .history-item { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #1a1d29; font-size: 14px; }
-
-        /* Profile & Architecture Control */
+        /* Profile & Referral */
         .profile-hero { text-align: center; padding: 20px 0; }
-        .profile-avatar { width: 75px; height: 75px; background: var(--accent-gradient); border-radius: 50%; margin: 0 auto 12px auto; display: flex; align-items: center; justify-content: center; font-size: 28px; color: #000; font-weight: bold; }
-        .profile-hero h2 { font-size: 20px; font-weight: 700; }
-        .profile-hero p { font-size: 13px; color: var(--text-muted); }
-        .referral-widget { background: var(--surface-card); border: 1px solid rgba(69, 243, 255, 0.1); padding: 16px; border-radius: 16px; margin-top: 20px; display: flex; justify-content: space-between; align-items: center; }
+        .profile-avatar { width: 80px; height: 80px; background: linear-gradient(135deg, var(--accent-red), #b30022); border-radius: 50%; margin: 0 auto 12px auto; display: flex; align-items: center; justify-content: center; font-size: 32px; color: #fff; font-weight: bold; box-shadow: 0 4px 15px rgba(255,0,51,0.2); }
+        .referral-widget { background: var(--surface-card); border: 1px solid #24293e; padding: 16px; border-radius: 16px; margin-top: 20px; display: flex; justify-content: space-between; align-items: center; }
 
-        /* Navigation Architecture */
-        .nav-bar { position: absolute; bottom: 0; left: 0; width: 100%; height: 75px; background: var(--surface); border-top: 1px solid #232838; display: grid; grid-template-columns: repeat(4, 1fr); align-items: center; text-align: center; padding-bottom: 10px; }
-        .nav-item { color: var(--text-muted); font-size: 11px; cursor: pointer; font-weight: 500; display: flex; flex-direction: column; gap: 4px; }
-        .nav-item.active { color: var(--accent); font-weight: 700; }
-        .nav-item-icon { font-size: 20px; }
+        /* 🌟 FLOATING ROUNDED PREMIUM NAVIGATION BAR */
+        .nav-container-box { position: absolute; bottom: 20px; left: 0; width: 100%; padding: 0 20px; z-index: 90; pointer-events: none; }
+        .nav-bar { width: 100%; height: 68px; background: var(--nav-bg); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); border-radius: 24px; border: 1px solid rgba(255, 255, 255, 0.08); display: grid; grid-template-columns: repeat(4, 1fr); align-items: center; text-align: center; pointer-events: auto; box-shadow: 0 8px 32px rgba(0,0,0,0.5); }
+        .nav-item { color: var(--text-muted); font-size: 11px; cursor: pointer; font-weight: 600; display: flex; flex-direction: column; gap: 4px; transition: 0.2s; }
+        .nav-item.active { color: var(--accent-red); transform: translateY(-2px); }
+        .nav-item-icon { font-size: 20px; transition: 0.2s; }
+        .nav-item.active .nav-item-icon { filter: drop-shadow(0 0 6px var(--accent-red)); }
 
         /* Live Integrated Website Admin Dashboard Model */
-        .admin-link-btn { background: #e74c3c22; color: #e74c3c; border: 1px solid #e74c3c44; text-align: center; padding: 14px; border-radius: 14px; display: block; text-decoration: none; font-weight: 700; margin-top: 20px; cursor: pointer; }
+        .admin-link-btn { background: rgba(255, 61, 0, 0.1); color: #ff3d00; border: 1px solid rgba(255, 61, 0, 0.2); text-align: center; padding: 14px; border-radius: 14px; display: block; text-decoration: none; font-weight: 700; margin-top: 20px; cursor: pointer; }
         .admin-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg); z-index: 200; display: none; flex-direction: column; padding: 20px; overflow-y: auto; }
-        .admin-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; padding-bottom: 15px; border-bottom: 1px solid #232838; }
+        .admin-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; padding-bottom: 15px; border-bottom: 1px solid #24293e; }
         .admin-form-group { margin-bottom: 16px; }
         .admin-form-group label { display: block; font-size: 13px; color: var(--text-muted); margin-bottom: 6px; }
-        .admin-form-group input, .admin-form-group select { width: 100%; padding: 12px; background: var(--surface-card); border: 1px solid #232838; border-radius: 10px; color: #fff; outline: none; }
-        .admin-action-btn { width: 100%; padding: 12px; background: var(--success); border: none; border-radius: 10px; color: #000; font-weight: 700; cursor: pointer; margin-top: 10px; }
+        .admin-form-group input { width: 100%; padding: 14px; background: var(--surface-card); border: 1px solid #24293e; border-radius: 12px; color: #fff; outline: none; font-size: 14px; }
+        .admin-action-btn { width: 100%; padding: 14px; background: var(--success); border: none; border-radius: 12px; color: #000; font-weight: 700; cursor: pointer; margin-top: 10px; font-size: 14px; }
     </style>
 </head>
 <body>
 
 <div class="phone-layout">
     <div id="loadingGate" class="loading-view">
-        <div>🔄 Securely Syncing with Telegram...</div>
+        <div class="spinner"></div>
+        <div class="loading-text">LOADING...</div>
     </div>
 
     <div class="top-bar">
-        <div class="logo">BountyHub</div>
+        <div class="logo"><span class="red-text">EXTRA</span> <span class="white-text">EARN</span></div>
         <button class="live-balance-btn" onclick="switchTab('wallet')">₹0.00</button>
     </div>
 
     <div id="homeView" class="main-content active">
         <div class="banner-container" id="bannerSlider">
-            <div class="banner-slide" style="background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://picsum.photos/400/150');">
+            <div class="banner-slide">
                 <div class="banner-text">
-                    <h3 id="bannerTitle">Premium Rewards Dynamic Hub</h3>
-                    <p id="bannerDesc">Complete premium missions to instantly claim vault balance.</p>
+                    <h3 id="bannerTitle">Welcome</h3>
+                    <p id="bannerDesc">Loading configurations...</p>
                 </div>
             </div>
         </div>
 
-        <div class="category-row">
-            <div class="category-chip active">All Tasks</div>
-            <div class="category-chip">Social Bounty</div>
-            <div class="category-chip">Premium Web</div>
-            <div class="category-chip">Special</div>
-        </div>
-
-        <div class="section-header" style="font-size: 14px; color: var(--text-muted); margin-bottom: 12px; font-weight:600;">AVAILABLE CAMPAIGNS</div>
+        <div style="font-size: 13px; color: var(--text-muted); margin-bottom: 14px; font-weight:700; letter-spacing: 0.5px;">PREMIUM MISSIONS</div>
         <div class="task-list" id="miniAppTasksGrid"></div>
     </div>
 
     <div id="walletView" class="main-content">
-        <div class="wallet-card" style="margin: 0; background: var(--surface-card); text-align: left; border: 1px solid #232838;">
-            <div class="wallet-title" style="font-size:11px;">AVAILABLE VAULT BALANCE</div>
-            <div class="wallet-val" id="walletBalanceDisplay" style="color: var(--accent); font-size: 34px;">₹0.00</div>
+        <div class="wallet-display-card">
+            <p style="font-size:11px; color: var(--text-muted); letter-spacing: 1px; text-transform: uppercase;">Total Balance</p>
+            <h2 id="walletBalanceDisplay" style="color: #fff; font-size: 36px; font-weight: 800; margin-top: 4px;">₹0.00</h2>
         </div>
 
-        <div class="stats-grid">
-            <div class="stat-box">
-                <p>Total Earnings</p>
-                <h3 id="totalEarningsDisplay" style="color: var(--success);">₹0.00</h3>
-            </div>
-            <div class="stat-box">
-                <p>Total Withdrawals</p>
-                <h3 id="totalWithdrawDisplay" style="color: var(--error);">₹0.00</h3>
+        <div class="wallet-subtabs">
+            <button class="subtab-btn active" id="btn-subtab-earn" onclick="switchWalletTab('earn')">Earnings</button>
+            <button class="subtab-btn" id="btn-subtab-withdraw" onclick="switchWalletTab('withdraw')">Withdrawals</button>
+        </div>
+
+        <div id="walletTabEarn" class="wallet-tab-content active">
+            <div id="earningsLogsGrid">
+                <p style="font-size:13px; color:var(--text-muted); text-align:center; padding:20px;">No task rewards logged yet.</p>
             </div>
         </div>
 
-        <div class="history-section">
-            <div style="font-size: 14px; font-weight:700; color: var(--text-muted); margin-bottom: 10px;">TRANSACTION HISTORY</div>
-            <div id="historyLogsContainer">
-                <p style="font-size:13px; color:var(--text-muted); text-align:center; padding:20px;">No historical statements found.</p>
+        <div id="walletTabWithdraw" class="wallet-tab-content">
+            <div id="withdrawLogsGrid">
+                <p style="font-size:13px; color:var(--text-muted); text-align:center; padding:20px;">No payout history found.</p>
             </div>
         </div>
     </div>
 
     <div id="payView" class="main-content">
         <h2 style="font-size: 22px; font-weight: 800; margin-bottom: 6px;">Instant Peer Pay</h2>
-        <p style="color: var(--text-muted); font-size: 13px;">Transfer funds immediately to any verified premium user ID.</p>
+        <p style="color: var(--text-muted); font-size: 13px;">Transfer assets instantly to any user account ID.</p>
 
         <div class="premium-input-box">
-            <label>Destination User ID</label>
-            <input type="number" id="payTargetId" placeholder="Enter Telegram User ID">
+            <label>Recipient Telegram ID</label>
+            <input type="number" id="payTargetId" placeholder="Enter Destination UID">
         </div>
 
         <div class="premium-input-box">
@@ -165,95 +161,98 @@
             <input type="number" id="payAmountInput" placeholder="₹ 0.00">
         </div>
 
-        <button class="pay-submit-btn" onclick="executePeerPayment()">Confirm & Authorize Payment</button>
+        <button class="pay-submit-btn" onclick="executePeerPayment()">Authorize Transfer</button>
     </div>
 
     <div id="profileView" class="main-content">
         <div class="profile-hero">
             <div class="profile-avatar" id="avatarLetter">U</div>
             <h2 id="profileNameDisplay">Premium User</h2>
-            <p id="profileIdDisplay">UID: 000000000</p>
+            <p id="profileIdDisplay" style="color: var(--text-muted); font-size: 13px; margin-top: 4px;">UID: 000000000</p>
         </div>
 
         <div class="referral-widget">
             <div>
-                <p style="font-size: 11px; color: var(--text-muted);">SHARE REF LINK</p>
-                <h4 style="font-size: 13px; margin-top:2px; color: var(--accent);">Get ₹10 per Premium Invite</h4>
+                <p style="font-size: 11px; color: var(--text-muted); font-weight:700;">INVITE PROGRAM</p>
+                <h4 style="font-size: 13px; margin-top:2px; color: var(--accent-white);">Get ₹10 per premium referral</h4>
             </div>
-            <button class="action-btn" style="padding: 8px 14px; font-size:11px;" onclick="copyReferralLink()">Copy Link</button>
+            <button class="action-btn" style="padding: 8px 14px; font-size:11px; border-radius:8px;" onclick="copyReferralLink()">Copy Link</button>
         </div>
 
         <div class="admin-link-btn" id="adminGateBtn" style="display:none;" onclick="openAdminDashboard()">💼 System Admin Panel</div>
     </div>
 
-    <div class="nav-bar">
-        <div class="nav-item active" id="nav-home" onclick="switchTab('home')">
-            <div class="nav-item-icon">🏠</div>
-            <div>Home</div>
-        </div>
-        <div class="nav-item" id="nav-wallet" onclick="switchTab('wallet')">
-            <div class="nav-item-icon">💳</div>
-            <div>Wallet</div>
-        </div>
-        <div class="nav-item" id="nav-pay" onclick="switchTab('pay')">
-            <div class="nav-item-icon">⚡</div>
-            <div>Pay</div>
-        </div>
-        <div class="nav-item" id="nav-profile" onclick="switchTab('profile')">
-            <div class="nav-item-icon">👤</div>
-            <div>Profile</div>
+    <div class="nav-container-box">
+        <div class="nav-bar">
+            <div class="nav-item active" id="nav-home" onclick="switchTab('home')">
+                <div class="nav-item-icon">🏠</div>
+                <div>Home</div>
+            </div>
+            <div class="nav-item" id="nav-wallet" onclick="switchTab('wallet')">
+                <div class="nav-item-icon">💳</div>
+                <div>Wallet</div>
+            </div>
+            <div class="nav-item" id="nav-pay" onclick="switchTab('pay')">
+                <div class="nav-item-icon">⚡</div>
+                <div>Pay</div>
+            </div>
+            <div class="nav-item" id="nav-profile" onclick="switchTab('profile')">
+                <div class="nav-item-icon">👤</div>
+                <div>Profile</div>
+            </div>
         </div>
     </div>
 </div>
 
 <div class="admin-modal" id="adminDashboardModal">
     <div class="admin-header">
-        <h2 style="font-size: 20px; font-weight: 800; color: var(--error);">⚙️ System Admin Command</h2>
+        <h2 style="font-size: 20px; font-weight: 900; color: var(--error);">⚙️ Root Control Unit</h2>
         <button class="action-btn" style="background:#fff; color:#000;" onclick="closeAdminDashboard()">Exit</button>
     </div>
 
-    <div class="wallet-card" style="background:var(--surface-card); text-align:left; padding:16px; margin-bottom:20px; border:1px solid #232838;">
-        <h3 style="font-size:15px; margin-bottom:12px; color:var(--accent);">1. Create Premium Campaign</h3>
+    <div style="background:var(--surface-card); padding:18px; border-radius:16px; margin-bottom:20px; border:1px solid #24293e;">
+        <h3 style="font-size:15px; margin-bottom:14px; color:var(--accent-red);">1. Deploy New Task</h3>
         <div class="admin-form-group">
-            <label>Campaign Title</label>
-            <input type="text" id="admTaskTitle" placeholder="Join Telegram Channel">
+            <label>Task Mission Title</label>
+            <input type="text" id="admTaskTitle" placeholder="e.g., Subscribe YouTube Channel">
         </div>
         <div class="admin-form-group">
-            <label>Bounty Amount (₹)</label>
-            <input type="number" id="admTaskAmount" placeholder="15.00">
+            <label>Reward Payout (₹)</label>
+            <input type="number" id="admTaskAmount" placeholder="0.00">
         </div>
         <div class="admin-form-group">
-            <label>Campaign Execution Link</label>
-            <input type="text" id="admTaskLink" placeholder="https://t.me/yourchannel">
+            <label>Action Redirection Link</label>
+            <input type="text" id="admTaskLink" placeholder="https://...">
         </div>
-        <button class="admin-action-btn" onclick="adminCreateTask()">Deploy Task</button>
+        <button class="admin-action-btn" onclick="adminCreateTask()">Publish Mission</button>
     </div>
 
-    <div class="wallet-card" style="background:var(--surface-card); text-align:left; padding:16px; margin-bottom:20px; border:1px solid #232838;">
-        <h3 style="font-size:15px; margin-bottom:12px; color:var(--accent);">2. Banner Configurations</h3>
+    <div style="background:var(--surface-card); padding:18px; border-radius:16px; margin-bottom:20px; border:1px solid #24293e;">
+        <h3 style="font-size:15px; margin-bottom:14px; color:var(--accent-red);">2. Dashboard Banner Announcement</h3>
+        <p style="font-size:11px; color:var(--text-muted); margin-bottom:10px;">Leave blank to remove/hide the banner display on client device.</p>
         <div class="admin-form-group">
-            <label>Headline Banner Text</label>
-            <input type="text" id="admBannerTitle" placeholder="Exclusive Summer Drop">
+            <label>Headline Banner Title</label>
+            <input type="text" id="admBannerTitle" placeholder="Enter headline text">
         </div>
         <div class="admin-form-group">
             <label>Sub-text Description</label>
-            <input type="text" id="admBannerDesc" placeholder="Execute maximum claims now">
+            <input type="text" id="admBannerDesc" placeholder="Enter descriptive text">
         </div>
-        <button class="admin-action-btn" style="background:var(--accent);" onclick="adminUpdateBanner()">Update Banner Platform</button>
+        <button class="admin-action-btn" style="background:var(--accent-red); color:#fff;" onclick="adminUpdateBanner()">Push Banner Update</button>
     </div>
 
-    <div class="wallet-card" style="background:var(--surface-card); text-align:left; padding:16px; border:1px solid #232838;">
-        <h3 style="font-size:15px; margin-bottom:12px; color:var(--error);">3. Access Management Security</h3>
+    <div style="background:var(--surface-card); padding:18px; border-radius:16px; border:1px solid #24293e;">
+        <h3 style="font-size:15px; margin-bottom:14px; color:var(--error);">3. System Authentication Protection</h3>
         <div class="admin-form-group">
-            <label>New Administrative Core Pin</label>
-            <input type="password" id="admNewPin" placeholder="Enter Secure Numeric/Alpha Pin">
+            <label>New Access Authentication Pin</label>
+            <input type="password" id="admNewPin" placeholder="Enter alphanumeric secret token">
         </div>
-        <button class="admin-action-btn" style="background:var(--error); color:#fff;" onclick="adminUpdateSecurityPin()">Reset Root Access Pin</button>
+        <button class="admin-action-btn" style="background:var(--error); color:#fff;" onclick="adminUpdateSecurityPin()">Update Root Pin</button>
     </div>
 </div>
 
 <script>
-    // 🔗 Termux Backend Endpoint Connection Setup
+    // 🔗 Connection Endpoint Configuration Node
     const BACKEND_API_URL = "https://headfirst-plausible-provable.ngrok-free.dev"; 
 
     let loggedUserId = null;
@@ -267,40 +266,40 @@
         const user = tg.initDataUnsafe?.user;
 
         if (!user || !user.id) {
-            document.getElementById('loadingGate').innerHTML = "❌ Please open this inside Telegram Bot!";
+            document.getElementById('loadingGate').innerHTML = "<div class='loading-text' style='color:var(--accent-red)'>❌ ACCESS REFUSED<br><span style='font-size:12px;color:var(--text-muted)'>Open inside Telegram app ecosystem.</span></div>";
             return;
         }
 
         loggedUserId = user.id;
         document.getElementById('profileIdDisplay').innerText = "UID: " + loggedUserId;
-        document.getElementById('profileNameDisplay').innerText = user.first_name || "User";
+        document.getElementById('profileNameDisplay').innerText = user.first_name || "Premium User";
         document.getElementById('avatarLetter').innerText = (user.first_name || "U").charAt(0).toUpperCase();
 
         fetch(`${BACKEND_API_URL}/api/mini-app/sync`, {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'ngrok-skip-browser-warning': 'true'
-            },
-            body: JSON.stringify({ userId: loggedUserId, username: user.first_name || "Premium User" })
+            headers: { 'Content-Type': 'application/json', 'ngrok-skip-browser-warning': 'true' },
+            body: JSON.stringify({ userId: loggedUserId, username: user.first_name || "User" })
         })
         .then(res => res.json())
         .then(data => {
             cachedSettings = data;
             document.getElementById('loadingGate').style.display = 'none';
             
-            // Core Display Matrix Injections
+            // Inject Synchronized Financial Assets
             const currentBal = "₹" + data.user.balance.toFixed(2);
             document.querySelectorAll('.live-balance-btn, #walletBalanceDisplay').forEach(el => el.innerText = currentBal);
-            document.getElementById('totalEarningsDisplay').innerText = "₹" + (data.user.totalEarned || data.user.balance).toFixed(2);
 
-            // Dynamic Banner Adjustments
-            if(data.botSettings?.banner) {
+            // Conditional Adaptive Banner Renderer
+            const bSlider = document.getElementById('bannerSlider');
+            if(data.botSettings?.banner && data.botSettings.banner.title.trim() !== "") {
                 document.getElementById('bannerTitle').innerText = data.botSettings.banner.title;
                 document.getElementById('bannerDesc').innerText = data.botSettings.banner.desc;
+                bSlider.style.display = 'block';
+            } else {
+                bSlider.style.display = 'none';
             }
 
-            // Grant Admin Node access if matching specific Root or User Roles
+            // Administrative Rights Checker Escalation Vector
             if(data.user.role === 'admin' || loggedUserId === 501889840) { 
                 document.getElementById('adminGateBtn').style.display = 'block';
             }
@@ -310,7 +309,7 @@
         })
         .catch(err => {
             console.error(err);
-            document.getElementById('loadingGate').innerHTML = "❌ Framework Engine Sync Outdated!<br><span style='font-size:12px;color:var(--text-muted)'>Ensure server execution stack active.</span>";
+            document.getElementById('loadingGate').innerHTML = "<div class='loading-text' style='color:var(--error)'>❌ SYNC TIMEOUT<br><span style='font-size:12px;color:var(--text-muted)'>Termux server core frame disconnected.</span></div>";
         });
     }
 
@@ -319,7 +318,7 @@
         grid.innerHTML = "";
         
         if(!cachedSettings.botSettings?.tasks || cachedSettings.botSettings.tasks.length === 0) {
-            grid.innerHTML = `<p style="text-align:center; color:var(--text-muted); font-size:13px; padding-top:20px;">No web tasks configured at this moment.</p>`;
+            grid.innerHTML = `<p style="text-align:center; color:var(--text-muted); font-size:13px; padding-top:20px;">No executive premium operations active.</p>`;
             return;
         }
 
@@ -329,7 +328,7 @@
                 <div class="task-card">
                     <div class="task-info">
                         <h4>${task.title}</h4>
-                        <p>Perform required link actions</p>
+                        <p>Verify interaction mission</p>
                         <span class="task-reward">+ ₹${task.amount.toFixed(2)}</span>
                     </div>
                     ${completed ? `<button class="action-btn claimed">Claimed</button>` : 
@@ -345,7 +344,7 @@
             headers: { 'Content-Type': 'application/json', 'ngrok-skip-browser-warning': 'true' },
             body: JSON.stringify({ userId: loggedUserId, taskId })
         }).then(() => {
-            alert("Bounty execution acknowledged! Syncing balance...");
+            alert("Mission check request queued! Synchronizing profile matrix...");
             autoTelegramSync();
         });
     }
@@ -355,7 +354,7 @@
         const amount = parseFloat(document.getElementById('payAmountInput').value);
 
         if(!targetId || !amount || amount <= 0) {
-            alert("Please input verified destination metrics!");
+            alert("Invalid structural metrics inputted!");
             return;
         }
 
@@ -368,7 +367,7 @@
         .then(resData => {
             if(resData.error) alert(resData.error);
             else {
-                alert("Authorization confirmed! Transaction completed successfully.");
+                alert("Transaction security signature authenticated! Transfer success.");
                 document.getElementById('payTargetId').value = "";
                 document.getElementById('payAmountInput').value = "";
                 autoTelegramSync();
@@ -378,15 +377,31 @@
     }
 
     function buildHistoryLogs() {
-        const container = document.getElementById('historyLogsContainer');
+        const earnGrid = document.getElementById('earningsLogsGrid');
+        const withdrawGrid = document.getElementById('withdrawLogsGrid');
+        
+        let earnHTML = "";
+        let withdrawHTML = "";
+
         if(cachedSettings.user?.history && cachedSettings.user.history.length > 0) {
-            container.innerHTML = cachedSettings.user.history.map(item => `
-                <div class="history-item">
-                    <span style="color:var(--text-muted)">${item.memo}</span>
-                    <span style="font-weight:700; color:${item.amt > 0 ? 'var(--success)' : 'var(--error)'}">${item.amt > 0 ? '+' : ''}₹${item.amt.toFixed(2)}</span>
-                </div>
-            `).join('');
+            cachedSettings.user.history.forEach(item => {
+                const layout = `
+                    <div class="history-item">
+                        <div>
+                            <p style="font-size:13px; font-weight:600;">${item.memo}</p>
+                        </div>
+                        <span style="font-weight:700; font-size:14px; color:${item.amt > 0 ? 'var(--success)' : 'var(--error)'}">
+                            ${item.amt > 0 ? '+' : ''}₹${item.amt.toFixed(2)}
+                        </span>
+                    </div>
+                `;
+                if(item.amt > 0) earnHTML += layout;
+                else withdrawHTML += layout;
+            });
         }
+
+        if(earnHTML !== "") earnGrid.innerHTML = earnHTML;
+        if(withdrawHTML !== "") withdrawGrid.innerHTML = withdrawHTML;
     }
 
     function switchTab(tabId) {
@@ -397,18 +412,31 @@
         document.getElementById('nav-' + tabId).classList.add('active');
     }
 
-    function copyReferralLink() {
-        const refLink = `https://t.me/your_bot?start=ref_${loggedUserId}`;
-        navigator.clipboard.writeText(refLink).then(() => alert("Your premium invite link copied!"));
+    function switchWalletTab(subTabId) {
+        document.querySelectorAll('.wallet-tab-content').forEach(c => c.classList.remove('active'));
+        document.querySelectorAll('.subtab-btn').forEach(b => b.classList.remove('active'));
+        
+        if(subTabId === 'earn') {
+            document.getElementById('walletTabEarn').classList.add('active');
+            document.getElementById('btn-subtab-earn').classList.add('active');
+        } else {
+            document.getElementById('walletTabWithdraw').classList.add('active');
+            document.getElementById('btn-subtab-withdraw').classList.add('active');
+        }
     }
 
-    // ADMINISTRATIVE SUB-MODULE MATRIX
+    function copyReferralLink() {
+        const refLink = `https://t.me/your_bot?start=ref_${loggedUserId}`;
+        navigator.clipboard.writeText(refLink).then(() => alert("Your unique high-tier invite link copied!"));
+    }
+
+    // ================= EXECUTIVE ADMINISTRATIVE SYSTEM COMMAND CONTROL MODULES =================
     function openAdminDashboard() {
-        const securePin = prompt("Enter Administrative Root Protection Secure Pin:");
+        const securePin = prompt("Enter Administrative Verification Secret Token:");
         if(securePin === "1234" || securePin === cachedSettings.botSettings?.adminPin) { 
             document.getElementById('adminDashboardModal').style.display = 'flex';
         } else {
-            alert("Unauthorized root interception rejected!");
+            alert("Intrusion attempt cataloged. Access denied.");
         }
     }
 
@@ -419,11 +447,17 @@
         const amount = parseFloat(document.getElementById('admTaskAmount').value);
         const link = document.getElementById('admTaskLink').value;
 
+        if(!title || isNaN(amount) || !link) { alert("Please complete all configurations inputs!"); return; }
+
         fetch(`${BACKEND_API_URL}/api/admin/add-task`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json', 'ngrok-skip-browser-warning': 'true' },
             body: JSON.stringify({ adminId: loggedUserId, title, amount, link })
-        }).then(() => { alert("New Premium Campaign Deployed!"); closeAdminDashboard(); autoTelegramSync(); });
+        }).then(() => { 
+            alert("New operation vector published successfully!"); 
+            closeAdminDashboard(); 
+            autoTelegramSync(); 
+        });
     }
 
     function adminUpdateBanner() {
@@ -434,16 +468,25 @@
             method: 'POST',
             headers: { 'Content-Type': 'application/json', 'ngrok-skip-browser-warning': 'true' },
             body: JSON.stringify({ adminId: loggedUserId, title, desc })
-        }).then(() => { alert("Platform Dashboard Banner Updated!"); closeAdminDashboard(); autoTelegramSync(); });
+        }).then(() => { 
+            alert("Platform notification channel synced!"); 
+            closeAdminDashboard(); 
+            autoTelegramSync(); 
+        });
     }
 
     function adminUpdateSecurityPin() {
         const newPin = document.getElementById('admNewPin').value;
+        if(!newPin) { alert("Token parameter empty!"); return; }
+        
         fetch(`${BACKEND_API_URL}/api/admin/update-pin`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json', 'ngrok-skip-browser-warning': 'true' },
             body: JSON.stringify({ adminId: loggedUserId, newPin })
-        }).then(() => { alert("Core Security Configuration Reset Successfully!"); closeAdminDashboard(); });
+        }).then(() => { 
+            alert("Root security configuration updated!"); 
+            closeAdminDashboard(); 
+        });
     }
 
     window.onload = autoTelegramSync;
