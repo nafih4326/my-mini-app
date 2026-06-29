@@ -30,7 +30,7 @@
 
 <div class="phone-layout">
     <div id="loadingGate" class="loading-view">
-        <div>🔄 Synchronizing with Telegram...<br><span style="font-size: 11px; color: var(--text-muted); margin-top: 5px; display: block;">Connecting to Backend Server</span></div>
+        <div>🔄 Synchronizing with Telegram...</div>
     </div>
 
     <div class="header">
@@ -48,7 +48,7 @@
 </div>
 
 <script>
-    // 🔗 IMPORTANT: Your Active Ngrok Link Connected
+    // 🔗 Your Active Ngrok Link
     const BACKEND_API_URL = "https://headfirst-plausible-provable.ngrok-free.dev"; 
 
     let loggedUserId = null;
@@ -59,24 +59,27 @@
         tg.ready();
         tg.expand();
 
-        // Fallback user id if Telegram initData fails during direct testing
-        let userId = tg.initDataUnsafe?.user?.id || 501889840; 
-        let firstName = tg.initDataUnsafe?.user?.first_name || "Premium User";
+        const user = tg.initDataUnsafe?.user;
 
-        loggedUserId = userId;
+        // If not opened inside Telegram, show error safely
+        if (!user || !user.id) {
+            document.getElementById('loadingGate').innerHTML = "❌ Please open this inside Telegram Bot!";
+            return;
+        }
 
-        console.log("Attempting to sync with backend for ID:", userId);
+        loggedUserId = user.id;
+        const firstName = user.first_name || "User";
 
-        // Fetch data from local Termux via Ngrok
+        // Fetching data with skip warning header
         fetch(`${BACKEND_API_URL}/api/mini-app/sync`, {
             method: 'POST',
-            headers: {'Content-Type': 'application/json'},
+            headers: {
+                'Content-Type': 'application/json',
+                'ngrok-skip-browser-warning': 'true'
+            },
             body: JSON.stringify({ userId: loggedUserId, username: firstName })
         })
-        .then(res => {
-            if(!res.ok) throw new Error("Server response not ok");
-            return res.json();
-        })
+        .then(res => res.json())
         .then(data => {
             cachedSettings = data;
             document.getElementById('loadingGate').style.display = 'none';
@@ -88,7 +91,7 @@
         })
         .catch((err) => {
             console.error("Sync Error:", err);
-            document.getElementById('loadingGate').innerHTML = "❌ Connection Timeout!<br><span style='font-size:12px; color:red;'>Please make sure Termux server & Ngrok are running simultaneously.</span>";
+            document.getElementById('loadingGate').innerHTML = "❌ Connection Error!<br><span style='font-size:12px; color:var(--text-muted);'>Check Termux status</span>";
         });
     }
 
@@ -119,7 +122,10 @@
     function executeBounty(taskId) {
         fetch(`${BACKEND_API_URL}/api/mini-app/claim-task`, {
             method: 'POST',
-            headers: {'Content-Type': 'application/json'},
+            headers: {
+                'Content-Type': 'application/json',
+                'ngrok-skip-browser-warning': 'true'
+            },
             body: JSON.stringify({ userId: loggedUserId, taskId })
         }).then(() => {
             alert("Bounty verification successfully processed!");
