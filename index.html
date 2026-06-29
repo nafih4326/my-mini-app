@@ -8,38 +8,29 @@
     <style>
         :root { --bg: #0b0c10; --card-bg: #1f2833; --accent: #45f3ff; --text: #ffffff; --text-muted: #8e8e93; --success: #2ecc71; }
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, sans-serif; }
-        
         body { background: #000000; color: var(--text); display: flex; justify-content: center; align-items: center; min-height: 100vh; }
-        
         .phone-layout { width: 100%; max-width: 430px; height: 100vh; background: var(--bg); position: relative; overflow-y: auto; padding: 24px; padding-bottom: 40px; }
-        
         .header { text-align: center; padding: 15px 0 25px 0; border-bottom: 1px solid #1f2833; }
         .header h1 { font-size: 26px; font-weight: 800; color: var(--accent); letter-spacing: -0.5px; }
         .header p { color: var(--text-muted); font-size: 13px; margin-top: 4px; }
-        
         .wallet-card { background: linear-gradient(135deg, #1f2833, #0b0c10); border-radius: 20px; padding: 24px; text-align: center; margin: 25px 0; border: 1px solid #45f3ff22; box-shadow: 0 10px 20px rgba(0,0,0,0.3); }
         .wallet-title { font-size: 13px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; font-weight: 600; }
         .wallet-val { font-size: 38px; font-weight: 800; color: var(--success); margin-top: 6px; }
-        
         .section-header { font-size: 16px; font-weight: 700; margin-bottom: 16px; color: var(--text-muted); display: flex; align-items: center; gap: 6px; }
         .task-grid { display: flex; flex-direction: column; gap: 14px; }
-        
         .task-card { background: var(--card-bg); border-radius: 16px; padding: 18px; display: flex; justify-content: space-between; align-items: center; border: 1px solid #2c3540; }
         .task-meta h4 { font-size: 15px; font-weight: 600; color: #fff; }
         .task-meta p { color: var(--success); font-size: 13px; margin-top: 3px; font-weight: 500; }
-        
         .claim-btn { padding: 11px 20px; background: var(--accent); border: none; color: #000; border-radius: 12px; font-weight: 700; font-size: 13px; text-decoration: none; cursor: pointer; }
         .claim-btn.claimed { background: #2c3540; color: var(--text-muted); pointer-events: none; }
-        
-        .loading-view { position: absolute; top:0; left:0; width:100%; height:100%; background:var(--bg); display:flex; justify-content:center; align-items:center; z-index:10; font-size:16px; color:var(--accent); }
+        .loading-view { position: absolute; top:0; left:0; width:100%; height:100%; background:var(--bg); display:flex; justify-content:center; align-items:center; z-index:10; font-size:16px; color:var(--accent); text-align: center; padding: 20px; }
     </style>
 </head>
 <body>
 
 <div class="phone-layout">
-    
     <div id="loadingGate" class="loading-view">
-        <div>🔄 Synchronizing with Telegram...</div>
+        <div>🔄 Synchronizing with Telegram...<br><span style="font-size: 11px; color: var(--text-muted); margin-top: 5px; display: block;">Connecting to Backend Server</span></div>
     </div>
 
     <div class="header">
@@ -49,18 +40,16 @@
 
     <div class="wallet-card">
         <div class="wallet-title">Verified Vault Balance</div>
-        <div class="wallet-val" id="appBalanceDisplay">$0.00</div>
+        <div class="wallet-val" id="appBalanceDisplay">₹0.00</div>
     </div>
 
     <div class="section-header">⚡ Available Premium Tasks</div>
     <div class="task-grid" id="miniAppTasksGrid"></div>
-
 </div>
 
 <script>
-    // ⚠️ IMPORTANT: Replace this with your public Ngrok/Server URL from Termux
-    const BACKEND_API_URL = "https://headfirst-plausible-provable.ngrok-free.dev
-"; 
+    // 🔗 IMPORTANT: Your Active Ngrok Link Connected
+    const BACKEND_API_URL = "https://headfirst-plausible-provable.ngrok-free.dev"; 
 
     let loggedUserId = null;
     let cachedSettings = {};
@@ -70,33 +59,36 @@
         tg.ready();
         tg.expand();
 
-        const user = tg.initDataUnsafe?.user;
+        // Fallback user id if Telegram initData fails during direct testing
+        let userId = tg.initDataUnsafe?.user?.id || 501889840; 
+        let firstName = tg.initDataUnsafe?.user?.first_name || "Premium User";
 
-        if (!user || !user.id) {
-            document.getElementById('loadingGate').innerHTML = "❌ Please open this inside Telegram Bot!";
-            return;
-        }
+        loggedUserId = userId;
 
-        loggedUserId = user.id;
-        const firstName = user.first_name || "User";
+        console.log("Attempting to sync with backend for ID:", userId);
 
-        // Syncing with Backend Server Using Absolute URL
+        // Fetch data from local Termux via Ngrok
         fetch(`${BACKEND_API_URL}/api/mini-app/sync`, {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({ userId: loggedUserId, username: firstName })
         })
-        .then(res => res.json())
+        .then(res => {
+            if(!res.ok) throw new Error("Server response not ok");
+            return res.json();
+        })
         .then(data => {
             cachedSettings = data;
             document.getElementById('loadingGate').style.display = 'none';
             document.getElementById('welcomeUser').innerText = "Hi, " + firstName;
-            document.getElementById('appBalanceDisplay').innerText = "₹" + data.user.balance.toFixed(2);
+            if (data.user && data.user.balance !== undefined) {
+                document.getElementById('appBalanceDisplay').innerText = "₹" + data.user.balance.toFixed(2);
+            }
             buildTasksUI();
         })
         .catch((err) => {
-            console.error(err);
-            document.getElementById('loadingGate').innerHTML = "❌ Connection Error!";
+            console.error("Sync Error:", err);
+            document.getElementById('loadingGate').innerHTML = "❌ Connection Timeout!<br><span style='font-size:12px; color:red;'>Please make sure Termux server & Ngrok are running simultaneously.</span>";
         });
     }
 
@@ -104,7 +96,7 @@
         const grid = document.getElementById('miniAppTasksGrid');
         grid.innerHTML = "";
         
-        if(!cachedSettings.botSettings.tasks || cachedSettings.botSettings.tasks.length === 0) {
+        if(!cachedSettings.botSettings || !cachedSettings.botSettings.tasks || cachedSettings.botSettings.tasks.length === 0) {
             grid.innerHTML = `<p style="text-align:center; color:var(--text-muted); font-size:14px; margin-top:20px;">No web tasks configured at this moment.</p>`;
             return;
         }
