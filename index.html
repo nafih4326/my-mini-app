@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>EXTRA EARN Premium Suite</title>
+    <title>EXTRA EARN - Ultra Suite</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
         :root {
@@ -18,117 +18,61 @@
             --nav-bg: #11141f;
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
-        body { background: var(--bg); color: var(--text-white); min-height: 100vh; overflow: hidden; display: flex; justify-content: center; align-items: center; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: sans-serif; }
+        body { background: var(--bg); color: var(--text-white); min-height: 100vh; overflow: hidden; display: flex; justify-content: center; }
         
         .phone-layout { width: 100%; max-width: 430px; height: 100vh; background: var(--bg); position: relative; display: flex; flex-direction: column; overflow: hidden; }
         
-        /* Loading Screen Frame */
         .loading-view { position: absolute; top:0; left:0; width:100%; height:100%; background:var(--bg); display:flex; flex-direction:column; justify-content:center; align-items:center; z-index:1000; }
         .spinner { width: 34px; height: 34px; border: 3px solid rgba(255,30,39,0.1); border-left-color: var(--accent-red); border-radius: 50%; animation: spin 0.8s linear infinite; margin-bottom: 12px; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-        .loading-text { font-size: 14px; font-weight: 700; letter-spacing: 1px; color: var(--text-white); }
 
-        /* Sleek Top Header Navigation */
         .top-bar { padding: 16px 20px; display: flex; justify-content: space-between; align-items: center; background: var(--bg); }
         .top-bar .logo { font-size: 20px; font-weight: 900; letter-spacing: 0.5px; }
         .top-bar .logo .red-span { color: var(--accent-red); }
-        .top-bar .logo .white-span { color: var(--text-white); }
-        .top-actions { display: flex; align-items: center; gap: 12px; }
-        .bell-icon { font-size: 18px; cursor: pointer; color: #fff; position: relative; }
-        .balance-pill { background: var(--surface-card); padding: 6px 14px; border-radius: 20px; font-weight: 700; font-size: 13px; color: #fff; display: flex; align-items: center; border: 1px solid rgba(255,255,255,0.05); }
+        .balance-pill { background: var(--surface-card); padding: 6px 14px; border-radius: 20px; font-weight: 700; font-size: 13px; border: 1px solid rgba(255,255,255,0.05); }
 
-        /* Global Viewports Content Container */
         .main-viewport { flex: 1; overflow-y: auto; padding: 0 20px 100px 20px; display: none; }
         .main-viewport.active { display: block; }
 
-        /* Home Image Slider Components */
-        .slider-wrapper { width: 100%; margin-bottom: 20px; display: none; }
-        .premium-banner-card { width: 100%; background: linear-gradient(135deg, #2b0b0f, #171a26); border-radius: 24px; padding: 24px; position: relative; min-height: 140px; display: flex; flex-direction: column; justify-content: center; border: 1px solid rgba(255,30,39,0.15); }
-        .premium-banner-card h3 { font-size: 24px; font-weight: 900; color: #fff; margin-bottom: 4px; }
-        .premium-banner-card p { font-size: 12px; color: var(--text-muted); }
-        .slider-dots { display: flex; justify-content: center; gap: 6px; margin-top: 10px; }
-        .dot { width: 6px; height: 6px; background: var(--surface-card); border-radius: 50%; }
-        .dot.active { background: var(--text-white); width: 14px; border-radius: 4px; }
-
-        /* Dynamic Filtering Elements */
-        .filter-scroller { display: flex; gap: 10px; margin-bottom: 20px; }
-        .filter-btn { background: var(--surface-card); color: #fff; padding: 10px 20px; border-radius: 20px; border: none; font-size: 13px; font-weight: 700; cursor: pointer; }
-        .filter-btn.active { background: #ffffff; color: #000000; }
-
-        /* Premium Standard Task Row cards */
-        .mission-row-card { background: var(--surface-card); border-radius: 18px; padding: 16px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; border: 1px solid rgba(255,255,255,0.02); }
-        .mission-meta h4 { font-size: 15px; font-weight: 700; color: #fff; margin-bottom: 4px; }
-        .mission-meta p { font-size: 11px; color: var(--text-muted); }
-        .mission-payout { font-size: 15px; font-weight: 800; color: var(--accent-blue); margin-top: 2px; }
-        .mission-action { padding: 10px 18px; background: var(--surface); border: 1px solid rgba(255,255,255,0.08); color: #fff; font-weight: 700; font-size: 13px; border-radius: 12px; text-decoration: none; transition: 0.2s; }
-        .mission-action:active { transform: scale(0.95); }
+        .premium-banner-card { width: 100%; background: linear-gradient(135deg, #2b0b0f, #171a26); border-radius: 24px; padding: 24px; margin-bottom: 20px; border: 1px solid rgba(255,30,39,0.15); }
+        
+        .mission-row-card { background: var(--surface-card); border-radius: 18px; padding: 16px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; }
+        .mission-action { padding: 10px 18px; background: var(--surface); border: 1px solid rgba(255,255,255,0.08); color: #fff; font-weight: 700; font-size: 13px; border-radius: 12px; text-decoration: none; }
         .mission-action.done { background: rgba(255,255,255,0.03); color: var(--text-muted); border: none; pointer-events: none; }
 
-        /* Complete Wallet Layout Specifications (1:1 UI Replication) */
-        .section-header-title { font-size: 14px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; text-align: center; margin: 10px 0 20px 0; }
-        .wallet-main-vault { background: var(--surface-card); border-radius: 24px; padding: 24px; text-align: center; position: relative; margin-bottom: 14px; border: 1px solid rgba(255,255,255,0.02); }
-        .vault-label { font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; font-weight: 700; }
-        .vault-balance-huge { font-size: 38px; font-weight: 900; color: #fff; margin-top: 6px; display: flex; align-items: center; justify-content: center; gap: 10px; }
-        .vault-refresh-node { font-size: 20px; color: var(--text-muted); cursor: pointer; border: none; background: transparent; }
-
+        .wallet-main-vault { background: var(--surface-card); border-radius: 24px; padding: 24px; text-align: center; margin-bottom: 14px; }
         .wallet-summary-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }
-        .summary-subbox { background: var(--surface-card); padding: 16px; border-radius: 18px; border: 1px solid rgba(255,255,255,0.02); }
-        .summary-subbox p { font-size: 10px; color: var(--text-muted); text-transform: uppercase; font-weight: 700; margin-bottom: 4px; }
-        .summary-subbox h4 { font-size: 18px; font-weight: 800; }
+        .summary-subbox { background: var(--surface-card); padding: 16px; border-radius: 18px; }
 
         .payout-methods-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 24px; }
-        .method-card { background: var(--surface-card); padding: 14px; border-radius: 16px; text-align: center; font-size: 11px; font-weight: 700; color: var(--text-muted); cursor: pointer; border: 1px solid rgba(255,255,255,0.02); }
-        .method-card .method-icon { font-size: 18px; margin-bottom: 6px; color: var(--accent-blue); display: block; }
+        .method-card { background: var(--surface-card); padding: 14px; border-radius: 16px; text-align: center; font-size: 11px; font-weight: 700; }
 
-        /* Wallet Matrix Sub-Tab System */
-        .toggle-tab-bar { background: var(--surface-card); padding: 4px; border-radius: 14px; display: grid; grid-template-columns: 1fr 1fr; margin-bottom: 16px; }
-        .toggle-btn { padding: 12px; border: none; background: transparent; border-radius: 10px; color: var(--text-muted); font-size: 12px; font-weight: 800; cursor: pointer; text-transform: uppercase; }
-        .toggle-btn.active { background: var(--accent-blue); color: #fff; }
-        .history-list-bucket { display: none; }
-        .history-list-bucket.active { display: block; }
-        
-        .statement-row { background: var(--surface-card); padding: 16px; border-radius: 16px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
-        .statement-detail h5 { font-size: 14px; font-weight: 700; color: #fff; margin-bottom: 2px; }
-        .statement-detail span { font-size: 11px; color: var(--text-muted); }
-        .statement-amt { font-size: 14px; font-weight: 800; }
-
-        /* Dynamic Peer Input Field Deck */
         .field-card-box { background: var(--surface-card); padding: 16px; border-radius: 18px; margin-bottom: 12px; }
-        .field-card-box label { font-size: 11px; color: var(--text-muted); text-transform: uppercase; font-weight: 700; display: block; margin-bottom: 6px; }
-        .field-card-box input { width: 100%; background: transparent; border: none; outline: none; color: #fff; font-size: 16px; font-weight: 600; }
-        .action-submit-trigger { width: 100%; padding: 16px; background: var(--accent-red); border: none; border-radius: 18px; color: #fff; font-weight: 800; font-size: 15px; cursor: pointer; margin-top: 10px; }
+        .field-card-box label { font-size: 11px; color: var(--text-muted); display: block; margin-bottom: 6px; text-transform: uppercase; }
+        .field-card-box input { width: 100%; background: transparent; border: none; outline: none; color: #fff; font-size: 16px; }
+        .action-submit-trigger { width: 100%; padding: 16px; background: var(--accent-red); border: none; border-radius: 18px; color: #fff; font-weight: 800; cursor: pointer; }
 
-        /* Account Profile Component Layout (1:1 Match) */
-        .profile-card-badge { background: var(--surface-card); padding: 20px; border-radius: 24px; display: flex; align-items: center; gap: 16px; margin-bottom: 24px; border: 1px solid rgba(255,255,255,0.02); }
-        .profile-avatar-circle { width: 64px; height: 64px; border-radius: 50%; background: #333; overflow: hidden; display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: 700; }
-        .profile-avatar-circle img { width:100%; height:100%; object-fit: cover; }
-        .profile-title-stack h3 { font-size: 18px; font-weight: 800; display: flex; align-items: center; gap: 6px; }
-        .verified-tick { color: var(--accent-blue); font-size: 14px; }
-        .profile-title-stack p { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
-
+        .profile-card-badge { background: var(--surface-card); padding: 20px; border-radius: 24px; display: flex; align-items: center; gap: 16px; margin-bottom: 24px; }
+        .profile-avatar-circle { width: 54px; height: 54px; border-radius: 50%; background: #333; display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: 700; }
         .settings-menu-group { margin-bottom: 20px; }
-        .group-label { font-size: 11px; color: var(--text-muted); text-transform: uppercase; font-weight: 800; letter-spacing: 0.5px; margin-bottom: 10px; padding-left: 4px; }
         .menu-row-item { background: var(--surface-card); padding: 16px; border-radius: 16px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; cursor: pointer; }
-        .menu-row-left { display: flex; align-items: center; gap: 12px; font-size: 14px; font-weight: 700; }
-        .menu-chevron { color: var(--text-muted); font-size: 14px; }
 
-        /* Fixed Flat Ground Nav-Bar */
-        .fixed-bottom-nav { position: absolute; bottom: 0; left: 0; width: 100%; height: 74px; background: var(--nav-bg); border-top: 1px solid rgba(255,255,255,0.04); display: grid; grid-template-columns: repeat(4, 1fr); align-items: center; text-align: center; z-index: 500; }
-        .nav-anchor { color: var(--text-muted); font-size: 10px; font-weight: 700; text-decoration: none; display: flex; flex-direction: column; align-items: center; gap: 4px; cursor: pointer; }
+        .fixed-bottom-nav { position: absolute; bottom: 0; left: 0; width: 100%; height: 74px; background: var(--nav-bg); border-top: 1px solid rgba(255,255,255,0.04); display: grid; grid-template-columns: repeat(4, 1fr); align-items: center; text-align: center; }
+        .nav-anchor { color: var(--text-muted); font-size: 10px; text-decoration: none; display: flex; flex-direction: column; gap: 4px; cursor: pointer; }
         .nav-anchor.active { color: #fff; }
-        .nav-icon-glyph { font-size: 20px; display: block; opacity: 0.4; }
-        .nav-anchor.active .nav-icon-glyph { opacity: 1; filter: drop-shadow(0 0 8px rgba(255,255,255,0.4)); }
+        .nav-icon-glyph { font-size: 20px; }
 
-        /* Integrated Full Website Model Admin Panel Dashboard Overlay */
+        /* Unified Admin Controls Full-Screen Window */
         .admin-fullscreen-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg); z-index: 2000; display: none; flex-direction: column; padding: 20px; overflow-y: auto; }
-        .admin-modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-bottom: 14px; border-bottom: 1px solid var(--surface-card); }
+        .admin-modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 1px solid var(--surface-card); padding-bottom: 10px; }
         .adm-card-node { background: var(--surface-card); padding: 18px; border-radius: 20px; margin-bottom: 16px; }
-        .adm-card-node h4 { font-size: 14px; color: var(--accent-red); margin-bottom: 12px; text-transform: uppercase; }
+        .adm-card-node h4 { font-size: 13px; color: var(--accent-red); margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .adm-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }
         .adm-input-wrapper { margin-bottom: 12px; }
-        .adm-input-wrapper label { display: block; font-size: 12px; color: var(--text-muted); margin-bottom: 4px; }
-        .adm-input-wrapper input { width: 100%; padding: 12px; background: var(--bg); border: 1px solid rgba(255,255,255,0.05); border-radius: 10px; color: #fff; outline: none; }
-        .adm-commit-btn { width: 100%; padding: 12px; background: var(--success-green); border: none; color: #000; font-weight: 700; border-radius: 10px; cursor: pointer; margin-top: 6px; }
+        .adm-input-wrapper label { display: block; font-size: 11px; color: var(--text-muted); margin-bottom: 4px; }
+        .adm-input-wrapper input, .adm-input-wrapper select { width: 100%; padding: 12px; background: var(--bg); border: 1px solid rgba(255,255,255,0.05); border-radius: 10px; color: #fff; outline: none; }
+        .adm-commit-btn { width: 100%; padding: 12px; background: var(--success-green); border: none; color: #000; font-weight: 700; border-radius: 10px; cursor: pointer; }
     </style>
 </head>
 <body>
@@ -136,210 +80,148 @@
 <div class="phone-layout">
     <div id="loadingGate" class="loading-view">
         <div class="spinner"></div>
-        <div class="loading-text">LOADING...</div>
+        <div class="loading-text">SYNCING SECURITY LAYER...</div>
     </div>
 
     <div class="top-bar">
-        <div class="logo"><span class="red-span">EXTRA</span> <span class="white-span">EARN</span></div>
-        <div class="top-actions">
-            <div class="bell-icon">🔔</div>
-            <div class="balance-pill" id="headerBalanceDisplay">₹0.00</div>
-        </div>
+        <div class="logo"><span class="red-span">EXTRA</span> EARN</div>
+        <div class="balance-pill" id="headerBalanceDisplay">₹0.00</div>
     </div>
 
     <div id="homeView" class="main-viewport active">
-        <div class="slider-wrapper" id="bannerSection">
-            <div class="premium-banner-card">
-                <h3 id="sliderTitleText">Premium Title</h3>
-                <p id="sliderDescText">Sub-level notification message context.</p>
-            </div>
-            <div class="slider-dots"><div class="dot active"></div><div class="dot"></div></div>
+        <div class="premium-banner-card" id="bannerSection">
+            <h3 id="sliderTitleText">Premium Active</h3>
+            <p id="sliderDescText">Loading global metrics context...</p>
         </div>
-
-        <div class="filter-scroller">
-            <button class="filter-btn active">All Missions</button>
-        </div>
-
-        <div class="mission-wrapper-grid" id="taskUIRendererGrid"></div>
+        <div style="font-size:12px; color:var(--text-muted); margin-bottom:12px; font-weight:700;">ALL LIVE MISSIONS</div>
+        <div id="taskUIRendererGrid"></div>
     </div>
 
     <div id="walletView" class="main-viewport">
-        <div class="section-header-title">My Wallet</div>
-        
         <div class="wallet-main-vault">
-            <div class="vault-label">Available Balance</div>
-            <div class="vault-balance-huge">
-                <span id="vaultBalanceText">₹0.00</span>
-                <button class="vault-refresh-node" onclick="syncPlatformData()">↻</button>
-            </div>
+            <p style="font-size:11px; color:var(--text-muted);">AVAILABLE LEDGER ASSETS</p>
+            <h2 style="font-size:36px; margin-top:4px;" id="vaultBalanceText">₹0.00</h2>
         </div>
-
         <div class="wallet-summary-grid">
-            <div class="summary-subbox">
-                <p>Total Earned</p>
-                <h4 style="color: var(--success-green);" id="sumTotalEarnedText">₹0.00</h4>
-            </div>
-            <div class="summary-subbox">
-                <p>Total Withdrawn</p>
-                <h4 style="color: #fff;" id="sumTotalWithdrawnText">₹0.00</h4>
-            </div>
+            <div class="summary-subbox"><p style="font-size:10px; color:var(--text-muted);">TOTAL EARNED</p><h4 id="sumTotalEarnedText" style="color:var(--success-green);">₹0.00</h4></div>
+            <div class="summary-subbox"><p style="font-size:10px; color:var(--text-muted);">TOTAL WITHDRAWN</p><h4 id="sumTotalWithdrawnText">₹0.00</h4></div>
         </div>
-
         <div class="payout-methods-row">
-            <div class="method-card"><span class="method-icon">🖲️</span>UPI</div>
-            <div class="method-card"><span class="method-icon">🏦</span>Bank</div>
-            <div class="method-card"><span class="method-icon">▶️</span>Redeem</div>
+            <div class="method-card"><span>⚡</span> UPI</div>
+            <div class="method-card"><span>🏦</span> BANK</div>
+            <div class="method-card"><span>🎁</span> REDEEM</div>
         </div>
-
-        <div class="toggle-tab-bar">
-            <button class="toggle-btn active" id="tabBtnEarn" onclick="toggleWalletHistory('earnings')">Earnings</button>
-            <button class="toggle-btn" id="tabBtnWithdraw" onclick="toggleWalletHistory('withdrawals')">Withdrawals</button>
+        <div class="field-card-box">
+            <label>Redeem Gift Code / Voucher</label>
+            <div style="display:flex; gap:8px; margin-top:4px;">
+                <input type="text" id="walletGiftCodeInput" placeholder="ENTER CODE HERE" style="text-transform:uppercase;">
+                <button onclick="claimPlatformGiftCode()" style="padding:8px 16px; background:var(--accent-blue); border:none; color:#fff; font-weight:700; border-radius:10px; cursor:pointer;">Claim</button>
+            </div>
         </div>
-
-        <div id="ledgerEarnBox" class="history-list-bucket active"></div>
-        <div id="ledgerWithdrawBox" class="history-list-bucket"></div>
     </div>
 
     <div id="payView" class="main-viewport">
-        <div class="section-header-title">Peer Gateway</div>
-        
-        <div class="field-card-box">
-            <label>Recipient Telegram Account UID</label>
-            <input type="number" id="peerTargetInputId" placeholder="Destination User ID">
-        </div>
-        <div class="field-card-box">
-            <label>Transfer Amount (INR)</label>
-            <input type="number" id="peerAmountInput" placeholder="₹ 0.00">
-        </div>
+        <div style="text-align:center; font-size:13px; margin:10px 0 20px 0; font-weight:700;">PEER TO PEER GATEWAY</div>
+        <div class="field-card-box"><label>Destination UID</label><input type="number" id="peerTargetInputId" placeholder="Receiver Telegram ID"></div>
+        <div class="field-card-box"><label>Transfer Amount (INR)</label><input type="number" id="peerAmountInput" placeholder="₹0.00"></div>
         <button class="action-submit-trigger" onclick="executeSecureTransfer()">Authorize Peer Payout</button>
     </div>
 
     <div id="profileView" class="main-viewport">
         <div class="profile-card-badge">
             <div class="profile-avatar-circle" id="userAvatarBlock">U</div>
-            <div class="profile-title-stack">
-                <h3 id="userDisplayProfileName">Premium User <span class="verified-tick">✓</span></h3>
-                <p id="userUIDLabelNode">UID: #00000000</p>
+            <div>
+                <h3 id="userDisplayProfileName">Premium User</h3>
+                <p id="userUIDLabelNode" style="font-size:12px; color:var(--text-muted); margin-top:2px;">UID: #00000000</p>
             </div>
         </div>
-
         <div class="settings-menu-group">
-            <div class="group-label">Account & Activity</div>
-            <div class="menu-row-item" onclick="switchViewTab('wallet')">
-                <div class="menu-row-left"><span>💼</span> My Earnings & Wallet</div>
-                <div class="menu-chevron">›</div>
-            </div>
-            <div class="menu-row-item" onclick="alert('Leaderboard updating soon!')">
-                <div class="menu-row-left"><span>🏆</span> Global Leaderboard</div>
-                <div class="menu-chevron">›</div>
-            </div>
-            <div class="menu-row-item" onclick="copyReferralInviteLink()">
-                <div class="menu-row-left"><span>🎁</span> Refer & Earn Rewards</div>
-                <div class="menu-chevron">›</div>
-            </div>
-        </div>
-
-        <div class="settings-menu-group">
-            <div class="group-label">Community Hub</div>
-            <div class="menu-row-item" onclick="window.open('https://t.me/', '_blank')">
-                <div class="menu-row-left"><span>📢</span> Join Official Telegram</div>
-                <div class="menu-chevron">›</div>
-            </div>
+            <div class="menu-row-item" onclick="copyReferralInviteLink()"><div>🎁 Refer & Earn Rewards</div><div>›</div></div>
+            <div class="menu-row-item" onclick="window.open('https://t.me/', '_blank')"><div>📢 Official Telegram Group</div><div>›</div></div>
         </div>
 
         <div class="settings-menu-group" id="adminControlMenuWrapper" style="display: none;">
-            <div class="group-label">Security & Controls</div>
-            <div class="menu-row-item" style="background: rgba(255,30,39,0.05);" onclick="triggerAdminDashboardEntrance()">
-                <div class="menu-row-left" style="color: var(--accent-red);"><span>⚙️</span> Admin Dashboard</div>
-                <div class="menu-chevron">›</div>
+            <div class="menu-row-item" style="background: rgba(255,30,39,0.08);" onclick="triggerAdminDashboardEntrance()">
+                <div style="color: var(--accent-red); font-weight:700;">⚙️ Master Admin Control Panel</div>
+                <div style="color: var(--accent-red);">›</div>
             </div>
         </div>
     </div>
 
     <div class="fixed-bottom-nav">
-        <div class="nav-anchor active" id="anchor-home" onclick="switchViewTab('home')">
-            <span class="nav-icon-glyph">🏠</span>
-            <div>Home</div>
-        </div>
-        <div class="nav-anchor" id="anchor-wallet" onclick="switchViewTab('wallet')">
-            <span class="nav-icon-glyph">💳</span>
-            <div>Wallet</div>
-        </div>
-        <div class="nav-anchor" id="anchor-pay" onclick="switchViewTab('pay')">
-            <span class="nav-icon-glyph">⚡</span>
-            <div>Pay</div>
-        </div>
-        <div class="nav-anchor" id="anchor-profile" onclick="switchViewTab('profile')">
-            <span class="nav-icon-glyph">👤</span>
-            <div>Profile</div>
-        </div>
+        <div class="nav-anchor active" id="anchor-home" onclick="switchViewTab('home')"><span class="nav-icon-glyph">🏠</span><div>Home</div></div>
+        <div class="nav-anchor" id="anchor-wallet" onclick="switchViewTab('wallet')"><span class="nav-icon-glyph">💳</span><div>Wallet</div></div>
+        <div class="nav-anchor" id="anchor-pay" onclick="switchViewTab('pay')"><span class="nav-icon-glyph">⚡</span><div>Pay</div></div>
+        <div class="nav-anchor" id="anchor-profile" onclick="switchViewTab('profile')"><span class="nav-icon-glyph">👤</span><div>Profile</div></div>
     </div>
 </div>
 
 <div class="admin-fullscreen-modal" id="adminControlModalElement">
     <div class="admin-modal-header">
-        <h2 style="font-size: 18px; font-weight: 900; color: var(--accent-red);">⚙️ Core System Console</h2>
+        <h2 style="font-size: 16px; font-weight: 900; color: var(--accent-red);">⚙️ REFRESHED CORE CONSOLE</h2>
         <button class="mission-action" style="background:#fff; color:#000;" onclick="closeAdminDashboardView()">Exit</button>
     </div>
 
     <div class="adm-card-node">
-        <h4>1. Publish Live Operations Task</h4>
-        <div class="adm-input-wrapper">
-            <label>Mission Activity Title</label>
-            <input type="text" id="admInputTaskTitle" placeholder="e.g., Subscribe Official Channel">
+        <h4>1. Publish Bot & App Task</h4>
+        <div class="adm-input-wrapper"><label>Task Label Title</label><input type="text" id="admInputTaskTitle" placeholder="Subscribe Channel"></div>
+        <div class="adm-grid-2">
+            <div class="adm-input-wrapper"><label>Reward Amount (₹)</label><input type="number" id="admInputTaskReward" placeholder="10"></div>
+            <div class="adm-input-wrapper"><label>Destination URL</label><input type="text" id="admInputTaskLink" placeholder="https://..."></div>
         </div>
-        <div class="adm-input-wrapper">
-            <label>Reward Payout Metrics (₹)</label>
-            <input type="number" id="admInputTaskReward" placeholder="10.00">
-        </div>
-        <div class="adm-input-wrapper">
-            <label>Target Redirect URL</label>
-            <input type="text" id="admInputTaskLink" placeholder="https://youtube.com/...">
-        </div>
-        <button class="adm-commit-btn" onclick="executeAdminAddTaskSubmit()">Deploy Task Vector</button>
+        <button class="adm-commit-btn" onclick="executeAdminAddTaskSubmit()">Deploy Task to App & Bot</button>
     </div>
 
     <div class="adm-card-node">
-        <h4>2. Global Billboard Banner</h4>
-        <p style="font-size: 11px; color: var(--text-muted); margin-bottom: 12px;">Clear fields to automatically drop/hide the presentation element.</p>
-        <div class="adm-input-wrapper">
-            <label>Headline Billboard Title</label>
-            <input type="text" id="admInputBannerTitle" placeholder="Welcome Announcement Heading">
+        <h4>2. Live Bot Variables Setup</h4>
+        <div class="adm-grid-2">
+            <div class="adm-input-wrapper"><label>Bot Status</label><select id="admBotActive"><option value="true">✅ ACTIVE</option><option value="false">❌ OFF</option></select></div>
+            <div class="adm-input-wrapper"><label>Withdraw Mode</label><select id="admWithdrawMode"><option value="both">Both On</option><option value="upi">UPI Only</option><option value="bank">Bank Only</option></select></div>
         </div>
-        <div class="adm-input-wrapper">
-            <label>Descriptive Sub-Text Meta</label>
-            <input type="text" id="admInputBannerDesc" placeholder="Brief info regarding update updates">
+        <div class="adm-grid-2">
+            <div class="adm-input-wrapper"><label>Min Withdraw (₹)</label><input type="number" id="admMinWithdraw"></div>
+            <div class="adm-input-wrapper"><label>Max Withdraw (₹)</label><input type="number" id="admMaxWithdraw"></div>
         </div>
-        <button class="adm-commit-btn" style="background: var(--accent-red); color: #fff;" onclick="executeAdminUpdateBannerSubmit()">Push Banner Update</button>
+        <div class="adm-grid-2">
+            <div class="adm-input-wrapper"><label>Per Refer Amount (₹)</label><input type="number" step="0.01" id="admPerRefer"></div>
+            <div class="adm-input-wrapper"><label>Required Referrals</label><input type="number" id="admReqReferrals"></div>
+        </div>
+        <button class="adm-commit-btn" style="background:var(--accent-blue); color:#fff;" onclick="saveUnifiedBotSettings()">Save Core Variables</button>
     </div>
 
     <div class="adm-card-node">
-        <h4>3. Access Security Token Configuration</h4>
-        <div class="adm-input-wrapper">
-            <label>New Access Root Pin Code</label>
-            <input type="password" id="admInputSecurityPin" placeholder="Update credential string">
+        <h4>3. Adjust User Ledger Balance</h4>
+        <div class="adm-input-wrapper"><label>Target User Telegram UID</label><input type="number" id="admBalanceTargetUid" placeholder="User ID"></div>
+        <div class="adm-grid-2">
+            <div class="adm-input-wrapper"><label>Action</label><select id="admBalanceAction"><option value="add">➕ Add Balance</option><option value="remove">➖ Remove Balance</option></select></div>
+            <div class="adm-input-wrapper"><label>Amount (₹)</label><input type="number" id="admBalanceAmount" placeholder="100"></div>
         </div>
-        <button class="adm-commit-btn" style="background: var(--accent-blue); color: #fff;" onclick="executeAdminUpdatePinSubmit()">Override Root Pin</button>
+        <button class="adm-commit-btn" style="background:orange; color:#000;" onclick="executeAdminBalanceOverride()">Update Target Assets</button>
+    </div>
+
+    <div class="adm-card-node">
+        <h4>4. Gift Codes Generator</h4>
+        <div class="adm-grid-2">
+            <div class="adm-input-wrapper"><label>Custom Code String</label><input type="text" id="admGiftCodeString" placeholder="EARN100" style="text-transform:uppercase;"></div>
+            <div class="adm-input-wrapper"><label>Worth Payout Value (₹)</label><input type="number" id="admGiftCodeAmount" placeholder="50"></div>
+        </div>
+        <button class="adm-commit-btn" style="background:purple; color:#fff;" onclick="generateSystemGiftCode()">Inject Premium Code</button>
     </div>
 </div>
 
 <script>
-    // 🔗 Network Transport Layer Base Access Node
     const CORE_BACKEND_API_URL = "https://headfirst-plausible-provable.ngrok-free.dev";
-
     let activeGlobalUserId = null;
     let synchronizedStateCache = {};
-    let hasAuthenticatedAdminSession = false; // Persistent memory flag for admin login session
+    let hasAuthenticatedAdminSession = false;
 
     function syncPlatformData() {
         const tgApp = window.Telegram.WebApp;
-        tgApp.ready();
-        tgApp.expand();
-
+        tgApp.ready(); tgApp.expand();
         const accountMeta = tgApp.initDataUnsafe?.user;
 
         if (!accountMeta || !accountMeta.id) {
-            document.getElementById('loadingGate').innerHTML = "<div class='loading-text' style='color:var(--accent-red)'>❌ INTERACTION FAULT<br><span style='font-size:11px;color:var(--text-muted);'>Boot inside Telegram Client Frame.</span></div>";
+            document.getElementById('loadingGate').innerHTML = "<div class='loading-text' style='color:var(--accent-red)'>❌ HANDSHAKE FAULT<br><span style='font-size:11px;color:var(--text-muted);'>Boot inside Telegram Webview Client.</span></div>";
             return;
         }
 
@@ -358,238 +240,179 @@
             synchronizedStateCache = payloadData;
             document.getElementById('loadingGate').style.display = 'none';
 
-            // Push Asset States to Elements
-            const ledgerBalanceString = "₹" + payloadData.user.balance.toFixed(2);
-            document.getElementById('headerBalanceDisplay').innerText = ledgerBalanceString;
-            document.getElementById('vaultBalanceText').innerText = ledgerBalanceString;
+            const balStr = "₹" + payloadData.user.balance.toFixed(2);
+            document.getElementById('headerBalanceDisplay').innerText = balStr;
+            document.getElementById('vaultBalanceText').innerText = balStr;
 
-            // Compute Ledger aggregation data
-            let aggregateEarnings = 0;
-            let aggregateWithdrawals = 0;
-            if (payloadData.user?.history) {
-                payloadData.user.history.forEach(item => {
-                    if (item.amt > 0) aggregateEarnings += item.amt;
-                    else aggregateWithdrawals += Math.abs(item.amt);
-                });
-            }
-            document.getElementById('sumTotalEarnedText').innerText = "₹" + aggregateEarnings.toFixed(2);
-            document.getElementById('sumTotalWithdrawnText').innerText = "₹" + aggregateWithdrawals.toFixed(2);
+            let earned = 0;
+            payloadData.user.history.forEach(h => { if(h.amt > 0) earned += h.amt; });
+            document.getElementById('sumTotalEarnedText').innerText = "₹" + earned.toFixed(2);
 
-            // Conditional Banner Slider presentation evaluation
-            const billboardWrapper = document.getElementById('bannerSection');
-            if (payloadData.botSettings?.banner && payloadData.botSettings.banner.title.trim() !== "") {
+            if(payloadData.botSettings?.banner) {
                 document.getElementById('sliderTitleText').innerText = payloadData.botSettings.banner.title;
                 document.getElementById('sliderDescText').innerText = payloadData.botSettings.banner.desc;
-                billboardWrapper.style.display = 'block';
-            } else {
-                billboardWrapper.style.display = 'none';
             }
 
-            // Administrative Rights Elevation Check
             if (payloadData.user.role === 'admin' || activeGlobalUserId === 501889840) {
                 document.getElementById('adminControlMenuWrapper').style.display = 'block';
+                populateAdminFields(payloadData.botSettings);
             }
-
-            renderDynamicTasksGrid();
-            renderLedgerStatements();
+            renderTasks();
         })
-        .catch(exception => {
-            console.error(exception);
-            document.getElementById('loadingGate').innerHTML = "<div class='loading-text' style='color:var(--accent-red)'>❌ CONNECTION TIMEOUT<br><span style='font-size:11px;color:var(--text-muted);'>Check if Termux local endpoint loop is listening.</span></div>";
+        .catch(err => {
+            document.getElementById('loadingGate').innerHTML = "<div class='loading-text' style='color:var(--accent-red)'>❌ SERVER OFFLINE<br><span style='font-size:11px;color:var(--text-muted);'>Termux background engine is unreachable.</span></div>";
         });
     }
 
-    function renderDynamicTasksGrid() {
-        const structuralGridElement = document.getElementById('taskUIRendererGrid');
-        structuralGridElement.innerHTML = "";
-
-        if (!synchronizedStateCache.botSettings?.tasks || synchronizedStateCache.botSettings.tasks.length === 0) {
-            structuralGridElement.innerHTML = `<p style="text-align:center; color:var(--text-muted); font-size:12px; padding:30px 0;">No dynamic missions published by developer yet.</p>`;
+    function renderTasks() {
+        const grid = document.getElementById('taskUIRendererGrid');
+        grid.innerHTML = "";
+        const tasks = synchronizedStateCache.botSettings?.tasks || [];
+        if(tasks.length === 0) {
+            grid.innerHTML = `<p style="text-align:center; color:var(--text-muted); font-size:12px; padding:20px 0;">No active operational tasks.</p>`;
             return;
         }
-
-        synchronizedStateCache.botSettings.tasks.forEach(taskItem => {
-            const isCompleted = synchronizedStateCache.user.completedTasks?.includes(taskItem.id);
-            structuralGridElement.innerHTML += `
+        tasks.forEach(t => {
+            const isDone = synchronizedStateCache.user.completedTasks?.includes(t.id);
+            grid.innerHTML += `
                 <div class="mission-row-card">
-                    <div class="mission-meta">
-                        <h4>${taskItem.title}</h4>
-                        <p>Platform verification mission</p>
-                        <div class="mission-payout">+ ₹${taskItem.amount.toFixed(2)}</div>
+                    <div>
+                        <h4 style="font-size:14px; font-weight:700;">${t.title}</h4>
+                        <div style="color:var(--accent-blue); font-size:13px; font-weight:700; margin-top:3px;">+ ₹${t.amount.toFixed(2)}</div>
                     </div>
-                    ${isCompleted ? `<button class="mission-action done">Claimed</button>` : 
-                    `<a href="${taskItem.link}" target="_blank" class="mission-action" onclick="registerMissionExecutionClaim('${taskItem.id}')">Start</a>`}
+                    ${isDone ? `<button class="mission-action done">Completed</button>` : `<a href="${t.link}" target="_blank" class="mission-action" onclick="claimTask('${t.id}')">Verify</a>`}
                 </div>
             `;
         });
     }
 
-    function registerMissionExecutionClaim(targetTaskId) {
+    function claimTask(id) {
         fetch(`${CORE_BACKEND_API_URL}/api/mini-app/claim-task`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json', 'ngrok-skip-browser-warning': 'true' },
-            body: JSON.stringify({ userId: activeGlobalUserId, taskId: targetTaskId })
-        }).then(() => {
-            alert("Verification ticket submitted into stack!");
-            setTimeout(syncPlatformData, 1000);
-        });
+            body: JSON.stringify({ userId: activeGlobalUserId, taskId: id })
+        }).then(() => { setTimeout(syncPlatformData, 1500); });
     }
 
-    function executeSecureTransfer() {
-        const receivingTargetUid = document.getElementById('peerTargetInputId').value;
-        const inputAmountVal = parseFloat(document.getElementById('peerAmountInput').value);
-
-        if (!receivingTargetUid || isNaN(inputAmountVal) || inputAmountVal <= 0) {
-            alert("Specified asset variables contain structural errors.");
-            return;
-        }
-
-        fetch(`${CORE_BACKEND_API_URL}/api/mini-app/peer-pay`, {
+    function claimPlatformGiftCode() {
+        const codeInput = document.getElementById('walletGiftCodeInput').value;
+        if(!codeInput) return;
+        fetch(`${CORE_BACKEND_API_URL}/api/mini-app/claim-gift-code`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json', 'ngrok-skip-browser-warning': 'true' },
-            body: JSON.stringify({ senderId: activeGlobalUserId, targetId: receivingTargetUid, amount: inputAmountVal })
+            body: JSON.stringify({ userId: activeGlobalUserId, code: codeInput })
         })
-        .then(response => response.json())
-        .then(resultObj => {
-            if (resultObj.error) alert(resultObj.error);
-            else {
-                alert("Security handshake verified! Transfer completely completed.");
-                document.getElementById('peerTargetInputId').value = "";
-                document.getElementById('peerAmountInput').value = "";
-                syncPlatformData();
-                switchViewTab('wallet');
-            }
+        .then(res => res.json())
+        .then(res => {
+            if(res.error) alert(res.error);
+            else { alert("Voucher redeemed successfully!"); syncPlatformData(); }
+            document.getElementById('walletGiftCodeInput').value = "";
         });
     }
 
-    function renderLedgerStatements() {
-        const earnContainer = document.getElementById('ledgerEarnBox');
-        const withdrawContainer = document.getElementById('ledgerWithdrawBox');
-
-        let accumulationEarnHtml = "";
-        let accumulationWithdrawHtml = "";
-
-        if (synchronizedStateCache.user?.history && synchronizedStateCache.user.history.length > 0) {
-            synchronizedStateCache.user.history.forEach(logRow => {
-                const rowStructureTemplate = `
-                    <div class="statement-row">
-                        <div class="statement-detail">
-                            <h5>${logRow.memo}</h5>
-                            <span>Verified Transaction</span>
-                        </div>
-                        <div class="statement-amt" style="color: ${logRow.amt > 0 ? 'var(--success-green)' : '#ffffff'};">
-                            ${logRow.amt > 0 ? '+' : ''}₹${logRow.amt.toFixed(2)}
-                        </div>
-                    </div>
-                `;
-                if (logRow.amt > 0) accumulationEarnHtml += rowStructureTemplate;
-                else accumulationWithdrawHtml += rowStructureTemplate;
-            });
-        }
-
-        earnContainer.innerHTML = accumulationEarnHtml || `<p style="text-align:center;font-size:12px;color:var(--text-muted);padding:20px;">No generation history recorded.</p>`;
-        withdrawContainer.innerHTML = accumulationWithdrawHtml || `<p style="text-align:center;font-size:12px;color:var(--text-muted);padding:20px;">No remittance actions verified.</p>`;
+    function populateAdminFields(s) {
+        if(!s) return;
+        document.getElementById('admBotActive').value = s.botActive ? "true" : "false";
+        document.getElementById('admWithdrawMode').value = s.withdrawMode;
+        document.getElementById('admMinWithdraw').value = s.minWithdraw;
+        document.getElementById('admMaxWithdraw').value = s.maxWithdraw;
+        document.getElementById('admPerRefer').value = s.perReferAmount;
+        document.getElementById('admReqReferrals').value = s.requiredReferrals;
     }
 
-    function switchViewTab(targetLayoutTabId) {
-        document.querySelectorAll('.main-viewport').forEach(view => view.classList.remove('active'));
-        document.querySelectorAll('.nav-anchor').forEach(anchor => anchor.classList.remove('active'));
-
-        document.getElementById(targetLayoutTabId + 'View').classList.add('active');
-        document.getElementById('anchor-' + targetLayoutTabId).classList.add('active');
-    }
-
-    function toggleWalletHistory(targetHistorySubCategory) {
-        document.querySelectorAll('.history-list-bucket').forEach(box => box.classList.remove('active'));
-        document.querySelectorAll('.toggle-btn').forEach(btn => btn.classList.remove('active'));
-
-        if (targetHistorySubCategory === 'earnings') {
-            document.getElementById('ledgerEarnBox').classList.add('active');
-            document.getElementById('tabBtnEarn').classList.add('active');
-        } else {
-            document.getElementById('ledgerWithdrawBox').classList.add('active');
-            document.getElementById('tabBtnWithdraw').classList.add('active');
-        }
-    }
-
-    function copyReferralInviteLink() {
-        const dynamicReferralString = `https://t.me/your_bot?start=ref_${activeGlobalUserId}`;
-        navigator.clipboard.writeText(dynamicReferralString).then(() => alert("Your unique high-tier invite link copied!"));
-    }
-
-    // ================= SECURE SINGLE-AUTHENTICATION ADMINISTRATIVE LOGIC HANDLERS =================
     function triggerAdminDashboardEntrance() {
         if (hasAuthenticatedAdminSession) {
-            // If already authenticated once in this lifecycle session, skip prompt completely
             document.getElementById('adminControlModalElement').style.display = 'flex';
             return;
         }
-
-        const administrativeCredentialEntry = prompt("Provide High-Tier Verification Root Security Token Pin:");
-        if (administrativeCredentialEntry === "1234" || administrativeCredentialEntry === synchronizedStateCache.botSettings?.adminPin) {
-            hasAuthenticatedAdminSession = true; // Mark session as authenticated
+        const pin = prompt("Enter Master Security Admin Code:");
+        if (pin === "1234" || pin === synchronizedStateCache.botSettings?.adminPin) {
+            hasAuthenticatedAdminSession = true;
             document.getElementById('adminControlModalElement').style.display = 'flex';
-        } else {
-            alert("Credential check mismatch fault. Incident entry logged.");
-        }
+        } else { alert("Verification mismatch error."); }
     }
 
-    function closeAdminDashboardView() { 
-        document.getElementById('adminControlModalElement').style.display = 'none'; 
-    }
+    function closeAdminDashboardView() { document.getElementById('adminControlModalElement').style.display = 'none'; }
 
     function executeAdminAddTaskSubmit() {
-        const titleText = document.getElementById('admInputTaskTitle').value;
-        const rewardValue = parseFloat(document.getElementById('admInputTaskReward').value);
-        const redirectLinkStr = document.getElementById('admInputTaskLink').value;
-
-        if (!titleText || isNaN(rewardValue) || !redirectLinkStr) { 
-            alert("All interface task parameters must be configured before execution."); 
-            return; 
-        }
+        const title = document.getElementById('admInputTaskTitle').value;
+        const reward = document.getElementById('admInputTaskReward').value;
+        const link = document.getElementById('admInputTaskLink').value;
+        if(!title || !reward || !link) { alert("Configure all vector streams."); return; }
 
         fetch(`${CORE_BACKEND_API_URL}/api/admin/add-task`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json', 'ngrok-skip-browser-warning': 'true' },
-            body: JSON.stringify({ adminId: activeGlobalUserId, title: titleText, amount: rewardValue, link: redirectLinkStr })
-        }).then(() => {
-            alert("Operation structural task deployment absolute!");
-            document.getElementById('admInputTaskTitle').value = "";
-            document.getElementById('admInputTaskReward').value = "";
-            document.getElementById('admInputTaskLink').value = "";
-            closeAdminDashboardView();
-            syncPlatformData();
-        }).catch(err => alert("Error transmitting payload parameters."));
+            body: JSON.stringify({ adminId: activeGlobalUserId, title, amount: reward, link })
+        }).then(() => { alert("Task injected!"); closeAdminDashboardView(); syncPlatformData(); });
     }
 
-    function executeAdminUpdateBannerSubmit() {
-        const bannerTitleStr = document.getElementById('admInputBannerTitle').value;
-        const bannerDescStr = document.getElementById('admInputBannerDesc').value;
+    function saveUnifiedBotSettings() {
+        const settings = {
+            botActive: document.getElementById('admBotActive').value === "true",
+            withdrawMode: document.getElementById('admWithdrawMode').value,
+            minWithdraw: parseInt(document.getElementById('admMinWithdraw').value),
+            maxWithdraw: parseInt(document.getElementById('admMaxWithdraw').value),
+            perReferAmount: parseFloat(document.getElementById('admPerRefer').value),
+            requiredReferrals: parseInt(document.getElementById('admReqReferrals').value)
+        };
 
-        fetch(`${CORE_BACKEND_API_URL}/api/admin/update-banner`, {
+        fetch(`${CORE_BACKEND_API_URL}/api/admin/update-settings`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json', 'ngrok-skip-browser-warning': 'true' },
-            body: JSON.stringify({ adminId: activeGlobalUserId, title: bannerTitleStr, desc: bannerDescStr })
-        }).then(() => {
-            alert("Billboard deployment metrics updated across global fleet.");
-            closeAdminDashboardView();
-            syncPlatformData();
-        }).catch(err => alert("Error updating configuration parameters."));
+            body: JSON.stringify({ adminId: activeGlobalUserId, settings })
+        }).then(() => { alert("Bot variables saved permanently."); closeAdminDashboardView(); syncPlatformData(); });
     }
 
-    function executeAdminUpdatePinSubmit() {
-        const secretSecurityTokenValue = document.getElementById('admInputSecurityPin').value;
-        if (!secretSecurityTokenValue) { alert("Data length parameter invalid."); return; }
+    function executeAdminBalanceOverride() {
+        const targetId = document.getElementById('admBalanceTargetUid').value;
+        const action = document.getElementById('admBalanceAction').value;
+        const amount = document.getElementById('admBalanceAmount').value;
 
-        fetch(`${CORE_BACKEND_API_URL}/api/admin/update-pin`, {
+        if(!targetId || !amount) return alert("Fill fields.");
+        fetch(`${CORE_BACKEND_API_URL}/api/admin/manage-balance`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json', 'ngrok-skip-browser-warning': 'true' },
-            body: JSON.stringify({ adminId: activeGlobalUserId, newPin: secretSecurityTokenValue })
-        }).then(() => {
-            alert("Root security signature sequence overridden.");
-            document.getElementById('admInputSecurityPin').value = "";
-            closeAdminDashboardView();
-        }).catch(err => alert("Error overwriting security matrix context."));
+            body: JSON.stringify({ targetId, action, amount })
+        }).then(() => { alert("User assets modified."); closeAdminDashboardView(); syncPlatformData(); });
+    }
+
+    function generateSystemGiftCode() {
+        const code = document.getElementById('admGiftCodeString').value;
+        const amount = document.getElementById('admGiftCodeAmount').value;
+        if(!code || !amount) return alert("Enter parameters.");
+
+        fetch(`${CORE_BACKEND_API_URL}/api/admin/generate-gift-code`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'ngrok-skip-browser-warning': 'true' },
+            body: JSON.stringify({ code, amount })
+        }).then(() => { alert("Gift token online!"); closeAdminDashboardView(); });
+    }
+
+    function switchViewTab(id) {
+        document.querySelectorAll('.main-viewport').forEach(v => v.classList.remove('active'));
+        document.querySelectorAll('.nav-anchor').forEach(a => a.classList.remove('active'));
+        document.getElementById(id + 'View').classList.add('active');
+        document.getElementById('anchor-' + id).classList.add('active');
+    }
+
+    function executeSecureTransfer() {
+        const targetId = document.getElementById('peerTargetInputId').value;
+        const amount = document.getElementById('peerAmountInput').value;
+        if(!targetId || !amount) return alert("Invalid entry.");
+
+        fetch(`${CORE_BACKEND_API_URL}/api/mini-app/peer-pay`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'ngrok-skip-browser-warning': 'true' },
+            body: JSON.stringify({ senderId: activeGlobalUserId, targetId, amount })
+        }).then(res => res.json()).then(res => {
+            if(res.error) alert(res.error);
+            else { alert("Handshake success!"); syncPlatformData(); switchViewTab('wallet'); }
+        });
+    }
+
+    function copyReferralInviteLink() {
+        navigator.clipboard.writeText(`https://t.me/YourBot?start=ref_${activeGlobalUserId}`).then(() => alert("Referral link copied!"));
     }
 
     window.onload = syncPlatformData;
