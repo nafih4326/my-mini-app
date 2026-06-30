@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -15,7 +15,7 @@
             --text-white: #ffffff;
             --text-muted: #6b7280;
             --success-green: #10b981;
-            --nav-bg: #11141f;
+            --nav-bg: rgba(17, 20, 31, 0.65);
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: sans-serif; }
@@ -35,44 +35,54 @@
         .main-viewport { flex: 1; overflow-y: auto; padding: 0 20px 100px 20px; display: none; }
         .main-viewport.active { display: block; }
 
-        .premium-banner-card { width: 100%; background: linear-gradient(135deg, #2b0b0f, #171a26); border-radius: 24px; padding: 24px; margin-bottom: 20px; border: 1px solid rgba(255,30,39,0.15); }
-        
+        /* Banner Style */
+        .dynamic-banner-area { width: 100%; height: 160px; border-radius: 24px; margin-bottom: 20px; background-size: cover; background-position: center; border: 1px solid rgba(255,255,255,0.05); position: relative; display: flex; align-items: flex-end; padding: 18px; overflow: hidden; }
+        .banner-overlay-tint { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(to top, rgba(9,10,15,0.95), transparent); z-index: 1; }
+        .banner-content-box { position: relative; z-index: 2; }
+
         .mission-row-card { background: var(--surface-card); border-radius: 18px; padding: 16px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; }
-        .mission-action { padding: 10px 18px; background: var(--surface); border: 1px solid rgba(255,255,255,0.08); color: #fff; font-weight: 700; font-size: 13px; border-radius: 12px; text-decoration: none; }
+        .mission-action { padding: 10px 18px; background: var(--surface); border: 1px solid rgba(255,255,255,0.08); color: #fff; font-weight: 700; font-size: 13px; border-radius: 12px; cursor: pointer; }
         .mission-action.done { background: rgba(255,255,255,0.03); color: var(--text-muted); border: none; pointer-events: none; }
 
-        .wallet-main-vault { background: var(--surface-card); border-radius: 24px; padding: 24px; text-align: center; margin-bottom: 14px; }
-        .wallet-summary-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }
-        .summary-subbox { background: var(--surface-card); padding: 16px; border-radius: 18px; }
+        /* Glassmorphic Navigation Bar */
+        .fixed-bottom-nav { position: absolute; bottom: 15px; left: 5%; width: 90%; height: 68px; background: var(--nav-bg); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.08); border-radius: 24px; display: grid; grid-template-columns: repeat(4, 1fr); align-items: center; text-align: center; z-index: 999; box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37); }
+        .nav-anchor { color: #6b7280; font-size: 10px; text-decoration: none; display: flex; flex-direction: column; gap: 4px; cursor: pointer; transition: color 0.3s ease; }
+        .nav-anchor.active { color: #ffffff; }
+        .nav-icon-glyph { font-size: 20px; opacity: 0.6; transition: opacity 0.3s ease; }
+        .nav-anchor.active .nav-icon-glyph { opacity: 1; }
 
-        .payout-methods-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 24px; }
-        .method-card { background: var(--surface-card); padding: 14px; border-radius: 16px; text-align: center; font-size: 11px; font-weight: 700; }
+        /* User Dialog Modals */
+        .platform-popup-modal { position: fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); z-index:3000; display:none; justify-content:center; align-items:center; padding:20px; }
+        .popup-modal-content { background:var(--surface); border-radius:24px; width:100%; max-width:380px; padding:24px; border:1px solid rgba(255,255,255,0.08); }
 
-        .field-card-box { background: var(--surface-card); padding: 16px; border-radius: 18px; margin-bottom: 12px; }
-        .field-card-box label { font-size: 11px; color: var(--text-muted); display: block; margin-bottom: 6px; text-transform: uppercase; }
-        .field-card-box input { width: 100%; background: transparent; border: none; outline: none; color: #fff; font-size: 16px; }
-        .action-submit-trigger { width: 100%; padding: 16px; background: var(--accent-red); border: none; border-radius: 18px; color: #fff; font-weight: 800; cursor: pointer; }
-
-        .profile-card-badge { background: var(--surface-card); padding: 20px; border-radius: 24px; display: flex; align-items: center; gap: 16px; margin-bottom: 24px; }
-        .profile-avatar-circle { width: 54px; height: 54px; border-radius: 50%; background: #333; display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: 700; }
-        .settings-menu-group { margin-bottom: 20px; }
-        .menu-row-item { background: var(--surface-card); padding: 16px; border-radius: 16px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; cursor: pointer; }
-
-        .fixed-bottom-nav { position: absolute; bottom: 0; left: 0; width: 100%; height: 74px; background: var(--nav-bg); border-top: 1px solid rgba(255,255,255,0.04); display: grid; grid-template-columns: repeat(4, 1fr); align-items: center; text-align: center; }
-        .nav-anchor { color: var(--text-muted); font-size: 10px; text-decoration: none; display: flex; flex-direction: column; gap: 4px; cursor: pointer; }
-        .nav-anchor.active { color: #fff; }
-        .nav-icon-glyph { font-size: 20px; }
-
-        /* Unified Admin Controls Full-Screen Window */
+        /* Admin Dashboard Windows */
         .admin-fullscreen-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg); z-index: 2000; display: none; flex-direction: column; padding: 20px; overflow-y: auto; }
         .admin-modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 1px solid var(--surface-card); padding-bottom: 10px; }
-        .adm-card-node { background: var(--surface-card); padding: 18px; border-radius: 20px; margin-bottom: 16px; }
+        
+        /* Nested Folder Group Layout */
+        .adm-folder-hub-row { background: var(--surface-card); padding: 16px; border-radius: 16px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; border: 1px solid rgba(255,255,255,0.02); }
+        .adm-folder-inside-pane { background: #131622; padding: 16px; border-radius: 0 0 16px 16px; margin-top: -10px; margin-bottom: 14px; display: none; border: 1px solid rgba(255,255,255,0.04); border-top: none; }
+        
         .adm-card-node h4 { font-size: 13px; color: var(--accent-red); margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.5px; }
         .adm-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }
         .adm-input-wrapper { margin-bottom: 12px; }
         .adm-input-wrapper label { display: block; font-size: 11px; color: var(--text-muted); margin-bottom: 4px; }
-        .adm-input-wrapper input, .adm-input-wrapper select { width: 100%; padding: 12px; background: var(--bg); border: 1px solid rgba(255,255,255,0.05); border-radius: 10px; color: #fff; outline: none; }
-        .adm-commit-btn { width: 100%; padding: 12px; background: var(--success-green); border: none; color: #000; font-weight: 700; border-radius: 10px; cursor: pointer; }
+        .adm-input-wrapper input, .adm-input-wrapper select, .adm-input-wrapper textarea { width: 100%; padding: 12px; background: var(--bg); border: 1px solid rgba(255,255,255,0.05); border-radius: 10px; color: #fff; outline: none; }
+        .adm-commit-btn { width: 100%; padding: 12px; background: var(--success-green); border: none; color: #000; font-weight: 700; border-radius: 10px; cursor: pointer; margin-top: 5px; }
+        
+        .wallet-main-vault { background: var(--surface-card); border-radius: 24px; padding: 24px; text-align: center; margin-bottom: 14px; }
+        .wallet-summary-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }
+        .summary-subbox { background: var(--surface-card); padding: 16px; border-radius: 18px; }
+        .payout-methods-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 24px; }
+        .method-card { background: var(--surface-card); padding: 14px; border-radius: 16px; text-align: center; font-size: 11px; font-weight: 700; }
+        .field-card-box { background: var(--surface-card); padding: 16px; border-radius: 18px; margin-bottom: 12px; }
+        .field-card-box label { font-size: 11px; color: var(--text-muted); display: block; margin-bottom: 6px; text-transform: uppercase; }
+        .field-card-box input { width: 100%; background: transparent; border: none; outline: none; color: #fff; font-size: 16px; }
+        .action-submit-trigger { width: 100%; padding: 16px; background: var(--accent-red); border: none; border-radius: 18px; color: #fff; font-weight: 800; cursor: pointer; }
+        .profile-card-badge { background: var(--surface-card); padding: 20px; border-radius: 24px; display: flex; align-items: center; gap: 16px; margin-bottom: 24px; }
+        .profile-avatar-circle { width: 54px; height: 54px; border-radius: 50%; background: #333; display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: 700; }
+        .settings-menu-group { margin-bottom: 20px; }
+        .menu-row-item { background: var(--surface-card); padding: 16px; border-radius: 16px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; cursor: pointer; }
     </style>
 </head>
 <body>
@@ -89,9 +99,12 @@
     </div>
 
     <div id="homeView" class="main-viewport active">
-        <div class="premium-banner-card" id="bannerSection">
-            <h3 id="sliderTitleText">Premium Active</h3>
-            <p id="sliderDescText">Earn assets securely via micro tasks.</p>
+        <div class="dynamic-banner-area" id="platformLiveBannerElement" style="background-image: url('https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=600');">
+            <div class="banner-overlay-tint"></div>
+            <div class="banner-content-box">
+                <h3 style="font-size: 18px; font-weight: 900;" id="bannerHeadlineNode">Premium Dashboard</h3>
+                <p style="font-size: 11px; color: var(--text-muted); margin-top: 2px;" id="bannerSublineNode">Complete simple micro tasks to secure assets.</p>
+            </div>
         </div>
         <div style="font-size:12px; color:var(--text-muted); margin-bottom:12px; font-weight:700;">ALL LIVE MISSIONS</div>
         <div id="taskUIRendererGrid"></div>
@@ -156,72 +169,140 @@
     </div>
 </div>
 
+<div class="platform-popup-modal" id="taskVerificationWorkspaceModal">
+    <div class="popup-modal-content">
+        <h3 id="modalTaskPopupTitle" style="font-size:16px; margin-bottom:6px;">Task Guidelines</h3>
+        <p id="modalTaskPopupInfo" style="font-size:12px; color:var(--text-muted); margin-bottom:16px;"></p>
+        
+        <div class="adm-input-wrapper">
+            <label style="color:#fff; margin-bottom:6px; display:block;">Upload Screenshot Evidence Link</label>
+            <input type="text" id="userTaskProofUrlInput" placeholder="Paste Imgur / Image Hosting Link">
+        </div>
+        
+        <div style="display:flex; gap:10px; margin-top:16px;">
+            <button class="mission-action" style="flex:1; background:#333;" onclick="closeTaskVerificationModal()">Cancel</button>
+            <button class="mission-action" style="flex:1; background:var(--success-green); color:#000;" id="modalSubmitTaskProofTriggerButton">Submit Proof</button>
+        </div>
+    </div>
+</div>
+
 <div class="admin-fullscreen-modal" id="adminControlModalElement">
     <div class="admin-modal-header">
-        <h2 style="font-size: 16px; font-weight: 900; color: var(--accent-red);">⚙️ REFRESHED CORE CONSOLE</h2>
+        <h2 style="font-size: 15px; font-weight: 900; color: var(--accent-red);">⚙️ CORE OPERATION EXECUTIVE</h2>
         <button class="mission-action" style="background:#fff; color:#000;" onclick="closeAdminDashboardView()">Exit</button>
     </div>
 
-    <div class="adm-card-node">
-        <h4>1. Publish Bot & App Task</h4>
-        <div class="adm-input-wrapper"><label>Task Label Title</label><input type="text" id="admInputTaskTitle" placeholder="Subscribe Channel"></div>
-        <div class="adm-grid-2">
-            <div class="adm-input-wrapper"><label>Reward Amount (₹)</label><input type="number" id="admInputTaskReward" placeholder="10"></div>
-            <div class="adm-input-wrapper"><label>Destination URL</label><input type="text" id="admInputTaskLink" placeholder="https://..."></div>
+    <div class="adm-folder-hub-row" onclick="toggleAdminFolderView('folderTasks')">
+        <span style="font-weight:700; font-size:14px;">📁 Manage System Live Tasks</span><span>📂</span>
+    </div>
+    <div class="adm-folder-inside-pane" id="folderTasks">
+        <div class="adm-card-node">
+            <h4>Deploy New Mission Task</h4>
+            <div class="adm-input-wrapper"><label>Task Title/Heading</label><input type="text" id="admInputTaskTitle" placeholder="Subscribe Channel"></div>
+            <div class="adm-input-wrapper"><label>Detailed Operational Rule Info</label><textarea id="admInputTaskInfo" placeholder="Subscribe and upload proof..."></textarea></div>
+            <div class="adm-grid-2">
+                <div class="adm-input-wrapper"><label>Reward Multiplier (₹)</label><input type="number" id="admInputTaskReward" placeholder="10"></div>
+                <div class="adm-input-wrapper"><label>Target Anchor Link</label><input type="text" id="admInputTaskLink" placeholder="https://..."></div>
+            </div>
+            <button class="adm-commit-btn" onclick="executeAdminAddTaskSubmit()">Deploy Task</button>
         </div>
-        <button class="adm-commit-btn" onclick="executeAdminAddTaskSubmit()">Deploy Task to App & Bot</button>
+        <div style="margin-top:14px;">
+            <p style="font-size:11px; color:var(--text-muted); margin-bottom:8px; text-transform:uppercase;">Active Core Tasks Matrix</p>
+            <div id="adminLiveTasksDeleteContainerGrid"></div>
+        </div>
     </div>
 
-    <div class="adm-card-node">
-        <h4>2. Live Bot Variables Setup</h4>
-        <div class="adm-grid-2">
-            <div class="adm-input-wrapper"><label>Bot Status</label><select id="admBotActive"><option value="true">✅ ACTIVE</option><option value="false">❌ OFF</option></select></div>
-            <div class="adm-input-wrapper"><label>Withdraw Mode</label><select id="admWithdrawMode"><option value="Both On">Both On</option><option value="UPI Only">UPI Only</option><option value="Bank Only">Bank Only</option></select></div>
+    <div class="adm-folder-hub-row" onclick="toggleAdminFolderView('folderBanner')">
+        <span style="font-weight:700; font-size:14px;">📁 Banner Space Settings</span><span>📂</span>
+    </div>
+    <div class="adm-folder-inside-pane" id="folderBanner">
+        <div class="adm-card-node">
+            <h4>Update Application Cover Banner</h4>
+            <div class="adm-input-wrapper"><label>Headline Text</label><input type="text" id="admBannerHeadlineInput" placeholder="Mega Giveaway"></div>
+            <div class="adm-input-wrapper"><label>Description Subline</label><input type="text" id="admBannerSublineInput" placeholder="Earn double matching rewards today"></div>
+            <div class="adm-input-wrapper"><label>Banner Artwork Image URL</label><input type="text" id="admBannerImgUrlInput" placeholder="https://..."></div>
+            <button class="adm-commit-btn" style="background:var(--accent-blue); color:#fff;" onclick="saveCustomBannerConfigurationData()">Apply New Banner Layout</button>
         </div>
-        <div class="adm-grid-2">
-            <div class="adm-input-wrapper"><label>Min Withdraw (₹)</label><input type="number" id="admMinWithdraw"></div>
-            <div class="adm-input-wrapper"><label>Max Withdraw (₹)</label><input type="number" id="admMaxWithdraw"></div>
-        </div>
-        <div class="adm-grid-2">
-            <div class="adm-input-wrapper"><label>Per Refer Amount (₹)</label><input type="number" step="0.01" id="admPerRefer"></div>
-            <div class="adm-input-wrapper"><label>Required Referrals</label><input type="number" id="admReqReferrals"></div>
-        </div>
-        <button class="adm-commit-btn" style="background:var(--accent-blue); color:#fff;" onclick="saveUnifiedBotSettings()">Save Core Variables</button>
     </div>
 
-    <div class="adm-card-node">
-        <h4>3. Adjust User Ledger Balance</h4>
-        <div class="adm-input-wrapper"><label>Target User Telegram UID</label><input type="number" id="admBalanceTargetUid" placeholder="User ID"></div>
-        <div class="adm-grid-2">
-            <div class="adm-input-wrapper"><label>Action</label><select id="admBalanceAction"><option value="add">➕ Add Balance</option><option value="remove">➖ Remove Balance</option></select></div>
-            <div class="adm-input-wrapper"><label>Amount (₹)</label><input type="number" id="admBalanceAmount" placeholder="100"></div>
+    <div class="adm-folder-hub-row" onclick="toggleAdminFolderView('folderLedger')">
+        <span style="font-weight:700; font-size:14px;">📁 Manage User Accounts & Balances</span><span>📂</span>
+    </div>
+    <div class="adm-folder-inside-pane" id="folderLedger">
+        <div class="adm-card-node">
+            <h4>Adjust User Assets Database</h4>
+            <div class="adm-input-wrapper"><label>Target Telegram Account UID</label><input type="number" id="admBalanceTargetUid" placeholder="User ID"></div>
+            <div class="adm-grid-2">
+                <div class="adm-input-wrapper"><label>Modification Strategy</label><select id="admBalanceAction"><option value="add">➕ Inject Balance</option><option value="remove">➖ Deduct Balance</option></select></div>
+                <div class="adm-input-wrapper"><label>Volume Amount (₹)</label><input type="number" id="admBalanceAmount" placeholder="100"></div>
+            </div>
+            <button class="adm-commit-btn" style="background:orange; color:#000;" onclick="executeAdminBalanceOverride()">Modify Asset Logs</button>
         </div>
-        <button class="adm-commit-btn" style="background:orange; color:#000;" onclick="executeAdminBalanceOverride()">Update Target Assets</button>
     </div>
 
-    <div class="adm-card-node">
-        <h4>4. Gift Codes Generator</h4>
-        <div class="adm-grid-2">
-            <div class="adm-input-wrapper"><label>Custom Code String</label><input type="text" id="admGiftCodeString" placeholder="EARN100" style="text-transform:uppercase;"></div>
-            <div class="adm-input-wrapper"><label>Worth Payout Value (₹)</label><input type="number" id="admGiftCodeAmount" placeholder="50"></div>
+    <div class="adm-folder-hub-row" onclick="toggleAdminFolderView('folderVariables')">
+        <span style="font-weight:700; font-size:14px;">📁 Global Financial Thresholds</span><span>📂</span>
+    </div>
+    <div class="adm-folder-inside-pane" id="folderVariables">
+        <div class="adm-card-node">
+            <h4>System Threshold Matrix Setup</h4>
+            <div class="adm-grid-2">
+                <div class="adm-input-wrapper"><label>Bot Active State</label><select id="admBotActive"><option value="true">✅ ONLINE</option><option value="false">❌ OFFLINE</option></select></div>
+                <div class="adm-input-wrapper"><label>Payout Gateway Mode</label><select id="admWithdrawMode"><option value="Both On">Both On</option><option value="UPI Only">UPI Only</option><option value="Bank Only">Bank Only</option></select></div>
+            </div>
+            <div class="adm-grid-2">
+                <div class="adm-input-wrapper"><label>Minimum Withdrawal (₹)</label><input type="number" id="admMinWithdraw"></div>
+                <div class="adm-input-wrapper"><label>Maximum Withdrawal (₹)</label><input type="number" id="admMaxWithdraw"></div>
+            </div>
+            <div class="adm-grid-2">
+                <div class="adm-input-wrapper"><label>Affiliate Incentive (₹)</label><input type="number" step="0.01" id="admPerRefer"></div>
+                <div class="adm-input-wrapper"><label>Required Refers</label><input type="number" id="admReqReferrals" value="0"></div>
+            </div>
+            <button class="adm-commit-btn" style="background:var(--accent-blue); color:#fff;" onclick="saveUnifiedBotSettings()">Commit System Config</button>
         </div>
-        <button class="adm-commit-btn" style="background:purple; color:#fff;" onclick="generateSystemGiftCode()">Inject Premium Code</button>
+    </div>
+
+    <div class="adm-folder-hub-row" onclick="toggleAdminFolderView('folderProofs')">
+        <span style="font-weight:700; font-size:14px;">📁 Pending Verification Proofs</span><span>📂</span>
+    </div>
+    <div class="adm-folder-inside-pane" id="folderProofs">
+        <div id="adminSubmittedProofsReviewContainerList">
+            <p style="text-align:center; color:var(--text-muted); font-size:12px; padding:10px 0;">No proof queues received.</p>
+        </div>
+    </div>
+
+    <div class="adm-folder-hub-row" onclick="toggleAdminFolderView('folderSecurity')">
+        <span style="font-weight:700; font-size:14px;">📁 Console Access & Admin settings</span><span>📂</span>
+    </div>
+    <div class="adm-folder-inside-pane" id="folderSecurity">
+        <div class="adm-card-node">
+            <h4>Reset Access Security Pin</h4>
+            <div class="adm-input-wrapper"><label>New Master Security Code Pin</label><input type="password" id="admSecurityCodePinField" placeholder="Enter new pin code"></div>
+            <button class="adm-commit-btn" style="background:purple; color:#fff;" onclick="updatePlatformSecurityMasterPinCode()">Change System Master Pin</button>
+        </div>
+        <div class="adm-card-node" style="margin-top:12px;">
+            <h4>Manage Operators (Admins Pool)</h4>
+            <div class="adm-input-wrapper"><label>Target Master User ID</label><input type="number" id="newPrivilegedAdminIdInput" placeholder="Telegram ID"></div>
+            <button class="adm-commit-btn" style="background:var(--success-green); color:#000;" onclick="injectNewAuthorizedSystemAdminUid()">Grant Privileged Status</button>
+        </div>
     </div>
 </div>
 
 <script>
-    // ഓട്ടോമാറ്റിക്കായി നിലവിലുള്ള ഹോസ്റ്റ് ലിങ്ക് കണ്ടെത്തുന്നു
     const CORE_BACKEND_API_URL = window.location.origin;
     let activeGlobalUserId = null;
     let synchronizedStateCache = {};
     let hasAuthenticatedAdminSession = false;
+    
+    // Default Fallback Configurations
+    let SYSTEM_MASTER_PIN_CODE = "1234";
+    let PRIVILEGED_ADMIN_UID_POOL = [501889840]; 
 
     function syncPlatformData() {
         const tgApp = window.Telegram.WebApp;
         tgApp.ready(); tgApp.expand();
         const accountMeta = tgApp.initDataUnsafe?.user;
 
-        // ലോക്കൽ ബ്രൗസർ ടെസ്റ്റിങ്ങിനായി ഡമ്മി ഐഡി സെറ്റ് ചെയ്യുന്നു
         if (!accountMeta || !accountMeta.id) {
             activeGlobalUserId = 501889840; 
         } else {
@@ -245,22 +326,27 @@
             const balStr = "₹" + payloadData.user.balance.toFixed(2);
             document.getElementById('headerBalanceDisplay').innerText = balStr;
             document.getElementById('vaultBalanceText').innerText = balStr;
+            document.getElementById('sumTotalEarnedText').innerText = balStr;
 
-            let earned = 0;
-            if(payloadData.user.rewardHistory) {
-                payloadData.user.rewardHistory.forEach(h => { earned += 10; }); // ഡമ്മി ലോജിക് അപ്ഡേറ്റ്
+            // Update Custom Layout Banner Elements dynamically if exist
+            if(payloadData.botSettings?.customBanner) {
+                const b = payloadData.botSettings.customBanner;
+                if(b.headline) document.getElementById('bannerHeadlineNode').innerText = b.headline;
+                if(b.subline) document.getElementById('bannerSublineNode').innerText = b.subline;
+                if(b.imgUrl) document.getElementById('platformLiveBannerElement').style.backgroundImage = `url('${b.imgUrl}')`;
             }
-            document.getElementById('sumTotalEarnedText').innerText = "₹" + payloadData.user.balance.toFixed(2);
 
-            // അഡ്മിൻ ചെക്കിങ് ലോജിക് (ADMIN_ID = 501889840)
-            if (activeGlobalUserId === 501889840) {
+            // Privileged Identity Validation Module Check
+            if (PRIVILEGED_ADMIN_UID_POOL.includes(activeGlobalUserId)) {
                 document.getElementById('adminControlMenuWrapper').style.display = 'block';
                 populateAdminFields(payloadData.botSettings);
+                renderAdminTaskRemoverGrid();
+                renderAdminProofsValidationStream();
             }
             renderTasks();
         })
         .catch(err => {
-            document.getElementById('loadingGate').innerHTML = "<div class='loading-text' style='color:var(--accent-red)'>❌ SERVER OFFLINE<br><span style='font-size:11px;color:var(--text-muted);'>Termux background engine is unreachable.</span></div>";
+            document.getElementById('loadingGate').innerHTML = "<div class='loading-text' style='color:var(--accent-red)'>❌ SERVER OFFLINE<br><span style='font-size:11px;color:var(--text-muted);'>Backend cluster layer is unreachable.</span></div>";
         });
     }
 
@@ -269,7 +355,7 @@
         grid.innerHTML = "";
         const tasks = synchronizedStateCache.botSettings?.tasks || [];
         if(tasks.length === 0) {
-            grid.innerHTML = `<p style="text-align:center; color:var(--text-muted); font-size:12px; padding:20px 0;">No active operational tasks.</p>`;
+            grid.innerHTML = `<p style="text-align:center; color:var(--text-muted); font-size:12px; padding:20px 0;">No operational tasks published.</p>`;
             return;
         }
         tasks.forEach(t => {
@@ -280,18 +366,158 @@
                         <h4 style="font-size:14px; font-weight:700;">${t.title}</h4>
                         <div style="color:var(--accent-blue); font-size:13px; font-weight:700; margin-top:3px;">+ ₹${t.amount.toFixed(2)}</div>
                     </div>
-                    ${isDone ? `<button class="mission-action done">Completed</button>` : `<a href="${t.link}" target="_blank" class="mission-action" onclick="claimTask('${t.id}')">Verify</a>`}
+                    ${isDone ? `<button class="mission-action done">Completed</button>` : `<button class="mission-action" onclick="openTaskVerificationPanel('${t.id}', '${t.title}', '${t.info || ''}', '${t.link}')">Start Task</button>`}
                 </div>
             `;
         });
     }
 
-    function claimTask(id) {
-        fetch(`${CORE_BACKEND_API_URL}/api/mini-app/claim-task`, {
+    function openTaskVerificationPanel(id, title, info, link) {
+        window.open(link, '_blank');
+        document.getElementById('modalTaskPopupTitle').innerText = title;
+        document.getElementById('modalTaskPopupInfo').innerText = info ? info : "Complete the objective, capture confirmation, host image link and drop evidence string below.";
+        document.getElementById('taskVerificationWorkspaceModal').style.display = 'flex';
+        
+        document.getElementById('modalSubmitTaskProofTriggerButton').onclick = function() {
+            const proofStr = document.getElementById('userTaskProofUrlInput').value;
+            if(!proofStr) { alert("Proof vector missing."); return; }
+            
+            // Dispatch verification stream payload directly onto backend server queues
+            fetch(`${CORE_BACKEND_API_URL}/api/mini-app/submit-proof`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ userId: activeGlobalUserId, taskId: id, proof: proofStr })
+            }).then(() => {
+                alert("Proof transferred to validation queues.");
+                closeTaskVerificationModal();
+                syncPlatformData();
+            });
+        };
+    }
+
+    function closeTaskVerificationModal() {
+        document.getElementById('taskVerificationWorkspaceModal').style.display = 'none';
+        document.getElementById('userTaskProofUrlInput').value = "";
+    }
+
+    function renderAdminTaskRemoverGrid() {
+        const pane = document.getElementById('adminLiveTasksDeleteContainerGrid');
+        pane.innerHTML = "";
+        const tasks = synchronizedStateCache.botSettings?.tasks || [];
+        if(tasks.length === 0) {
+            pane.innerHTML = `<p style="font-size:12px; color:var(--text-muted);">No system assets live.</p>`;
+            return;
+        }
+        tasks.forEach(t => {
+            pane.innerHTML += `
+                <div style="display:flex; justify-content:space-between; background:rgba(0,0,0,0.2); padding:10px; border-radius:8px; margin-bottom:6px; align-items:center;">
+                    <span style="font-size:12px;">${t.title} (₹${t.amount})</span>
+                    <button onclick="executeAdminTaskRemoval('${t.id}')" style="background:var(--accent-red); color:#fff; border:none; padding:4px 8px; border-radius:6px; font-size:11px; cursor:pointer;">Remove</button>
+                </div>
+            `;
+        });
+    }
+
+    function executeAdminTaskRemoval(id) {
+        if(!confirm("Purge task from system permanently?")) return;
+        const tasks = synchronizedStateCache.botSettings?.tasks || [];
+        const updated = tasks.filter(t => t.id !== id);
+        
+        fetch(`${CORE_BACKEND_API_URL}/api/settings/update`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ userId: activeGlobalUserId, taskId: id })
-        }).then(() => { setTimeout(syncPlatformData, 1500); });
+            body: JSON.stringify({ tasks: updated })
+        }).then(() => { alert("Task purged successfully."); syncPlatformData(); });
+    }
+
+    function renderAdminProofsValidationStream() {
+        const pane = document.getElementById('adminSubmittedProofsReviewContainerList');
+        pane.innerHTML = "";
+        const proofs = synchronizedStateCache.botSettings?.pendingProofs || [];
+        if(proofs.length === 0) {
+            pane.innerHTML = `<p style="text-align:center; color:var(--text-muted); font-size:12px; padding:10px 0;">No proof queues received.</p>`;
+            return;
+        }
+        proofs.forEach(p => {
+            pane.innerHTML += `
+                <div style="background:rgba(255,255,255,0.02); padding:12px; border-radius:12px; margin-bottom:8px; border:1px solid rgba(255,255,255,0.05);">
+                    <div style="font-size:11px; color:var(--text-muted);">USER UID: #${p.userId}</div>
+                    <div style="font-size:12px; margin:4px 0; color:var(--accent-blue); cursor:pointer;" onclick="window.open('${p.proof}','_blank')">🔗 View Image Proof Link</div>
+                    <div style="display:flex; gap:8px; margin-top:8px;">
+                        <button onclick="resolveUserProofValidation('${p.userId}','${p.taskId}', true)" style="flex:1; background:var(--success-green); border:none; padding:6px; border-radius:6px; font-size:11px; font-weight:700;">Approve</button>
+                        <button onclick="resolveUserProofValidation('${p.userId}','${p.taskId}', false)" style="flex:1; background:var(--accent-red); border:none; color:#fff; padding:6px; border-radius:6px; font-size:11px; font-weight:700;">Reject</button>
+                    </div>
+                </div>
+            `;
+        });
+    }
+
+    function resolveUserProofValidation(uid, tid, status) {
+        fetch(`${CORE_BACKEND_API_URL}/api/admin/verify-proof`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ userId: parseInt(uid), taskId: tid, approved: status })
+        }).then(() => { alert("Evidence tracking log closed."); syncPlatformData(); });
+    }
+
+    function saveCustomBannerConfigurationData() {
+        const headline = document.getElementById('admBannerHeadlineInput').value;
+        const subline = document.getElementById('admBannerSublineInput').value;
+        const imgUrl = document.getElementById('admBannerImgUrlInput').value;
+        
+        fetch(`${CORE_BACKEND_API_URL}/api/settings/update`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ customBanner: { headline, subline, imgUrl } })
+        }).then(() => { alert("Application layout cover updated."); closeAdminDashboardView(); syncPlatformData(); });
+    }
+
+    function updatePlatformSecurityMasterPinCode() {
+        const newPin = document.getElementById('admSecurityCodePinField').value;
+        if(!newPin) { alert("Configure valid code mapping."); return; }
+        SYSTEM_MASTER_PIN_CODE = newPin;
+        alert("Master security system PIN modified.");
+        document.getElementById('admSecurityCodePinField').value = "";
+    }
+
+    function injectNewAuthorizedSystemAdminUid() {
+        const id = parseInt(document.getElementById('newPrivilegedAdminIdInput').value);
+        if(!id) { alert("Invalid UID mapping stream."); return; }
+        PRIVILEGED_ADMIN_UID_POOL.push(id);
+        alert("Operator access granted to target.");
+        document.getElementById('newPrivilegedAdminIdInput').value = "";
+    }
+
+    function executeAdminAddTaskSubmit() {
+        const title = document.getElementById('admInputTaskTitle').value;
+        const info = document.getElementById('admInputTaskInfo').value;
+        const reward = parseFloat(document.getElementById('admInputTaskReward').value);
+        const link = document.getElementById('admInputTaskLink').value;
+        if(!title || !reward || !link) { alert("Configure required vectors."); return; }
+
+        const currentTasks = synchronizedStateCache.botSettings?.tasks || [];
+        const newTask = { id: "task_" + Date.now(), title, info, amount: reward, link };
+        const updatedTasks = [...currentTasks, newTask];
+
+        fetch(`${CORE_BACKEND_API_URL}/api/settings/update`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ tasks: updatedTasks })
+        }).then(() => { 
+            alert("Mission deployed successfully!"); 
+            document.getElementById('admInputTaskTitle').value = "";
+            document.getElementById('admInputTaskInfo').value = "";
+            document.getElementById('admInputTaskReward').value = "";
+            document.getElementById('admInputTaskLink').value = "";
+            syncPlatformData(); 
+        });
+    }
+
+    function toggleAdminFolderView(id) {
+        const pane = document.getElementById(id);
+        const active = pane.style.display === 'block';
+        document.querySelectorAll('.adm-folder-inside-pane').forEach(f => f.style.display = 'none');
+        pane.style.display = active ? 'none' : 'block';
     }
 
     function populateAdminFields(s) {
@@ -301,7 +527,6 @@
         document.getElementById('admMinWithdraw').value = s.minWithdraw || 100;
         document.getElementById('admMaxWithdraw').value = s.maxWithdraw || 500;
         document.getElementById('admPerRefer').value = s.perRefer || 10;
-        document.getElementById('admReqReferrals').value = 0; 
     }
 
     function triggerAdminDashboardEntrance() {
@@ -310,7 +535,7 @@
             return;
         }
         const pin = prompt("Enter Master Security Admin Code:");
-        if (pin === "1234") {
+        if (pin === SYSTEM_MASTER_PIN_CODE) {
             hasAuthenticatedAdminSession = true;
             document.getElementById('adminControlModalElement').style.display = 'flex';
         } else { alert("Verification mismatch error."); }
@@ -318,46 +543,17 @@
 
     function closeAdminDashboardView() { document.getElementById('adminControlModalElement').style.display = 'none'; }
 
-    // 🚀 ആപ്പിൽ ടാസ്ക് ആഡ് ചെയ്യുമ്പോൾ അത് ബോട്ടിലും ഒരേസമയം സേവ് ചെയ്യാനുള്ള ഫങ്ക്ഷൻ
-    function executeAdminAddTaskSubmit() {
-        const title = document.getElementById('admInputTaskTitle').value;
-        const reward = parseFloat(document.getElementById('admInputTaskReward').value);
-        const link = document.getElementById('admInputTaskLink').value;
-        if(!title || !reward || !link) { alert("Configure all vector streams."); return; }
-
-        // നിലവിലുള്ള ടാസ്ക് ലിസ്റ്റിലേക്ക് പുതിയത് പുഷ് ചെയ്യുന്നു
-        const currentTasks = synchronizedStateCache.botSettings?.tasks || [];
-        const newTask = { id: "task_" + Date.now(), title, amount: reward, link };
-        const updatedTasks = [...currentTasks, newTask];
-
-        fetch(`${CORE_BACKEND_API_URL}/api/settings/update`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ tasks: updatedTasks })
-        }).then(() => { 
-            alert("🎉 Task deployed to App & Bot successfully!"); 
-            document.getElementById('admInputTaskTitle').value = "";
-            document.getElementById('admInputTaskReward').value = "";
-            document.getElementById('admInputTaskLink').value = "";
-            closeAdminDashboardView(); 
-            syncPlatformData(); 
-        });
-    }
-
     function saveUnifiedBotSettings() {
         const settings = {
-            supportDetails: synchronizedStateCache.botSettings.supportDetails,
-            supportLink: synchronizedStateCache.botSettings.supportLink,
             minWithdraw: parseInt(document.getElementById('admMinWithdraw').value),
             maxWithdraw: parseInt(document.getElementById('admMaxWithdraw').value),
             perRefer: parseFloat(document.getElementById('admPerRefer').value)
         };
-
         fetch(`${CORE_BACKEND_API_URL}/api/settings/update`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(settings)
-        }).then(() => { alert("Bot variables saved permanently."); closeAdminDashboardView(); syncPlatformData(); });
+        }).then(() => { alert("Configuration payload updated."); closeAdminDashboardView(); syncPlatformData(); });
     }
 
     function switchViewTab(id) {
@@ -368,8 +564,7 @@
     }
 
     function copyReferralInviteLink() {
-        const botUser = "YourBot";
-        navigator.clipboard.writeText(`https://t.me/${botUser}?start=${activeGlobalUserId}`).then(() => alert("Referral link copied!"));
+        navigator.clipboard.writeText(`https://t.me/YourBot?start=${activeGlobalUserId}`).then(() => alert("Referral link copied!"));
     }
 
     window.onload = syncPlatformData;
