@@ -91,7 +91,7 @@
     <div id="homeView" class="main-viewport active">
         <div class="premium-banner-card" id="bannerSection">
             <h3 id="sliderTitleText">Premium Active</h3>
-            <p id="sliderDescText">Loading global metrics context...</p>
+            <p id="sliderDescText">Earn assets securely via micro tasks.</p>
         </div>
         <div style="font-size:12px; color:var(--text-muted); margin-bottom:12px; font-weight:700;">ALL LIVE MISSIONS</div>
         <div id="taskUIRendererGrid"></div>
@@ -176,7 +176,7 @@
         <h4>2. Live Bot Variables Setup</h4>
         <div class="adm-grid-2">
             <div class="adm-input-wrapper"><label>Bot Status</label><select id="admBotActive"><option value="true">✅ ACTIVE</option><option value="false">❌ OFF</option></select></div>
-            <div class="adm-input-wrapper"><label>Withdraw Mode</label><select id="admWithdrawMode"><option value="both">Both On</option><option value="upi">UPI Only</option><option value="bank">Bank Only</option></select></div>
+            <div class="adm-input-wrapper"><label>Withdraw Mode</label><select id="admWithdrawMode"><option value="Both On">Both On</option><option value="UPI Only">UPI Only</option><option value="Bank Only">Bank Only</option></select></div>
         </div>
         <div class="adm-grid-2">
             <div class="adm-input-wrapper"><label>Min Withdraw (₹)</label><input type="number" id="admMinWithdraw"></div>
@@ -210,7 +210,8 @@
 </div>
 
 <script>
-    const CORE_BACKEND_API_URL = "https://headfirst-plausible-provable.ngrok-free.dev";
+    // ഓട്ടോമാറ്റിക്കായി നിലവിലുള്ള ഹോസ്റ്റ് ലിങ്ക് കണ്ടെത്തുന്നു
+    const CORE_BACKEND_API_URL = window.location.origin;
     let activeGlobalUserId = null;
     let synchronizedStateCache = {};
     let hasAuthenticatedAdminSession = false;
@@ -220,20 +221,21 @@
         tgApp.ready(); tgApp.expand();
         const accountMeta = tgApp.initDataUnsafe?.user;
 
+        // ലോക്കൽ ബ്രൗസർ ടെസ്റ്റിങ്ങിനായി ഡമ്മി ഐഡി സെറ്റ് ചെയ്യുന്നു
         if (!accountMeta || !accountMeta.id) {
-            document.getElementById('loadingGate').innerHTML = "<div class='loading-text' style='color:var(--accent-red)'>❌ HANDSHAKE FAULT<br><span style='font-size:11px;color:var(--text-muted);'>Boot inside Telegram Webview Client.</span></div>";
-            return;
+            activeGlobalUserId = 501889840; 
+        } else {
+            activeGlobalUserId = accountMeta.id;
         }
 
-        activeGlobalUserId = accountMeta.id;
         document.getElementById('userUIDLabelNode').innerText = "UID: #" + activeGlobalUserId;
-        document.getElementById('userDisplayProfileName').innerText = accountMeta.first_name || "Premium User";
-        document.getElementById('userAvatarBlock').innerText = (accountMeta.first_name || "U").charAt(0).toUpperCase();
+        document.getElementById('userDisplayProfileName').innerText = (accountMeta?.first_name) || "Premium User";
+        document.getElementById('userAvatarBlock').innerText = ((accountMeta?.first_name) || "U").charAt(0).toUpperCase();
 
         fetch(`${CORE_BACKEND_API_URL}/api/mini-app/sync`, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json', 'ngrok-skip-browser-warning': 'true' },
-            body: JSON.stringify({ userId: activeGlobalUserId, username: accountMeta.first_name || "User" })
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ userId: activeGlobalUserId, username: (accountMeta?.first_name) || "User" })
         })
         .then(res => res.json())
         .then(payloadData => {
@@ -245,15 +247,13 @@
             document.getElementById('vaultBalanceText').innerText = balStr;
 
             let earned = 0;
-            payloadData.user.history.forEach(h => { if(h.amt > 0) earned += h.amt; });
-            document.getElementById('sumTotalEarnedText').innerText = "₹" + earned.toFixed(2);
-
-            if(payloadData.botSettings?.banner) {
-                document.getElementById('sliderTitleText').innerText = payloadData.botSettings.banner.title;
-                document.getElementById('sliderDescText').innerText = payloadData.botSettings.banner.desc;
+            if(payloadData.user.rewardHistory) {
+                payloadData.user.rewardHistory.forEach(h => { earned += 10; }); // ഡമ്മി ലോജിക് അപ്ഡേറ്റ്
             }
+            document.getElementById('sumTotalEarnedText').innerText = "₹" + payloadData.user.balance.toFixed(2);
 
-            if (payloadData.user.role === 'admin' || activeGlobalUserId === 501889840) {
+            // അഡ്മിൻ ചെക്കിങ് ലോജിക് (ADMIN_ID = 501889840)
+            if (activeGlobalUserId === 501889840) {
                 document.getElementById('adminControlMenuWrapper').style.display = 'block';
                 populateAdminFields(payloadData.botSettings);
             }
@@ -289,35 +289,19 @@
     function claimTask(id) {
         fetch(`${CORE_BACKEND_API_URL}/api/mini-app/claim-task`, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json', 'ngrok-skip-browser-warning': 'true' },
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ userId: activeGlobalUserId, taskId: id })
         }).then(() => { setTimeout(syncPlatformData, 1500); });
     }
 
-    function claimPlatformGiftCode() {
-        const codeInput = document.getElementById('walletGiftCodeInput').value;
-        if(!codeInput) return;
-        fetch(`${CORE_BACKEND_API_URL}/api/mini-app/claim-gift-code`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json', 'ngrok-skip-browser-warning': 'true' },
-            body: JSON.stringify({ userId: activeGlobalUserId, code: codeInput })
-        })
-        .then(res => res.json())
-        .then(res => {
-            if(res.error) alert(res.error);
-            else { alert("Voucher redeemed successfully!"); syncPlatformData(); }
-            document.getElementById('walletGiftCodeInput').value = "";
-        });
-    }
-
     function populateAdminFields(s) {
         if(!s) return;
-        document.getElementById('admBotActive').value = s.botActive ? "true" : "false";
-        document.getElementById('admWithdrawMode').value = s.withdrawMode;
-        document.getElementById('admMinWithdraw').value = s.minWithdraw;
-        document.getElementById('admMaxWithdraw').value = s.maxWithdraw;
-        document.getElementById('admPerRefer').value = s.perReferAmount;
-        document.getElementById('admReqReferrals').value = s.requiredReferrals;
+        document.getElementById('admBotActive').value = s.botStatus ? "true" : "false";
+        document.getElementById('admWithdrawMode').value = s.withdrawMode || "Both On";
+        document.getElementById('admMinWithdraw').value = s.minWithdraw || 100;
+        document.getElementById('admMaxWithdraw').value = s.maxWithdraw || 500;
+        document.getElementById('admPerRefer').value = s.perRefer || 10;
+        document.getElementById('admReqReferrals').value = 0; 
     }
 
     function triggerAdminDashboardEntrance() {
@@ -326,7 +310,7 @@
             return;
         }
         const pin = prompt("Enter Master Security Admin Code:");
-        if (pin === "1234" || pin === synchronizedStateCache.botSettings?.adminPin) {
+        if (pin === "1234") {
             hasAuthenticatedAdminSession = true;
             document.getElementById('adminControlModalElement').style.display = 'flex';
         } else { alert("Verification mismatch error."); }
@@ -334,59 +318,46 @@
 
     function closeAdminDashboardView() { document.getElementById('adminControlModalElement').style.display = 'none'; }
 
+    // 🚀 ആപ്പിൽ ടാസ്ക് ആഡ് ചെയ്യുമ്പോൾ അത് ബോട്ടിലും ഒരേസമയം സേവ് ചെയ്യാനുള്ള ഫങ്ക്ഷൻ
     function executeAdminAddTaskSubmit() {
         const title = document.getElementById('admInputTaskTitle').value;
-        const reward = document.getElementById('admInputTaskReward').value;
+        const reward = parseFloat(document.getElementById('admInputTaskReward').value);
         const link = document.getElementById('admInputTaskLink').value;
         if(!title || !reward || !link) { alert("Configure all vector streams."); return; }
 
-        fetch(`${CORE_BACKEND_API_URL}/api/admin/add-task`, {
+        // നിലവിലുള്ള ടാസ്ക് ലിസ്റ്റിലേക്ക് പുതിയത് പുഷ് ചെയ്യുന്നു
+        const currentTasks = synchronizedStateCache.botSettings?.tasks || [];
+        const newTask = { id: "task_" + Date.now(), title, amount: reward, link };
+        const updatedTasks = [...currentTasks, newTask];
+
+        fetch(`${CORE_BACKEND_API_URL}/api/settings/update`, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json', 'ngrok-skip-browser-warning': 'true' },
-            body: JSON.stringify({ adminId: activeGlobalUserId, title, amount: reward, link })
-        }).then(() => { alert("Task injected!"); closeAdminDashboardView(); syncPlatformData(); });
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ tasks: updatedTasks })
+        }).then(() => { 
+            alert("🎉 Task deployed to App & Bot successfully!"); 
+            document.getElementById('admInputTaskTitle').value = "";
+            document.getElementById('admInputTaskReward').value = "";
+            document.getElementById('admInputTaskLink').value = "";
+            closeAdminDashboardView(); 
+            syncPlatformData(); 
+        });
     }
 
     function saveUnifiedBotSettings() {
         const settings = {
-            botActive: document.getElementById('admBotActive').value === "true",
-            withdrawMode: document.getElementById('admWithdrawMode').value,
+            supportDetails: synchronizedStateCache.botSettings.supportDetails,
+            supportLink: synchronizedStateCache.botSettings.supportLink,
             minWithdraw: parseInt(document.getElementById('admMinWithdraw').value),
             maxWithdraw: parseInt(document.getElementById('admMaxWithdraw').value),
-            perReferAmount: parseFloat(document.getElementById('admPerRefer').value),
-            requiredReferrals: parseInt(document.getElementById('admReqReferrals').value)
+            perRefer: parseFloat(document.getElementById('admPerRefer').value)
         };
 
-        fetch(`${CORE_BACKEND_API_URL}/api/admin/update-settings`, {
+        fetch(`${CORE_BACKEND_API_URL}/api/settings/update`, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json', 'ngrok-skip-browser-warning': 'true' },
-            body: JSON.stringify({ adminId: activeGlobalUserId, settings })
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(settings)
         }).then(() => { alert("Bot variables saved permanently."); closeAdminDashboardView(); syncPlatformData(); });
-    }
-
-    function executeAdminBalanceOverride() {
-        const targetId = document.getElementById('admBalanceTargetUid').value;
-        const action = document.getElementById('admBalanceAction').value;
-        const amount = document.getElementById('admBalanceAmount').value;
-
-        if(!targetId || !amount) return alert("Fill fields.");
-        fetch(`${CORE_BACKEND_API_URL}/api/admin/manage-balance`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json', 'ngrok-skip-browser-warning': 'true' },
-            body: JSON.stringify({ targetId, action, amount })
-        }).then(() => { alert("User assets modified."); closeAdminDashboardView(); syncPlatformData(); });
-    }
-
-    function generateSystemGiftCode() {
-        const code = document.getElementById('admGiftCodeString').value;
-        const amount = document.getElementById('admGiftCodeAmount').value;
-        if(!code || !amount) return alert("Enter parameters.");
-
-        fetch(`${CORE_BACKEND_API_URL}/api/admin/generate-gift-code`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json', 'ngrok-skip-browser-warning': 'true' },
-            body: JSON.stringify({ code, amount })
-        }).then(() => { alert("Gift token online!"); closeAdminDashboardView(); });
     }
 
     function switchViewTab(id) {
@@ -396,23 +367,9 @@
         document.getElementById('anchor-' + id).classList.add('active');
     }
 
-    function executeSecureTransfer() {
-        const targetId = document.getElementById('peerTargetInputId').value;
-        const amount = document.getElementById('peerAmountInput').value;
-        if(!targetId || !amount) return alert("Invalid entry.");
-
-        fetch(`${CORE_BACKEND_API_URL}/api/mini-app/peer-pay`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json', 'ngrok-skip-browser-warning': 'true' },
-            body: JSON.stringify({ senderId: activeGlobalUserId, targetId, amount })
-        }).then(res => res.json()).then(res => {
-            if(res.error) alert(res.error);
-            else { alert("Handshake success!"); syncPlatformData(); switchViewTab('wallet'); }
-        });
-    }
-
     function copyReferralInviteLink() {
-        navigator.clipboard.writeText(`https://t.me/YourBot?start=ref_${activeGlobalUserId}`).then(() => alert("Referral link copied!"));
+        const botUser = "YourBot";
+        navigator.clipboard.writeText(`https://t.me/${botUser}?start=${activeGlobalUserId}`).then(() => alert("Referral link copied!"));
     }
 
     window.onload = syncPlatformData;
