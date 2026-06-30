@@ -44,22 +44,21 @@
         .mission-action { padding: 10px 18px; background: var(--surface); border: 1px solid rgba(255,255,255,0.08); color: #fff; font-weight: 700; font-size: 13px; border-radius: 12px; cursor: pointer; }
         .mission-action.done { background: rgba(255,255,255,0.03); color: var(--text-muted); border: none; pointer-events: none; }
 
-        /* Glassmorphic Navigation Bar */
+        /* Navigation Style: White icons when active, gray when inactive */
         .fixed-bottom-nav { position: absolute; bottom: 15px; left: 5%; width: 90%; height: 68px; background: var(--nav-bg); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.08); border-radius: 24px; display: grid; grid-template-columns: repeat(4, 1fr); align-items: center; text-align: center; z-index: 999; box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37); }
         .nav-anchor { color: #6b7280; font-size: 10px; text-decoration: none; display: flex; flex-direction: column; gap: 4px; cursor: pointer; transition: color 0.3s ease; }
         .nav-anchor.active { color: #ffffff; }
-        .nav-icon-glyph { font-size: 20px; opacity: 0.6; transition: opacity 0.3s ease; }
+        .nav-icon-glyph { font-size: 20px; opacity: 0.5; transition: opacity 0.3s ease; }
         .nav-anchor.active .nav-icon-glyph { opacity: 1; }
 
-        /* User Dialog Modals */
+        /* Modals */
         .platform-popup-modal { position: fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); z-index:3000; display:none; justify-content:center; align-items:center; padding:20px; }
         .popup-modal-content { background:var(--surface); border-radius:24px; width:100%; max-width:380px; padding:24px; border:1px solid rgba(255,255,255,0.08); }
 
-        /* Admin Dashboard Windows */
+        /* Admin Console Panels */
         .admin-fullscreen-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg); z-index: 2000; display: none; flex-direction: column; padding: 20px; overflow-y: auto; }
         .admin-modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 1px solid var(--surface-card); padding-bottom: 10px; }
         
-        /* Nested Folder Group Layout */
         .adm-folder-hub-row { background: var(--surface-card); padding: 16px; border-radius: 16px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; border: 1px solid rgba(255,255,255,0.02); }
         .adm-folder-inside-pane { background: #131622; padding: 16px; border-radius: 0 0 16px 16px; margin-top: -10px; margin-bottom: 14px; display: none; border: 1px solid rgba(255,255,255,0.04); border-top: none; }
         
@@ -86,6 +85,16 @@
     </style>
 </head>
 <body>
+
+<script>
+    // ==========================================
+    // ⭐ നിങ്ങളുടെ പ്രധാന സെറ്റിങ്സുകൾ ഇവിടെ മാറ്റുക ⭐
+    // ==========================================
+    let SYSTEM_MASTER_PIN_CODE = "1234";          // നിങ്ങളുടെ അഡ്മിൻ പാസ്‌വേഡ് മാറ്റാൻ ഇത് മാറ്റുക
+    let PRIVILEGED_ADMIN_UID_POOL = [501889840]; // 501889840 മാറ്റി നിങ്ങളുടെ ശരിക്കുള്ള ടെലിഗ്രാം ഐഡി ഇവിടെ നൽകുക
+    const PLATFORM_BOT_USERNAME = "YourBot";     // YourBot മാറ്റി നിങ്ങളുടെ ബോട്ട് യൂസർനെയിം നൽകുക
+    // ==========================================
+</script>
 
 <div class="phone-layout">
     <div id="loadingGate" class="loading-view">
@@ -207,7 +216,7 @@
             <button class="adm-commit-btn" onclick="executeAdminAddTaskSubmit()">Deploy Task</button>
         </div>
         <div style="margin-top:14px;">
-            <p style="font-size:11px; color:var(--text-muted); margin-bottom:8px; text-transform:uppercase;">Active Core Tasks Matrix</p>
+            <p style="font-size:11px; color:var(--text-muted); margin-bottom:8px; text-transform:uppercase;">Active Core Tasks Matrix (Delete Pane)</p>
             <div id="adminLiveTasksDeleteContainerGrid"></div>
         </div>
     </div>
@@ -293,10 +302,6 @@
     let activeGlobalUserId = null;
     let synchronizedStateCache = {};
     let hasAuthenticatedAdminSession = false;
-    
-    // Default Fallback Configurations
-    let SYSTEM_MASTER_PIN_CODE = "123";
-    let PRIVILEGED_ADMIN_UID_POOL = [501889840]; 
 
     function syncPlatformData() {
         const tgApp = window.Telegram.WebApp;
@@ -304,7 +309,7 @@
         const accountMeta = tgApp.initDataUnsafe?.user;
 
         if (!accountMeta || !accountMeta.id) {
-            activeGlobalUserId = 501889840; 
+            activeGlobalUserId = PRIVILEGED_ADMIN_UID_POOL[0]; 
         } else {
             activeGlobalUserId = accountMeta.id;
         }
@@ -328,7 +333,6 @@
             document.getElementById('vaultBalanceText').innerText = balStr;
             document.getElementById('sumTotalEarnedText').innerText = balStr;
 
-            // Update Custom Layout Banner Elements dynamically if exist
             if(payloadData.botSettings?.customBanner) {
                 const b = payloadData.botSettings.customBanner;
                 if(b.headline) document.getElementById('bannerHeadlineNode').innerText = b.headline;
@@ -336,7 +340,6 @@
                 if(b.imgUrl) document.getElementById('platformLiveBannerElement').style.backgroundImage = `url('${b.imgUrl}')`;
             }
 
-            // Privileged Identity Validation Module Check
             if (PRIVILEGED_ADMIN_UID_POOL.includes(activeGlobalUserId)) {
                 document.getElementById('adminControlMenuWrapper').style.display = 'block';
                 populateAdminFields(payloadData.botSettings);
@@ -382,7 +385,6 @@
             const proofStr = document.getElementById('userTaskProofUrlInput').value;
             if(!proofStr) { alert("Proof vector missing."); return; }
             
-            // Dispatch verification stream payload directly onto backend server queues
             fetch(`${CORE_BACKEND_API_URL}/api/mini-app/submit-proof`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -564,7 +566,7 @@
     }
 
     function copyReferralInviteLink() {
-        navigator.clipboard.writeText(`https://t.me/YourBot?start=${activeGlobalUserId}`).then(() => alert("Referral link copied!"));
+        navigator.clipboard.writeText(`https://t.me/${PLATFORM_BOT_USERNAME}?start=${activeGlobalUserId}`).then(() => alert("Referral link copied!"));
     }
 
     window.onload = syncPlatformData;
