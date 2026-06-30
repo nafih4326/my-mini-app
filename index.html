@@ -3,97 +3,132 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>EXTRA EARN Premium</title>
+    <title>EXTRA EARN Premium Suite</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
         :root {
-            --bg: #0b0c10;
-            --surface: #141722;
-            --surface-card: #1f2336;
-            --accent-red: #ff0033;
-            --accent-white: #ffffff;
-            --text: #ffffff;
-            --text-muted: #94a3b8;
-            --success: #00e676;
-            --error: #ff3d00;
-            --nav-bg: rgba(20, 23, 34, 0.85);
+            --bg: #090a0f;
+            --surface: #10121a;
+            --surface-card: #171a26;
+            --accent-red: #ff1e27;
+            --accent-blue: #3b82f6;
+            --text-white: #ffffff;
+            --text-muted: #6b7280;
+            --success-green: #10b981;
+            --nav-bg: #11141f;
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, sans-serif; }
-        body { background: var(--bg); color: var(--text); display: flex; justify-content: center; align-items: center; min-height: 100vh; overflow: hidden; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+        body { background: var(--bg); color: var(--text-white); min-height: 100vh; overflow: hidden; display: flex; justify-content: center; align-items: center; }
         
-        .phone-layout { width: 100%; max-width: 430px; height: 100vh; background: var(--bg); position: relative; display: flex; flex-direction: column; }
+        .phone-layout { width: 100%; max-width: 430px; height: 100vh; background: var(--bg); position: relative; display: flex; flex-direction: column; overflow: hidden; }
         
-        /* Premium Loading Gate */
-        .loading-view { position: absolute; top:0; left:0; width:100%; height:100%; background:var(--bg); display:flex; flex-direction:column; justify-content:center; align-items:center; z-index:100; text-align:center; }
-        .spinner { width: 40px; height: 40px; border: 4px solid rgba(255,0,51,0.1); border-left-color: var(--accent-red); border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 15px; }
+        /* Loading Screen Frame */
+        .loading-view { position: absolute; top:0; left:0; width:100%; height:100%; background:var(--bg); display:flex; flex-direction:column; justify-content:center; align-items:center; z-index:1000; }
+        .spinner { width: 34px; height: 34px; border: 3px solid rgba(255,30,39,0.1); border-left-color: var(--accent-red); border-radius: 50%; animation: spin 0.8s linear infinite; margin-bottom: 12px; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-        .loading-text { font-size: 16px; font-weight: 600; letter-spacing: 1px; color: var(--text); }
+        .loading-text { font-size: 14px; font-weight: 700; letter-spacing: 1px; color: var(--text-white); }
 
-        /* Top Bar */
-        .top-bar { padding: 18px 20px; display: flex; justify-content: space-between; align-items: center; background: var(--surface); border-bottom: 1px solid #24293e; }
-        .top-bar .logo { font-size: 22px; font-weight: 900; letter-spacing: 0.5px; }
-        .top-bar .logo .red-text { color: var(--accent-red); }
-        .top-bar .logo .white-text { color: var(--accent-white); }
-        .live-balance-btn { background: rgba(255, 0, 51, 0.1); border: 1px solid rgba(255, 0, 51, 0.3); padding: 8px 16px; border-radius: 25px; color: #fff; font-weight: 700; font-size: 14px; cursor: pointer; transition: 0.2s; }
-        .live-balance-btn:active { transform: scale(0.95); }
+        /* Sleek Top Header Navigation */
+        .top-bar { padding: 16px 20px; display: flex; justify-content: space-between; align-items: center; background: var(--bg); }
+        .top-bar .logo { font-size: 20px; font-weight: 900; letter-spacing: 0.5px; }
+        .top-bar .logo .red-span { color: var(--accent-red); }
+        .top-bar .logo .white-span { color: var(--text-white); }
+        .top-actions { display: flex; align-items: center; gap: 12px; }
+        .bell-icon { font-size: 18px; cursor: pointer; color: #fff; position: relative; }
+        .balance-pill { background: var(--surface-card); padding: 6px 14px; border-radius: 20px; font-weight: 700; font-size: 13px; color: #fff; display: flex; align-items: center; border: 1px solid rgba(255,255,255,0.05); }
 
-        /* Main Scrollable Content */
-        .main-content { flex: 1; overflow-y: auto; padding: 20px; padding-bottom: 100px; display: none; }
-        .main-content.active { display: block; }
+        /* Global Viewports Content Container */
+        .main-viewport { flex: 1; overflow-y: auto; padding: 0 20px 100px 20px; display: none; }
+        .main-viewport.active { display: block; }
 
-        /* Dynamic Banner Component */
-        .banner-container { width: 100%; height: 140px; background: linear-gradient(135deg, #2c161a, #1f2336); border-radius: 16px; margin-bottom: 20px; overflow: hidden; display: none; border: 1px solid rgba(255, 0, 51, 0.2); position: relative; }
-        .banner-slide { width: 100%; height: 100%; display: flex; align-items: center; padding: 20px; }
-        .banner-text h3 { font-size: 18px; color: #fff; font-weight: 700; margin-bottom: 4px; }
-        .banner-text p { font-size: 12px; color: var(--text-muted); }
+        /* Home Image Slider Components */
+        .slider-wrapper { width: 100%; margin-bottom: 20px; display: none; }
+        .premium-banner-card { width: 100%; background: linear-gradient(135deg, #2b0b0f, #171a26); border-radius: 24px; padding: 24px; position: relative; min-height: 140px; display: flex; flex-direction: column; justify-content: center; border: 1px solid rgba(255,30,39,0.15); }
+        .premium-banner-card h3 { font-size: 24px; font-weight: 900; color: #fff; margin-bottom: 4px; }
+        .premium-banner-card p { font-size: 12px; color: var(--text-muted); }
+        .slider-dots { display: flex; justify-content: center; gap: 6px; margin-top: 10px; }
+        .dot { width: 6px; height: 6px; background: var(--surface-card); border-radius: 50%; }
+        .dot.active { background: var(--text-white); width: 14px; border-radius: 4px; }
 
-        /* Task System */
-        .task-list { display: flex; flex-direction: column; gap: 12px; }
-        .task-card { background: var(--surface-card); border-radius: 16px; padding: 16px; border: 1px solid #24293e; display: flex; justify-content: space-between; align-items: center; }
-        .task-info h4 { font-size: 15px; font-weight: 600; margin-bottom: 4px; color: #fff; }
-        .task-info p { font-size: 12px; color: var(--text-muted); margin-bottom: 6px; }
-        .task-reward { font-size: 14px; color: var(--success); font-weight: 700; }
-        .action-btn { padding: 10px 20px; background: linear-gradient(135deg, var(--accent-red), #b30022); border: none; color: #fff; font-weight: 700; font-size: 13px; border-radius: 12px; cursor: pointer; text-decoration: none; transition: 0.2s; }
-        .action-btn:active { transform: scale(0.95); }
-        .action-btn.claimed { background: #24293e; color: var(--text-muted); pointer-events: none; border: 1px solid rgba(255,255,255,0.05); }
+        /* Dynamic Filtering Elements */
+        .filter-scroller { display: flex; gap: 10px; margin-bottom: 20px; }
+        .filter-btn { background: var(--surface-card); color: #fff; padding: 10px 20px; border-radius: 20px; border: none; font-size: 13px; font-weight: 700; cursor: pointer; }
+        .filter-btn.active { background: #ffffff; color: #000000; }
 
-        /* Wallet Premium Sub-Tabs Design */
-        .wallet-display-card { background: linear-gradient(135deg, #141722, #1f2336); border-radius: 20px; padding: 24px; border: 1px solid #24293e; margin-bottom: 20px; }
-        .wallet-subtabs { display: grid; grid-template-columns: 1fr 1fr; background: var(--surface); padding: 4px; border-radius: 12px; margin-bottom: 15px; border: 1px solid #24293e; }
-        .subtab-btn { padding: 10px; text-align: center; font-size: 13px; font-weight: 600; color: var(--text-muted); border-radius: 10px; cursor: pointer; border: none; background: transparent; transition: 0.2s; }
-        .subtab-btn.active { background: var(--surface-card); color: #fff; box-shadow: 0 4px 12px rgba(0,0,0,0.2); }
-        .wallet-tab-content { display: none; }
-        .wallet-tab-content.active { display: block; }
-        .history-item { display: flex; justify-content: space-between; align-items: center; padding: 14px; background: var(--surface); border-radius: 12px; margin-bottom: 8px; border: 1px solid #24293e; }
+        /* Premium Standard Task Row cards */
+        .mission-row-card { background: var(--surface-card); border-radius: 18px; padding: 16px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; border: 1px solid rgba(255,255,255,0.02); }
+        .mission-meta h4 { font-size: 15px; font-weight: 700; color: #fff; margin-bottom: 4px; }
+        .mission-meta p { font-size: 11px; color: var(--text-muted); }
+        .mission-payout { font-size: 15px; font-weight: 800; color: var(--accent-blue); margin-top: 2px; }
+        .mission-action { padding: 10px 18px; background: var(--surface); border: 1px solid rgba(255,255,255,0.08); color: #fff; font-weight: 700; font-size: 13px; border-radius: 12px; text-decoration: none; transition: 0.2s; }
+        .mission-action:active { transform: scale(0.95); }
+        .mission-action.done { background: rgba(255,255,255,0.03); color: var(--text-muted); border: none; pointer-events: none; }
 
-        /* Pay UI */
-        .premium-input-box { background: var(--surface-card); border: 1px solid #24293e; padding: 16px; border-radius: 16px; margin-top: 15px; }
-        .premium-input-box label { font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; display: block; margin-bottom: 8px; }
-        .premium-input-box input { width: 100%; background: transparent; border: none; font-size: 18px; color: #fff; outline: none; }
-        .pay-submit-btn { width: 100%; padding: 16px; margin-top: 20px; background: linear-gradient(135deg, var(--accent-red), #b30022); border: none; border-radius: 16px; font-size: 15px; font-weight: 700; color: #fff; cursor: pointer; box-shadow: 0 4px 15px rgba(255, 0, 51, 0.3); }
+        /* Complete Wallet Layout Specifications (1:1 UI Replication) */
+        .section-header-title { font-size: 14px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; text-align: center; margin: 10px 0 20px 0; }
+        .wallet-main-vault { background: var(--surface-card); border-radius: 24px; padding: 24px; text-align: center; position: relative; margin-bottom: 14px; border: 1px solid rgba(255,255,255,0.02); }
+        .vault-label { font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; font-weight: 700; }
+        .vault-balance-huge { font-size: 38px; font-weight: 900; color: #fff; margin-top: 6px; display: flex; align-items: center; justify-content: center; gap: 10px; }
+        .vault-refresh-node { font-size: 20px; color: var(--text-muted); cursor: pointer; border: none; background: transparent; }
 
-        /* Profile & Referral */
-        .profile-hero { text-align: center; padding: 20px 0; }
-        .profile-avatar { width: 80px; height: 80px; background: linear-gradient(135deg, var(--accent-red), #b30022); border-radius: 50%; margin: 0 auto 12px auto; display: flex; align-items: center; justify-content: center; font-size: 32px; color: #fff; font-weight: bold; box-shadow: 0 4px 15px rgba(255,0,51,0.2); }
-        .referral-widget { background: var(--surface-card); border: 1px solid #24293e; padding: 16px; border-radius: 16px; margin-top: 20px; display: flex; justify-content: space-between; align-items: center; }
+        .wallet-summary-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }
+        .summary-subbox { background: var(--surface-card); padding: 16px; border-radius: 18px; border: 1px solid rgba(255,255,255,0.02); }
+        .summary-subbox p { font-size: 10px; color: var(--text-muted); text-transform: uppercase; font-weight: 700; margin-bottom: 4px; }
+        .summary-subbox h4 { font-size: 18px; font-weight: 800; }
 
-        /* 🌟 FLOATING ROUNDED PREMIUM NAVIGATION BAR */
-        .nav-container-box { position: absolute; bottom: 20px; left: 0; width: 100%; padding: 0 20px; z-index: 90; pointer-events: none; }
-        .nav-bar { width: 100%; height: 68px; background: var(--nav-bg); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); border-radius: 24px; border: 1px solid rgba(255, 255, 255, 0.08); display: grid; grid-template-columns: repeat(4, 1fr); align-items: center; text-align: center; pointer-events: auto; box-shadow: 0 8px 32px rgba(0,0,0,0.5); }
-        .nav-item { color: var(--text-muted); font-size: 11px; cursor: pointer; font-weight: 600; display: flex; flex-direction: column; gap: 4px; transition: 0.2s; }
-        .nav-item.active { color: var(--accent-red); transform: translateY(-2px); }
-        .nav-item-icon { font-size: 20px; transition: 0.2s; }
-        .nav-item.active .nav-item-icon { filter: drop-shadow(0 0 6px var(--accent-red)); }
+        .payout-methods-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 24px; }
+        .method-card { background: var(--surface-card); padding: 14px; border-radius: 16px; text-align: center; font-size: 11px; font-weight: 700; color: var(--text-muted); cursor: pointer; border: 1px solid rgba(255,255,255,0.02); }
+        .method-card .method-icon { font-size: 18px; margin-bottom: 6px; color: var(--accent-blue); display: block; }
 
-        /* Live Integrated Website Admin Dashboard Model */
-        .admin-link-btn { background: rgba(255, 61, 0, 0.1); color: #ff3d00; border: 1px solid rgba(255, 61, 0, 0.2); text-align: center; padding: 14px; border-radius: 14px; display: block; text-decoration: none; font-weight: 700; margin-top: 20px; cursor: pointer; }
-        .admin-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg); z-index: 200; display: none; flex-direction: column; padding: 20px; overflow-y: auto; }
-        .admin-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; padding-bottom: 15px; border-bottom: 1px solid #24293e; }
-        .admin-form-group { margin-bottom: 16px; }
-        .admin-form-group label { display: block; font-size: 13px; color: var(--text-muted); margin-bottom: 6px; }
-        .admin-form-group input { width: 100%; padding: 14px; background: var(--surface-card); border: 1px solid #24293e; border-radius: 12px; color: #fff; outline: none; font-size: 14px; }
-        .admin-action-btn { width: 100%; padding: 14px; background: var(--success); border: none; border-radius: 12px; color: #000; font-weight: 700; cursor: pointer; margin-top: 10px; font-size: 14px; }
+        /* Wallet Matrix Sub-Tab System */
+        .toggle-tab-bar { background: var(--surface-card); padding: 4px; border-radius: 14px; display: grid; grid-template-columns: 1fr 1fr; margin-bottom: 16px; }
+        .toggle-btn { padding: 12px; border: none; background: transparent; border-radius: 10px; color: var(--text-muted); font-size: 12px; font-weight: 800; cursor: pointer; text-transform: uppercase; }
+        .toggle-btn.active { background: var(--accent-blue); color: #fff; }
+        .history-list-bucket { display: none; }
+        .history-list-bucket.active { display: block; }
+        
+        .statement-row { background: var(--surface-card); padding: 16px; border-radius: 16px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+        .statement-detail h5 { font-size: 14px; font-weight: 700; color: #fff; margin-bottom: 2px; }
+        .statement-detail span { font-size: 11px; color: var(--text-muted); }
+        .statement-amt { font-size: 14px; font-weight: 800; }
+
+        /* Dynamic Peer Input Field Deck */
+        .field-card-box { background: var(--surface-card); padding: 16px; border-radius: 18px; margin-bottom: 12px; }
+        .field-card-box label { font-size: 11px; color: var(--text-muted); text-transform: uppercase; font-weight: 700; display: block; margin-bottom: 6px; }
+        .field-card-box input { width: 100%; background: transparent; border: none; outline: none; color: #fff; font-size: 16px; font-weight: 600; }
+        .action-submit-trigger { width: 100%; padding: 16px; background: var(--accent-red); border: none; border-radius: 18px; color: #fff; font-weight: 800; font-size: 15px; cursor: pointer; margin-top: 10px; }
+
+        /* Account Profile Component Layout (1:1 Match) */
+        .profile-card-badge { background: var(--surface-card); padding: 20px; border-radius: 24px; display: flex; align-items: center; gap: 16px; margin-bottom: 24px; border: 1px solid rgba(255,255,255,0.02); }
+        .profile-avatar-circle { width: 64px; height: 64px; border-radius: 50%; background: #333; overflow: hidden; display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: 700; }
+        .profile-avatar-circle img { width:100%; height:100%; object-fit: cover; }
+        .profile-title-stack h3 { font-size: 18px; font-weight: 800; display: flex; align-items: center; gap: 6px; }
+        .verified-tick { color: var(--accent-blue); font-size: 14px; }
+        .profile-title-stack p { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+
+        .settings-menu-group { margin-bottom: 20px; }
+        .group-label { font-size: 11px; color: var(--text-muted); text-transform: uppercase; font-weight: 800; letter-spacing: 0.5px; margin-bottom: 10px; padding-left: 4px; }
+        .menu-row-item { background: var(--surface-card); padding: 16px; border-radius: 16px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; cursor: pointer; }
+        .menu-row-left { display: flex; align-items: center; gap: 12px; font-size: 14px; font-weight: 700; }
+        .menu-chevron { color: var(--text-muted); font-size: 14px; }
+
+        /* Fixed Flat Ground Nav-Bar */
+        .fixed-bottom-nav { position: absolute; bottom: 0; left: 0; width: 100%; height: 74px; background: var(--nav-bg); border-top: 1px solid rgba(255,255,255,0.04); display: grid; grid-template-columns: repeat(4, 1fr); align-items: center; text-align: center; z-index: 500; }
+        .nav-anchor { color: var(--text-muted); font-size: 10px; font-weight: 700; text-decoration: none; display: flex; flex-direction: column; align-items: center; gap: 4px; cursor: pointer; }
+        .nav-anchor.active { color: #fff; }
+        .nav-icon-glyph { font-size: 20px; display: block; opacity: 0.4; }
+        .nav-anchor.active .nav-icon-glyph { opacity: 1; filter: drop-shadow(0 0 8px rgba(255,255,255,0.4)); }
+
+        /* Integrated Full Website Model Admin Panel Dashboard Overlay */
+        .admin-fullscreen-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg); z-index: 2000; display: none; flex-direction: column; padding: 20px; overflow-y: auto; }
+        .admin-modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-bottom: 14px; border-bottom: 1px solid var(--surface-card); }
+        .adm-card-node { background: var(--surface-card); padding: 18px; border-radius: 20px; margin-bottom: 16px; }
+        .adm-card-node h4 { font-size: 14px; color: var(--accent-red); margin-bottom: 12px; text-transform: uppercase; }
+        .adm-input-wrapper { margin-bottom: 12px; }
+        .adm-input-wrapper label { display: block; font-size: 12px; color: var(--text-muted); margin-bottom: 4px; }
+        .adm-input-wrapper input { width: 100%; padding: 12px; background: var(--bg); border: 1px solid rgba(255,255,255,0.05); border-radius: 10px; color: #fff; outline: none; }
+        .adm-commit-btn { width: 100%; padding: 12px; background: var(--success-green); border: none; color: #000; font-weight: 700; border-radius: 10px; cursor: pointer; margin-top: 6px; }
     </style>
 </head>
 <body>
@@ -105,391 +140,459 @@
     </div>
 
     <div class="top-bar">
-        <div class="logo"><span class="red-text">EXTRA</span> <span class="white-text">EARN</span></div>
-        <button class="live-balance-btn" onclick="switchTab('wallet')">₹0.00</button>
-    </div>
-
-    <div id="homeView" class="main-content active">
-        <div class="banner-container" id="bannerSlider">
-            <div class="banner-slide">
-                <div class="banner-text">
-                    <h3 id="bannerTitle">Welcome</h3>
-                    <p id="bannerDesc">Loading configurations...</p>
-                </div>
-            </div>
-        </div>
-
-        <div style="font-size: 13px; color: var(--text-muted); margin-bottom: 14px; font-weight:700; letter-spacing: 0.5px;">PREMIUM MISSIONS</div>
-        <div class="task-list" id="miniAppTasksGrid"></div>
-    </div>
-
-    <div id="walletView" class="main-content">
-        <div class="wallet-display-card">
-            <p style="font-size:11px; color: var(--text-muted); letter-spacing: 1px; text-transform: uppercase;">Total Balance</p>
-            <h2 id="walletBalanceDisplay" style="color: #fff; font-size: 36px; font-weight: 800; margin-top: 4px;">₹0.00</h2>
-        </div>
-
-        <div class="wallet-subtabs">
-            <button class="subtab-btn active" id="btn-subtab-earn" onclick="switchWalletTab('earn')">Earnings</button>
-            <button class="subtab-btn" id="btn-subtab-withdraw" onclick="switchWalletTab('withdraw')">Withdrawals</button>
-        </div>
-
-        <div id="walletTabEarn" class="wallet-tab-content active">
-            <div id="earningsLogsGrid">
-                <p style="font-size:13px; color:var(--text-muted); text-align:center; padding:20px;">No task rewards logged yet.</p>
-            </div>
-        </div>
-
-        <div id="walletTabWithdraw" class="wallet-tab-content">
-            <div id="withdrawLogsGrid">
-                <p style="font-size:13px; color:var(--text-muted); text-align:center; padding:20px;">No payout history found.</p>
-            </div>
+        <div class="logo"><span class="red-span">EXTRA</span> <span class="white-span">EARN</span></div>
+        <div class="top-actions">
+            <div class="bell-icon">🔔</div>
+            <div class="balance-pill" id="headerBalanceDisplay">₹0.00</div>
         </div>
     </div>
 
-    <div id="payView" class="main-content">
-        <h2 style="font-size: 22px; font-weight: 800; margin-bottom: 6px;">Instant Peer Pay</h2>
-        <p style="color: var(--text-muted); font-size: 13px;">Transfer assets instantly to any user account ID.</p>
-
-        <div class="premium-input-box">
-            <label>Recipient Telegram ID</label>
-            <input type="number" id="payTargetId" placeholder="Enter Destination UID">
+    <div id="homeView" class="main-viewport active">
+        <div class="slider-wrapper" id="bannerSection">
+            <div class="premium-banner-card">
+                <h3 id="sliderTitleText">Premium Title</h3>
+                <p id="sliderDescText">Sub-level notification message context.</p>
+            </div>
+            <div class="slider-dots"><div class="dot active"></div><div class="dot"></div></div>
         </div>
 
-        <div class="premium-input-box">
-            <label>Amount (INR)</label>
-            <input type="number" id="payAmountInput" placeholder="₹ 0.00">
+        <div class="filter-scroller">
+            <button class="filter-btn active">All Missions</button>
         </div>
 
-        <button class="pay-submit-btn" onclick="executePeerPayment()">Authorize Transfer</button>
+        <div class="mission-wrapper-grid" id="taskUIRendererGrid"></div>
     </div>
 
-    <div id="profileView" class="main-content">
-        <div class="profile-hero">
-            <div class="profile-avatar" id="avatarLetter">U</div>
-            <h2 id="profileNameDisplay">Premium User</h2>
-            <p id="profileIdDisplay" style="color: var(--text-muted); font-size: 13px; margin-top: 4px;">UID: 000000000</p>
-        </div>
-
-        <div class="referral-widget">
-            <div>
-                <p style="font-size: 11px; color: var(--text-muted); font-weight:700;">INVITE PROGRAM</p>
-                <h4 style="font-size: 13px; margin-top:2px; color: var(--accent-white);">Get ₹10 per premium referral</h4>
+    <div id="walletView" class="main-viewport">
+        <div class="section-header-title">My Wallet</div>
+        
+        <div class="wallet-main-vault">
+            <div class="vault-label">Available Balance</div>
+            <div class="vault-balance-huge">
+                <span id="vaultBalanceText">₹0.00</span>
+                <button class="vault-refresh-node" onclick="syncPlatformData()">↻</button>
             </div>
-            <button class="action-btn" style="padding: 8px 14px; font-size:11px; border-radius:8px;" onclick="copyReferralLink()">Copy Link</button>
         </div>
 
-        <div class="admin-link-btn" id="adminGateBtn" style="display:none;" onclick="openAdminDashboard()">💼 System Admin Panel</div>
+        <div class="wallet-summary-grid">
+            <div class="summary-subbox">
+                <p>Total Earned</p>
+                <h4 style="color: var(--success-green);" id="sumTotalEarnedText">₹0.00</h4>
+            </div>
+            <div class="summary-subbox">
+                <p>Total Withdrawn</p>
+                <h4 style="color: #fff;" id="sumTotalWithdrawnText">₹0.00</h4>
+            </div>
+        </div>
+
+        <div class="payout-methods-row">
+            <div class="method-card"><span class="method-icon">🖲️</span>UPI</div>
+            <div class="method-card"><span class="method-icon">🏦</span>Bank</div>
+            <div class="method-card"><span class="method-icon">▶️</span>Redeem</div>
+        </div>
+
+        <div class="toggle-tab-bar">
+            <button class="toggle-btn active" id="tabBtnEarn" onclick="toggleWalletHistory('earnings')">Earnings</button>
+            <button class="toggle-btn" id="tabBtnWithdraw" onclick="toggleWalletHistory('withdrawals')">Withdrawals</button>
+        </div>
+
+        <div id="ledgerEarnBox" class="history-list-bucket active"></div>
+        <div id="ledgerWithdrawBox" class="history-list-bucket"></div>
     </div>
 
-    <div class="nav-container-box">
-        <div class="nav-bar">
-            <div class="nav-item active" id="nav-home" onclick="switchTab('home')">
-                <div class="nav-item-icon">🏠</div>
-                <div>Home</div>
+    <div id="payView" class="main-viewport">
+        <div class="section-header-title">Peer Gateway</div>
+        
+        <div class="field-card-box">
+            <label>Recipient Telegram Account UID</label>
+            <input type="number" id="peerTargetInputId" placeholder="Destination User ID">
+        </div>
+        <div class="field-card-box">
+            <label>Transfer Amount (INR)</label>
+            <input type="number" id="peerAmountInput" placeholder="₹ 0.00">
+        </div>
+        <button class="action-submit-trigger" onclick="executeSecureTransfer()">Authorize Peer Payout</button>
+    </div>
+
+    <div id="profileView" class="main-viewport">
+        <div class="profile-card-badge">
+            <div class="profile-avatar-circle" id="userAvatarBlock">U</div>
+            <div class="profile-title-stack">
+                <h3 id="userDisplayProfileName">Premium User <span class="verified-tick">✓</span></h3>
+                <p id="userUIDLabelNode">UID: #00000000</p>
             </div>
-            <div class="nav-item" id="nav-wallet" onclick="switchTab('wallet')">
-                <div class="nav-item-icon">💳</div>
-                <div>Wallet</div>
+        </div>
+
+        <div class="settings-menu-group">
+            <div class="group-label">Account & Activity</div>
+            <div class="menu-row-item" onclick="switchViewTab('wallet')">
+                <div class="menu-row-left"><span>💼</span> My Earnings & Wallet</div>
+                <div class="menu-chevron">›</div>
             </div>
-            <div class="nav-item" id="nav-pay" onclick="switchTab('pay')">
-                <div class="nav-item-icon">⚡</div>
-                <div>Pay</div>
+            <div class="menu-row-item" onclick="alert('Leaderboard updating soon!')">
+                <div class="menu-row-left"><span>🏆</span> Global Leaderboard</div>
+                <div class="menu-chevron">›</div>
             </div>
-            <div class="nav-item" id="nav-profile" onclick="switchTab('profile')">
-                <div class="nav-item-icon">👤</div>
-                <div>Profile</div>
+            <div class="menu-row-item" onclick="copyReferralInviteLink()">
+                <div class="menu-row-left"><span>🎁</span> Refer & Earn Rewards</div>
+                <div class="menu-chevron">›</div>
             </div>
+        </div>
+
+        <div class="settings-menu-group">
+            <div class="group-label">Community Hub</div>
+            <div class="menu-row-item" onclick="window.open('https://t.me/', '_blank')">
+                <div class="menu-row-left"><span>📢</span> Join Official Telegram</div>
+                <div class="menu-chevron">›</div>
+            </div>
+        </div>
+
+        <div class="settings-menu-group" id="adminControlMenuWrapper" style="display: none;">
+            <div class="group-label">Security & Controls</div>
+            <div class="menu-row-item" style="background: rgba(255,30,39,0.05);" onclick="triggerAdminDashboardEntrance()">
+                <div class="menu-row-left" style="color: var(--accent-red);"><span>⚙️</span> Admin Dashboard</div>
+                <div class="menu-chevron">›</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="fixed-bottom-nav">
+        <div class="nav-anchor active" id="anchor-home" onclick="switchViewTab('home')">
+            <span class="nav-icon-glyph">🏠</span>
+            <div>Home</div>
+        </div>
+        <div class="nav-anchor" id="anchor-wallet" onclick="switchViewTab('wallet')">
+            <span class="nav-icon-glyph">💳</span>
+            <div>Wallet</div>
+        </div>
+        <div class="nav-anchor" id="anchor-pay" onclick="switchViewTab('pay')">
+            <span class="nav-icon-glyph">⚡</span>
+            <div>Pay</div>
+        </div>
+        <div class="nav-anchor" id="anchor-profile" onclick="switchViewTab('profile')">
+            <span class="nav-icon-glyph">👤</span>
+            <div>Profile</div>
         </div>
     </div>
 </div>
 
-<div class="admin-modal" id="adminDashboardModal">
-    <div class="admin-header">
-        <h2 style="font-size: 20px; font-weight: 900; color: var(--error);">⚙️ Root Control Unit</h2>
-        <button class="action-btn" style="background:#fff; color:#000;" onclick="closeAdminDashboard()">Exit</button>
+<div class="admin-fullscreen-modal" id="adminControlModalElement">
+    <div class="admin-modal-header">
+        <h2 style="font-size: 18px; font-weight: 900; color: var(--accent-red);">⚙️ Core System Console</h2>
+        <button class="mission-action" style="background:#fff; color:#000;" onclick="closeAdminDashboardView()">Exit</button>
     </div>
 
-    <div style="background:var(--surface-card); padding:18px; border-radius:16px; margin-bottom:20px; border:1px solid #24293e;">
-        <h3 style="font-size:15px; margin-bottom:14px; color:var(--accent-red);">1. Deploy New Task</h3>
-        <div class="admin-form-group">
-            <label>Task Mission Title</label>
-            <input type="text" id="admTaskTitle" placeholder="e.g., Subscribe YouTube Channel">
+    <div class="adm-card-node">
+        <h4>1. Publish Live Operations Task</h4>
+        <div class="adm-input-wrapper">
+            <label>Mission Activity Title</label>
+            <input type="text" id="admInputTaskTitle" placeholder="e.g., Subscribe Official Channel">
         </div>
-        <div class="admin-form-group">
-            <label>Reward Payout (₹)</label>
-            <input type="number" id="admTaskAmount" placeholder="0.00">
+        <div class="adm-input-wrapper">
+            <label>Reward Payout Metrics (₹)</label>
+            <input type="number" id="admInputTaskReward" placeholder="10.00">
         </div>
-        <div class="admin-form-group">
-            <label>Action Redirection Link</label>
-            <input type="text" id="admTaskLink" placeholder="https://...">
+        <div class="adm-input-wrapper">
+            <label>Target Redirect URL</label>
+            <input type="text" id="admInputTaskLink" placeholder="https://youtube.com/...">
         </div>
-        <button class="admin-action-btn" onclick="adminCreateTask()">Publish Mission</button>
+        <button class="adm-commit-btn" onclick="executeAdminAddTaskSubmit()">Deploy Task Vector</button>
     </div>
 
-    <div style="background:var(--surface-card); padding:18px; border-radius:16px; margin-bottom:20px; border:1px solid #24293e;">
-        <h3 style="font-size:15px; margin-bottom:14px; color:var(--accent-red);">2. Dashboard Banner Announcement</h3>
-        <p style="font-size:11px; color:var(--text-muted); margin-bottom:10px;">Leave blank to remove/hide the banner display on client device.</p>
-        <div class="admin-form-group">
-            <label>Headline Banner Title</label>
-            <input type="text" id="admBannerTitle" placeholder="Enter headline text">
+    <div class="adm-card-node">
+        <h4>2. Global Billboard Banner</h4>
+        <p style="font-size: 11px; color: var(--text-muted); margin-bottom: 12px;">Clear fields to automatically drop/hide the presentation element.</p>
+        <div class="adm-input-wrapper">
+            <label>Headline Billboard Title</label>
+            <input type="text" id="admInputBannerTitle" placeholder="Welcome Announcement Heading">
         </div>
-        <div class="admin-form-group">
-            <label>Sub-text Description</label>
-            <input type="text" id="admBannerDesc" placeholder="Enter descriptive text">
+        <div class="adm-input-wrapper">
+            <label>Descriptive Sub-Text Meta</label>
+            <input type="text" id="admInputBannerDesc" placeholder="Brief info regarding update updates">
         </div>
-        <button class="admin-action-btn" style="background:var(--accent-red); color:#fff;" onclick="adminUpdateBanner()">Push Banner Update</button>
+        <button class="adm-commit-btn" style="background: var(--accent-red); color: #fff;" onclick="executeAdminUpdateBannerSubmit()">Push Banner Update</button>
     </div>
 
-    <div style="background:var(--surface-card); padding:18px; border-radius:16px; border:1px solid #24293e;">
-        <h3 style="font-size:15px; margin-bottom:14px; color:var(--error);">3. System Authentication Protection</h3>
-        <div class="admin-form-group">
-            <label>New Access Authentication Pin</label>
-            <input type="password" id="admNewPin" placeholder="Enter alphanumeric secret token">
+    <div class="adm-card-node">
+        <h4>3. Access Security Token Configuration</h4>
+        <div class="adm-input-wrapper">
+            <label>New Access Root Pin Code</label>
+            <input type="password" id="admInputSecurityPin" placeholder="Update credential string">
         </div>
-        <button class="admin-action-btn" style="background:var(--error); color:#fff;" onclick="adminUpdateSecurityPin()">Update Root Pin</button>
+        <button class="adm-commit-btn" style="background: var(--accent-blue); color: #fff;" onclick="executeAdminUpdatePinSubmit()">Override Root Pin</button>
     </div>
 </div>
 
 <script>
-    // 🔗 Connection Endpoint Configuration Node
-    const BACKEND_API_URL = "https://headfirst-plausible-provable.ngrok-free.dev"; 
+    // 🔗 Network Transport Layer Base Access Node
+    const CORE_BACKEND_API_URL = "https://headfirst-plausible-provable.ngrok-free.dev";
 
-    let loggedUserId = null;
-    let cachedSettings = {};
+    let activeGlobalUserId = null;
+    let synchronizedStateCache = {};
+    let hasAuthenticatedAdminSession = false; // Persistent memory flag for admin login session
 
-    function autoTelegramSync() {
-        const tg = window.Telegram.WebApp;
-        tg.ready();
-        tg.expand();
+    function syncPlatformData() {
+        const tgApp = window.Telegram.WebApp;
+        tgApp.ready();
+        tgApp.expand();
 
-        const user = tg.initDataUnsafe?.user;
+        const accountMeta = tgApp.initDataUnsafe?.user;
 
-        if (!user || !user.id) {
-            document.getElementById('loadingGate').innerHTML = "<div class='loading-text' style='color:var(--accent-red)'>❌ ACCESS REFUSED<br><span style='font-size:12px;color:var(--text-muted)'>Open inside Telegram app ecosystem.</span></div>";
+        if (!accountMeta || !accountMeta.id) {
+            document.getElementById('loadingGate').innerHTML = "<div class='loading-text' style='color:var(--accent-red)'>❌ INTERACTION FAULT<br><span style='font-size:11px;color:var(--text-muted);'>Boot inside Telegram Client Frame.</span></div>";
             return;
         }
 
-        loggedUserId = user.id;
-        document.getElementById('profileIdDisplay').innerText = "UID: " + loggedUserId;
-        document.getElementById('profileNameDisplay').innerText = user.first_name || "Premium User";
-        document.getElementById('avatarLetter').innerText = (user.first_name || "U").charAt(0).toUpperCase();
+        activeGlobalUserId = accountMeta.id;
+        document.getElementById('userUIDLabelNode').innerText = "UID: #" + activeGlobalUserId;
+        document.getElementById('userDisplayProfileName').innerText = accountMeta.first_name || "Premium User";
+        document.getElementById('userAvatarBlock').innerText = (accountMeta.first_name || "U").charAt(0).toUpperCase();
 
-        fetch(`${BACKEND_API_URL}/api/mini-app/sync`, {
+        fetch(`${CORE_BACKEND_API_URL}/api/mini-app/sync`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json', 'ngrok-skip-browser-warning': 'true' },
-            body: JSON.stringify({ userId: loggedUserId, username: user.first_name || "User" })
+            body: JSON.stringify({ userId: activeGlobalUserId, username: accountMeta.first_name || "User" })
         })
         .then(res => res.json())
-        .then(data => {
-            cachedSettings = data;
+        .then(payloadData => {
+            synchronizedStateCache = payloadData;
             document.getElementById('loadingGate').style.display = 'none';
-            
-            // Inject Synchronized Financial Assets
-            const currentBal = "₹" + data.user.balance.toFixed(2);
-            document.querySelectorAll('.live-balance-btn, #walletBalanceDisplay').forEach(el => el.innerText = currentBal);
 
-            // Conditional Adaptive Banner Renderer
-            const bSlider = document.getElementById('bannerSlider');
-            if(data.botSettings?.banner && data.botSettings.banner.title.trim() !== "") {
-                document.getElementById('bannerTitle').innerText = data.botSettings.banner.title;
-                document.getElementById('bannerDesc').innerText = data.botSettings.banner.desc;
-                bSlider.style.display = 'block';
+            // Push Asset States to Elements
+            const ledgerBalanceString = "₹" + payloadData.user.balance.toFixed(2);
+            document.getElementById('headerBalanceDisplay').innerText = ledgerBalanceString;
+            document.getElementById('vaultBalanceText').innerText = ledgerBalanceString;
+
+            // Compute Ledger aggregation data
+            let aggregateEarnings = 0;
+            let aggregateWithdrawals = 0;
+            if (payloadData.user?.history) {
+                payloadData.user.history.forEach(item => {
+                    if (item.amt > 0) aggregateEarnings += item.amt;
+                    else aggregateWithdrawals += Math.abs(item.amt);
+                });
+            }
+            document.getElementById('sumTotalEarnedText').innerText = "₹" + aggregateEarnings.toFixed(2);
+            document.getElementById('sumTotalWithdrawnText').innerText = "₹" + aggregateWithdrawals.toFixed(2);
+
+            // Conditional Banner Slider presentation evaluation
+            const billboardWrapper = document.getElementById('bannerSection');
+            if (payloadData.botSettings?.banner && payloadData.botSettings.banner.title.trim() !== "") {
+                document.getElementById('sliderTitleText').innerText = payloadData.botSettings.banner.title;
+                document.getElementById('sliderDescText').innerText = payloadData.botSettings.banner.desc;
+                billboardWrapper.style.display = 'block';
             } else {
-                bSlider.style.display = 'none';
+                billboardWrapper.style.display = 'none';
             }
 
-            // Administrative Rights Checker Escalation Vector
-            if(data.user.role === 'admin' || loggedUserId === 501889840) { 
-                document.getElementById('adminGateBtn').style.display = 'block';
+            // Administrative Rights Elevation Check
+            if (payloadData.user.role === 'admin' || activeGlobalUserId === 501889840) {
+                document.getElementById('adminControlMenuWrapper').style.display = 'block';
             }
 
-            buildTasksUI();
-            buildHistoryLogs();
+            renderDynamicTasksGrid();
+            renderLedgerStatements();
         })
-        .catch(err => {
-            console.error(err);
-            document.getElementById('loadingGate').innerHTML = "<div class='loading-text' style='color:var(--error)'>❌ SYNC TIMEOUT<br><span style='font-size:12px;color:var(--text-muted)'>Termux server core frame disconnected.</span></div>";
+        .catch(exception => {
+            console.error(exception);
+            document.getElementById('loadingGate').innerHTML = "<div class='loading-text' style='color:var(--accent-red)'>❌ CONNECTION TIMEOUT<br><span style='font-size:11px;color:var(--text-muted);'>Check if Termux local endpoint loop is listening.</span></div>";
         });
     }
 
-    function buildTasksUI() {
-        const grid = document.getElementById('miniAppTasksGrid');
-        grid.innerHTML = "";
-        
-        if(!cachedSettings.botSettings?.tasks || cachedSettings.botSettings.tasks.length === 0) {
-            grid.innerHTML = `<p style="text-align:center; color:var(--text-muted); font-size:13px; padding-top:20px;">No executive premium operations active.</p>`;
+    function renderDynamicTasksGrid() {
+        const structuralGridElement = document.getElementById('taskUIRendererGrid');
+        structuralGridElement.innerHTML = "";
+
+        if (!synchronizedStateCache.botSettings?.tasks || synchronizedStateCache.botSettings.tasks.length === 0) {
+            structuralGridElement.innerHTML = `<p style="text-align:center; color:var(--text-muted); font-size:12px; padding:30px 0;">No dynamic missions published by developer yet.</p>`;
             return;
         }
 
-        cachedSettings.botSettings.tasks.forEach(task => {
-            const completed = cachedSettings.user.completedTasks?.includes(task.id);
-            grid.innerHTML += `
-                <div class="task-card">
-                    <div class="task-info">
-                        <h4>${task.title}</h4>
-                        <p>Verify interaction mission</p>
-                        <span class="task-reward">+ ₹${task.amount.toFixed(2)}</span>
+        synchronizedStateCache.botSettings.tasks.forEach(taskItem => {
+            const isCompleted = synchronizedStateCache.user.completedTasks?.includes(taskItem.id);
+            structuralGridElement.innerHTML += `
+                <div class="mission-row-card">
+                    <div class="mission-meta">
+                        <h4>${taskItem.title}</h4>
+                        <p>Platform verification mission</p>
+                        <div class="mission-payout">+ ₹${taskItem.amount.toFixed(2)}</div>
                     </div>
-                    ${completed ? `<button class="action-btn claimed">Claimed</button>` : 
-                    `<a href="${task.link}" target="_blank" class="action-btn" onclick="claimBountyPayout('${task.id}')">Execute</a>`}
+                    ${isCompleted ? `<button class="mission-action done">Claimed</button>` : 
+                    `<a href="${taskItem.link}" target="_blank" class="mission-action" onclick="registerMissionExecutionClaim('${taskItem.id}')">Start</a>`}
                 </div>
             `;
         });
     }
 
-    function claimBountyPayout(taskId) {
-        fetch(`${BACKEND_API_URL}/api/mini-app/claim-task`, {
+    function registerMissionExecutionClaim(targetTaskId) {
+        fetch(`${CORE_BACKEND_API_URL}/api/mini-app/claim-task`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json', 'ngrok-skip-browser-warning': 'true' },
-            body: JSON.stringify({ userId: loggedUserId, taskId })
+            body: JSON.stringify({ userId: activeGlobalUserId, taskId: targetTaskId })
         }).then(() => {
-            alert("Mission check request queued! Synchronizing profile matrix...");
-            autoTelegramSync();
+            alert("Verification ticket submitted into stack!");
+            setTimeout(syncPlatformData, 1000);
         });
     }
 
-    function executePeerPayment() {
-        const targetId = document.getElementById('payTargetId').value;
-        const amount = parseFloat(document.getElementById('payAmountInput').value);
+    function executeSecureTransfer() {
+        const receivingTargetUid = document.getElementById('peerTargetInputId').value;
+        const inputAmountVal = parseFloat(document.getElementById('peerAmountInput').value);
 
-        if(!targetId || !amount || amount <= 0) {
-            alert("Invalid structural metrics inputted!");
+        if (!receivingTargetUid || isNaN(inputAmountVal) || inputAmountVal <= 0) {
+            alert("Specified asset variables contain structural errors.");
             return;
         }
 
-        fetch(`${BACKEND_API_URL}/api/mini-app/peer-pay`, {
+        fetch(`${CORE_BACKEND_API_URL}/api/mini-app/peer-pay`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json', 'ngrok-skip-browser-warning': 'true' },
-            body: JSON.stringify({ senderId: loggedUserId, targetId, amount })
+            body: JSON.stringify({ senderId: activeGlobalUserId, targetId: receivingTargetUid, amount: inputAmountVal })
         })
-        .then(res => res.json())
-        .then(resData => {
-            if(resData.error) alert(resData.error);
+        .then(response => response.json())
+        .then(resultObj => {
+            if (resultObj.error) alert(resultObj.error);
             else {
-                alert("Transaction security signature authenticated! Transfer success.");
-                document.getElementById('payTargetId').value = "";
-                document.getElementById('payAmountInput').value = "";
-                autoTelegramSync();
-                switchTab('wallet');
+                alert("Security handshake verified! Transfer completely completed.");
+                document.getElementById('peerTargetInputId').value = "";
+                document.getElementById('peerAmountInput').value = "";
+                syncPlatformData();
+                switchViewTab('wallet');
             }
         });
     }
 
-    function buildHistoryLogs() {
-        const earnGrid = document.getElementById('earningsLogsGrid');
-        const withdrawGrid = document.getElementById('withdrawLogsGrid');
-        
-        let earnHTML = "";
-        let withdrawHTML = "";
+    function renderLedgerStatements() {
+        const earnContainer = document.getElementById('ledgerEarnBox');
+        const withdrawContainer = document.getElementById('ledgerWithdrawBox');
 
-        if(cachedSettings.user?.history && cachedSettings.user.history.length > 0) {
-            cachedSettings.user.history.forEach(item => {
-                const layout = `
-                    <div class="history-item">
-                        <div>
-                            <p style="font-size:13px; font-weight:600;">${item.memo}</p>
+        let accumulationEarnHtml = "";
+        let accumulationWithdrawHtml = "";
+
+        if (synchronizedStateCache.user?.history && synchronizedStateCache.user.history.length > 0) {
+            synchronizedStateCache.user.history.forEach(logRow => {
+                const rowStructureTemplate = `
+                    <div class="statement-row">
+                        <div class="statement-detail">
+                            <h5>${logRow.memo}</h5>
+                            <span>Verified Transaction</span>
                         </div>
-                        <span style="font-weight:700; font-size:14px; color:${item.amt > 0 ? 'var(--success)' : 'var(--error)'}">
-                            ${item.amt > 0 ? '+' : ''}₹${item.amt.toFixed(2)}
-                        </span>
+                        <div class="statement-amt" style="color: ${logRow.amt > 0 ? 'var(--success-green)' : '#ffffff'};">
+                            ${logRow.amt > 0 ? '+' : ''}₹${logRow.amt.toFixed(2)}
+                        </div>
                     </div>
                 `;
-                if(item.amt > 0) earnHTML += layout;
-                else withdrawHTML += layout;
+                if (logRow.amt > 0) accumulationEarnHtml += rowStructureTemplate;
+                else accumulationWithdrawHtml += rowStructureTemplate;
             });
         }
 
-        if(earnHTML !== "") earnGrid.innerHTML = earnHTML;
-        if(withdrawHTML !== "") withdrawGrid.innerHTML = withdrawHTML;
+        earnContainer.innerHTML = accumulationEarnHtml || `<p style="text-align:center;font-size:12px;color:var(--text-muted);padding:20px;">No generation history recorded.</p>`;
+        withdrawContainer.innerHTML = accumulationWithdrawHtml || `<p style="text-align:center;font-size:12px;color:var(--text-muted);padding:20px;">No remittance actions verified.</p>`;
     }
 
-    function switchTab(tabId) {
-        document.querySelectorAll('.main-content').forEach(view => view.classList.remove('active'));
-        document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
-        
-        document.getElementById(tabId + 'View').classList.add('active');
-        document.getElementById('nav-' + tabId).classList.add('active');
+    function switchViewTab(targetLayoutTabId) {
+        document.querySelectorAll('.main-viewport').forEach(view => view.classList.remove('active'));
+        document.querySelectorAll('.nav-anchor').forEach(anchor => anchor.classList.remove('active'));
+
+        document.getElementById(targetLayoutTabId + 'View').classList.add('active');
+        document.getElementById('anchor-' + targetLayoutTabId).classList.add('active');
     }
 
-    function switchWalletTab(subTabId) {
-        document.querySelectorAll('.wallet-tab-content').forEach(c => c.classList.remove('active'));
-        document.querySelectorAll('.subtab-btn').forEach(b => b.classList.remove('active'));
-        
-        if(subTabId === 'earn') {
-            document.getElementById('walletTabEarn').classList.add('active');
-            document.getElementById('btn-subtab-earn').classList.add('active');
+    function toggleWalletHistory(targetHistorySubCategory) {
+        document.querySelectorAll('.history-list-bucket').forEach(box => box.classList.remove('active'));
+        document.querySelectorAll('.toggle-btn').forEach(btn => btn.classList.remove('active'));
+
+        if (targetHistorySubCategory === 'earnings') {
+            document.getElementById('ledgerEarnBox').classList.add('active');
+            document.getElementById('tabBtnEarn').classList.add('active');
         } else {
-            document.getElementById('walletTabWithdraw').classList.add('active');
-            document.getElementById('btn-subtab-withdraw').classList.add('active');
+            document.getElementById('ledgerWithdrawBox').classList.add('active');
+            document.getElementById('tabBtnWithdraw').classList.add('active');
         }
     }
 
-    function copyReferralLink() {
-        const refLink = `https://t.me/your_bot?start=ref_${loggedUserId}`;
-        navigator.clipboard.writeText(refLink).then(() => alert("Your unique high-tier invite link copied!"));
+    function copyReferralInviteLink() {
+        const dynamicReferralString = `https://t.me/your_bot?start=ref_${activeGlobalUserId}`;
+        navigator.clipboard.writeText(dynamicReferralString).then(() => alert("Your unique high-tier invite link copied!"));
     }
 
-    // ================= EXECUTIVE ADMINISTRATIVE SYSTEM COMMAND CONTROL MODULES =================
-    function openAdminDashboard() {
-        const securePin = prompt("Enter Administrative Verification Secret Token:");
-        if(securePin === "1234" || securePin === cachedSettings.botSettings?.adminPin) { 
-            document.getElementById('adminDashboardModal').style.display = 'flex';
+    // ================= SECURE SINGLE-AUTHENTICATION ADMINISTRATIVE LOGIC HANDLERS =================
+    function triggerAdminDashboardEntrance() {
+        if (hasAuthenticatedAdminSession) {
+            // If already authenticated once in this lifecycle session, skip prompt completely
+            document.getElementById('adminControlModalElement').style.display = 'flex';
+            return;
+        }
+
+        const administrativeCredentialEntry = prompt("Provide High-Tier Verification Root Security Token Pin:");
+        if (administrativeCredentialEntry === "1234" || administrativeCredentialEntry === synchronizedStateCache.botSettings?.adminPin) {
+            hasAuthenticatedAdminSession = true; // Mark session as authenticated
+            document.getElementById('adminControlModalElement').style.display = 'flex';
         } else {
-            alert("Intrusion attempt cataloged. Access denied.");
+            alert("Credential check mismatch fault. Incident entry logged.");
         }
     }
 
-    function closeAdminDashboard() { document.getElementById('adminDashboardModal').style.display = 'none'; }
-
-    function adminCreateTask() {
-        const title = document.getElementById('admTaskTitle').value;
-        const amount = parseFloat(document.getElementById('admTaskAmount').value);
-        const link = document.getElementById('admTaskLink').value;
-
-        if(!title || isNaN(amount) || !link) { alert("Please complete all configurations inputs!"); return; }
-
-        fetch(`${BACKEND_API_URL}/api/admin/add-task`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json', 'ngrok-skip-browser-warning': 'true' },
-            body: JSON.stringify({ adminId: loggedUserId, title, amount, link })
-        }).then(() => { 
-            alert("New operation vector published successfully!"); 
-            closeAdminDashboard(); 
-            autoTelegramSync(); 
-        });
+    function closeAdminDashboardView() { 
+        document.getElementById('adminControlModalElement').style.display = 'none'; 
     }
 
-    function adminUpdateBanner() {
-        const title = document.getElementById('admBannerTitle').value;
-        const desc = document.getElementById('admBannerDesc').value;
+    function executeAdminAddTaskSubmit() {
+        const titleText = document.getElementById('admInputTaskTitle').value;
+        const rewardValue = parseFloat(document.getElementById('admInputTaskReward').value);
+        const redirectLinkStr = document.getElementById('admInputTaskLink').value;
 
-        fetch(`${BACKEND_API_URL}/api/admin/update-banner`, {
+        if (!titleText || isNaN(rewardValue) || !redirectLinkStr) { 
+            alert("All interface task parameters must be configured before execution."); 
+            return; 
+        }
+
+        fetch(`${CORE_BACKEND_API_URL}/api/admin/add-task`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json', 'ngrok-skip-browser-warning': 'true' },
-            body: JSON.stringify({ adminId: loggedUserId, title, desc })
-        }).then(() => { 
-            alert("Platform notification channel synced!"); 
-            closeAdminDashboard(); 
-            autoTelegramSync(); 
-        });
+            body: JSON.stringify({ adminId: activeGlobalUserId, title: titleText, amount: rewardValue, link: redirectLinkStr })
+        }).then(() => {
+            alert("Operation structural task deployment absolute!");
+            document.getElementById('admInputTaskTitle').value = "";
+            document.getElementById('admInputTaskReward').value = "";
+            document.getElementById('admInputTaskLink').value = "";
+            closeAdminDashboardView();
+            syncPlatformData();
+        }).catch(err => alert("Error transmitting payload parameters."));
     }
 
-    function adminUpdateSecurityPin() {
-        const newPin = document.getElementById('admNewPin').value;
-        if(!newPin) { alert("Token parameter empty!"); return; }
-        
-        fetch(`${BACKEND_API_URL}/api/admin/update-pin`, {
+    function executeAdminUpdateBannerSubmit() {
+        const bannerTitleStr = document.getElementById('admInputBannerTitle').value;
+        const bannerDescStr = document.getElementById('admInputBannerDesc').value;
+
+        fetch(`${CORE_BACKEND_API_URL}/api/admin/update-banner`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json', 'ngrok-skip-browser-warning': 'true' },
-            body: JSON.stringify({ adminId: loggedUserId, newPin })
-        }).then(() => { 
-            alert("Root security configuration updated!"); 
-            closeAdminDashboard(); 
-        });
+            body: JSON.stringify({ adminId: activeGlobalUserId, title: bannerTitleStr, desc: bannerDescStr })
+        }).then(() => {
+            alert("Billboard deployment metrics updated across global fleet.");
+            closeAdminDashboardView();
+            syncPlatformData();
+        }).catch(err => alert("Error updating configuration parameters."));
     }
 
-    window.onload = autoTelegramSync;
+    function executeAdminUpdatePinSubmit() {
+        const secretSecurityTokenValue = document.getElementById('admInputSecurityPin').value;
+        if (!secretSecurityTokenValue) { alert("Data length parameter invalid."); return; }
+
+        fetch(`${CORE_BACKEND_API_URL}/api/admin/update-pin`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'ngrok-skip-browser-warning': 'true' },
+            body: JSON.stringify({ adminId: activeGlobalUserId, newPin: secretSecurityTokenValue })
+        }).then(() => {
+            alert("Root security signature sequence overridden.");
+            document.getElementById('admInputSecurityPin').value = "";
+            closeAdminDashboardView();
+        }).catch(err => alert("Error overwriting security matrix context."));
+    }
+
+    window.onload = syncPlatformData;
 </script>
 </body>
 </html>
