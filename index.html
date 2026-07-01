@@ -44,16 +44,24 @@
         .mission-action { padding: 10px 18px; background: var(--surface); border: 1px solid rgba(255,255,255,0.08); color: #fff; font-weight: 700; font-size: 13px; border-radius: 12px; cursor: pointer; }
         .mission-action.done { background: rgba(255,255,255,0.03); color: var(--text-muted); border: none; pointer-events: none; }
 
-        /* Navigation Style: White icons when active, gray when inactive */
+        /* Navigation Style */
         .fixed-bottom-nav { position: absolute; bottom: 15px; left: 5%; width: 90%; height: 68px; background: var(--nav-bg); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.08); border-radius: 24px; display: grid; grid-template-columns: repeat(4, 1fr); align-items: center; text-align: center; z-index: 999; box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37); }
         .nav-anchor { color: #6b7280; font-size: 10px; text-decoration: none; display: flex; flex-direction: column; gap: 4px; cursor: pointer; transition: color 0.3s ease; }
         .nav-anchor.active { color: #ffffff; }
         .nav-icon-glyph { font-size: 20px; opacity: 0.5; transition: opacity 0.3s ease; }
         .nav-anchor.active .nav-icon-glyph { opacity: 1; }
 
-        /* Modals */
-        .platform-popup-modal { position: fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); z-index:3000; display:none; justify-content:center; align-items:center; padding:20px; }
-        .popup-modal-content { background:var(--surface); border-radius:24px; width:100%; max-width:380px; padding:24px; border:1px solid rgba(255,255,255,0.08); }
+        /* ==========================================
+        ⚡ NEW DYNAMIC TASK SCREEN STYLES
+        ========================================== */
+        .task-detail-pane { background: var(--surface-card); border-radius: 24px; padding: 20px; border: 1px solid rgba(255,255,255,0.05); margin-top: 10px; }
+        .task-detail-pane h3 { font-size: 18px; font-weight: 800; margin-bottom: 4px; }
+        .task-detail-pane .reward-tag { color: var(--success-green); font-weight: 700; font-size: 15px; margin-bottom: 16px; display: inline-block; }
+        .task-detail-pane .desc-box { background: var(--surface); padding: 14px; border-radius: 14px; font-size: 13px; color: #d1d5db; line-height: 1.5; margin-bottom: 20px; }
+        .task-btn-group { display: flex; flex-direction: column; gap: 10px; }
+        .btn-primary-action { background: var(--accent-blue); color: white; padding: 14px; border: none; border-radius: 14px; font-weight: 700; cursor: pointer; text-align: center; text-decoration: none; font-size: 14px; }
+        .btn-success-action { background: var(--success-green); color: black; padding: 14px; border: none; border-radius: 14px; font-weight: 700; cursor: pointer; text-align: center; font-size: 14px; }
+        .btn-secondary-action { background: transparent; border: 1px solid rgba(255,255,255,0.1); color: var(--text-muted); padding: 12px; border-radius: 14px; font-weight: 700; cursor: pointer; font-size: 13px; text-align: center; }
 
         /* Admin Console Panels */
         .admin-fullscreen-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg); z-index: 2000; display: none; flex-direction: column; padding: 20px; overflow-y: auto; }
@@ -87,13 +95,9 @@
 <body>
 
 <script>
-    // ==========================================
-    // ⭐ നിങ്ങളുടെ പ്രധാന സെറ്റിങ്സുകൾ ഇവിടെ മാറ്റുക ⭐
-    // ==========================================
-    let SYSTEM_MASTER_PIN_CODE = "1234";          // അഡ്മിൻ പാസ്‌വേഡ്
-    let PRIVILEGED_ADMIN_UID_POOL = [501889840, 12345678]; // നിങ്ങളുടെ ശരിക്കുള്ള ടെലിഗ്രാം ഐഡി ഇവിടെ നൽകുക
+    let SYSTEM_MASTER_PIN_CODE = "1234";          
+    let PRIVILEGED_ADMIN_UID_POOL = [501889840, 12345678]; 
     const PLATFORM_BOT_USERNAME = "YourBot";     
-    // ==========================================
 </script>
 
 <div class="phone-layout">
@@ -108,15 +112,19 @@
     </div>
 
     <div id="homeView" class="main-viewport active">
-        <div class="dynamic-banner-area" id="platformLiveBannerElement" style="background-image: url('https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=600');">
-            <div class="banner-overlay-tint"></div>
-            <div class="banner-content-box">
-                <h3 style="font-size: 18px; font-weight: 900;" id="bannerHeadlineNode">Premium Dashboard</h3>
-                <p style="font-size: 11px; color: var(--text-muted); margin-top: 2px;" id="bannerSublineNode">Complete simple micro tasks to secure assets.</p>
+        <div id="homeMainContent">
+            <div class="dynamic-banner-area" id="platformLiveBannerElement" style="background-image: url('https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=600');">
+                <div class="banner-overlay-tint"></div>
+                <div class="banner-content-box">
+                    <h3 style="font-size: 18px; font-weight: 900;" id="bannerHeadlineNode">Premium Dashboard</h3>
+                    <p style="font-size: 11px; color: var(--text-muted); margin-top: 2px;" id="bannerSublineNode">Complete simple micro tasks to secure assets.</p>
+                </div>
             </div>
+            <div style="font-size:12px; color:var(--text-muted); margin-bottom:12px; font-weight:700;">ALL LIVE MISSIONS</div>
+            <div id="taskUIRendererGrid"></div>
         </div>
-        <div style="font-size:12px; color:var(--text-muted); margin-bottom:12px; font-weight:700;">ALL LIVE MISSIONS</div>
-        <div id="taskUIRendererGrid"></div>
+        
+        <div id="taskDetailsContentPane" style="display: none;"></div>
     </div>
 
     <div id="walletView" class="main-viewport">
@@ -175,23 +183,6 @@
         <div class="nav-anchor" id="anchor-wallet" onclick="switchViewTab('wallet')"><span class="nav-icon-glyph">💳</span><div>Wallet</div></div>
         <div class="nav-anchor" id="anchor-pay" onclick="switchViewTab('pay')"><span class="nav-icon-glyph">⚡</span><div>Pay</div></div>
         <div class="nav-anchor" id="anchor-profile" onclick="switchViewTab('profile')"><span class="nav-icon-glyph">👤</span><div>Profile</div></div>
-    </div>
-</div>
-
-<div class="platform-popup-modal" id="taskVerificationWorkspaceModal">
-    <div class="popup-modal-content">
-        <h3 id="modalTaskPopupTitle" style="font-size:16px; margin-bottom:6px;">Task Guidelines</h3>
-        <p id="modalTaskPopupInfo" style="font-size:12px; color:var(--text-muted); margin-bottom:16px;"></p>
-        
-        <div class="adm-input-wrapper">
-            <label style="color:#fff; margin-bottom:6px; display:block;">Upload Screenshot Evidence Link</label>
-            <input type="text" id="userTaskProofUrlInput" placeholder="Paste Imgur / Image Hosting Link">
-        </div>
-        
-        <div style="display:flex; gap:10px; margin-top:16px;">
-            <button class="mission-action" style="flex:1; background:#333;" onclick="closeTaskVerificationModal()">Cancel</button>
-            <button class="mission-action" style="flex:1; background:var(--success-green); color:#000;" id="modalSubmitTaskProofTriggerButton">Submit Proof</button>
-        </div>
     </div>
 </div>
 
@@ -300,7 +291,6 @@
 </div>
 
 <script>
-    // Hybrid local database structures to run independently from backend crash issues
     let localTasks = JSON.parse(localStorage.getItem('localTasks')) || [
         { id: "task_1", title: "Join Telegram Channel", info: "Join the official update stream and attach shot verification.", amount: 15.00, link: "https://t.me/" },
         { id: "task_2", title: "Subscribe YouTube Channel", info: "Subscribe and drop image hosted link evidence.", amount: 25.00, link: "https://youtube.com" }
@@ -328,7 +318,6 @@
             activeGlobalUserId = accountMeta.id;
         }
 
-        // Auto-register inside state memory mapping context
         if(!localUsers[activeGlobalUserId]) {
             localUsers[activeGlobalUserId] = { userId: activeGlobalUserId, username: (accountMeta?.first_name) || "User Instance", balance: 0.00, completedTasks: [] };
             localStorage.setItem('localUsers', JSON.stringify(localUsers));
@@ -343,12 +332,10 @@
         document.getElementById('vaultBalanceText').innerText = balStr;
         document.getElementById('sumTotalEarnedText').innerText = balStr;
 
-        // Apply Cover Banner Matrix Layout
         document.getElementById('bannerHeadlineNode').innerText = currentBannerData.headline;
         document.getElementById('bannerSublineNode').innerText = currentBannerData.subline;
         document.getElementById('platformLiveBannerElement').style.backgroundImage = `url('${currentBannerData.imgUrl}')`;
 
-        // Validation for entry point visibility
         if (PRIVILEGED_ADMIN_UID_POOL.includes(activeGlobalUserId)) {
             document.getElementById('adminControlMenuWrapper').style.display = 'block';
         }
@@ -374,36 +361,62 @@
                 <div class="mission-row-card">
                     <div>
                         <h4 style="font-size:14px; font-weight:700;">${t.title}</h4>
-                        <div style="color:var(--accent-blue); font-size:13px; font-weight:700; margin-top:3px;">+ ₹${parseFloat(t.amount).toFixed(2)}</div>
+                        <div style="color:var(--success-green); font-size:13px; font-weight:700; margin-top:3px;">+ ₹${parseFloat(t.amount).toFixed(2)}</div>
                     </div>
-                    ${isDone ? `<button class="mission-action done">Completed</button>` : `<button class="mission-action" onclick="openTaskVerificationPanel('${t.id}', '${t.title}', '${t.info || ''}', '${t.link}')">Start Task</button>`}
+                    ${isDone ? `<button class="mission-action done">Completed</button>` : `<button class="mission-action" onclick="showTaskDetailsInline('${t.id}')">Start Task</button>`}
                 </div>
             `;
         });
     }
 
-    function openTaskVerificationPanel(id, title, info, link) {
-        window.open(link, '_blank');
-        document.getElementById('modalTaskPopupTitle').innerText = title;
-        document.getElementById('modalTaskPopupInfo').innerText = info;
-        document.getElementById('taskVerificationWorkspaceModal').style.display = 'flex';
+    // ⚡ NEW FUNCTION: SHOW TASK DETAILS, LINK, PROOF IN THE SAME VIEWPORT
+    function showTaskDetailsInline(id) {
+        const task = localTasks.find(t => t.id === id);
+        if(!task) return;
+
+        document.getElementById('homeMainContent').style.display = 'none';
         
-        document.getElementById('modalSubmitTaskProofTriggerButton').onclick = function() {
-            const proofStr = document.getElementById('userTaskProofUrlInput').value;
-            if(!proofStr) { alert("Please provide screenshot link vector."); return; }
-            
-            localProofs.push({ userId: activeGlobalUserId, taskId: id, proof: proofStr });
-            localStorage.setItem('localProofs', JSON.stringify(localProofs));
-            
-            alert("Proof vector transferred to validation queues.");
-            closeTaskVerificationModal();
-            syncPlatformData();
-        };
+        const detailsPane = document.getElementById('taskDetailsContentPane');
+        detailsPane.style.display = 'block';
+        detailsPane.innerHTML = `
+            <div class="task-detail-pane">
+                <h3>${task.title}</h3>
+                <span class="reward-tag">+ ₹${parseFloat(task.amount).toFixed(2)}</span>
+                
+                <div class="desc-box">
+                    <strong>Instructions:</strong><br>
+                    ${task.info || 'Complete the task guidelines by using the link button below and drop screenshot/text data proof.'}
+                </div>
+
+                <div class="adm-input-wrapper">
+                    <label style="color:#fff; font-weight:700; margin-bottom:6px;">Upload / Type Evidence Proof</label>
+                    <input type="text" id="inlineTaskProofInput" placeholder="Paste verification link or username">
+                </div>
+
+                <div class="task-btn-group">
+                    <a href="${task.link}" target="_blank" class="btn-primary-action">🔗 Go To Task Link</a>
+                    <button class="btn-success-action" onclick="submitInlineTaskProof('${task.id}')">📤 Submit Proof</button>
+                    <button class="btn-secondary-action" onclick="goBackToTasksList()">🔙 Back to Tasks</button>
+                </div>
+            </div>
+        `;
     }
 
-    function closeTaskVerificationModal() {
-        document.getElementById('taskVerificationWorkspaceModal').style.display = 'none';
-        document.getElementById('userTaskProofUrlInput').value = "";
+    function goBackToTasksList() {
+        document.getElementById('taskDetailsContentPane').style.display = 'none';
+        document.getElementById('homeMainContent').style.display = 'block';
+    }
+
+    function submitInlineTaskProof(id) {
+        const proofStr = document.getElementById('inlineTaskProofInput').value.trim();
+        if(!proofStr) { alert("Please provide verification proof details."); return; }
+        
+        localProofs.push({ userId: activeGlobalUserId, taskId: id, proof: proofStr });
+        localStorage.setItem('localProofs', JSON.stringify(localProofs));
+        
+        alert("Proof received! Admin will review your verification shortly.");
+        goBackToTasksList();
+        syncPlatformData();
     }
 
     function renderAdminTaskRemoverGrid() {
@@ -455,10 +468,11 @@
             return;
         }
         localProofs.forEach((p, index) => {
+            let displayProof = p.proof.startsWith('http') ? `<div style="font-size:12px; margin:4px 0; color:var(--accent-blue); cursor:pointer;" onclick="window.open('${p.proof}','_blank')">🔗 View Image Proof Link</div>` : `<div style="font-size:12px; margin:4px 0; color:#fff;">📝 Proof: ${p.proof}</div>`;
             pane.innerHTML += `
                 <div style="background:rgba(255,255,255,0.02); padding:12px; border-radius:12px; margin-bottom:8px; border:1px solid rgba(255,255,255,0.05);">
                     <div style="font-size:11px; color:var(--text-muted);">USER UID: #${p.userId}</div>
-                    <div style="font-size:12px; margin:4px 0; color:var(--accent-blue); cursor:pointer;" onclick="window.open('${p.proof}','_blank')">🔗 View Image Proof Link</div>
+                    ${displayProof}
                     <div style="display:flex; gap:8px; margin-top:8px;">
                         <button onclick="resolveUserProofValidation(${index}, true)" style="flex:1; background:var(--success-green); border:none; padding:6px; border-radius:6px; font-size:11px; font-weight:700;">Approve</button>
                         <button onclick="resolveUserProofValidation(${index}, false)" style="flex:1; background:var(--accent-red); border:none; color:#fff; padding:6px; border-radius:6px; font-size:11px; font-weight:700;">Reject</button>
@@ -553,12 +567,17 @@
     }
 
     function closeAdminDashboardView() { document.getElementById('adminControlModalElement').style.display = 'none'; }
+    
     function switchViewTab(id) {
+        if(id === 'home') {
+            goBackToTasksList();
+        }
         document.querySelectorAll('.main-viewport').forEach(v => v.classList.remove('active'));
         document.querySelectorAll('.nav-anchor').forEach(a => a.classList.remove('active'));
         document.getElementById(id + 'View').classList.add('active');
         document.getElementById('anchor-' + id).classList.add('active');
     }
+    
     function copyReferralInviteLink() {
         navigator.clipboard.writeText(`https://t.me/${PLATFORM_BOT_USERNAME}?start=${activeGlobalUserId}`).then(() => alert("Affiliate vector link copied."));
     }
