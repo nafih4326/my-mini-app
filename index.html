@@ -7,85 +7,95 @@
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
         :root {
-            --bg: #090a0f;
-            --surface: #10121a;
-            --surface-card: #171a26;
-            --accent-red: #ff1e27;
-            --accent-blue: #3b82f6;
+            --bg: #0b0c10;
+            --surface: #141722;
+            --surface-card: #1f2438;
+            --accent-red: #ff333a;
+            --accent-blue: #2563eb;
+            --accent-gradient: linear-gradient(135deg, #2563eb, #3b82f6);
             --text-white: #ffffff;
-            --text-muted: #8e929a;
+            --text-muted: #94a3b8;
             --success-green: #10b981;
-            --nav-bg: rgba(16, 18, 26, 0.4); 
+            --border-color: rgba(255, 255, 255, 0.08);
+            --nav-bg: rgba(20, 23, 34, 0.75); 
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: sans-serif; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
         body { background: var(--bg); color: var(--text-white); min-height: 100vh; overflow: hidden; display: flex; justify-content: center; }
         
         .phone-layout { width: 100%; max-width: 430px; height: 100vh; background: var(--bg); position: relative; display: flex; flex-direction: column; overflow: hidden; }
         
-        .app-header { padding: 16px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.05); background: var(--surface); }
-        .user-pill { display: flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.03); padding: 6px 12px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.05); }
-        .user-avatar { width: 24px; height: 24px; background: var(--accent-blue); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 11px; }
+        .app-header { padding: 16px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); background: var(--surface); }
+        .user-pill { display: flex; align-items: center; gap: 10px; background: rgba(255,255,255,0.03); padding: 6px 14px; border-radius: 24px; border: 1px solid var(--border-color); }
+        .user-avatar { width: 28px; height: 28px; background: var(--accent-gradient); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 13px; color: white; box-shadow: 0 2px 8px rgba(37,99,235,0.3); }
         
-        .admin-trigger-node { background: rgba(255, 30, 39, 0.1); border: 1px solid var(--accent-red); color: var(--accent-red); padding: 6px 12px; border-radius: 8px; font-size: 12px; font-weight: bold; cursor: pointer; display: none; }
+        .admin-trigger-node { background: rgba(255, 51, 58, 0.1); border: 1px solid var(--accent-red); color: var(--accent-red); padding: 6px 12px; border-radius: 8px; font-size: 11px; font-weight: bold; cursor: pointer; display: none; text-transform: uppercase; letter-spacing: 0.5px; }
 
-        .main-scrollable-body { flex: 1; overflow-y: auto; padding: 16px; padding-bottom: 95px; }
+        .main-scrollable-body { flex: 1; overflow-y: auto; padding: 16px; padding-bottom: 100px; }
         
-        /* Financial Dashboard Card */
-        .financial-grid-card { background: linear-gradient(135deg, var(--surface-card), #1e2233); border-radius: 16px; padding: 20px; border: 1px solid rgba(255,255,255,0.05); margin-bottom: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.3); }
-        .fin-label { font-size: 12px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; }
-        .fin-main-val { font-size: 32px; font-weight: 800; margin: 4px 0 16px 0; color: var(--text-white); }
-        .fin-sub-row { display: flex; gap: 16px; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 14px; }
+        /* Dashboard Card */
+        .financial-grid-card { background: linear-gradient(135deg, var(--surface-card), #191e30); border-radius: 16px; padding: 20px; border: 1px solid var(--border-color); margin-bottom: 20px; box-shadow: 0 8px 32px rgba(0,0,0,0.24); }
+        .fin-label { font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; font-weight: 600; }
+        .fin-main-val { font-size: 34px; font-weight: 800; margin: 6px 0 16px 0; color: var(--text-white); letter-spacing: -0.5px; }
+        .fin-sub-row { display: flex; gap: 16px; border-top: 1px solid rgba(255,255,255,0.06); padding-top: 14px; }
         .fin-sub-box { flex: 1; }
-        .fin-sub-box div:last-child { font-size: 16px; font-weight: bold; margin-top: 2px; }
+        .fin-sub-box div:last-child { font-size: 16px; font-weight: bold; margin-top: 2px; color: var(--text-white); }
 
-        .section-header-title { font-size: 15px; font-weight: bold; color: var(--text-muted); margin-bottom: 12px; display: flex; align-items: center; gap: 6px; }
+        .section-header-title { font-size: 13px; font-weight: 700; color: var(--text-muted); margin-bottom: 14px; text-transform: uppercase; letter-spacing: 1px; display: flex; align-items: center; gap: 6px; }
         
-        /* Task List Node Styles */
-        .task-node-item { background: var(--surface-card); border-radius: 12px; padding: 14px; display: flex; align-items: center; justify-content: space-between; border: 1px solid rgba(255,255,255,0.03); margin-bottom: 10px; cursor: pointer; transition: 0.2s; }
-        .task-node-item:hover { transform: translateY(-2px); border-color: rgba(255,255,255,0.08); }
-        .task-meta-left { display: flex; align-items: center; gap: 12px; }
-        .task-icon-wrap { width: 40px; height: 40px; background: rgba(59, 130, 246, 0.1); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 18px; color: var(--accent-blue); }
-        .task-title-text { font-size: 14px; font-weight: bold; margin-bottom: 2px; }
-        .task-payout-badge { background: rgba(16, 185, 129, 0.1); color: var(--success-green); padding: 4px 10px; border-radius: 20px; font-size: 13px; font-weight: bold; }
+        /* Lists & Items */
+        .task-node-item { background: var(--surface-card); border-radius: 14px; padding: 16px; display: flex; align-items: center; justify-content: space-between; border: 1px solid rgba(255,255,255,0.02); margin-bottom: 12px; cursor: pointer; transition: all 0.2s ease; }
+        .task-node-item:hover { transform: translateY(-2px); border-color: rgba(255,255,255,0.08); box-shadow: 0 4px 12px rgba(0,0,0,0.2); }
+        .task-meta-left { display: flex; align-items: center; gap: 14px; }
+        .task-icon-wrap { width: 42px; height: 42px; background: rgba(37, 99, 235, 0.1); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 18px; color: var(--accent-blue); border: 1px solid rgba(37, 99, 235, 0.15); }
+        .task-title-text { font-size: 14px; font-weight: 600; margin-bottom: 2px; }
+        .task-payout-badge { background: rgba(16, 185, 129, 0.12); color: var(--success-green); padding: 6px 12px; border-radius: 20px; font-size: 13px; font-weight: 700; border: 1px solid rgba(16, 185, 129, 0.15); }
 
-        /* Task Extended Details Panel */
+        /* History Tables */
+        .history-container { background: var(--surface); border-radius: 14px; padding: 14px; border: 1px solid var(--border-color); margin-top: 16px; }
+        .history-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.04); font-size: 13px; }
+        .history-item:last-child { border-bottom: none; }
+        .history-date { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+
+        /* Expanded Mission View */
         .task-expanded-view { display: none; }
-        .task-details-box { background: var(--surface-card); border-radius: 16px; padding: 20px; border: 1px solid rgba(255,255,255,0.05); margin-bottom: 20px; }
-        .task-instruction-text { color: var(--text-muted); font-size: 14px; line-height: 1.5; margin: 12px 0 20px 0; }
-        .action-cta-button { width: 100%; padding: 14px; border-radius: 12px; font-weight: bold; text-align: center; cursor: pointer; border: none; font-size: 14px; display: flex; align-items: center; justify-content: center; gap: 8px; text-decoration: none; margin-bottom: 12px; }
-        .btn-blue { background: var(--accent-blue); color: var(--text-white); }
-        .btn-surface { background: rgba(255,255,255,0.05); color: var(--text-white); border: 1px solid rgba(255,255,255,0.05); }
+        .task-details-box { background: var(--surface-card); border-radius: 16px; padding: 20px; border: 1px solid var(--border-color); margin-bottom: 20px; }
+        .task-instruction-text { color: var(--text-muted); font-size: 14px; line-height: 1.6; margin: 12px 0 20px 0; }
+        .action-cta-button { width: 100%; padding: 14px; border-radius: 12px; font-weight: bold; text-align: center; cursor: pointer; border: none; font-size: 14px; display: flex; align-items: center; justify-content: center; gap: 8px; text-decoration: none; margin-bottom: 12px; transition: background 0.2s; }
+        .btn-blue { background: var(--accent-gradient); color: var(--text-white); }
+        .btn-surface { background: rgba(255,255,255,0.05); color: var(--text-white); border: 1px solid var(--border-color); }
 
-        .proof-submission-area { background: rgba(0,0,0,0.2); padding: 16px; border-radius: 12px; border: 1px dotted rgba(255,255,255,0.1); }
-        .input-text-field { width: 100%; padding: 12px; background: var(--bg); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: white; font-size: 14px; margin-bottom: 12px; outline: none; }
-        .btn-submit-proof { background: var(--success-green); color: white; width: 100%; padding: 12px; border-radius: 8px; font-weight: bold; border: none; cursor: pointer; }
+        .proof-submission-area { background: rgba(0,0,0,0.25); padding: 16px; border-radius: 12px; border: 1px dashed rgba(255,255,255,0.15); }
+        .input-text-field { width: 100%; padding: 14px; background: var(--bg); border: 1px solid var(--border-color); border-radius: 10px; color: white; font-size: 14px; margin-bottom: 12px; outline: none; transition: border-color 0.2s; }
+        .input-text-field:focus { border-color: var(--accent-blue); }
+        .btn-submit-proof { background: var(--success-green); color: white; width: 100%; padding: 14px; border-radius: 10px; font-weight: bold; border: none; cursor: pointer; box-shadow: 0 4px 12px rgba(16,185,129,0.2); }
 
-        /* Horizontal Admin Operations Group */
+        /* Profile Component Styles */
+        .profile-card { text-align: center; padding: 24px; background: var(--surface-card); border-radius: 16px; border: 1px solid var(--border-color); margin-bottom: 20px; }
+        .profile-main-avatar { width: 70px; height: 70px; background: var(--accent-gradient); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 28px; font-weight: bold; margin: 0 auto 12px auto; box-shadow: 0 4px 16px rgba(37,99,235,0.4); }
+        .leaderboard-row { display: flex; align-items: center; justify-content: space-between; padding: 12px; background: rgba(255,255,255,0.02); border-radius: 10px; margin-bottom: 8px; font-size: 13px; border: 1px solid rgba(255,255,255,0.03); }
+        .leaderboard-rank { width: 24px; font-weight: bold; color: var(--accent-blue); }
+
+        /* Bottom Nav Design Without Emoji */
+        .bottom-nav-bar { position: absolute; bottom: 0; left: 0; right: 0; height: 80px; background: var(--nav-bg); backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px); border-top: 1px solid rgba(255,255,255,0.08); display: flex; align-items: center; justify-content: space-around; padding: 0 12px; z-index: 100; padding-bottom: env(safe-area-inset-bottom); }
+        .nav-anchor { display: flex; flex-direction: column; align-items: center; gap: 6px; color: var(--text-muted); text-decoration: none; font-size: 11px; font-weight: 600; cursor: pointer; flex: 1; padding: 12px 0; transition: all 0.25s ease; opacity: 0.5; }
+        .nav-anchor.active { color: var(--text-white) !important; opacity: 1; transform: translateY(-2px); }
+        .nav-svg-icon { width: 22px; height: 22px; fill: currentColor; transition: fill 0.2s; }
+
+        /* Admin Panels */
+        .admin-modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(5,6,10,0.97); backdrop-filter: blur(20px); z-index: 2000; display: none; flex-direction: column; padding: 20px; overflow-y: auto; }
+        .adm-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .adm-card { background: var(--surface-card); border-radius: 14px; padding: 16px; border: 1px solid var(--border-color); margin-bottom: 16px; }
+        .adm-title { font-size: 12px; font-weight: bold; text-transform: uppercase; color: var(--accent-red); margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; letter-spacing: 0.5px; }
+        .adm-folder-inside-pane { display: none; margin-top: 12px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.05); }
         .admin-btn-group { display: flex; gap: 10px; margin-bottom: 12px; }
         .admin-sub-btn { flex: 1; padding: 12px; border-radius: 8px; border: none; font-weight: bold; cursor: pointer; color: white; font-size: 13px; }
 
-        /* Transparent Glassmorphism Navigation Bar */
-        .bottom-nav-bar { position: absolute; bottom: 0; left: 0; right: 0; height: 78px; background: var(--nav-bg); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); border-top: 1px solid rgba(255,255,255,0.06); display: flex; align-items: center; justify-content: space-around; padding: 0 10px; z-index: 100; }
-        .nav-anchor { display: flex; flex-direction: column; align-items: center; gap: 5px; color: var(--text-muted); text-decoration: none; font-size: 11px; font-weight: 500; cursor: pointer; flex: 1; padding: 12px 0; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); opacity: 0.6; }
-        
-        /* Active Navigation Anchor State Styles */
-        .nav-anchor.active { color: var(--text-white) !important; opacity: 1; transform: scale(1.05); font-weight: bold; }
-        .nav-anchor.active .nav-icon { filter: grayscale(0%) brightness(150%); }
-        .nav-icon { font-size: 22px; filter: grayscale(100%); transition: all 0.3s; }
-
-        /* Master Admin Controller Modal Infrastructure */
-        .admin-modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(5,6,10,0.95); backdrop-filter: blur(15px); z-index: 2000; display: none; flex-direction: column; padding: 20px; overflow-y: auto; }
-        .adm-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-        .adm-card { background: var(--surface-card); border-radius: 14px; padding: 16px; border: 1px solid rgba(255,255,255,0.05); margin-bottom: 16px; }
-        .adm-title { font-size: 14px; font-weight: bold; text-transform: uppercase; color: var(--accent-red); margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; }
-        .adm-folder-inside-pane { display: none; margin-top: 12px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.05); }
-
         .main-viewport { display: none; }
-        .main-viewport.active { display: block; animation: fadeInView 0.4s ease-in-out; }
+        .main-viewport.active { display: block; animation: fadeInView 0.35s ease-in-out; }
         
         @keyframes fadeInView {
-            from { opacity: 0; transform: translateY(6px); }
+            from { opacity: 0; transform: translateY(8px); }
             to { opacity: 1; transform: translateY(0); }
         }
     </style>
@@ -96,62 +106,52 @@
     <div class="app-header">
         <div class="user-pill">
             <div class="user-avatar" id="avatarLetter">U</div>
-            <span id="headerUserName" style="font-size: 13px; font-weight: bold;">Syncing Engine...</span>
+            <span id="headerUserName" style="font-size: 13px; font-weight: 600;">Syncing Network...</span>
         </div>
-        <div class="admin-trigger-node" id="adminNodeBtn" onclick="triggerAdminDashboardEntrance()">👑 ADMIN CONTROL</div>
+        <div class="admin-trigger-node" id="adminNodeBtn" onclick="triggerAdminDashboardEntrance()">Master Node</div>
     </div>
 
     <div class="main-scrollable-body">
         
         <div id="homeView" class="main-viewport active">
             <div class="financial-grid-card">
-                <div class="fin-label">Main Wallet Balance</div>
+                <div class="fin-label">Main Account Assets</div>
                 <div class="fin-main-val" id="mainWalletBalanceDisplay">₹0.00</div>
                 <div class="fin-sub-row">
                     <div class="fin-sub-box">
-                        <div class="fin-label">Rewards Earned</div>
-                        <div id="rewardWalletBalanceDisplay" style="font-weight: bold; margin-top: 2px;">₹0.00</div>
+                        <div class="fin-label">Task Bonuses</div>
+                        <div id="rewardWalletBalanceDisplay" style="font-weight: 700; margin-top: 2px;">₹0.00</div>
                     </div>
                     <div class="fin-sub-box">
-                        <div class="fin-label">Network Invites</div>
-                        <div id="totalReferralsCountDisplay" style="font-weight: bold; margin-top: 2px;">0 Users</div>
+                        <div class="fin-label">Total Referrals</div>
+                        <div id="totalReferralsCountDisplay" style="font-weight: 700; margin-top: 2px;">0 Users</div>
                     </div>
                 </div>
             </div>
 
             <div id="tasksListContainerView">
-                <div class="section-header-title">📋 ACTIVE DAILY TASKS</div>
+                <div class="section-header-title">Active Platform Missions</div>
                 <div id="tasksContainerList">
-                    <div style="color: var(--text-muted); text-align: center; padding: 20px;">Fetching global missions...</div>
+                    <div style="color: var(--text-muted); text-align: center; padding: 20px; font-size: 13px;">Loading missions...</div>
                 </div>
             </div>
 
             <div id="taskExpandedDetailsContainer" class="task-expanded-view">
-                <div class="section-header-title">🎯 MISSION DISPATCH INFO</div>
+                <div class="section-header-title">Mission Execution Center</div>
                 <div class="task-details-box">
                     <h3 id="expTaskTitle" style="font-size: 18px; margin-bottom: 4px;">Task Title</h3>
                     <div id="expTaskPayout" style="color: var(--success-green); font-weight: bold; font-size: 14px; margin-bottom: 12px;">₹0.00</div>
-                    <p class="task-instruction-text" id="expTaskInstructions">Mapping...</p>
+                    <p class="task-instruction-text" id="expTaskInstructions">Mapping details...</p>
                     
-                    <a href="#" target="_blank" class="action-cta-button btn-blue" id="expTaskLinkButton">🔗 Go To Mission Link</a>
-                    <button class="action-cta-button btn-surface" onclick="goBackToTasksList()">🔙 Back to Hub</button>
+                    <a href="#" target="_blank" class="action-cta-button btn-blue" id="expTaskLinkButton">Open Mission URL</a>
+                    <button class="action-cta-button btn-surface" onclick="goBackToTasksList()">Abort and Return</button>
                     
                     <div class="proof-submission-area" style="margin-top: 20px;">
-                        <h4 style="font-size: 13px; margin-bottom: 8px; color: var(--success-green);">TRANSMIT PROOF METRICS</h4>
-                        <input type="text" class="input-text-field" id="proofInputData" placeholder="Enter proof text / user handle credentials...">
-                        <button class="btn-submit-proof" onclick="submitTaskProofToServer()">🚀 Submit Proof Verification</button>
+                        <h4 style="font-size: 11px; margin-bottom: 8px; color: var(--success-green); text-transform: uppercase; letter-spacing: 0.5px;">Submit Verification Proof</h4>
+                        <input type="text" class="input-text-field" id="proofInputData" placeholder="Enter transaction hash or handle username...">
+                        <button class="btn-submit-proof" onclick="submitTaskProofToServer()">Transmit Verification</button>
                     </div>
                 </div>
-            </div>
-        </div>
-
-        <div id="affiliateView" class="main-viewport">
-            <div class="financial-grid-card" style="background: linear-gradient(135deg, #0d1b2a, #1b263b); text-align: center;">
-                <div style="font-size: 44px; margin-bottom: 12px;">👥</div>
-                <h2>Affiliate Network</h2>
-                <p style="color: var(--text-muted); font-size: 13px; margin: 8px 0 16px 0;" id="referralRateText">Earn commission bonuses per active referral pipeline registration.</p>
-                <div class="input-text-field" id="referLinkDisplayField" style="background: rgba(0,0,0,0.3); padding: 12px; font-family: monospace; font-size: 12px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Mapping secure affiliate gateway link...</div>
-                <button class="btn-submit-proof" style="background: var(--accent-blue);" onclick="copyReferralInviteLink()">📋 Copy Referral Route</button>
             </div>
         </div>
 
@@ -159,20 +159,85 @@
             <div class="financial-grid-card">
                 <div class="fin-label">Withdrawable Capital Assets</div>
                 <div class="fin-main-val" id="walletViewBalanceDisplay">₹0.00</div>
-                <p style="color: var(--text-muted); font-size: 12px;" id="payoutChannelDisplay">Linked Verification Node: @Payoutbynasih</p>
+                <p style="color: var(--text-muted); font-size: 12px;" id="payoutChannelDisplay">Payout Verification: Node Linked</p>
             </div>
             
-            <div class="proof-submission-area" style="background: var(--surface-card); border: 1px solid rgba(255,255,255,0.05);">
-                <h3 style="font-size: 14px; margin-bottom: 12px; text-transform: uppercase; color: var(--accent-blue);">Secure Settlement Outbound</h3>
-                <div style="margin-bottom: 10px;">
-                    <label style="font-size: 11px; color: var(--text-muted);">UPI ADDRESS KEY</label>
-                    <input type="text" class="input-text-field" id="wdUpiInput" placeholder="recipient@upi" style="margin-top: 4px;">
+            <div class="proof-submission-area" style="background: var(--surface-card); border: 1px solid var(--border-color);">
+                <h3 style="font-size: 13px; margin-bottom: 14px; text-transform: uppercase; color: var(--accent-blue); letter-spacing: 0.5px;">Secure Settlement System</h3>
+                <div style="margin-bottom: 12px;">
+                    <label class="fin-label" style="font-size: 10px;">Select Network Protocol</label>
+                    <select class="input-text-field" id="wdProtocolSelect" style="margin-top: 6px; background: var(--bg);">
+                        <option value="UPI">UPI (Unified Payments Interface)</option>
+                    </select>
                 </div>
-                <div style="margin-bottom: 14px;">
-                    <label style="font-size: 11px; color: var(--text-muted);">LIQUIDATION VALUE (INR)</label>
-                    <input type="number" class="input-text-field" id="wdAmountInput" placeholder="0.00" style="margin-top: 4px;">
+                <div style="margin-bottom: 12px;">
+                    <label class="fin-label" style="font-size: 10px;">UPI Address Target Key</label>
+                    <input type="text" class="input-text-field" id="wdUpiInput" placeholder="recipient@upi" style="margin-top: 6px;">
                 </div>
-                <button class="btn-submit-proof" style="background: var(--accent-blue);" onclick="triggerMiniAppWithdrawal()">🏧 Initiate Outbound Settlement</button>
+                <div style="margin-bottom: 16px;">
+                    <label class="fin-label" style="font-size: 10px;">Liquidation Amount (INR)</label>
+                    <input type="number" class="input-text-field" id="wdAmountInput" placeholder="0.00" style="margin-top: 6px;">
+                </div>
+                <button class="btn-submit-proof" style="background: var(--accent-gradient);" onclick="triggerMiniAppWithdrawal()">Execute Liquidation Inbound</button>
+            </div>
+
+            <div class="history-container">
+                <div class="section-header-title" style="margin-bottom: 8px; font-size: 11px;">Missions & Rewards Ledger</div>
+                <div id="rewardLedgerContainerList">
+                    <div style="color: var(--text-muted); text-align: center; font-size: 12px; padding: 10px;">No recorded reward distributions.</div>
+                </div>
+            </div>
+
+            <div class="history-container">
+                <div class="section-header-title" style="margin-bottom: 8px; font-size: 11px;">Outbound Payout Audit History</div>
+                <div id="payoutLedgerContainerList">
+                    <div style="color: var(--text-muted); text-align: center; font-size: 12px; padding: 10px;">No settlement payouts requested.</div>
+                </div>
+            </div>
+        </div>
+
+        <div id="affiliateView" class="main-viewport">
+            <div class="financial-grid-card" style="background: linear-gradient(135deg, #0f1626, #1e293b); text-align: center; padding: 30px 20px;">
+                <h2 style="font-size: 22px; font-weight: 800; margin-bottom: 6px;">Affiliate Pipeline Network</h2>
+                <p style="color: var(--text-muted); font-size: 13px; margin-bottom: 20px;" id="referralRateText">Earn commissions per verified node registration.</p>
+                
+                <div class="input-text-field" id="referLinkDisplayField" style="background: rgba(0,0,0,0.4); padding: 14px; font-family: monospace; font-size: 12px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; text-align: center;">Generating affiliate route link...</div>
+                
+                <div style="display: flex; gap: 10px;">
+                    <button class="btn-submit-proof" style="background: var(--accent-gradient); flex: 1;" onclick="copyReferralInviteLink()">Copy Route</button>
+                    <button class="btn-submit-proof" style="background: rgba(255,255,255,0.06); border:1px solid var(--border-color); color: white; flex: 1;" onclick="shareReferralToTelegram()">Invite Contacts</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="profileView" class="main-viewport">
+            <div class="profile-card">
+                <div class="profile-main-avatar" id="profileBigAvatarLetter">U</div>
+                <h2 id="profileUserNameText" style="font-size: 20px; font-weight: 700;">Account Profile</h2>
+                <p id="profileUserIdText" style="font-size: 12px; color: var(--text-muted); margin-top: 4px; font-family: monospace;">UID: 0000000000</p>
+            </div>
+
+            <div class="history-container" style="margin-bottom: 16px; padding: 16px;">
+                <div class="section-header-title" style="font-size: 11px; margin-bottom: 12px;">Core Settings Config</div>
+                <div style="display: flex; flex-direction: column; gap: 8px;">
+                    <button class="action-cta-button btn-surface" id="contactSupportNodeLinkBtn" onclick="window.open('https://t.me/ExtraEarnBot', '_blank')" style="margin-bottom: 0; font-size: 13px; justify-content: space-between; padding: 12px 16px;">
+                        <span>Contact Helpdesk Support</span>
+                        <span style="color: var(--text-muted);">→</span>
+                    </button>
+                    <div style="display:flex; justify-content:space-between; padding: 12px 6px; font-size: 13px; border-top: 1px solid rgba(255,255,255,0.03);">
+                        <span style="color: var(--text-muted);">Data Sync Telemetry</span>
+                        <span style="color: var(--success-green); font-weight: bold;">ONLINE</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="history-container">
+                <div class="section-header-title" style="margin-bottom: 12px; font-size: 11px;">Network Leaderboard Matrix</div>
+                <div id="leaderboardContainerList">
+                    <div class="leaderboard-row"><div style="display:flex; gap:10px;"><span class="leaderboard-rank">1</span><span>Alpha User</span></div><span style="font-weight:bold;">₹5,400.00</span></div>
+                    <div class="leaderboard-row"><div style="display:flex; gap:10px;"><span class="leaderboard-rank">2</span><span>Beta Pilot</span></div><span style="font-weight:bold;">₹3,250.00</span></div>
+                    <div class="leaderboard-row"><div style="display:flex; gap:10px;"><span class="leaderboard-rank">3</span><span>Gamma Node</span></div><span style="font-weight:bold;">₹1,980.00</span></div>
+                </div>
             </div>
         </div>
 
@@ -180,106 +245,114 @@
 
     <div class="bottom-nav-bar">
         <div class="nav-anchor active" id="anchor-home" onclick="switchViewTab('home')">
-            <span class="nav-icon">🚀</span>
+            <svg class="nav-svg-icon" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
             <span>Missions</span>
         </div>
-        <div class="nav-anchor" id="anchor-affiliate" onclick="switchViewTab('affiliate')">
-            <span class="nav-icon">🤝</span>
-            <span>Affiliate</span>
-        </div>
         <div class="nav-anchor" id="anchor-wallet" onclick="switchViewTab('wallet')">
-            <span class="nav-icon">🏧</span>
-            <span>Withdraw</span>
+            <svg class="nav-svg-icon" viewBox="0 0 24 24"><path d="M21 18v1c0 1.1-.9 2-2 2H5c-1.11 0-2-.9-2-2V5c0-1.1.89-2 2-2h14c1.1 0 2 .9 2 2v1h-9c-1.11 0-2 .9-2 2v8c0 1.1.89 2 2 2h9zm-9-2h10V8H12v8zm4-2.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5 0.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg>
+            <span>Wallet</span>
+        </div>
+        <div class="nav-anchor" id="anchor-affiliate" onclick="switchViewTab('affiliate')">
+            <svg class="nav-svg-icon" viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
+            <span>Refer Earn</span>
+        </div>
+        <div class="nav-anchor" id="anchor-profile" onclick="switchViewTab('profile')">
+            <svg class="nav-svg-icon" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+            <span>Profile</span>
         </div>
     </div>
 </div>
 
 <div class="admin-modal-overlay" id="adminControlModalElement">
     <div class="adm-header">
-        <h2 style="color: var(--accent-red); font-size: 18px;">👑 System Master Panel</h2>
-        <button onclick="closeAdminDashboardView()" style="background: transparent; border: none; color: white; font-size: 22px; cursor: pointer;">✕</button>
+        <h2 style="color: var(--accent-red); font-size: 16px; font-weight: 800; letter-spacing: 0.5px;">SYSTEM PANEL MONITOR</h2>
+        <button onclick="closeAdminDashboardView()" style="background: transparent; border: none; color: white; font-size: 24px; cursor: pointer;">✕</button>
     </div>
 
     <div class="adm-card">
-        <div class="adm-title">📈 Infrastructure Assets Core</div>
+        <div class="adm-title">Infrastructure Assets Core</div>
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; font-size: 13px;">
-            <div style="background: rgba(255,255,255,0.02); padding: 10px; border-radius: 8px;">
-                <div style="color: var(--text-muted);">Users Registered</div>
-                <div id="admStatUsers" style="font-size: 18px; font-weight: bold; margin-top: 4px;">0</div>
+            <div style="background: rgba(255,255,255,0.02); padding: 12px; border-radius: 8px; border: 1px solid var(--border-color);">
+                <div style="color: var(--text-muted); font-size: 10px; font-weight: bold; text-transform: uppercase;">Users Registered</div>
+                <div id="admStatUsers" style="font-size: 20px; font-weight: bold; margin-top: 4px;">0</div>
             </div>
-            <div style="background: rgba(255,255,255,0.02); padding: 10px; border-radius: 8px;">
-                <div style="color: var(--text-muted);">Awaiting Audit Proofs</div>
-                <div id="admStatProofs" style="font-size: 18px; font-weight: bold; color: var(--accent-red); margin-top: 4px;">0</div>
+            <div style="background: rgba(255,255,255,0.02); padding: 12px; border-radius: 8px; border: 1px solid var(--border-color);">
+                <div style="color: var(--text-muted); font-size: 10px; font-weight: bold; text-transform: uppercase;">Pending Proof Checks</div>
+                <div id="admStatProofs" style="font-size: 20px; font-weight: bold; color: var(--accent-red); margin-top: 4px;">0</div>
             </div>
         </div>
     </div>
 
     <div class="adm-card">
         <div class="adm-title" onclick="toggleAdminFolderView('admBalanceModifierPane')" style="cursor: pointer;">
-            <span>💰 USER CAPITAL BALANCE MODIFIER</span>
+            <span>User Asset Balance Adjuster</span>
             <span>▼</span>
         </div>
         <div class="adm-folder-inside-pane" id="admBalanceModifierPane">
             <div style="margin-bottom: 8px;">
-                <label style="font-size: 11px; color: var(--text-muted);">TARGET TELEGRAM USER ID</label>
-                <input type="number" class="input-text-field" id="admModifyTargetUid" placeholder="Enter target User ID" style="margin-top: 4px;">
+                <label style="font-size: 10px; color: var(--text-muted); font-weight: bold;">TARGET TELEGRAM USER ID</label>
+                <input type="number" class="input-text-field" id="admModifyTargetUid" placeholder="Enter user numerical ID" style="margin-top: 6px;">
             </div>
             <div style="margin-bottom: 12px;">
-                <label style="font-size: 11px; color: var(--text-muted);">CAPITAL SHIFT VALUE (INR)</label>
-                <input type="number" step="0.01" class="input-text-field" id="admModifyTargetAmount" placeholder="0.00" style="margin-top: 4px;">
+                <label style="font-size: 10px; color: var(--text-muted); font-weight: bold;">VALUE MODIFICATION AMOUNT (INR)</label>
+                <input type="number" step="0.01" class="input-text-field" id="admModifyTargetAmount" placeholder="0.00" style="margin-top: 6px;">
             </div>
             <div class="admin-btn-group">
-                <button class="admin-sub-btn" style="background: var(--success-green);" onclick="adjustUserLiquidAssets('add')">➕ Inject Cash</button>
-                <button class="admin-sub-btn" style="background: var(--accent-red);" onclick="adjustUserLiquidAssets('deduct')">➖ Burn Cash</button>
+                <button class="admin-sub-btn" style="background: var(--success-green);" onclick="adjustUserLiquidAssets('add')">Credit Balance</button>
+                <button class="admin-sub-btn" style="background: var(--accent-red);" onclick="adjustUserLiquidAssets('deduct')">Debit Balance</button>
             </div>
         </div>
     </div>
 
     <div class="adm-card">
         <div class="adm-title" onclick="toggleAdminFolderView('admTaskPane')" style="cursor: pointer;">
-            <span>🛠 DEPLOY MICRO TASK ENGINE</span>
+            <span>Deploy Task Payload Module</span>
             <span>▼</span>
         </div>
         <div class="adm-folder-inside-pane" id="admTaskPane">
-            <input type="text" class="input-text-field" id="admNewTaskTitle" placeholder="Mission Title Vector">
-            <input type="number" class="input-text-field" id="admNewTaskAmount" placeholder="Reward Distribution Amount (INR)">
-            <input type="text" class="input-text-field" id="admNewTaskLink" placeholder="Target Endpoint Destination URL">
-            <textarea class="input-text-field" id="admNewTaskDetails" placeholder="Detailed user submission directive workflows..." style="height: 70px; resize: none;"></textarea>
-            <button class="btn-submit-proof" onclick="createNewTaskFromWebConsole()">➕ Inject Task Object</button>
+            <input type="text" class="input-text-field" id="admNewTaskTitle" placeholder="Mission Header Title">
+            <input type="number" class="input-text-field" id="admNewTaskAmount" placeholder="Reward Payment Allocations (INR)">
+            <input type="text" class="input-text-field" id="admNewTaskLink" placeholder="Destination Redirect URL Link">
+            <textarea class="input-text-field" id="admNewTaskDetails" placeholder="Detailed submission pipeline workflow instructions..." style="height: 70px; resize: none;"></textarea>
+            <button class="btn-submit-proof" style="background: var(--accent-blue);" onclick="createNewTaskFromWebConsole()">Deploy Task Object</button>
         </div>
     </div>
 
     <div class="adm-card">
         <div class="adm-title" onclick="toggleAdminFolderView('admProofPane')" style="cursor: pointer;">
-            <span>⏳ LIVE PROOF INSPECTION PORTAL</span>
+            <span>Proof Inspection Workflow Gate</span>
             <span>▼</span>
         </div>
         <div class="adm-folder-inside-pane" id="admProofPane">
             <div id="admPendingProofsListContainer" style="display: flex; flex-direction: column; gap: 12px;">
-                <div style="color: var(--text-muted); font-size: 12px; text-align: center;">No pending proofs found.</div>
+                <div style="color: var(--text-muted); font-size: 12px; text-align: center;">No pending validation found.</div>
             </div>
         </div>
     </div>
 
     <div class="adm-card">
         <div class="adm-title" onclick="toggleAdminFolderView('admSettingsPane')" style="cursor: pointer;">
-            <span>⚙️ SYSTEM SETTINGS CONTROLS</span>
+            <span>Global Pipeline Configuration</span>
             <span>▼</span>
         </div>
         <div class="adm-folder-inside-pane" id="admSettingsPane">
             <div style="margin-bottom: 10px;">
-                <label style="font-size: 11px; color: var(--text-muted);">MIN VAL WITHDRAW LIMIT</label>
+                <label style="font-size: 10px; color: var(--text-muted); font-weight: bold;">MINIMUM LIQUIDATION LIMIT</label>
                 <input type="number" class="input-text-field" id="admMinWd" value="1">
             </div>
             <div style="margin-bottom: 10px;">
-                <label style="font-size: 11px; color: var(--text-muted);">MAX VAL WITHDRAW LIMIT</label>
+                <label style="font-size: 10px; color: var(--text-muted); font-weight: bold;">MAXIMUM LIQUIDATION LIMIT</label>
                 <input type="number" class="input-text-field" id="admMaxWd" value="500">
             </div>
-            <div style="margin-bottom: 14px;">
-                <label style="font-size: 11px; color: var(--text-muted);">REFERRAL REWARD CAPITAL</label>
+            <div style="margin-bottom: 10px;">
+                <label style="font-size: 10px; color: var(--text-muted); font-weight: bold;">REFERRAL PIPELINE BONUS VALUE</label>
                 <input type="number" step="0.01" class="input-text-field" id="admPerRefer" value="0.01">
             </div>
-            <button class="btn-submit-proof" style="background: var(--accent-blue);" onclick="saveGlobalSettingsToBackend()">💾 Commit Global Configuration</button>
+            <div style="margin-bottom: 14px;">
+                <label style="font-size: 10px; color: var(--text-muted); font-weight: bold;">CONTACT SUPPORT TELEGRAM ROUTE URL</label>
+                <input type="text" class="input-text-field" id="admSupportUrl" value="https://t.me/ExtraEarnBot">
+            </div>
+            <button class="btn-submit-proof" style="background: var(--accent-gradient);" onclick="saveGlobalSettingsToBackend()">Commit Configuration System</button>
         </div>
     </div>
 </div>
@@ -298,11 +371,14 @@
     let cachedGlobalTasks = [];
     let selectedActiveTaskId = null;
 
-    // Platform Sync Function Engine
     async function syncPlatformData() {
         try {
             document.getElementById('headerUserName').innerText = activeGlobalUserName;
             document.getElementById('avatarLetter').innerText = activeGlobalUserName.charAt(0).toUpperCase();
+            
+            document.getElementById('profileUserNameText').innerText = activeGlobalUserName;
+            document.getElementById('profileUserIdText').innerText = `UID: ${activeGlobalUserId}`;
+            document.getElementById('profileBigAvatarLetter').innerText = activeGlobalUserName.charAt(0).toUpperCase();
 
             if (parseInt(activeGlobalUserId) === ADMIN_TELEGRAM_ID) {
                 document.getElementById('adminNodeBtn').style.display = "block";
@@ -316,26 +392,35 @@
             const data = await response.json();
 
             if (data && data.user) {
-                document.getElementById('mainWalletBalanceDisplay').innerText = `₹${parseFloat(data.user.balance).toFixed(2)}`;
-                document.getElementById('walletViewBalanceDisplay').innerText = `₹${parseFloat(data.user.balance).toFixed(2)}`;
-                document.getElementById('rewardWalletBalanceDisplay').innerText = `₹${parseFloat(data.user.rewards).toFixed(2)}`;
+                const updatedBalance = parseFloat(data.user.balance).toFixed(2);
+                document.getElementById('mainWalletBalanceDisplay').innerText = `₹${updatedBalance}`;
+                document.getElementById('walletViewBalanceDisplay').innerText = `₹${updatedBalance}`;
+                document.getElementById('rewardWalletBalanceDisplay').innerText = `₹${parseFloat(data.user.rewards || 0).toFixed(2)}`;
                 document.getElementById('totalReferralsCountDisplay').innerText = `${data.user.invites ? data.user.invites.length : 0} Users`;
                 
                 if (data.user.upi && data.user.upi !== "not_linked") {
                     document.getElementById('wdUpiInput').value = data.user.upi;
                 }
+
+                // Render dynamic asset histories ledger logs
+                renderLedgerLogs(data.user.rewardHistory || [], 'rewardLedgerContainerList', 'No recorded reward distributions.');
+                renderLedgerLogs(data.user.withdrawalHistory || [], 'payoutLedgerContainerList', 'No settlement payouts requested.');
             }
 
             if (data && data.botSettings) {
                 cachedGlobalTasks = data.botSettings.tasks || [];
                 renderMissionsLayout(cachedGlobalTasks, data.user?.completedTasks || []);
                 
-                document.getElementById('referralRateText').innerText = `Earn ₹${parseFloat(data.botSettings.perRefer).toFixed(2)} per verified registration.`;
+                document.getElementById('referralRateText').innerText = `Earn ₹${parseFloat(data.botSettings.perRefer).toFixed(2)} per verified registration code invitation loop.`;
                 document.getElementById('payoutChannelDisplay').innerText = `Linked Verification Node: ${data.botSettings.payoutChannel || '@Payoutbynasih'}`;
                 
-                document.getElementById('admMinWd').value = data.botSettings.minWithdraw;
-                document.getElementById('admMaxWd').value = data.botSettings.maxWithdraw;
-                document.getElementById('admPerRefer').value = data.botSettings.perRefer;
+                document.getElementById('admMinWd').value = data.botSettings.minWithdraw || 1;
+                document.getElementById('admMaxWd').value = data.botSettings.maxWithdraw || 500;
+                document.getElementById('admPerRefer').value = data.botSettings.perRefer || 0.01;
+                if(data.botSettings.supportUrl) {
+                    document.getElementById('admSupportUrl').value = data.botSettings.supportUrl;
+                    document.getElementById('contactSupportNodeLinkBtn').setAttribute('onclick', `window.open('${data.botSettings.supportUrl}', '_blank')`);
+                }
 
                 document.getElementById('admStatUsers').innerText = Object.keys(data.usersDatabase || {}).length;
                 document.getElementById('admStatProofs').innerText = (data.botSettings.pendingProofs || []).length;
@@ -346,17 +431,16 @@
             document.getElementById('referLinkDisplayField').innerText = `https://t.me/ExtraEarnBot?start=${activeGlobalUserId}`;
 
         } catch (error) {
-            console.error("Critical Sync Core Error:", error);
+            console.error("Critical Synchronization Operation Core Failure:", error);
         }
     }
 
-    // Admin User Capital Allocation Operations Engine
     async function adjustUserLiquidAssets(actionType) {
         const targetId = document.getElementById('admModifyTargetUid').value.trim();
         const rawAmount = parseFloat(document.getElementById('admModifyTargetAmount').value);
 
         if(!targetId || isNaN(rawAmount) || rawAmount <= 0) {
-            return alert("Please enter a valid User ID and amount values.");
+            return alert("Please enter valid parameters for Target User ID and numeric numerical values.");
         }
 
         try {
@@ -373,17 +457,40 @@
             const res = await response.json();
             
             if(res.success) {
-                alert(`Balance updated successfully! New user wallet matrix balance: ₹${parseFloat(res.newBalance).toFixed(2)}`);
+                alert(`Assets successfully adjusted in node ledger! New targeted node balance: ₹${parseFloat(res.newBalance).toFixed(2)}`);
                 document.getElementById('admModifyTargetUid').value = "";
                 document.getElementById('admModifyTargetAmount').value = "";
                 syncPlatformData(); 
             } else {
-                alert("Server Operation Error: " + res.message);
+                alert("Ledger Adjustment Operational Error: " + res.message);
             }
         } catch(e) {
-            alert("Backend API fallback triggered. Server response synchronization is processing active states.");
+            alert("Fallback dynamic sync system instruction execution ongoing.");
             syncPlatformData();
         }
+    }
+
+    function renderLedgerLogs(items, elementsId, emptyMsg) {
+        const wrap = document.getElementById(elementsId);
+        wrap.innerHTML = "";
+        if(!items || items.length === 0) {
+            wrap.innerHTML = `<div style="color: var(--text-muted); text-align: center; font-size: 12px; padding: 10px;">${emptyMsg}</div>`;
+            return;
+        }
+        items.forEach(log => {
+            const row = document.createElement('div');
+            row.className = "history-item";
+            row.innerHTML = `
+                <div>
+                    <div><b>${log.description || 'Asset Operation Log'}</b></div>
+                    <div class="history-date">${log.date || 'Processing Date Timestamp'}</div>
+                </div>
+                <div style="font-weight:bold; color:${log.type === 'credit' || log.status === 'approved' ? 'var(--success-green)' : 'var(--text-white)'}">
+                    ${log.type === 'credit' ? '+' : '-'}₹${parseFloat(log.amount).toFixed(2)}
+                </div>
+            `;
+            wrap.appendChild(row);
+        });
     }
 
     function renderMissionsLayout(tasks, completedList) {
@@ -393,7 +500,7 @@
         const activeTasks = tasks.filter(t => !completedList.includes(t.id));
 
         if (activeTasks.length === 0) {
-            container.innerHTML = `<div style="color: var(--text-muted); text-align: center; padding: 20px; font-size: 13px;">No available mission payloads active.</div>`;
+            container.innerHTML = `<div style="color: var(--text-muted); text-align: center; padding: 20px; font-size: 13px;">No available deployment tasks active in queue.</div>`;
             return;
         }
 
@@ -403,10 +510,12 @@
             node.onclick = () => viewSpecificTaskSpecs(task.id);
             node.innerHTML = `
                 <div class="task-meta-left">
-                    <div class="task-icon-wrap">🎯</div>
+                    <div class="task-icon-wrap">
+                        <svg style="width:18px; height:18px; fill:currentColor;" viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+                    </div>
                     <div>
                         <div class="task-title-text">${task.title}</div>
-                        <div style="font-size: 11px; color: var(--text-muted);">Micro Task Module</div>
+                        <div style="font-size: 11px; color: var(--text-muted);">Micro Task Payload</div>
                     </div>
                 </div>
                 <div class="task-payout-badge">₹${parseFloat(task.amount).toFixed(2)}</div>
@@ -437,7 +546,7 @@
 
     async function submitTaskProofToServer() {
         const proofText = document.getElementById('proofInputData').value.trim();
-        if (!proofText) return alert("Validation argument cannot be empty.");
+        if (!proofText) return alert("Proof parameter data metrics cannot be left empty.");
 
         try {
             const response = await fetch(`${API_BASE_URL}/api/mini-app/submit-proof`, {
@@ -447,20 +556,37 @@
             });
             const res = await response.json();
             if (res.success) {
-                alert("Proof delivered successfully.");
+                alert("Verification proof tracking vector delivered successfully.");
                 document.getElementById('proofInputData').value = "";
                 goBackToTasksList();
                 syncPlatformData();
             }
-        } catch (e) { alert("Network payload error."); }
+        } catch (e) { alert("Network transport routing error."); }
     }
 
     async function triggerMiniAppWithdrawal() {
         const upi = document.getElementById('wdUpiInput').value.trim();
         const amt = parseFloat(document.getElementById('wdAmountInput').value);
 
-        if (!upi || isNaN(amt) || amt <= 0) return alert("Payload structure invalid.");
-        alert("Outbound liquidation requested! Confirm with the Telegram bot pipeline interface.");
+        if (!upi || isNaN(amt) || amt <= 0) return alert("Dynamic operational liquidation architecture parameter mismatch.");
+        
+        try {
+            const response = await fetch(`${API_BASE_URL}/api/mini-app/withdraw`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ userId: activeGlobalUserId, upi: upi, amount: amt })
+            });
+            const res = await response.json();
+            if(res.success) {
+                alert("Outbound settlement asset request acknowledged. Verification node confirmation dispatch ongoing.");
+                document.getElementById('wdAmountInput').value = "";
+                syncPlatformData();
+            } else {
+                alert("Settlement Execution Terminated: " + res.message);
+            }
+        } catch (e) {
+            alert("Liquidation data requested! Acknowledge and sign pipeline using the Telegram bot endpoint.");
+        }
     }
 
     function switchViewTab(id) {
@@ -473,14 +599,20 @@
 
     function copyReferralInviteLink() {
         const linkText = document.getElementById('referLinkDisplayField').innerText;
-        navigator.clipboard.writeText(linkText).then(() => alert("Affiliate route copied successfully."));
+        navigator.clipboard.writeText(linkText).then(() => alert("Affiliate pipeline invitation vector copied safely."));
+    }
+
+    function shareReferralToTelegram() {
+        const linkText = document.getElementById('referLinkDisplayField').innerText;
+        const shareUrl = `https://t.me/share/url?url=${encodeURIComponent(linkText)}&text=${encodeURIComponent("Join this elite asset performance mini app to dispatch tracking missions and generate automated real capital rewards!")}`;
+        window.open(shareUrl, '_blank');
     }
 
     function triggerAdminDashboardEntrance() {
         const pin = prompt("Enter Administration Sub-System Pass PIN:");
         if (pin === SYSTEM_MASTER_PIN_CODE) {
             document.getElementById('adminControlModalElement').style.display = 'flex';
-        } else { alert("Authentication failed. Invalid master authorization entry code."); }
+        } else { alert("Dynamic authentication failure. Invalid cryptographic access configuration keys."); }
     }
 
     function closeAdminDashboardView() { 
@@ -500,7 +632,7 @@
         const link = document.getElementById('admNewTaskLink').value.trim();
         const details = document.getElementById('admNewTaskDetails').value.trim();
 
-        if (!title || isNaN(amount) || !link) return alert("Arguments validation failure.");
+        if (!title || isNaN(amount) || !link) return alert("Parameters array failed security schema validations.");
 
         const newTaskObj = { id: "task_" + Date.now(), title, amount, link, details };
         let updatedTasks = [...cachedGlobalTasks, newTaskObj];
@@ -513,14 +645,14 @@
             });
             const data = await response.json();
             if (data.success) {
-                alert("Task successfully injected into network infrastructure.");
+                alert("New task metadata injected into deployment clusters successfully.");
                 document.getElementById('admNewTaskTitle').value = "";
                 document.getElementById('admNewTaskAmount').value = "";
                 document.getElementById('admNewTaskLink').value = "";
                 document.getElementById('admNewTaskDetails').value = "";
                 syncPlatformData();
             }
-        } catch (e) { alert("Failed transaction operation."); }
+        } catch (e) { alert("Cluster transaction failure."); }
     }
 
     function renderAdminProofsPortal(proofs) {
@@ -528,23 +660,24 @@
         container.innerHTML = "";
 
         if (proofs.length === 0) {
-            container.innerHTML = `<div style="color: var(--text-muted); font-size: 12px; text-align: center;">No pending validation found.</div>`;
+            container.innerHTML = `<div style="color: var(--text-muted); font-size: 12px; text-align: center;">No pending tracking assertions needing check.</div>`;
             return;
         }
 
         proofs.forEach(p => {
             const item = document.createElement('div');
             item.style.background = "rgba(255,255,255,0.02)";
-            item.style.padding = "10px";
+            item.style.padding = "12px";
             item.style.borderRadius = "8px";
             item.style.fontSize = "12px";
+            item.style.border = "1px solid var(--border-color)";
             item.innerHTML = `
-                <div><b>UID Account:</b> ${p.userId}</div>
-                <div><b>Task Node:</b> ${p.taskId}</div>
-                <div style="color: var(--accent-blue); margin: 4px 0;"><b>Verification Data:</b> ${p.proof}</div>
-                <div style="display: flex; gap: 8px; margin-top: 6px;">
-                    <button style="background: var(--success-green); color: white; border: none; padding: 4px 8px; border-radius: 4px; cursor: pointer; font-weight: bold;" onclick="auditProofAction('${p.userId}', '${p.taskId}', true)">Approve</button>
-                    <button style="background: var(--accent-red); color: white; border: none; padding: 4px 8px; border-radius: 4px; cursor: pointer; font-weight: bold;" onclick="auditProofAction('${p.userId}', '${p.taskId}', false)">Reject</button>
+                <div><b>UID Target Node:</b> <span style="font-family:monospace;">${p.userId}</span></div>
+                <div><b>Task Cluster Element:</b> ${p.taskId}</div>
+                <div style="color: var(--accent-blue); margin: 6px 0;"><b>Verification Claim:</b> ${p.proof}</div>
+                <div style="display: flex; gap: 8px; margin-top: 8px;">
+                    <button style="background: var(--success-green); color: white; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-weight: bold; font-size:11px;" onclick="auditProofAction('${p.userId}', '${p.taskId}', true)">Sign Approve</button>
+                    <button style="background: var(--accent-red); color: white; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-weight: bold; font-size:11px;" onclick="auditProofAction('${p.userId}', '${p.taskId}', false)">Drop Reject</button>
                 </div>
             `;
             container.appendChild(item);
@@ -560,29 +693,30 @@
             });
             const data = await response.json();
             if (data.success) {
-                alert(approved ? "Audit Action approved!" : "Audit Action rejected!");
+                alert(approved ? "Audit item tracking authorization granted!" : "Audit item tracking dropped!");
                 syncPlatformData();
             }
-        } catch (e) { alert("Network payload operational error."); }
+        } catch (e) { alert("Operational cluster workflow failure."); }
     }
 
     async function saveGlobalSettingsToBackend() {
         const minWithdraw = parseFloat(document.getElementById('admMinWd').value);
         const maxWithdraw = parseFloat(document.getElementById('admMaxWd').value);
         const perRefer = parseFloat(document.getElementById('admPerRefer').value);
+        const supportUrl = document.getElementById('admSupportUrl').value.trim();
 
         try {
             const response = await fetch(`${API_BASE_URL}/api/settings/update`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ minWithdraw, maxWithdraw, perRefer })
+                body: JSON.stringify({ minWithdraw, maxWithdraw, perRefer, supportUrl })
             });
             const data = await response.json();
             if (data.success) {
-                alert("Global routing configurations successfully synced to endpoint server.");
+                alert("Global state infrastructure parameter rules committed successfully.");
                 syncPlatformData();
             }
-        } catch (e) { alert("Configuration payload deployment failure."); }
+        } catch (e) { alert("Configuration payload pipeline sync interrupted."); }
     }
 
     window.onload = syncPlatformData;
