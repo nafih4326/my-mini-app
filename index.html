@@ -31,7 +31,7 @@
 
         .main-scrollable-body { flex: 1; overflow-y: auto; padding: 16px; padding-bottom: 95px; }
         
-        /* ഫിനാൻഷ്യൽ കാർഡ് */
+        /* Financial Dashboard Card */
         .financial-grid-card { background: linear-gradient(135deg, var(--surface-card), #1e2233); border-radius: 16px; padding: 20px; border: 1px solid rgba(255,255,255,0.05); margin-bottom: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.3); }
         .fin-label { font-size: 12px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; }
         .fin-main-val { font-size: 32px; font-weight: 800; margin: 4px 0 16px 0; color: var(--text-white); }
@@ -41,7 +41,7 @@
 
         .section-header-title { font-size: 15px; font-weight: bold; color: var(--text-muted); margin-bottom: 12px; display: flex; align-items: center; gap: 6px; }
         
-        /* ടാസ്ക് ലിസ്റ്റ് */
+        /* Task List Node Styles */
         .task-node-item { background: var(--surface-card); border-radius: 12px; padding: 14px; display: flex; align-items: center; justify-content: space-between; border: 1px solid rgba(255,255,255,0.03); margin-bottom: 10px; cursor: pointer; transition: 0.2s; }
         .task-node-item:hover { transform: translateY(-2px); border-color: rgba(255,255,255,0.08); }
         .task-meta-left { display: flex; align-items: center; gap: 12px; }
@@ -49,7 +49,7 @@
         .task-title-text { font-size: 14px; font-weight: bold; margin-bottom: 2px; }
         .task-payout-badge { background: rgba(16, 185, 129, 0.1); color: var(--success-green); padding: 4px 10px; border-radius: 20px; font-size: 13px; font-weight: bold; }
 
-        /* ടാസ്ക് വ്യൂ */
+        /* Task Extended Details Panel */
         .task-expanded-view { display: none; }
         .task-details-box { background: var(--surface-card); border-radius: 16px; padding: 20px; border: 1px solid rgba(255,255,255,0.05); margin-bottom: 20px; }
         .task-instruction-text { color: var(--text-muted); font-size: 14px; line-height: 1.5; margin: 12px 0 20px 0; }
@@ -61,20 +61,20 @@
         .input-text-field { width: 100%; padding: 12px; background: var(--bg); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: white; font-size: 14px; margin-bottom: 12px; outline: none; }
         .btn-submit-proof { background: var(--success-green); color: white; width: 100%; padding: 12px; border-radius: 8px; font-weight: bold; border: none; cursor: pointer; }
 
-        /* ഹൊറിസോണ്ടൽ ബട്ടൺ ഗ്രൂപ്പ് */
+        /* Horizontal Admin Operations Group */
         .admin-btn-group { display: flex; gap: 10px; margin-bottom: 12px; }
         .admin-sub-btn { flex: 1; padding: 12px; border-radius: 8px; border: none; font-weight: bold; cursor: pointer; color: white; font-size: 13px; }
 
-        /* 🏧 ട്രാൻസ്പരന്റ് നാവിഗേഷൻ ബാർ */
+        /* Transparent Glassmorphism Navigation Bar */
         .bottom-nav-bar { position: absolute; bottom: 0; left: 0; right: 0; height: 78px; background: var(--nav-bg); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); border-top: 1px solid rgba(255,255,255,0.06); display: flex; align-items: center; justify-content: space-around; padding: 0 10px; z-index: 100; }
         .nav-anchor { display: flex; flex-direction: column; align-items: center; gap: 5px; color: var(--text-muted); text-decoration: none; font-size: 11px; font-weight: 500; cursor: pointer; flex: 1; padding: 12px 0; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); opacity: 0.6; }
         
-        /* ⚪ സെലക്ട് ചെയ്ത വെള്ള കളറും അല്ലാത്തത് ഗ്രേ കളറും */
+        /* Active Navigation Anchor State Styles */
         .nav-anchor.active { color: var(--text-white) !important; opacity: 1; transform: scale(1.05); font-weight: bold; }
         .nav-anchor.active .nav-icon { filter: grayscale(0%) brightness(150%); }
         .nav-icon { font-size: 22px; filter: grayscale(100%); transition: all 0.3s; }
 
-        /* 👑 അഡ്മിൻ കൺട്രോൾ ഇൻഫ്രാസ്ട്രക്ചർ */
+        /* Master Admin Controller Modal Infrastructure */
         .admin-modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(5,6,10,0.95); backdrop-filter: blur(15px); z-index: 2000; display: none; flex-direction: column; padding: 20px; overflow-y: auto; }
         .adm-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
         .adm-card { background: var(--surface-card); border-radius: 14px; padding: 16px; border: 1px solid rgba(255,255,255,0.05); margin-bottom: 16px; }
@@ -172,7 +172,7 @@
                     <label style="font-size: 11px; color: var(--text-muted);">LIQUIDATION VALUE (INR)</label>
                     <input type="number" class="input-text-field" id="wdAmountInput" placeholder="0.00" style="margin-top: 4px;">
                 </div>
-                <button class="btn-submit-proof" style="background: var(--accent-blue);" onclick="triggerMiniAppWithdrawal()">🏧 Intiate Outbound Settlement</button>
+                <button class="btn-submit-proof" style="background: var(--accent-blue);" onclick="triggerMiniAppWithdrawal()">🏧 Initiate Outbound Settlement</button>
             </div>
         </div>
 
@@ -298,7 +298,7 @@
     let cachedGlobalTasks = [];
     let selectedActiveTaskId = null;
 
-    // പ്ലാറ്റ്‌ഫോം സിങ്ക് ഫങ്ക്ഷൻ
+    // Platform Sync Function Engine
     async function syncPlatformData() {
         try {
             document.getElementById('headerUserName').innerText = activeGlobalUserName;
@@ -350,17 +350,16 @@
         }
     }
 
-    // 💰 അഡ്മിൻ ബാലൻസ് അപ്‌ഡേറ്റ് ചെയ്യാനുള്ള ഫങ്ക്ഷൻ (FIXED ENGINE)
+    // Admin User Capital Allocation Operations Engine
     async function adjustUserLiquidAssets(actionType) {
         const targetId = document.getElementById('admModifyTargetUid').value.trim();
         const rawAmount = parseFloat(document.getElementById('admModifyTargetAmount').value);
 
         if(!targetId || isNaN(rawAmount) || rawAmount <= 0) {
-            return alert("ദയവായി സാധുവായ User ID-യും തുകയും നൽകുക.");
+            return alert("Please enter a valid User ID and amount values.");
         }
 
         try {
-            // നിങ്ങളുടെ ബോട്ട് ബാക്കെൻഡിലെ മെയിൻ അഡ്മിൻ API ലേക്ക് കണക്ട് ചെയ്യുന്നു
             const response = await fetch(`${API_BASE_URL}/api/admin/adjust-balance`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
@@ -374,16 +373,15 @@
             const res = await response.json();
             
             if(res.success) {
-                alert(`ബാലൻസ് വിജയകരമായി അപ്ഡേറ്റ് ചെയ്തു! പുതിയ യൂസർ ബാലൻസ്: ₹${parseFloat(res.newBalance).toFixed(2)}`);
+                alert(`Balance updated successfully! New user wallet matrix balance: ₹${parseFloat(res.newBalance).toFixed(2)}`);
                 document.getElementById('admModifyTargetUid').value = "";
                 document.getElementById('admModifyTargetAmount').value = "";
-                syncPlatformData(); // മിനി ആപ്പിലെ വാല്യൂസ് റിഫ്രഷ് ചെയ്യുക
+                syncPlatformData(); 
             } else {
-                alert("സെർവർ പിശക്: " + res.message);
+                alert("Server Operation Error: " + res.message);
             }
         } catch(e) {
-            alert("ബാക്കെൻഡ് എപിഐ കണക്ഷൻ സക്സസ്ഫുൾ. സെർവർ റെസ്പോൺസ് സിങ്ക് ആകുന്നുണ്ട്.");
-            // ഫോൾബാക്ക് സേഫ്റ്റി അലേർട്ട്
+            alert("Backend API fallback triggered. Server response synchronization is processing active states.");
             syncPlatformData();
         }
     }
@@ -475,14 +473,14 @@
 
     function copyReferralInviteLink() {
         const linkText = document.getElementById('referLinkDisplayField').innerText;
-        navigator.clipboard.writeText(linkText).then(() => alert("Affiliate route copied."));
+        navigator.clipboard.writeText(linkText).then(() => alert("Affiliate route copied successfully."));
     }
 
     function triggerAdminDashboardEntrance() {
         const pin = prompt("Enter Administration Sub-System Pass PIN:");
         if (pin === SYSTEM_MASTER_PIN_CODE) {
             document.getElementById('adminControlModalElement').style.display = 'flex';
-        } else { alert("Authentication failed."); }
+        } else { alert("Authentication failed. Invalid master authorization entry code."); }
     }
 
     function closeAdminDashboardView() { 
@@ -515,14 +513,14 @@
             });
             const data = await response.json();
             if (data.success) {
-                alert("Task successfully injected.");
+                alert("Task successfully injected into network infrastructure.");
                 document.getElementById('admNewTaskTitle').value = "";
                 document.getElementById('admNewTaskAmount').value = "";
                 document.getElementById('admNewTaskLink').value = "";
                 document.getElementById('admNewTaskDetails').value = "";
                 syncPlatformData();
             }
-        } catch (e) { alert("Failed operation."); }
+        } catch (e) { alert("Failed transaction operation."); }
     }
 
     function renderAdminProofsPortal(proofs) {
@@ -562,10 +560,10 @@
             });
             const data = await response.json();
             if (data.success) {
-                alert(approved ? "Approved!" : "Rejected!");
+                alert(approved ? "Audit Action approved!" : "Audit Action rejected!");
                 syncPlatformData();
             }
-        } catch (e) { alert("Network error."); }
+        } catch (e) { alert("Network payload operational error."); }
     }
 
     async function saveGlobalSettingsToBackend() {
@@ -581,10 +579,10 @@
             });
             const data = await response.json();
             if (data.success) {
-                alert("Configuration synced.");
+                alert("Global routing configurations successfully synced to endpoint server.");
                 syncPlatformData();
             }
-        } catch (e) { alert("Failed operation."); }
+        } catch (e) { alert("Configuration payload deployment failure."); }
     }
 
     window.onload = syncPlatformData;
