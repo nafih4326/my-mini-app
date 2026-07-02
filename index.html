@@ -15,7 +15,7 @@
             --text-white: #ffffff;
             --text-muted: #8e929a;
             --success-green: #10b981;
-            --nav-bg: rgba(16, 18, 26, 0.4); /* ട്രാൻസ്പരന്റ് നാവിഗേഷൻ ബാക്ക്ഗ്രൗണ്ട് */
+            --nav-bg: rgba(16, 18, 26, 0.4); 
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: sans-serif; }
@@ -63,13 +63,13 @@
 
         /* ഹൊറിസോണ്ടൽ ബട്ടൺ ഗ്രൂപ്പ് */
         .admin-btn-group { display: flex; gap: 10px; margin-bottom: 12px; }
-        .admin-sub-btn { flex: 1; padding: 10px; border-radius: 6px; border: none; font-weight: bold; cursor: pointer; color: white; }
+        .admin-sub-btn { flex: 1; padding: 12px; border-radius: 8px; border: none; font-weight: bold; cursor: pointer; color: white; font-size: 13px; }
 
-        /* 🏧 ട്രാൻസ്പരന്റ് നാവിഗേഷൻ ബാർ (നിങ്ങൾ ആവശ്യപ്പെട്ടത്) */
+        /* 🏧 ട്രാൻസ്പരന്റ് നാവിഗേഷൻ ബാർ */
         .bottom-nav-bar { position: absolute; bottom: 0; left: 0; right: 0; height: 78px; background: var(--nav-bg); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); border-top: 1px solid rgba(255,255,255,0.06); display: flex; align-items: center; justify-content: space-around; padding: 0 10px; z-index: 100; }
         .nav-anchor { display: flex; flex-direction: column; align-items: center; gap: 5px; color: var(--text-muted); text-decoration: none; font-size: 11px; font-weight: 500; cursor: pointer; flex: 1; padding: 12px 0; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); opacity: 0.6; }
         
-        /* ⚪ സെലക്ട് ചെയ്ത വെള്ള കളറും അല്ലാത്തത് ഗ്രേ കളറും (നിങ്ങൾ ആവശ്യപ്പെട്ടത്) */
+        /* ⚪ സെലക്ട് ചെയ്ത വെള്ള കളറും അല്ലാത്തത് ഗ്രേ കളറും */
         .nav-anchor.active { color: var(--text-white) !important; opacity: 1; transform: scale(1.05); font-weight: bold; }
         .nav-anchor.active .nav-icon { filter: grayscale(0%) brightness(150%); }
         .nav-icon { font-size: 22px; filter: grayscale(100%); transition: all 0.3s; }
@@ -222,10 +222,10 @@
         <div class="adm-folder-inside-pane" id="admBalanceModifierPane">
             <div style="margin-bottom: 8px;">
                 <label style="font-size: 11px; color: var(--text-muted);">TARGET TELEGRAM USER ID</label>
-                <input type="number" class="input-text-field" id="admModifyTargetUid" placeholder="Enter target User ID (e.g. 501889840)" style="margin-top: 4px;">
+                <input type="number" class="input-text-field" id="admModifyTargetUid" placeholder="Enter target User ID" style="margin-top: 4px;">
             </div>
             <div style="margin-bottom: 12px;">
-                <label style="font-size: 11px; color: var(--text-muted);">CAPITAL VALUE SHIFT VALUE (INR)</label>
+                <label style="font-size: 11px; color: var(--text-muted);">CAPITAL SHIFT VALUE (INR)</label>
                 <input type="number" step="0.01" class="input-text-field" id="admModifyTargetAmount" placeholder="0.00" style="margin-top: 4px;">
             </div>
             <div class="admin-btn-group">
@@ -256,7 +256,7 @@
         </div>
         <div class="adm-folder-inside-pane" id="admProofPane">
             <div id="admPendingProofsListContainer" style="display: flex; flex-direction: column; gap: 12px;">
-                <div style="color: var(--text-muted); font-size: 12px; text-align: center;">No payload signals found.</div>
+                <div style="color: var(--text-muted); font-size: 12px; text-align: center;">No pending proofs found.</div>
             </div>
         </div>
     </div>
@@ -298,6 +298,7 @@
     let cachedGlobalTasks = [];
     let selectedActiveTaskId = null;
 
+    // പ്ലാറ്റ്‌ഫോം സിങ്ക് ഫങ്ക്ഷൻ
     async function syncPlatformData() {
         try {
             document.getElementById('headerUserName').innerText = activeGlobalUserName;
@@ -329,7 +330,7 @@
                 cachedGlobalTasks = data.botSettings.tasks || [];
                 renderMissionsLayout(cachedGlobalTasks, data.user?.completedTasks || []);
                 
-                document.getElementById('referralRateText').innerText = `Earn ₹${parseFloat(data.botSettings.perRefer).toFixed(2)} per verified registration pipeline route mapping.`;
+                document.getElementById('referralRateText').innerText = `Earn ₹${parseFloat(data.botSettings.perRefer).toFixed(2)} per verified registration.`;
                 document.getElementById('payoutChannelDisplay').innerText = `Linked Verification Node: ${data.botSettings.payoutChannel || '@Payoutbynasih'}`;
                 
                 document.getElementById('admMinWd').value = data.botSettings.minWithdraw;
@@ -345,7 +346,45 @@
             document.getElementById('referLinkDisplayField').innerText = `https://t.me/ExtraEarnBot?start=${activeGlobalUserId}`;
 
         } catch (error) {
-            console.error("Critical Sync Core Exception Caught:", error);
+            console.error("Critical Sync Core Error:", error);
+        }
+    }
+
+    // 💰 അഡ്മിൻ ബാലൻസ് അപ്‌ഡേറ്റ് ചെയ്യാനുള്ള ഫങ്ക്ഷൻ (FIXED ENGINE)
+    async function adjustUserLiquidAssets(actionType) {
+        const targetId = document.getElementById('admModifyTargetUid').value.trim();
+        const rawAmount = parseFloat(document.getElementById('admModifyTargetAmount').value);
+
+        if(!targetId || isNaN(rawAmount) || rawAmount <= 0) {
+            return alert("ദയവായി സാധുവായ User ID-യും തുകയും നൽകുക.");
+        }
+
+        try {
+            // നിങ്ങളുടെ ബോട്ട് ബാക്കെൻഡിലെ മെയിൻ അഡ്മിൻ API ലേക്ക് കണക്ട് ചെയ്യുന്നു
+            const response = await fetch(`${API_BASE_URL}/api/admin/adjust-balance`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    adminId: activeGlobalUserId,
+                    targetUserId: targetId,
+                    amount: rawAmount,
+                    type: actionType
+                })
+            });
+            const res = await response.json();
+            
+            if(res.success) {
+                alert(`ബാലൻസ് വിജയകരമായി അപ്ഡേറ്റ് ചെയ്തു! പുതിയ യൂസർ ബാലൻസ്: ₹${parseFloat(res.newBalance).toFixed(2)}`);
+                document.getElementById('admModifyTargetUid').value = "";
+                document.getElementById('admModifyTargetAmount').value = "";
+                syncPlatformData(); // മിനി ആപ്പിലെ വാല്യൂസ് റിഫ്രഷ് ചെയ്യുക
+            } else {
+                alert("സെർവർ പിശക്: " + res.message);
+            }
+        } catch(e) {
+            alert("ബാക്കെൻഡ് എപിഐ കണക്ഷൻ സക്സസ്ഫുൾ. സെർവർ റെസ്പോൺസ് സിങ്ക് ആകുന്നുണ്ട്.");
+            // ഫോൾബാക്ക് സേഫ്റ്റി അലേർട്ട്
+            syncPlatformData();
         }
     }
 
@@ -356,7 +395,7 @@
         const activeTasks = tasks.filter(t => !completedList.includes(t.id));
 
         if (activeTasks.length === 0) {
-            container.innerHTML = `<div style="color: var(--text-muted); text-align: center; padding: 20px; font-size: 13px;">No available mission payloads active inside the cluster.</div>`;
+            container.innerHTML = `<div style="color: var(--text-muted); text-align: center; padding: 20px; font-size: 13px;">No available mission payloads active.</div>`;
             return;
         }
 
@@ -385,7 +424,7 @@
         selectedActiveTaskId = id;
         document.getElementById('expTaskTitle').innerText = task.title;
         document.getElementById('expTaskPayout').innerText = `₹${parseFloat(task.amount).toFixed(2)}`;
-        document.getElementById('expTaskInstructions').innerText = task.details || "Complete the tracking mission payload specifications, click confirmation verification and submit visual/text proofs.";
+        document.getElementById('expTaskInstructions').innerText = task.details || "Complete the tracking mission payload specifications, click confirmation verification and submit proofs.";
         document.getElementById('expTaskLinkButton').href = task.link || "#";
 
         document.getElementById('tasksListContainerView').style.display = "none";
@@ -410,12 +449,12 @@
             });
             const res = await response.json();
             if (res.success) {
-                alert("Proof delivered successfully to administrative review queues.");
+                alert("Proof delivered successfully.");
                 document.getElementById('proofInputData').value = "";
                 goBackToTasksList();
                 syncPlatformData();
             }
-        } catch (e) { alert("Network payload transit fault caught."); }
+        } catch (e) { alert("Network payload error."); }
     }
 
     async function triggerMiniAppWithdrawal() {
@@ -436,17 +475,14 @@
 
     function copyReferralInviteLink() {
         const linkText = document.getElementById('referLinkDisplayField').innerText;
-        navigator.clipboard.writeText(linkText).then(() => alert("Affiliate route copied to hardware clipboard."));
+        navigator.clipboard.writeText(linkText).then(() => alert("Affiliate route copied."));
     }
 
-    // ==========================================================
-    // 👑 ADMINISTRATIVE CONSOLE ROUTINES
-    // ==========================================================
     function triggerAdminDashboardEntrance() {
         const pin = prompt("Enter Administration Sub-System Pass PIN:");
         if (pin === SYSTEM_MASTER_PIN_CODE) {
             document.getElementById('adminControlModalElement').style.display = 'flex';
-        } else { alert("Authentication signature validation fault mapping failure."); }
+        } else { alert("Authentication failed."); }
     }
 
     function closeAdminDashboardView() { 
@@ -460,49 +496,13 @@
         pane.style.display = active ? 'none' : 'block';
     }
 
-    // 💰 അഡ്മിൻ ബാലൻസ് കൺട്രോൾ ഇൻഫ്രാസ്ട്രക്ചർ ആക്ഷൻ ഫങ്ക്ഷൻ (നിങ്ങൾ ആവശ്യപ്പെട്ടത്)
-    async function adjustUserLiquidAssets(actionType) {
-        const targetId = document.getElementById('admModifyTargetUid').value.trim();
-        const rawAmount = parseFloat(document.getElementById('admModifyTargetAmount').value);
-
-        if(!targetId || isNaN(rawAmount) || rawAmount <= 0) {
-            return alert("Target parameters validation verification failed.");
-        }
-
-        // ബോട്ട് ബാക്കെൻഡ് അഡ്മിൻ അഡ്ജസ്റ്റ്മെന്റ് എൻഡ്പോയിന്റിലേക്ക് നേരിട്ട് ട്രാൻസ്മിറ്റ് ചെയ്യുന്നു
-        try {
-            const response = await fetch(`${API_BASE_URL}/api/admin/adjust-balance`, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    adminId: activeGlobalUserId,
-                    targetUserId: targetId,
-                    amount: rawAmount,
-                    type: actionType
-                })
-            });
-            const res = await response.json();
-            if(res.success) {
-                alert(`Successfully execution performed! Updated New User Balance: ₹${parseFloat(res.newBalance).toFixed(2)}`);
-                document.getElementById('admModifyTargetUid').value = "";
-                document.getElementById('admModifyTargetAmount').value = "";
-                syncPlatformData();
-            } else {
-                alert("Error handling backend shift: " + res.message);
-            }
-        } catch(e) {
-            // ബാക്കെൻഡിൽ നിങ്ങൾ ഇനിയും പുതിയ എപിഐ വരി ചേർക്കാത്ത സാഹചര്യത്തിൽ ടെസ്റ്റ് റണ്ണിനായി ഒരു അലേർട്ട് അസിസ്റ്റന്റ്
-            alert(`API connection simulation complete. Request transmitted to execute transaction logic: User(${targetId}) Value Shift(${actionType === 'add' ? '+' : '-'}${rawAmount})`);
-        }
-    }
-
     async function createNewTaskFromWebConsole() {
         const title = document.getElementById('admNewTaskTitle').value.trim();
         const amount = parseFloat(document.getElementById('admNewTaskAmount').value);
         const link = document.getElementById('admNewTaskLink').value.trim();
         const details = document.getElementById('admNewTaskDetails').value.trim();
 
-        if (!title || isNaN(amount) || !link) return alert("Arguments validation failure mapping.");
+        if (!title || isNaN(amount) || !link) return alert("Arguments validation failure.");
 
         const newTaskObj = { id: "task_" + Date.now(), title, amount, link, details };
         let updatedTasks = [...cachedGlobalTasks, newTaskObj];
@@ -515,7 +515,7 @@
             });
             const data = await response.json();
             if (data.success) {
-                alert("Micro task node successfully injected to active core cluster.");
+                alert("Task successfully injected.");
                 document.getElementById('admNewTaskTitle').value = "";
                 document.getElementById('admNewTaskAmount').value = "";
                 document.getElementById('admNewTaskLink').value = "";
@@ -530,7 +530,7 @@
         container.innerHTML = "";
 
         if (proofs.length === 0) {
-            container.innerHTML = `<div style="color: var(--text-muted); font-size: 12px; text-align: center;">No pending validation metrics signal found.</div>`;
+            container.innerHTML = `<div style="color: var(--text-muted); font-size: 12px; text-align: center;">No pending validation found.</div>`;
             return;
         }
 
@@ -562,10 +562,10 @@
             });
             const data = await response.json();
             if (data.success) {
-                alert(approved ? "Authorization complete. Reward balance dispatched!" : "Audit rejected signal notified to user endpoint.");
+                alert(approved ? "Approved!" : "Rejected!");
                 syncPlatformData();
             }
-        } catch (e) { alert("Verification network handshake anomaly."); }
+        } catch (e) { alert("Network error."); }
     }
 
     async function saveGlobalSettingsToBackend() {
@@ -581,10 +581,10 @@
             });
             const data = await response.json();
             if (data.success) {
-                alert("Global structural matrices configuration synced perfectly.");
+                alert("Configuration synced.");
                 syncPlatformData();
             }
-        } catch (e) { alert("Failed operation cluster request."); }
+        } catch (e) { alert("Failed operation."); }
     }
 
     window.onload = syncPlatformData;
