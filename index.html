@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>EXTRA EARN - Ultra Suite</title>
+<title>EXTRA EARN - Ultra Suite Pro</title>
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 <style>
 :root {
@@ -43,7 +43,8 @@ body { background: var(--bg-gradient); color: var(--text-white); min-height: 100
 
 .mission-row-card { background: var(--surface-card); border: 1px solid var(--panel-border); border-radius: 16px; padding: 16px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; backdrop-filter: blur(10px); }
 .mission-meta h4 { font-size: 14px; font-weight: 600; color: #fff; }
-.mission-meta p { color: var(--accent-red); font-size: 13px; font-weight: 700; margin-top: 3px; }
+.mission-meta p { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+.mission-meta .amt { color: var(--success-green); font-size: 13px; font-weight: 700; margin-top: 3px; }
 .mission-action { padding: 10px 20px; background: linear-gradient(90deg, var(--accent-red) 0%, #dc2626 100%); color: #fff; font-weight: 700; font-size: 12px; border-radius: 12px; text-decoration: none; border: none; display: inline-block; cursor: pointer; text-shadow: 0 1px 2px rgba(0,0,0,0.2); }
 .mission-action.done { background: rgba(255,255,255,0.05); color: var(--text-muted); border: 1px solid var(--panel-border); pointer-events: none; text-shadow: none; }
 
@@ -75,17 +76,27 @@ body { background: var(--bg-gradient); color: var(--text-white); min-height: 100
 .nav-anchor.active { color: #fff; }
 .nav-anchor.active svg { color: var(--accent-red); filter: drop-shadow(0 0 6px rgba(255,42,51,0.4)); transform: translateY(-2px); }
 
-/* Full-Screen Admin Modal Window */
-.admin-fullscreen-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #06080c; z-index: 2000; display: none; flex-direction: column; padding: 20px; overflow-y: auto; }
-.admin-modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 14px; }
+/* --- 2026 REFRESHED ADMIN STYLING WITH CATEGORIES & NAV --- */
+.admin-fullscreen-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #06080c; z-index: 2000; display: none; flex-direction: column; }
+.admin-modal-container { display: flex; flex-direction: column; height: 100%; width: 100%; padding: 20px; }
+.admin-modal-header { display: flex; justify-content: space-between; align-items: center; padding-bottom: 14px; border-bottom: 1px solid rgba(255,255,255,0.05); margin-bottom: 15px; }
+
+.adm-tabs-nav { display: flex; gap: 8px; overflow-x: auto; margin-bottom: 15px; padding-bottom: 6px; border-bottom: 1px solid rgba(255,255,255,0.03); }
+.adm-tab-btn { background: rgba(255,255,255,0.03); border: 1px solid var(--panel-border); color: var(--text-muted); padding: 8px 14px; border-radius: 10px; font-size: 11px; font-weight: 700; cursor: pointer; white-space: nowrap; text-transform: uppercase; }
+.adm-tab-btn.active { background: var(--accent-red); color: #fff; border-color: var(--accent-red); }
+
+.adm-view-pane { flex: 1; overflow-y: auto; display: none; padding-bottom: 30px; }
+.adm-view-pane.active { display: block; }
+
 .adm-card-node { background: var(--surface-card); border: 1px solid var(--panel-border); padding: 18px; border-radius: 20px; margin-bottom: 16px; }
 .adm-card-node h4 { font-size: 12px; color: var(--accent-red); margin-bottom: 14px; text-transform: uppercase; letter-spacing: 0.8px; font-weight: 800; display: flex; align-items: center; gap: 6px; }
 .adm-card-node h4 svg { width: 14px; height: 14px; fill: currentColor; }
 .adm-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }
 .adm-input-wrapper { margin-bottom: 12px; }
 .adm-input-wrapper label { display: block; font-size: 11px; color: var(--text-muted); margin-bottom: 6px; font-weight: 600; text-transform: uppercase; }
-.adm-input-wrapper input, .adm-input-wrapper select { width: 100%; padding: 12px; background: rgba(0,0,0,0.2); border: 1px solid var(--panel-border); border-radius: 12px; color: #fff; outline: none; font-size: 14px; }
-.adm-input-wrapper input:focus, .adm-input-wrapper select:focus { border-color: var(--accent-red); }
+.adm-input-wrapper input, .adm-input-wrapper select, .adm-input-wrapper textarea { width: 100%; padding: 12px; background: rgba(0,0,0,0.2); border: 1px solid var(--panel-border); border-radius: 12px; color: #fff; outline: none; font-size: 14px; }
+.adm-input-wrapper textarea { resize: none; height: 70px; font-family: inherit; }
+.adm-input-wrapper input:focus, .adm-input-wrapper select:focus, .adm-input-wrapper textarea:focus { border-color: var(--accent-red); }
 .adm-commit-btn { width: 100%; padding: 14px; background: var(--success-green); border: none; color: #000; font-weight: 700; font-size: 13px; border-radius: 12px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; }
 </style>
 </head>
@@ -177,10 +188,19 @@ Authorize Peer Payout
 </div>
 <svg style="width:14px; height:14px; fill:var(--text-muted);" viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
 </div>
-<div class="menu-row-item" onclick="window.open('https://t.me/', '_blank')">
+
+<div class="menu-row-item" id="appTelegramChannelRow" onclick="triggerTelegramChannelRedirect()">
 <div class="menu-item-left">
-<svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 9h12v2H6V9zm8 5H6v-2h8v2zm4-6H6V6h12v2z"/></svg>
-<span>Official Telegram Group</span>
+<svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg>
+<span>Telegram Channel</span>
+</div>
+<svg style="width:14px; height:14px; fill:var(--text-muted);" viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
+</div>
+
+<div class="menu-row-item" id="appContactSupportRow" onclick="triggerContactSupportRedirect()">
+<div class="menu-item-left">
+<svg viewBox="0 0 24 24"><path d="M22 6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6zm-2 0l-8 5-8-5h16zm0 12H4V8l8 5 8-5v10z"/></svg>
+<span>Contact Support</span>
 </div>
 <svg style="width:14px; height:14px; fill:var(--text-muted);" viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
 </div>
@@ -218,31 +238,40 @@ Authorize Peer Payout
 </div>
 
 <div class="admin-fullscreen-modal" id="adminControlModalElement">
+<div class="admin-modal-container">
 <div class="admin-modal-header">
-<h2 style="font-size: 15px; font-weight: 900; color: var(--accent-red); letter-spacing: 0.5px;">⚙️ CORE ADMINISTRATIVE CONSOLE</h2>
+<h2 style="font-size: 14px; font-weight: 900; color: var(--accent-red); letter-spacing: 0.5px;">⚙️ CORE ADMINISTRATIVE FRAMEWORK</h2>
 <button class="mission-action" style="background:#fff; color:#000;" onclick="closeAdminDashboardView()">Exit Console</button>
 </div>
 
+<div class="adm-tabs-nav">
+<button class="adm-tab-btn active" onclick="switchAdminTab('adm-tasks')">Missions</button>
+<button class="adm-tab-btn" onclick="switchAdminTab('adm-system')">Bot Params</button>
+<button class="adm-tab-btn" onclick="switchAdminTab('adm-users')">Ledger Users</button>
+<button class="adm-tab-btn" onclick="switchAdminTab('adm-promos')">Vouchers</button>
+<button class="adm-tab-btn" onclick="switchAdminTab('adm-security')">Access PIN</button>
+</div>
+
+<div class="adm-view-pane active" id="adm-tasks">
 <div class="adm-card-node">
-<h4>
-<svg viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
-Publish Bot & App Task
-</h4>
+<h4>Publish App Operational Task</h4>
 <div class="adm-input-wrapper"><label>Task Label Title</label><input type="text" id="admInputTaskTitle" placeholder="Subscribe Channel"></div>
+<div class="adm-input-wrapper"><label>Task Details / Requirements</label><textarea id="admInputTaskDetails" placeholder="Subscribe and send proof screenshots..."></textarea></div>
 <div class="adm-grid-2">
 <div class="adm-input-wrapper"><label>Reward Amount (₹)</label><input type="number" id="admInputTaskReward" placeholder="10"></div>
 <div class="adm-input-wrapper"><label>Destination URL</label><input type="text" id="admInputTaskLink" placeholder="https://..."></div>
 </div>
 <button class="adm-commit-btn" style="background:var(--accent-red); color:#fff;" onclick="executeAdminAddTaskSubmit()">Deploy Task Node</button>
 </div>
+</div>
 
+<div class="adm-view-pane" id="adm-system">
 <div class="adm-card-node">
-<h4>
-<svg viewBox="0 0 24 24"><path d="M19.43 12.98c.04-.32.07-.64.07-.98s-.03-.66-.07-.98l2.11-1.65c.19-.15.24-.42.12-.64l-2-3.46c-.12-.22-.39-.3-.61-.22l-2.49 1c-.52-.4-1.08-.73-1.69-.98l-.38-2.65C14.46 2.18 14.25 2 14 2h-4c-.25 0-.46.18-.49.42l-.38 2.65c-.61.25-1.17.59-1.69.98l-2.49-1c-.23-.09-.49 0-.61.22l-2 3.46c-.13.22-.07.49.12.64l2.11 1.65c-.04.32-.07.65-.07.98s.03.66.07.98l-2.11 1.65c-.19.15-.24.42-.12.64l2 3.46c.12.22.39.3.61.22l2.49-1c.52.4 1.08.73 1.69.98l.38 2.65c.03.24.24.42.49.42h4c.25 0 .46-.18.49-.42l-.38-2.65c.61-.25 1.17-.59 1.69-.98l2.49 1c.23.09.49 0 .61-.22l2-3.46c.12-.22.07-.49-.12-.64l-2.11-1.65zM12 15.5c-1.93 0-3.5-1.57-3.5-3.5s1.57-3.5 3.5-3.5 3.5 1.57 3.5 3.5-1.57 3.5-3.5 3.5z"/></svg>
-Live Bot Variables Setup
-</h4>
+<h4>Bot External Integration Streams</h4>
+<div class="adm-input-wrapper"><label>Telegram Channel Reference URL</label><input type="text" id="admInputTelegramChannel" placeholder="https://t.me/yourchannel"></div>
+<div class="adm-input-wrapper"><label>Contact Support Username / Link</label><input type="text" id="admInputContactSupport" placeholder="https://t.me/yourusername"></div>
 <div class="adm-grid-2">
-<div class="adm-input-wrapper"><label>Bot Status</label><select id="admBotActive"><option value="true">ACTIVE RUNTIME</option><option value="false">PAUSED SYSTEM</option></select></div>
+<div class="adm-input-wrapper"><label>Bot Runtime Status</label><select id="admBotActive"><option value="true">ACTIVE RUNTIME</option><option value="false">PAUSED SYSTEM</option></select></div>
 <div class="adm-input-wrapper"><label>Withdraw Mode</label><select id="admWithdrawMode"><option value="Both On">Both On</option><option value="UPI Only">UPI Only</option><option value="Bank Only">Bank Only</option></select></div>
 </div>
 <div class="adm-grid-2">
@@ -250,35 +279,55 @@ Live Bot Variables Setup
 <div class="adm-input-wrapper"><label>Max Withdraw (₹)</label><input type="number" id="admMaxWithdraw"></div>
 </div>
 <div class="adm-grid-2">
-<div class="adm-input-wrapper"><label>Per Refer Amount (₹)</label><input type="number" step="0.01" id="admPerRefer"></div>
+<div class="adm-input-wrapper"><label>Per Refer Payout (₹)</label><input type="number" step="0.01" id="admPerRefer"></div>
 <div class="adm-input-wrapper"><label>Required Referrals</label><input type="number" id="admReqReferrals"></div>
 </div>
-<button class="adm-commit-btn" style="background:var(--accent-blue); color:#fff;" onclick="saveUnifiedBotSettings()">Save Global Matrix</button>
+
+<div class="adm-input-wrapper" style="margin-top:10px; border-top:1px solid rgba(255,255,255,0.05); padding-top:14px;">
+<label>Bot Menu Keyboard Buttons Layout (Columns)</label>
+<select id="admKeyboardLayout">
+<option value="1">1 Button Per Row (Linear Stack)</option>
+<option value="2">2 Buttons Per Row (Compact Grid)</option>
+<option value="3">3 Buttons Per Row (Dense Multi Grid)</option>
+</select>
 </div>
 
+<button class="adm-commit-btn" style="background:var(--accent-blue); color:#fff;" onclick="saveUnifiedBotSettings()">Save Core Matrix</button>
+</div>
+</div>
+
+<div class="adm-view-pane" id="adm-users">
 <div class="adm-card-node">
-<h4>
-<svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1c1.17-2.33 2.43-2.43 2.43-3.67 0-1.1-.9-2-2-2s-2 .9-2 2H7c0-2.76 2.24-5 5-5s5 2.24 5 5c0 1.04-.42 1.99-1.07 2.75z"/></svg>
-Adjust User Ledger Balance
-</h4>
+<h4>Adjust User Ledger & Core Balances</h4>
 <div class="adm-input-wrapper"><label>Target User Telegram UID</label><input type="number" id="admBalanceTargetUid" placeholder="User ID"></div>
 <div class="adm-grid-2">
-<div class="adm-input-wrapper"><label>Action Protocol</label><select id="admBalanceAction"><option value="add">Add Assets</option><option value="remove">Remove Assets</option></select></div>
+<div class="adm-input-wrapper"><label>Action Protocol</label><select id="admBalanceAction"><option value="add">Add Wallet Balance</option><option value="remove">Remove Balance</option></select></div>
 <div class="adm-input-wrapper"><label>Amount (₹)</label><input type="number" id="admBalanceAmount" placeholder="100"></div>
 </div>
 <button class="adm-commit-btn" style="background:#eab308; color:#000;" onclick="executeAdminBalanceOverride()">Modify Ledger Assets</button>
 </div>
-
-<div class="adm-card-node">
-<h4>
-<svg viewBox="0 0 24 24"><path d="M18 10.45V6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2v-4.45l4 4.45V6l-4 4.45zM16 18H4V6h12v12z"/></svg>
-Gift Codes Generator
-</h4>
-<div class="adm-grid-2">
-<div class="adm-input-wrapper"><label>Custom Code String</label><input type="text" id="admGiftCodeString" placeholder="EARN100" style="text-transform:uppercase;"></div>
-<div class="adm-input-wrapper"><label>Worth Payout Value (₹)</label><input type="number" id="admGiftCodeAmount" placeholder="50"></div>
 </div>
-<button class="adm-commit-btn" style="background:#a855f7; color:#fff;" onclick="generateSystemGiftCode()">Inject Premium Voucher</button>
+
+<div class="adm-view-pane" id="adm-promos">
+<div class="adm-card-node">
+<h4>Multi-User Smart Gift Codes Generator</h4>
+<div class="adm-input-wrapper"><label>Custom Voucher String Code</label><input type="text" id="admGiftCodeString" placeholder="EARN2026" style="text-transform:uppercase;"></div>
+<div class="adm-grid-2">
+<div class="adm-input-wrapper"><label>Worth Payout Value (₹)</label><input type="number" id="admGiftCodeAmount" placeholder="50"></div>
+<div class="adm-input-wrapper"><label>Max Allowed Redeem Users</label><input type="number" id="admGiftMaxUsers" placeholder="100" value="50"></div>
+</div>
+<button class="adm-commit-btn" style="background:#a855f7; color:#fff;" onclick="generateSystemGiftCode()">Deploy Multi-User Voucher</button>
+</div>
+</div>
+
+<div class="adm-view-pane" id="adm-security">
+<div class="adm-card-node">
+<h4>Change Master Terminal Access Code</h4>
+<div class="adm-input-wrapper"><label>New Security Master Access PIN</label><input type="password" id="admNewSecurityPin" placeholder="Enter New 4+ Digit PIN"></div>
+<button class="adm-commit-btn" style="background:#6b7280; color:#fff;" onclick="saveNewTerminalSecurityCode()">Update Authentication Key</button>
+</div>
+</div>
+
 </div>
 </div>
 
@@ -287,6 +336,9 @@ const CORE_BACKEND_API_URL = window.location.origin;
 let activeGlobalUserId = null;
 let synchronizedStateCache = {};
 let hasAuthenticatedAdminSession = false;
+
+// 2026 പ്രൊട്ടോക്കോൾ അനുസരിച്ച് ഡൈനാമിക് ആയി അഡ്മിൻ പിൻ സംഭരിക്കുന്നു
+let MASTER_ACCESS_PIN = "1234";
 
 function syncPlatformData() {
 const tgApp = window.Telegram.WebApp;
@@ -313,12 +365,18 @@ body: JSON.stringify({ userId: activeGlobalUserId, username: (accountMeta?.first
 synchronizedStateCache = payloadData;
 document.getElementById('loadingGate').style.display = 'none';
 
-const balStr = "₹" + payloadData.user.balance.toFixed(2);
+// ബാലൻസ് ഫിക്സ് - ബോട്ടിലും ആപ്പിലും ഒരേപോലെ സിങ്ക് ആകുന്നു
+const balStr = "₹" + parseFloat(payloadData.user.balance || 0).toFixed(2);
 document.getElementById('headerBalanceDisplay').innerText = balStr;
 document.getElementById('vaultBalanceText').innerText = balStr;
 
-document.getElementById('sumTotalEarnedText').innerText = "₹" + (payloadData.user.totalEarned || payloadData.user.balance).toFixed(2);
-document.getElementById('sumTotalWithdrawnText').innerText = "₹" + (payloadData.user.totalWithdrawn || 0).toFixed(2);
+document.getElementById('sumTotalEarnedText').innerText = "₹" + parseFloat(payloadData.user.totalEarned || payloadData.user.balance || 0).toFixed(2);
+document.getElementById('sumTotalWithdrawnText').innerText = "₹" + parseFloat(payloadData.user.totalWithdrawn || 0).toFixed(2);
+
+// റൺടൈം മാസ്റ്റർ പാസ്‌വേർഡ് സിങ്ക്
+if(payloadData.botSettings?.securityPin) {
+MASTER_ACCESS_PIN = payloadData.botSettings.securityPin;
+}
 
 if (activeGlobalUserId === 501889840) {
 document.getElementById('adminControlMenuWrapper').style.display = 'block';
@@ -345,7 +403,8 @@ grid.innerHTML += `
 <div class="mission-row-card">
 <div class="mission-meta">
 <h4>${t.title}</h4>
-<p>+ ₹${parseFloat(t.amount).toFixed(2)}</p>
+<p style="margin-bottom: 2px;">${t.details || 'Complete mission targets safely.'}</p>
+<p class="amt">+ ₹${parseFloat(t.amount).toFixed(2)}</p>
 </div>
 <div>
 ${isDone ? '<button class="mission-action done">Completed</button>' : `<a href="${t.link}" target="_blank" class="mission-action" onclick="claimTask('${t.id}')">Verify</a>`}
@@ -370,6 +429,9 @@ document.getElementById('admMinWithdraw').value = s.minWithdraw || 100;
 document.getElementById('admMaxWithdraw').value = s.maxWithdraw || 500;
 document.getElementById('admPerRefer').value = s.perRefer || 10;
 document.getElementById('admReqReferrals').value = s.reqReferrals || 0;
+document.getElementById('admInputTelegramChannel').value = s.telegramChannel || "https://t.me/";
+document.getElementById('admInputContactSupport').value = s.contactSupport || "https://t.me/";
+document.getElementById('admKeyboardLayout').value = s.keyboardLayout || "2";
 }
 
 function triggerAdminDashboardEntrance() {
@@ -378,22 +440,30 @@ document.getElementById('adminControlModalElement').style.display = 'flex';
 return;
 }
 const pin = prompt("Enter Master Security Admin Code:");
-if (pin === "1234") {
+if (pin === MASTER_ACCESS_PIN) {
 hasAuthenticatedAdminSession = true;
 document.getElementById('adminControlModalElement').style.display = 'flex';
 } else { alert("Verification mismatch credentials error."); }
+}
+
+function switchAdminTab(paneId) {
+document.querySelectorAll('.adm-view-pane').forEach(p => p.classList.remove('active'));
+document.querySelectorAll('.adm-tab-btn').forEach(b => b.classList.remove('active'));
+document.getElementById(paneId).classList.add('active');
+event.currentTarget.classList.add('active');
 }
 
 function closeAdminDashboardView() { document.getElementById('adminControlModalElement').style.display = 'none'; }
 
 function executeAdminAddTaskSubmit() {
 const title = document.getElementById('admInputTaskTitle').value;
+const details = document.getElementById('admInputTaskDetails').value;
 const reward = parseFloat(document.getElementById('admInputTaskReward').value);
 const link = document.getElementById('admInputTaskLink').value;
 if(!title || isNaN(reward) || !link) { alert("Configure all vector fields safely."); return; }
 
 const currentTasks = synchronizedStateCache.botSettings?.tasks || [];
-const newTask = { id: "task_" + Date.now(), title, amount: reward, link };
+const newTask = { id: "task_" + Date.now(), title, details, amount: reward, link };
 const updatedTasks = [...currentTasks, newTask];
 
 fetch(`${CORE_BACKEND_API_URL}/api/settings/update`, {
@@ -401,8 +471,9 @@ method: 'POST',
 headers: { 'Content-Type': 'application/json' },
 body: JSON.stringify({ tasks: updatedTasks })
 }).then(() => {
-alert("Task deployed to active database.");
+alert("Task deployed into active bot architecture.");
 document.getElementById('admInputTaskTitle').value = "";
+document.getElementById('admInputTaskDetails').value = "";
 document.getElementById('admInputTaskReward').value = "";
 document.getElementById('admInputTaskLink').value = "";
 closeAdminDashboardView();
@@ -417,14 +488,28 @@ withdrawMode: document.getElementById('admWithdrawMode').value,
 minWithdraw: parseInt(document.getElementById('admMinWithdraw').value),
 maxWithdraw: parseInt(document.getElementById('admMaxWithdraw').value),
 perRefer: parseFloat(document.getElementById('admPerRefer').value),
-reqReferrals: parseInt(document.getElementById('admReqReferrals').value)
+reqReferrals: parseInt(document.getElementById('admReqReferrals').value),
+telegramChannel: document.getElementById('admInputTelegramChannel').value.trim(),
+contactSupport: document.getElementById('admInputContactSupport').value.trim(),
+keyboardLayout: document.getElementById('admKeyboardLayout').value
 };
 
 fetch(`${CORE_BACKEND_API_URL}/api/settings/update`, {
 method: 'POST',
 headers: { 'Content-Type': 'application/json' },
 body: JSON.stringify(settings)
-}).then(() => { alert("Core system variables configured."); closeAdminDashboardView(); syncPlatformData(); });
+}).then(() => { alert("Global parameters saved into bot module."); databaseSyncerBypass(); });
+}
+
+function saveNewTerminalSecurityCode() {
+const newPin = document.getElementById('admNewSecurityPin').value.trim();
+if(newPin.length < 4) return alert("Security key must be at least 4 digits long.");
+
+fetch(`${CORE_BACKEND_API_URL}/api/settings/update`, {
+method: 'POST',
+headers: { 'Content-Type': 'application/json' },
+body: JSON.stringify({ securityPin: newPin })
+}).then(() => { alert("Master security key changed safely."); MASTER_ACCESS_PIN = newPin; databaseSyncerBypass(); });
 }
 
 function executeAdminBalanceOverride() {
@@ -438,7 +523,7 @@ method: 'POST',
 headers: { 'Content-Type': 'application/json' },
 body: JSON.stringify({ targetUid, action, amount })
 }).then(res => res.json()).then(d => {
-if(d.success) { alert("Ledger asset modifications synchronized."); closeAdminDashboardView(); syncPlatformData(); }
+if(d.success) { alert("Ledger balance synchronized globally."); databaseSyncerBypass(); }
 else { alert(d.error || "Execution failed."); }
 });
 }
@@ -446,14 +531,15 @@ else { alert(d.error || "Execution failed."); }
 function generateSystemGiftCode() {
 const code = document.getElementById('admGiftCodeString').value.toUpperCase();
 const amount = parseFloat(document.getElementById('admGiftCodeAmount').value);
-if(!code || isNaN(amount)) { alert("Configure valid gift card matrix."); return; }
+const maxUsers = parseInt(document.getElementById('admGiftMaxUsers').value);
+if(!code || isNaN(amount) || isNaN(maxUsers)) { alert("Configure valid gift card matrix variables."); return; }
 
 fetch(`${CORE_BACKEND_API_URL}/api/admin/create-code`, {
 method: 'POST',
 headers: { 'Content-Type': 'application/json' },
-body: JSON.stringify({ codeString: code, awardValue: amount })
+body: JSON.stringify({ codeString: code, awardValue: amount, maxRedemptions: maxUsers })
 }).then(res => res.json()).then(d => {
-if(d.success) { alert("Voucher pattern safely loaded."); closeAdminDashboardView(); }
+if(d.success) { alert(`Multi-user voucher pattern loaded for ${maxUsers} claims.`); closeAdminDashboardView(); }
 });
 }
 
@@ -466,24 +552,39 @@ method: 'POST',
 headers: { 'Content-Type': 'application/json' },
 body: JSON.stringify({ userId: activeGlobalUserId, code: code })
 }).then(res => res.json()).then(d => {
-if(d.success) { alert("Voucher recognized! Balance modifications saved."); document.getElementById('walletGiftCodeInput').value = ""; syncPlatformData(); }
-else { alert(d.error || "Mismatch verification data."); }
+if(d.success) { alert("Voucher approved! Assets deployed successfully."); document.getElementById('walletGiftCodeInput').value = ""; syncPlatformData(); }
+else { alert(d.error || "Code matches execution barrier parameters."); }
 });
 }
 
 function executeSecureTransfer() {
 const targetUid = parseInt(document.getElementById('peerTargetInputId').value);
 const amount = parseFloat(document.getElementById('peerAmountInput').value);
-if(!targetUid || isNaN(amount) || amount <= 0) return alert("Verify target parameters allocation.");
+if(!targetUid || isNaN(amount) || amount <= 0) return alert("Verify target parameter structures allocation.");
 
 fetch(`${CORE_BACKEND_API_URL}/api/mini-app/peer-transfer`, {
 method: 'POST',
 headers: { 'Content-Type': 'application/json' },
 body: JSON.stringify({ userId: activeGlobalUserId, targetUid, amount })
 }).then(res => res.json()).then(d => {
-if(d.success) { alert("Transaction pipeline authorized."); document.getElementById('peerTargetInputId').value = ""; document.getElementById('peerAmountInput').value = ""; syncPlatformData(); }
-else { alert(d.error || "Gateway network drop."); }
+if(d.success) { alert("Peer transaction complete."); document.getElementById('peerTargetInputId').value = ""; document.getElementById('peerAmountInput').value = ""; syncPlatformData(); }
+else { alert(d.error || "Gateway response failed."); }
 });
+}
+
+function triggerTelegramChannelRedirect() {
+const target = synchronizedStateCache.botSettings?.telegramChannel || "https://t.me/";
+window.open(target, '_blank');
+}
+
+function triggerContactSupportRedirect() {
+const target = synchronizedStateCache.botSettings?.contactSupport || "https://t.me/";
+window.open(target, '_blank');
+}
+
+function databaseSyncerBypass() {
+closeAdminDashboardView();
+syncPlatformData();
 }
 
 function switchViewTab(id) {
@@ -495,7 +596,7 @@ document.getElementById('anchor-' + id).classList.add('active');
 
 function copyReferralInviteLink() {
 const botUser = "YourBot";
-navigator.clipboard.writeText(`https://t.me/${botUser}?start=${activeGlobalUserId}`).then(() => alert("Referral identity configuration copied!"));
+navigator.clipboard.writeText(`https://t.me/${botUser}?start=${activeGlobalUserId}`).then(() => alert("Referral link copied!"));
 }
 
 window.onload = syncPlatformData;
