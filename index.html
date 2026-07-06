@@ -53,9 +53,15 @@ body { background: var(--bg-gradient); color: var(--text-white); min-height: 100
 .summary-subbox { background: var(--surface-card); border: 1px solid var(--panel-border); padding: 16px; border-radius: 16px; backdrop-filter: blur(5px); }
 
 .payout-methods-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 20px; }
-.method-card { background: var(--surface-card); border: 1px solid var(--panel-border); padding: 14px; border-radius: 14px; text-align: center; font-size: 11px; font-weight: 700; color: var(--text-muted); display: flex; flex-direction: column; align-items: center; gap: 6px; }
+.method-card { background: var(--surface-card); border: 1px solid var(--panel-border); padding: 14px; border-radius: 14px; text-align: center; font-size: 11px; font-weight: 700; color: var(--text-muted); display: flex; flex-direction: column; align-items: center; gap: 6px; cursor: pointer; }
 .method-card svg { width: 18px; height: 18px; fill: currentColor; }
 .method-card.active { border-color: var(--accent-red); color: #fff; background: rgba(255,42,51,0.03); }
+
+/* Status Button Styles from Screenshots */
+.status-pill { padding: 4px 10px; font-size: 10px; font-weight: 800; border-radius: 8px; text-transform: uppercase; letter-spacing: 0.5px; }
+.status-pending { background: rgba(234, 179, 8, 0.15); color: #eab308; border: 1px solid rgba(234, 179, 8, 0.3); }
+.status-approved { background: rgba(16, 185, 129, 0.15); color: var(--success-green); border: 1px solid rgba(16, 185, 129, 0.3); }
+.status-rejected { background: rgba(255, 42, 51, 0.15); color: var(--accent-red); border: 1px solid rgba(255, 42, 51, 0.3); }
 
 .field-card-box { background: var(--surface-card); border: 1px solid var(--panel-border); padding: 16px; border-radius: 18px; margin-bottom: 16px; }
 .field-card-box label { font-size: 11px; color: var(--text-muted); display: block; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; }
@@ -76,7 +82,7 @@ body { background: var(--bg-gradient); color: var(--text-white); min-height: 100
 .nav-anchor.active { color: #fff; }
 .nav-anchor.active svg { color: var(--accent-red); filter: drop-shadow(0 0 6px rgba(255,42,51,0.4)); transform: translateY(-2px); }
 
-/* --- 2026 REFRESHED ADMIN STYLING WITH CATEGORIES & NAV --- */
+/* Admin Dashboard Elements */
 .admin-fullscreen-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #06080c; z-index: 2000; display: none; flex-direction: column; }
 .admin-modal-container { display: flex; flex-direction: column; height: 100%; width: 100%; padding: 20px; }
 .admin-modal-header { display: flex; justify-content: space-between; align-items: center; padding-bottom: 14px; border-bottom: 1px solid rgba(255,255,255,0.05); margin-bottom: 15px; }
@@ -136,20 +142,28 @@ body { background: var(--bg-gradient); color: var(--text-white); min-height: 100
 <h4 id="sumTotalWithdrawnText" style="font-size: 16px; font-weight:700; margin-top:4px;">₹0.00</h4>
 </div>
 </div>
+
 <div class="payout-methods-row">
-<div class="method-card active">
-<svg viewBox="0 0 24 24"><path d="M21 18v1c0 1.1-.9 2-2 2H5c-1.11 0-2-.9-2-2V5c0-1.1.89-2 2-2h14c1.1 0 2 .9 2 2v1h-9c-1.11 0-2 .9-2 2v8c0 1.1.89 2 2 2h9zm-9-2h10V8H12v8zm4-2.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5 .67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg>
+<div class="method-card active" id="method-upi" onclick="selectActivePaymentMethod('UPI')">
+<svg viewBox="0 0 24 24"><path d="M21 18v1c0 1.1-.9 2-2 2H5c-1.11 0-2-.9-2-2V5c0-1.1.89-2 2-2h14c1.1 0 2 .9 2 2v1h-9c-1.11 0-2 Oz-2 2v8c0 1.1.89 2 2 2h9zm-9-2h10V8H12v8zm4-2.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5 .67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg>
 <span>UPI</span>
 </div>
-<div class="method-card">
+<div class="method-card" id="method-bank" onclick="selectActivePaymentMethod('BANK')">
 <svg viewBox="0 0 24 24"><path d="M4 10h3v7H4zm6.5 0h3v7h-3zM2 22h19v-3H2zm15-12h3v7h-3zM11.5 2L2 7h19z"/></svg>
 <span>BANK</span>
 </div>
-<div class="method-card">
+<div class="method-card" id="method-redeem" onclick="selectActivePaymentMethod('REDEEM')">
 <svg viewBox="0 0 24 24"><path d="M20 6h-2.18c.11-.31.18-.65.18-1 0-1.66-1.34-3-3-3-1.05 0-1.96.54-2.5 1.35l-.5.67-.5-.68C10.96 2.54 10.05 2 9 2 7.34 2 6 3.34 6 5c0 .35.07.69.18 1H4c-1.11 0-1.99.89-1.99 2L2 19c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V8c0-1.11-.89-2-2-2zm-5-2c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zM9 4c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zm11 15H4v-2h16v2zm0-5H4V8h16v6z"/></svg>
 <span>REDEEM</span>
 </div>
 </div>
+
+<div class="section-title-row" style="margin-top: 18px;">
+<svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-4 6H9v2h6v2H9v2h6v2H7V7h8v2z"/></svg>
+<span>Payout Transaction Logs</span>
+</div>
+<div id="livePayoutHistoryContainer" style="margin-bottom: 20px;"></div>
+
 <div class="field-card-box">
 <label>Redeem Gift Code / Voucher</label>
 <div style="display:flex; gap:10px; margin-top:6px;">
@@ -336,9 +350,17 @@ const CORE_BACKEND_API_URL = window.location.origin;
 let activeGlobalUserId = null;
 let synchronizedStateCache = {};
 let hasAuthenticatedAdminSession = false;
+let currentAppPayoutMethod = "UPI";
 
-// 2026 പ്രൊട്ടോക്കോൾ അനുസരിച്ച് ഡൈനാമിക് ആയി അഡ്മിൻ പിൻ സംഭരിക്കുന്നു
 let MASTER_ACCESS_PIN = "1234";
+
+function selectActivePaymentMethod(methodName) {
+currentAppPayoutMethod = methodName;
+document.querySelectorAll('.method-card').forEach(card => card.classList.remove('active'));
+if(methodName === 'UPI') document.getElementById('method-upi').classList.add('active');
+if(methodName === 'BANK') document.getElementById('method-bank').classList.add('active');
+if(methodName === 'REDEEM') document.getElementById('method-redeem').classList.add('active');
+}
 
 function syncPlatformData() {
 const tgApp = window.Telegram.WebApp;
@@ -365,7 +387,6 @@ body: JSON.stringify({ userId: activeGlobalUserId, username: (accountMeta?.first
 synchronizedStateCache = payloadData;
 document.getElementById('loadingGate').style.display = 'none';
 
-// ബാലൻസ് ഫിക്സ് - ബോട്ടിലും ആപ്പിലും ഒരേപോലെ സിങ്ക് ആകുന്നു
 const balStr = "₹" + parseFloat(payloadData.user.balance || 0).toFixed(2);
 document.getElementById('headerBalanceDisplay').innerText = balStr;
 document.getElementById('vaultBalanceText').innerText = balStr;
@@ -373,7 +394,37 @@ document.getElementById('vaultBalanceText').innerText = balStr;
 document.getElementById('sumTotalEarnedText').innerText = "₹" + parseFloat(payloadData.user.totalEarned || payloadData.user.balance || 0).toFixed(2);
 document.getElementById('sumTotalWithdrawnText').innerText = "₹" + parseFloat(payloadData.user.totalWithdrawn || 0).toFixed(2);
 
-// റൺടൈം മാസ്റ്റർ പാസ്‌വേർഡ് സിങ്ക്
+// Rendering Live Transaction History Cards from User State Object
+const historyLogsContainer = document.getElementById('livePayoutHistoryContainer');
+if(historyLogsContainer) {
+historyLogsContainer.innerHTML = "";
+const logs = payloadData.user.history || [];
+
+if(logs.length === 0) {
+historyLogsContainer.innerHTML = `<p style="text-align:center; color:var(--text-muted); font-size:12px; padding:20px 0;">No payout metrics or logs synchronized.</p>`;
+} else {
+logs.forEach(item => {
+if(typeof item === 'object') {
+let pillClass = "status-pending";
+if(item.status === "Approved") pillClass = "status-approved";
+if(item.status === "Rejected") pillClass = "status-rejected";
+
+historyLogsContainer.innerHTML += `
+<div class="mission-row-card" style="margin-bottom:8px; padding:14px 16px;">
+<div class="mission-meta">
+<h4>${item.method || 'UPI'} Cashout Request</h4>
+<p style="font-size:10px; color:var(--text-muted);">${item.date || 'Syncing Timestamp...'}</p>
+<div style="margin-top:6px;"><span class="status-pill ${pillClass}">${item.status}</span></div>
+</div>
+<div>
+<span style="font-size:14px; font-weight:800; color:#fff;">₹${parseFloat(item.amount).toFixed(2)}</span>
+</div>
+</div>`;
+}
+});
+}
+}
+
 if(payloadData.botSettings?.securityPin) {
 MASTER_ACCESS_PIN = payloadData.botSettings.securityPin;
 }
