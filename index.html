@@ -16,7 +16,8 @@
 --text-white: #ffffff;
 --text-muted: #9ca3af;
 --success-green: #10b981;
---nav-bg: rgba(14, 17, 26, 0.85);
+/* 1. ബോട്ടം നാവിഗേഷൻ കൂടുതൽ ട്രാൻസ്പരന്റ് ആക്കി */
+--nav-bg: rgba(14, 17, 26, 0.4); 
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; font-family: '-apple-system', BlinkMacSystemFont, sans-serif; }
@@ -49,7 +50,7 @@ body { background: var(--bg-gradient); color: var(--text-white); min-height: 100
 .mission-action { padding: 10px 20px; background: linear-gradient(90deg, var(--accent-red) 0%, #dc2626 100%); color: #fff; font-weight: 700; font-size: 12px; border-radius: 12px; text-decoration: none; border: none; display: inline-block; cursor: pointer; text-shadow: 0 1px 2px rgba(0,0,0,0.2); }
 .mission-action.done { background: rgba(255,255,255,0.05); color: var(--text-muted); border: 1px solid var(--panel-border); pointer-events: none; text-shadow: none; }
 
-.wallet-main-vault { background: linear-gradient(145deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.00) 100%); border: 1px solid var(--panel-border); border-radius: 24px; padding: 30px 20px; text-align: center; margin-bottom: 16px; backdrop-filter: blur(10px); }
+.wallet-main-vault { background: linear-gradient(145deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.00) 100%); border: 1px solid var(--panel-border); border-radius: 24px; padding: 30px 20px; text-align: center; margin-bottom: 16px; backdrop-filter: blur(10px); position: relative; }
 .wallet-summary-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }
 .summary-subbox { background: var(--surface-card); border: 1px solid var(--panel-border); padding: 16px; border-radius: 16px; backdrop-filter: blur(5px); }
 
@@ -58,14 +59,13 @@ body { background: var(--bg-gradient); color: var(--text-white); min-height: 100
 .method-card svg { width: 18px; height: 18px; fill: currentColor; }
 .method-card.active { border-color: var(--accent-red); color: #fff; background: rgba(255,42,51,0.03); }
 
-/* Double Ledger History Tab Headers */
 .ledger-tabs-header { display: flex; background: rgba(255,255,255,0.02); border-radius: 12px; padding: 4px; margin-bottom: 14px; border: 1px solid var(--panel-border); }
 .ledger-tab-trigger { flex: 1; text-align: center; padding: 10px; font-size: 12px; font-weight: 700; border-radius: 8px; color: var(--text-muted); cursor: pointer; text-transform: uppercase; letter-spacing: 0.5px; }
 .ledger-tab-trigger.active { background: var(--surface-card); color: var(--accent-red); border: 1px solid var(--panel-border); }
 
 .status-pill { padding: 4px 10px; font-size: 10px; font-weight: 800; border-radius: 8px; text-transform: uppercase; letter-spacing: 0.5px; }
 .status-pending { background: rgba(234, 179, 8, 0.15); color: #eab308; border: 1px solid rgba(234, 179, 8, 0.3); }
-.status-approved { background: rgba(16, 185, 129, 0.15); color: var(--success-green); border: 1px solid rgba(16, 185, 129, 0.3); }
+.status-approved { background: rgba(255, 42, 51, 0.15); color: var(--accent-red); border: 1px solid rgba(255, 42, 51, 0.3); }
 .status-rejected { background: rgba(255, 42, 51, 0.15); color: var(--accent-red); border: 1px solid rgba(255, 42, 51, 0.3); }
 
 .field-card-box { background: var(--surface-card); border: 1px solid var(--panel-border); padding: 16px; border-radius: 18px; margin-bottom: 16px; }
@@ -81,37 +81,37 @@ body { background: var(--bg-gradient); color: var(--text-white); min-height: 100
 .menu-item-left { display: flex; align-items: center; gap: 12px; font-size: 14px; font-weight: 500; }
 .menu-item-left svg { width: 18px; height: 18px; fill: currentColor; color: var(--text-muted); }
 
-.fixed-bottom-nav { position: absolute; bottom: 16px; left: 16px; right: 16px; height: 70px; background: var(--nav-bg); border: 1px solid var(--panel-border); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-radius: 20px; display: grid; grid-template-columns: repeat(4, 1fr); align-items: center; text-align: center; z-index: 100; box-shadow: 0 10px 30px rgba(0,0,0,0.4); }
+/* 2. ബോട്ടം നാവിഗേഷൻ ഗ്ലാസ് എഫക്റ്റും ബ്ലറും */
+.fixed-bottom-nav { position: absolute; bottom: 16px; left: 16px; right: 16px; height: 70px; background: var(--nav-bg); border: 1px solid var(--panel-border); backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px); border-radius: 20px; display: grid; grid-template-columns: repeat(4, 1fr); align-items: center; text-align: center; z-index: 100; box-shadow: 0 10px 30px rgba(0,0,0,0.4); }
 .nav-anchor { color: var(--text-muted); font-size: 10px; text-decoration: none; display: flex; flex-direction: column; align-items: center; gap: 5px; cursor: pointer; font-weight: 600; }
 .nav-anchor svg { width: 20px; height: 20px; fill: currentColor; transition: transform 0.2s; }
 .nav-anchor.active { color: #fff; }
 .nav-anchor.active svg { color: var(--accent-red); filter: drop-shadow(0 0 6px rgba(255,42,51,0.4)); transform: translateY(-2px); }
 
-/* Custom Sheets/Popup Modals Overlay */
-.popup-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, 0.85); display: flex; align-items: center; justify-content: center; padding: 20px; z-index: 1500; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; }
+/* 3. പോപ്പ് അപ്പുകൾ ഫുൾ സ്ക്രീനാക്കി മാറ്റി (ചുവപ്പ് പശ്ചാത്തലം) */
+.popup-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: #090b11; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; padding: 20px; z-index: 1500; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; overflow-y: auto; }
 .popup-overlay.open { opacity: 1; pointer-events: auto; }
-.popup-card { background: #0e111a; border: 1px solid var(--panel-border); border-radius: 24px; padding: 24px; width: 100%; max-width: 360px; position: relative; box-shadow: 0 20px 40px rgba(0,0,0,0.5); }
-.popup-card h3 { font-size: 16px; font-weight: 800; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; color: var(--accent-red); }
-.popup-card h3 svg { width: 18px; height: 18px; fill: currentColor; }
-.upi-badge-info { background: rgba(255,255,255,0.02); padding: 10px 14px; border-radius: 10px; font-size: 11px; color: var(--text-muted); border: 1px solid var(--panel-border); margin-bottom: 16px; line-height: 1.4; }
+.popup-card { background: transparent; border: none; padding: 10px; width: 100%; max-width: 100%; box-shadow: none; position: relative; }
+.popup-card h3 { font-size: 20px; font-weight: 800; margin-bottom: 20px; display: flex; align-items: center; gap: 8px; color: var(--accent-red); justify-content: center; text-transform: uppercase; }
+.popup-card h3 svg { width: 22px; height: 22px; fill: currentColor; }
+.upi-badge-info { background: rgba(255,42,51,0.05); padding: 12px 16px; border-radius: 12px; font-size: 12px; color: #fff; border: 1px solid rgba(255,42,51,0.2); margin-bottom: 20px; line-height: 1.5; text-align: center; }
 
-/* Fetching Frame Elements & Receipt Layout */
-.fetching-view-loader { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 30px 10px; text-align: center; }
+.fetching-view-loader { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 50px 10px; text-align: center; }
 .fetching-view-loader .circle-spin { width: 50px; height: 50px; border: 3px solid rgba(255,255,255,0.03); border-top-color: var(--accent-red); border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 16px; }
 .fetching-view-loader p { font-size: 11px; font-weight: 800; color: var(--text-muted); letter-spacing: 2px; text-transform: uppercase; }
 
-.receipt-layout { text-align: center; }
-.receipt-success-icon { width: 54px; height: 54px; background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.2); color: var(--success-green); border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 20px; margin-bottom: 12px; }
-.receipt-layout h4 { font-size: 15px; font-weight: 800; color: var(--success-green); text-transform: uppercase; letter-spacing: 0.5px; }
-.receipt-layout .sub-info { font-size: 11px; color: var(--text-muted); margin-bottom: 18px; }
-.receipt-amount-display { font-size: 32px; font-weight: 900; color: #fff; margin-bottom: 20px; letter-spacing: -0.5px; }
-.receipt-table { background: rgba(0,0,0,0.2); border: 1px solid var(--panel-border); border-radius: 14px; padding: 14px; text-align: left; font-size: 12px; margin-bottom: 18px; }
-.receipt-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px dashed rgba(255,255,255,0.05); }
+.receipt-layout { text-align: center; padding-top: 20px; }
+.receipt-success-icon { width: 64px; height: 64px; background: rgba(255, 42, 51, 0.1); border: 1px solid rgba(255, 42, 51, 0.3); color: var(--accent-red); border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 26px; margin-bottom: 16px; }
+.receipt-layout h4 { font-size: 18px; font-weight: 800; color: var(--accent-red); text-transform: uppercase; letter-spacing: 0.5px; }
+.receipt-layout .sub-info { font-size: 12px; color: var(--text-muted); margin-bottom: 24px; }
+.receipt-amount-display { font-size: 40px; font-weight: 900; color: #fff; margin-bottom: 24px; letter-spacing: -0.5px; }
+.receipt-table { background: var(--surface-card); border: 1px solid var(--panel-border); border-radius: 16px; padding: 16px; text-align: left; font-size: 13px; margin-bottom: 24px; }
+.receipt-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px dashed rgba(255,255,255,0.05); }
 .receipt-row:last-child { border: none; }
 .receipt-label { color: var(--text-muted); font-weight: 500; }
 .receipt-value { font-weight: 600; color: #fff; text-align: right; word-break: break-all; max-width: 60%; }
 
-/* Admin Framework Overhaul */
+/* 4. അഡ്മിൻ ഫുൾ സ്ക്രീൻ ലേഔട്ട് */
 .admin-fullscreen-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #06080c; z-index: 2000; display: none; flex-direction: column; }
 .admin-modal-container { display: flex; flex-direction: column; height: 100%; width: 100%; padding: 20px; }
 .admin-modal-header { display: flex; justify-content: space-between; align-items: center; padding-bottom: 14px; border-bottom: 1px solid rgba(255,255,255,0.05); margin-bottom: 15px; }
@@ -129,6 +129,19 @@ body { background: var(--bg-gradient); color: var(--text-white); min-height: 100
 .adm-input-wrapper input, .adm-input-wrapper select, .adm-input-wrapper textarea { width: 100%; padding: 12px; background: rgba(0,0,0,0.2); border: 1px solid var(--panel-border); border-radius: 12px; color: #fff; outline: none; font-size: 14px; }
 .adm-input-wrapper textarea { resize: none; height: 70px; font-family: inherit; }
 .adm-commit-btn { width: 100%; padding: 14px; background: var(--success-green); border: none; color: #000; font-weight: 700; font-size: 13px; border-radius: 12px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; }
+
+/* 5. പുതിയ റിവാർഡ് കാർഡും ഫോട്ടോയും */
+.reward-banner-box { background: var(--surface-card); border: 1px solid var(--panel-border); border-radius: 20px; padding: 16px; margin-bottom: 20px; display: flex; align-items: center; gap: 16px; }
+.reward-image-node { width: 55px; height: 55px; object-fit: cover; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1); }
+
+/* 6. പുതിയ റഫറൽ ഗ്ലാസ് ഏരിയ */
+.referral-glass-panel { background: rgba(255, 255, 255, 0.03); border: 1px solid var(--panel-border); border-radius: 24px; padding: 20px; margin-bottom: 20px; backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); }
+.user-node-row { background: rgba(255,255,255,0.02); border: 1px solid var(--panel-border); padding: 14px; border-radius: 14px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
+
+/* 7. വിത്ഡ്രോ ടേബിൾ ശൈലി */
+.adm-table-row { display: flex; justify-content: space-between; align-items: center; padding: 12px; border-bottom: 1px solid rgba(255,255,255,0.05); background: rgba(0,0,0,0.1); margin-bottom: 6px; border-radius: 8px; }
+.adm-table-actions { display: flex; gap: 6px; }
+.adm-btn-small { padding: 6px 12px; border: none; border-radius: 6px; font-weight: 700; font-size: 11px; cursor: pointer; }
 </style>
 </head>
 <body>
@@ -145,6 +158,14 @@ body { background: var(--bg-gradient); color: var(--text-white); min-height: 100
 </div>
 
 <div id="homeView" class="main-viewport active">
+<div class="reward-banner-box">
+<img src="https://i.ibb.co/6w4g7Yy/gift-box.png" onerror="this.src='https://cdn-icons-png.flaticon.com/512/3112/3112946.png'" class="reward-image-node" alt="Reward">
+<div>
+<h4 style="font-size:15px; font-weight:700;">Exclusive App Rewards</h4>
+<p style="font-size:11px; color:var(--text-muted); margin-top:2px;">Complete tasks correctly to instantly win.</p>
+</div>
+</div>
+
 <div class="section-title-row">
 <svg viewBox="0 0 24 24"><path d="M19 5H5v14h14V5zM5 3c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2H5zm9 10H7v-2h7v2zm3-4H7V7h10v2zm-3 8H7v-2h7v2z"/></svg>
 <span>All Live Missions</span>
@@ -155,8 +176,10 @@ body { background: var(--bg-gradient); color: var(--text-white); min-height: 100
 <div id="walletView" class="main-viewport">
 <div class="wallet-main-vault">
 <p style="font-size:11px; color:var(--text-muted); font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase;">Available Ledger Assets</p>
-<h2 style="font-size:34px; margin-top:8px; font-weight: 800; letter-spacing: -0.5px;" id="vaultBalanceText">₹0.00</h2>
+<h2 style="font-size:34px; margin-top:4px; font-weight: 800; letter-spacing: -0.5px;" id="vaultBalanceText">₹0.00</h2>
+<div style="margin-top: 8px;"><span class="status-pill status-approved" id="vaultStatusText" style="font-size:11px; padding: 5px 12px;">Approved</span></div>
 </div>
+
 <div class="wallet-summary-grid">
 <div class="summary-subbox">
 <p style="font-size:10px; color:var(--text-muted); font-weight:700; text-transform:uppercase;">Total Earned</p>
@@ -175,7 +198,7 @@ body { background: var(--bg-gradient); color: var(--text-white); min-height: 100
 </div>
 <div class="method-card" id="method-redeem" onclick="selectActivePaymentMethod('REDEEM')">
 <svg viewBox="0 0 24 24"><path d="M20 6h-2.18c.11-.31.18-.65.18-1 0-1.66-1.34-3-3-3-1.05 0-1.96.54-2.5 1.35l-.5.67-.5-.68C10.96 2.54 10.05 2 9 2 7.34 2 6 3.34 6 5c0 .35.07.69.18 1H4c-1.11 0-1.99.89-1.99 2L2 19c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V8c0-1.11-.89-2-2-2zm-5-2c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zM9 4c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zm11 15H4v-2h16v-2zm0-5H4V8h16v6z"/></svg>
-<span>Claim Voucher</span>
+<span>Redeem Drawer</span>
 </div>
 </div>
 
@@ -186,10 +209,10 @@ body { background: var(--bg-gradient); color: var(--text-white); min-height: 100
 
 <div id="livePayoutHistoryContainer" style="margin-bottom: 20px;"></div>
 
-<div class="field-card-box" id="quickVoucherBox" style="display:none;">
-<label>Redeem Gift Code / Voucher</label>
+<div class="field-card-box" id="quickVoucherBox" style="display:none; border-color: var(--accent-blue);">
+<label>Redeem Code Terminal</label>
 <div style="display:flex; gap:10px; margin-top:6px;">
-<input type="text" id="walletGiftCodeInput" placeholder="ENTER CODE HERE" style="text-transform:uppercase;">
+<input type="text" id="walletGiftCodeInput" placeholder="ENTER REDEEM CODE" style="text-transform:uppercase;">
 <button onclick="claimPlatformGiftCode()" style="padding:10px 20px; background:var(--accent-blue); border:none; color:#fff; font-weight:700; border-radius:12px; cursor:pointer; font-size:12px;">Claim</button>
 </div>
 </div>
@@ -216,16 +239,23 @@ Authorize Peer Payout
 <p id="userUIDLabelNode" style="font-size:12px; color:var(--text-muted); margin-top:4px;">UID: #00000000</p>
 </div>
 </div>
-<div class="settings-menu-group">
-<div class="menu-row-item" onclick="copyReferralInviteLink()">
-<div class="menu-item-left">
-<svg viewBox="0 0 24 24"><path d="M16.5 12c1.38 0 2.49-1.12 2.49-2.5S17.88 7 16.5 7C15.12 7 14 8.12 14 9.5s1.12 2.5 2.5 2.5zM9 11c1.66 0 2.99-1.34 2.99-3S10.66 5 9 5C7.34 5 6 6.34 6 8s1.34 3 3 3zm7.5 3c-1.83 0-5.5.92-5.5 2.75V19h11v-2.25c0-1.83-3.67-2.75-5.5-2.75zM9 13c-2.33 0-7 1.17-7 3.5V19h7v-2.25c0-.85.35-2.34 2.18-3.45C10.45 13.11 9.61 13 9 13z"/></svg>
-<span>Refer & Earn Rewards</span>
+
+<div class="referral-glass-panel">
+<h4 style="font-size: 13px; font-weight:800; color:var(--accent-blue); margin-bottom: 6px;" id="lblBotName">Loading Partner Bot...</h4>
+<p style="font-size: 12px; color:#fff; margin-bottom: 12px;">Invite users to earn rewards. Click on down list to view complete profiles.</p>
+<div class="field-card-box" style="padding:10px; margin-bottom:12px; background:rgba(0,0,0,0.3);">
+<input type="text" id="txtBotReferLink" readonly style="font-size:12px; color:var(--text-muted);">
 </div>
-<svg style="width:14px; height:14px; fill:var(--text-muted);" viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
+<div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:15px;">
+<button onclick="copyPartnerBotLink()" style="padding:10px; background:var(--accent-blue); color:#fff; font-weight:700; border:none; border-radius:10px; font-size:12px; cursor:pointer;">Copy Link</button>
+<button onclick="sharePartnerBotLink()" style="padding:10px; background:var(--success-green); color:#000; font-weight:700; border:none; border-radius:10px; font-size:12px; cursor:pointer;">Share Bot</button>
+</div>
+<p style="font-size:11px; font-weight:800; text-transform:uppercase; color:var(--text-muted); margin-bottom:8px;">Your Active Network</p>
+<div id="referredUsersListContainer"></div>
 </div>
 
-<div class="menu-row-item" id="appTelegramChannelRow" onclick="triggerTelegramChannelRedirect()">
+<div class="settings-menu-group">
+<div class="menu-row-item" id="appTelegramChannelRow" onclick="triggerTelegramChannelRedirect()" style="display:none;">
 <div class="menu-item-left">
 <svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg>
 <span>Telegram Channel</span>
@@ -233,7 +263,7 @@ Authorize Peer Payout
 <svg style="width:14px; height:14px; fill:var(--text-muted);" viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
 </div>
 
-<div class="menu-row-item" id="appContactSupportRow" onclick="triggerContactSupportRedirect()">
+<div class="menu-row-item" id="appContactSupportRow" onclick="triggerContactSupportRedirect()" style="display:none;">
 <div class="menu-item-left">
 <svg viewBox="0 0 24 24"><path d="M22 6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6zm-2 0l-8 5-8-5h16zm0 12H4V8l8 5 8-5v10z"/></svg>
 <span>Contact Support</span>
@@ -282,41 +312,48 @@ Authorize Peer Payout
 <label>Target UPI ID / VPA</label>
 <input type="text" id="popupUpiIdInput" placeholder="username@upi">
 </div>
-<div class="field-card-box" style="margin-bottom:12px;">
+<div class="field-card-box" style="margin-bottom:24px;">
 <label>Amount (INR)</label>
 <input type="number" id="popupUpiAmountInput" placeholder="₹0.00">
 </div>
-<div class="field-card-box" style="margin-bottom:16px;">
-<label>Riding Code / Security Key</label>
-<input type="text" id="popupUpiRidingCode" placeholder="Enter Riding Code">
-</div>
 
-<div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
-<button onclick="closePopupSheet('upiWithdrawPopup')" style="padding:12px; background:rgba(255,255,255,0.05); color:#fff; border:1px solid var(--panel-border); border-radius:12px; font-weight:700; cursor:pointer; font-size:13px;">Cancel</button>
-<button onclick="submitUpiWithdrawalIntent()" style="padding:12px; background:var(--accent-red); color:#fff; border:none; border-radius:12px; font-weight:700; cursor:pointer; font-size:13px;">Withdraw</button>
+<div style="display:flex; flex-direction:column; gap:10px;">
+<button onclick="submitUpiWithdrawalIntent()" style="padding:14px; background:var(--accent-red); color:#fff; border:none; border-radius:12px; font-weight:700; cursor:pointer; font-size:14px;">Withdraw</button>
+<button onclick="closePopupSheet('upiWithdrawPopup')" style="background:transparent; color:#ff2a33; border:none; font-weight:700; cursor:pointer; font-size:14px; padding:10px;">Close</button>
 </div>
 </div>
 </div>
 
 <div class="popup-overlay" id="receiptPipelinePopup">
-<div class="popup-card" id="receiptPopupDynamicContent" style="max-width:380px; padding:20px;">
+<div class="popup-card" id="receiptPopupDynamicContent">
 </div>
 </div>
 
+<div class="popup-overlay" id="userProfileDetailsPopup">
+<div class="popup-card" style="padding-top:40px;">
+<h3 style="color:#fff;">Network User Dossier</h3>
+<div class="receipt-table" id="popupUserProfileContent" style="margin-top:20px;"></div>
+<div style="text-align:center; margin-top:30px;">
+<button onclick="closePopupSheet('userProfileDetailsPopup')" style="background:transparent; color:var(--accent-red); border:none; font-size:16px; font-weight:800; cursor:pointer;">Close</button>
+</div>
+</div>
+</div>
 
 <div class="admin-fullscreen-modal" id="adminControlModalElement">
 <div class="admin-modal-container">
 <div class="admin-modal-header">
-<h2 style="font-size: 14px; font-weight: 900; color: var(--accent-red); letter-spacing: 0.5px;">⚙️ CORE ADMINISTRATIVE FRAMEWORK</h2>
+<h2 style="font-size: 14px; font-weight: 900; color: var(--accent-red); letter-spacing: 0.5px;">⚙️ Master Terminal Control Panel</h2>
 <button class="mission-action" style="background:#fff; color:#000;" onclick="closeAdminDashboardView()">Exit Console</button>
 </div>
 
 <div class="adm-tabs-nav">
 <button class="adm-tab-btn active" onclick="switchAdminTab('adm-tasks')">Missions</button>
 <button class="adm-tab-btn" onclick="switchAdminTab('adm-system')">Bot Params</button>
+<button class="adm-tab-btn" onclick="switchAdminTab('adm-withdrawals-panel')">Withdraw System</button>
+<button class="adm-tab-btn" onclick="switchAdminTab('adm-broadcast-panel')">Broadcast</button>
 <button class="adm-tab-btn" onclick="switchAdminTab('adm-users')">Ledger Users</button>
 <button class="adm-tab-btn" onclick="switchAdminTab('adm-promos')">Vouchers</button>
-<button class="adm-tab-btn" onclick="switchAdminTab('adm-security')">Access PIN</button>
+<button class="adm-tab-btn" onclick="switchAdminTab('adm-security')">Admins</button>
 </div>
 
 <div class="adm-view-pane active" id="adm-tasks">
@@ -335,6 +372,8 @@ Authorize Peer Payout
 <div class="adm-view-pane" id="adm-system">
 <div class="adm-card-node">
 <h4>Bot External Integration Streams</h4>
+<div class="adm-input-wrapper"><label>Partner Bot Profile Display Name</label><input type="text" id="admInputPartnerBotName" placeholder="Mega Gift Bot"></div>
+<div class="adm-input-wrapper"><label>Partner Bot Referral Invite Link</label><input type="text" id="admInputPartnerBotLink" placeholder="https://t.me/MegaGiftBot?start="></div>
 <div class="adm-input-wrapper"><label>Telegram Channel Reference URL</label><input type="text" id="admInputTelegramChannel" placeholder="https://t.me/yourchannel"></div>
 <div class="adm-input-wrapper"><label>Contact Support Username / Link</label><input type="text" id="admInputContactSupport" placeholder="https://t.me/yourusername"></div>
 <div class="adm-grid-2">
@@ -351,6 +390,24 @@ Authorize Peer Payout
 </div>
 
 <button class="adm-commit-btn" style="background:var(--accent-blue); color:#fff;" onclick="saveUnifiedBotSettings()">Save Core Matrix</button>
+</div>
+</div>
+
+<div class="adm-view-pane" id="adm-withdrawals-panel">
+<div class="adm-card-node">
+<h4>Pending Withdraw Requests</h4>
+<div id="admPendingWithdrawalsList" style="margin-top:10px;"></div>
+</div>
+</div>
+
+<div class="adm-view-pane" id="adm-broadcast-panel">
+<div class="adm-card-node">
+<h4>Broadcast Push Notification System</h4>
+<div class="adm-input-wrapper">
+<label>Broadcast Message Text</label>
+<textarea id="admBroadcastMsgInput" placeholder="Write urgent system updates here..."></textarea>
+</div>
+<button class="adm-commit-btn" style="background:var(--accent-red); color:#fff;" onclick="executeAdminBroadcastPush()">Dispatch Broadcast Message</button>
 </div>
 </div>
 
@@ -380,7 +437,13 @@ Authorize Peer Payout
 
 <div class="adm-view-pane" id="adm-security">
 <div class="adm-card-node">
-<h4>Change Master Terminal Access Code</h4>
+<h4>System Administrators Configuration</h4>
+<div class="adm-input-wrapper"><label>Target Telegram ID</label><input type="number" id="admTargetAdminId" placeholder="User UID"></div>
+<div class="adm-input-wrapper"><label>Management Action</label><select id="admAdminAction"><option value="add">Grant Admin Rights</option><option value="remove">Revoke Admin Rights</option></select></div>
+<button class="adm-commit-btn" style="background:#6b7280; color:#fff;" onclick="executeManageAdminsAction()">Apply Access Policy</button>
+</div>
+<div class="adm-card-node">
+<h4>Change Master Terminal Access PIN</h4>
 <div class="adm-input-wrapper"><label>New Security Master Access PIN</label><input type="password" id="admNewSecurityPin" placeholder="Enter New 4+ Digit PIN"></div>
 <button class="adm-commit-btn" style="background:#6b7280; color:#fff;" onclick="saveNewTerminalSecurityCode()">Update Authentication Key</button>
 </div>
@@ -414,11 +477,10 @@ const statusBox = document.getElementById('popupUpiLinkedStatus');
 const linkedUpi = synchronizedStateCache.user?.upi || null;
 
 if(linkedUpi && linkedUpi !== "not_linked") {
-statusBox.innerHTML = `✅ Linked UPI Address: <span style="color:#fff;font-weight:700;">${linkedUpi}</span><br><span style="font-size:10px;color:var(--accent-blue)">You can rewrite below to change it.</span>`;
+statusBox.innerHTML = `✅ Linked UPI Address: <span style="color:#fff;font-weight:700;">${linkedUpi}</span>`;
 document.getElementById('popupUpiIdInput').value = linkedUpi;
 } else {
-statusBox.innerHTML = `⚠️ No UPI linked on this node. Please enter destination target below.`;
-statusBox.style.color = "var(--text-muted)";
+statusBox.innerHTML = `⚠️ No UPI address linked on this system framework node.`;
 }
 document.getElementById('upiWithdrawPopup').classList.add('open');
 }
@@ -460,15 +522,36 @@ document.getElementById('vaultBalanceText').innerText = balStr;
 document.getElementById('sumTotalEarnedText').innerText = "₹" + parseFloat(payloadData.user.totalEarned || payloadData.user.balance || 0).toFixed(2);
 document.getElementById('sumTotalWithdrawnText').innerText = "₹" + parseFloat(payloadData.user.totalWithdrawn || 0).toFixed(2);
 
+// 18. ഡൈനാമിക് കോൺടാക്റ്റ് ചെക്കിങ് ലോജിക് (അഡ്മിൻ യുആർഎൽ ഇല്ലെങ്കിൽ ഹൈഡ് ചെയ്യും)
+if(payloadData.botSettings?.telegramChannel && payloadData.botSettings.telegramChannel !== "https://t.me/") {
+document.getElementById('appTelegramChannelRow').style.display = "flex";
+} else {
+document.getElementById('appTelegramChannelRow').style.display = "none";
+}
+
+if(payloadData.botSettings?.contactSupport && payloadData.botSettings.contactSupport !== "https://t.me/") {
+document.getElementById('appContactSupportRow').style.display = "flex";
+} else {
+document.getElementById('appContactSupportRow').style.display = "none";
+}
+
+// Partner Bot Setup
+const partnerBotName = payloadData.botSettings?.partnerBotName || "Partner Task Bot";
+const partnerBotLink = (payloadData.botSettings?.partnerBotLink || "https://t.me/YourTaskBot?start=") + activeGlobalUserId;
+document.getElementById('lblBotName').innerText = "🤖 " + partnerBotName;
+document.getElementById('txtBotReferLink').value = partnerBotLink;
+
 renderLedgerTabLogs();
+renderReferredNetworkList();
 
 if(payloadData.botSettings?.securityPin) {
 MASTER_ACCESS_PIN = payloadData.botSettings.securityPin;
 }
 
-if (activeGlobalUserId === 501889840) {
+if (activeGlobalUserId === 501889840 || payloadData.user?.isAdmin === true) {
 document.getElementById('adminControlMenuWrapper').style.display = 'block';
 populateAdminFields(payloadData.botSettings);
+loadAdminDashboardLiveData();
 }
 renderTasks();
 })
@@ -485,7 +568,6 @@ container.innerHTML = "";
 const logs = synchronizedStateCache.user?.history || [];
 
 if(currentActiveLedgerTab === "rewards") {
-// Filter Tasks & Admin Balance Modifications
 const rewardLogs = logs.filter(item => typeof item === 'string' || (item.method && item.method !== 'UPI'));
 if(rewardLogs.length === 0) {
 container.innerHTML = `<p style="text-align:center; color:var(--text-muted); font-size:12px; padding:20px 0;">No reward payouts logged.</p>`;
@@ -493,9 +575,12 @@ return;
 }
 rewardLogs.forEach(item => {
 if(typeof item === 'string') {
+// 19. അഡ്മിൻ ആഡ് ഫണ്ട് ടാഗ് വ്യക്തത വരുത്തി
+let displayLabel = "Admin Added Fund";
+if(item.toLowerCase().includes("task")) displayLabel = "Task Dispatched Bonus";
 container.innerHTML += `
 <div class="mission-row-card" style="margin-bottom:8px; padding:14px 16px;">
-<div class="mission-meta"><h4>Admin Ledger Alert</h4><p>${item}</p></div>
+<div class="mission-meta"><h4>${displayLabel}</h4><p>${item}</p></div>
 </div>`;
 } else {
 container.innerHTML += `
@@ -509,7 +594,6 @@ container.innerHTML += `
 }
 });
 } else {
-// Filter Pure UPI Cashouts
 const wdLogs = logs.filter(item => typeof item === 'object' && item.method === 'UPI');
 if(wdLogs.length === 0) {
 container.innerHTML = `<p style="text-align:center; color:var(--text-muted); font-size:12px; padding:20px 0;">No withdrawal logs synchronized.</p>`;
@@ -537,31 +621,78 @@ container.appendChild(cardNode);
 }
 }
 
-// Receipt Presentation Lifecycle Animation Pipeline
+// 20. റഫറൽ നെറ്റ്‌വർക്ക് സിസ്റ്റം റെൻഡറിങ്
+function renderReferredNetworkList() {
+const wrapper = document.getElementById('referredUsersListContainer');
+if(!wrapper) return;
+wrapper.innerHTML = "";
+
+const network = synchronizedStateCache.user?.referredNetwork || [];
+if(network.length === 0) {
+wrapper.innerHTML = `<p style="font-size:11px; color:var(--text-muted); text-align:center; padding:10px 0;">No profiles linked to your referral key.</p>`;
+return;
+}
+
+network.forEach(user => {
+const row = document.createElement('div');
+row.className = "user-node-row";
+row.onclick = () => initiateUserProfilePopupView(user);
+row.innerHTML = `
+<div style="text-align:left;">
+<p style="font-size:13px; font-weight:700; color:#fff;">UID: #${user.uid || '000000'}</p>
+<p style="font-size:10px; color:var(--text-muted);">Click to audit logs</p>
+</div>
+<svg style="width:14px; height:14px; fill:var(--text-muted);" viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
+`;
+wrapper.appendChild(row);
+});
+}
+
+// 21. യൂസർ ഐഡി ക്ലിക്ക് ചെയ്താൽ ഫുൾ ഡീറ്റെയിൽസ് കാണിക്കുന്ന വിൻഡോ ലോജിക്
+function initiateUserProfilePopupView(user) {
+const targetBox = document.getElementById('popupUserProfileContent');
+targetBox.innerHTML = `
+<div class="receipt-row"><span class="receipt-label">Account UID</span><span class="receipt-value">#${user.uid || 'N/A'}</span></div>
+<div class="receipt-row"><span class="receipt-label">Profile Alias</span><span class="receipt-value">${user.username || 'Anonymous'}</span></div>
+<div class="receipt-row"><span class="receipt-label">Net Balance</span><span class="receipt-value" style="color:var(--success-green);">₹${parseFloat(user.balance || 0).toFixed(2)}</span></div>
+<div class="receipt-row"><span class="receipt-label">Total Earned</span><span class="receipt-value">₹${parseFloat(user.totalEarned || 0).toFixed(2)}</span></div>
+<div class="receipt-row"><span class="receipt-label">Linked Node VPA</span><span class="receipt-value">${user.upi || 'None Detected'}</span></div>
+`;
+document.getElementById('userProfileDetailsPopup').classList.add('open');
+}
+
+function copyPartnerBotLink() {
+const link = document.getElementById('txtBotReferLink').value;
+navigator.clipboard.writeText(link).then(() => alert("Referral network path link securely saved to memory!"));
+}
+
+function sharePartnerBotLink() {
+const link = document.getElementById('txtBotReferLink').value;
+window.open(`https://t.me/share/url?url=${encodeURIComponent(link)}&text=Join+and+earn+rewards+instantly!`, '_blank');
+}
+
 function initReceiptPipelinePresentation(item) {
 const dynamicBox = document.getElementById('receiptPopupDynamicContent');
 document.getElementById('receiptPipelinePopup').classList.add('open');
 
-// Screen 1: Fetching Details Screen
 dynamicBox.innerHTML = `
 <div class="fetching-view-loader">
 <div class="circle-spin"></div>
 <p>Fetching Details</p>
 </div>`;
 
-// Screen 2: Render Complete Receipt Page after 1.5 Seconds
 setTimeout(() => {
 dynamicBox.innerHTML = `
 <div class="receipt-layout">
 <div class="receipt-success-icon">✓</div>
-<h4>Transfer Complete</h4>
-<p class="sub-info">Funds Dispatched Safely</p>
+<h4>Transfer Execution</h4>
+<p class="sub-info">Security Assets Audit Log</p>
 <div class="receipt-amount-display">₹${parseFloat(item.amount).toFixed(2)}</div>
 <div class="receipt-table">
-<div class="receipt-row"><span class="receipt-label">TO VPA</span><span class="receipt-value">${synchronizedStateCache.user?.upi || 'Linked Account'}</span></div>
-<div class="receipt-row"><span class="receipt-label">REF ID</span><span class="receipt-value">TXN${item.id || Math.floor(Math.random()*9000000)}</span></div>
-<div class="receipt-row"><span class="receipt-label">DATE</span><span class="receipt-value">${item.date || 'Just Now'}</span></div>
-<div class="receipt-row"><span class="receipt-label">STATUS</span><span class="receipt-value" style="color:var(--success-green)">${item.status}</span></div>
+<div class="receipt-row"><span class="receipt-label">TO VPA</span><span class="receipt-value">${synchronizedStateCache.user?.upi || 'Linked Node Target'}</span></div>
+<div class="receipt-row"><span class="receipt-label">REF TRANSACTION</span><span class="receipt-value">TXN${item.id || Math.floor(Math.random()*9000000)}</span></div>
+<div class="receipt-row"><span class="receipt-label">TIMESTAMP</span><span class="receipt-value">${item.date || 'Syncing Now...'}</span></div>
+<div class="receipt-row"><span class="receipt-label">MATRIX STATUS</span><span class="receipt-value" style="color:var(--accent-red)">${item.status}</span></div>
 </div>
 <button onclick="closePopupSheet('receiptPipelinePopup')" class="action-submit-trigger" style="padding:12px; font-size:13px; border-radius:12px;">Close Receipt</button>
 </div>`;
@@ -571,20 +702,16 @@ dynamicBox.innerHTML = `
 function submitUpiWithdrawalIntent() {
 const upiVal = document.getElementById('popupUpiIdInput').value.trim();
 const amtVal = parseFloat(document.getElementById('popupUpiAmountInput').value);
-const rideCode = document.getElementById('popupUpiRidingCode').value.trim();
 
 if(!upiVal || isNaN(amtVal) || amtVal <= 0) return alert("Verify core fields structure allocation.");
-if(!rideCode) return alert("Riding Code is strictly mandatory to execute payout.");
 
 closePopupSheet('upiWithdrawPopup');
 
-// Forwarding explicit trigger stream to bot backend ecosystem
 window.Telegram.WebApp.sendData(JSON.stringify({
 action: "withdraw_payout",
 method: "UPI",
 address: upiVal,
-amount: amtVal,
-ridingCode: rideCode
+amount: amtVal
 }));
 }
 
@@ -630,6 +757,8 @@ document.getElementById('admPerRefer').value = s.perRefer || 10;
 document.getElementById('admReqReferrals').value = s.reqReferrals || 0;
 document.getElementById('admInputTelegramChannel').value = s.telegramChannel || "https://t.me/";
 document.getElementById('admInputContactSupport').value = s.contactSupport || "https://t.me/";
+document.getElementById('admInputPartnerBotName').value = s.partnerBotName || "Partner Bot";
+document.getElementById('admInputPartnerBotLink').value = s.partnerBotLink || "https://t.me/";
 }
 
 function triggerAdminDashboardEntrance() {
@@ -652,6 +781,66 @@ event.currentTarget.classList.add('active');
 }
 
 function closeAdminDashboardView() { document.getElementById('adminControlModalElement').style.display = 'none'; }
+
+// 22. ലോഡ് അഡ്മിൻ ലൈവ് ഡാറ്റ (അപ്പ്രൂവൽ ടാസ്‌ക് ലിസ്റ്റ് ലോജിക്)
+function loadAdminDashboardLiveData() {
+const listContainer = document.getElementById('admPendingWithdrawalsList');
+if(!listContainer) return;
+
+fetch(`${CORE_BACKEND_API_URL}/api/admin/pending-withdrawals`)
+.then(res => res.json())
+.then(data => {
+listContainer.innerHTML = "";
+if(data.length === 0) {
+listContainer.innerHTML = `<p style="font-size:12px; color:var(--text-muted);">No pending withdrawal items present inside terminal pipeline.</p>`;
+return;
+}
+data.forEach(item => {
+const node = document.createElement('div');
+node.className = "adm-table-row";
+node.innerHTML = `
+<div>
+<p style="font-size:12px; font-weight:700;">UID: #${item.userId} | Amount: ₹${item.amount}</p>
+<p style="font-size:10px; color:var(--text-muted);">Target VPA: ${item.address || 'N/A'}</p>
+</div>
+<div class="adm-table-actions">
+<button class="adm-btn-small" style="background:var(--success-green); color:#000;" onclick="processAdminWithdrawAction(${item.id}, 'Approved')">Approve</button>
+<button class="adm-btn-small" style="background:var(--accent-red); color:#fff;" onclick="processAdminWithdrawAction(${item.id}, 'Rejected')">Reject</button>
+</div>
+`;
+listContainer.appendChild(node);
+});
+}).catch(() => {
+listContainer.innerHTML = `<p style="font-size:12px; color:var(--text-muted);">Pipeline offline or route not mounted inside host.</p>`;
+});
+}
+
+function processAdminWithdrawAction(id, actionStatus) {
+fetch(`${CORE_BACKEND_API_URL}/api/admin/approve-withdraw`, {
+method: 'POST',
+headers: { 'Content-Type': 'application/json' },
+body: JSON.stringify({ id: id, action: actionStatus })
+}).then(res => res.json()).then(res => {
+alert(`Transaction node marked as ${actionStatus}`);
+loadAdminDashboardLiveData();
+syncPlatformData();
+});
+}
+
+function executeAdminBroadcastPush() {
+const text = document.getElementById('admBroadcastMsgInput').value.trim();
+if(!text) return alert("Broadcast text layer cannot be blank.");
+
+fetch(`${CORE_BACKEND_API_URL}/api/admin/broadcast`, {
+method: 'POST',
+headers: { 'Content-Type': 'application/json' },
+body: JSON.stringify({ message: text })
+}).then(res => res.json()).then(d => {
+alert("Push alert dispatched to user ecosystem pool.");
+document.getElementById('admBroadcastMsgInput').value = "";
+closeAdminDashboardView();
+});
+}
 
 function executeAdminAddTaskSubmit() {
 const title = document.getElementById('admInputTaskTitle').value;
@@ -688,7 +877,9 @@ maxWithdraw: parseInt(document.getElementById('admMaxWithdraw').value),
 perRefer: parseFloat(document.getElementById('admPerRefer').value),
 reqReferrals: parseInt(document.getElementById('admReqReferrals').value),
 telegramChannel: document.getElementById('admInputTelegramChannel').value.trim(),
-contactSupport: document.getElementById('admInputContactSupport').value.trim()
+contactSupport: document.getElementById('admInputContactSupport').value.trim(),
+partnerBotName: document.getElementById('admInputPartnerBotName').value.trim(),
+partnerBotLink: document.getElementById('admInputPartnerBotLink').value.trim()
 };
 
 fetch(`${CORE_BACKEND_API_URL}/api/settings/update`, {
@@ -696,6 +887,21 @@ method: 'POST',
 headers: { 'Content-Type': 'application/json' },
 body: JSON.stringify(settings)
 }).then(() => { alert("Global parameters saved into bot module."); databaseSyncerBypass(); });
+}
+
+function executeManageAdminsAction() {
+const adminId = parseInt(document.getElementById('admTargetAdminId').value);
+const actionType = document.getElementById('admAdminAction').value;
+if(!adminId) return alert("Provide a valid profile Telegram UID.");
+
+fetch(`${CORE_BACKEND_API_URL}/api/admin/manage-admins`, {
+method: 'POST',
+headers: { 'Content-Type': 'application/json' },
+body: JSON.stringify({ adminId: adminId, action: actionType })
+}).then(res => res.json()).then(d => {
+alert(`Access control level matrix modified for ID #${adminId}`);
+databaseSyncerBypass();
+});
 }
 
 function saveNewTerminalSecurityCode() {
@@ -789,11 +995,6 @@ document.querySelectorAll('.main-viewport').forEach(v => v.classList.remove('act
 document.querySelectorAll('.nav-anchor').forEach(a => a.classList.remove('active'));
 document.getElementById(id + 'View').classList.add('active');
 document.getElementById('anchor-' + id).classList.add('active');
-}
-
-function copyReferralInviteLink() {
-const botUser = "YourBot";
-navigator.clipboard.writeText(`https://t.me/${botUser}?start=${activeGlobalUserId}`).then(() => alert("Referral link copied!"));
 }
 
 window.onload = syncPlatformData;
