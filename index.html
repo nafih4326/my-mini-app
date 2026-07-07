@@ -16,7 +16,7 @@
 --text-white: #ffffff;
 --text-muted: #9ca3af;
 --success-green: #10b981;
---nav-bg: rgba(14, 17, 26, 0.4); 
+--nav-bg: rgba(14, 17, 26, 0.25); 
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; font-family: '-apple-system', BlinkMacSystemFont, sans-serif; }
@@ -34,7 +34,7 @@ body { background: var(--bg-gradient); color: var(--text-white); min-height: 100
 .top-bar .logo .red-span { color: var(--accent-red); }
 .balance-pill { display: none; }
 
-.main-viewport { flex: 1; overflow-y: auto; padding: 0 20px 110px 20px; display: none; }
+.main-viewport { flex: 1; overflow-y: auto; padding: 0 20px 120px 20px; display: none; }
 .main-viewport.active { display: block; animation: tabFade 0.3s ease-out; }
 @keyframes tabFade { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
 
@@ -84,11 +84,12 @@ body { background: var(--bg-gradient); color: var(--text-white); min-height: 100
 .menu-item-left { display: flex; align-items: center; gap: 12px; font-size: 14px; font-weight: 500; }
 .menu-item-left svg { width: 18px; height: 18px; fill: currentColor; color: var(--text-muted); }
 
-.fixed-bottom-nav { position: absolute; bottom: 16px; left: 16px; right: 16px; height: 70px; background: var(--nav-bg); border: 1px solid var(--panel-border); backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px); border-radius: 20px; display: grid; grid-template-columns: repeat(3, 1fr); align-items: center; text-align: center; z-index: 100; box-shadow: 0 10px 30px rgba(0,0,0,0.4); }
-.nav-anchor { color: var(--text-muted); font-size: 10px; text-decoration: none; display: flex; flex-direction: column; align-items: center; gap: 5px; cursor: pointer; font-weight: 600; }
+/* ULTRA BLUR TRANSPARENT BOTTOM NAV */
+.fixed-bottom-nav { position: absolute; bottom: 16px; left: 16px; right: 16px; height: 72px; background: var(--nav-bg); border: 1px solid rgba(255, 255, 255, 0.08); backdrop-filter: blur(40px) saturate(180%); -webkit-backdrop-filter: blur(40px) saturate(180%); border-radius: 24px; display: grid; grid-template-columns: repeat(4, 1fr); align-items: center; text-align: center; z-index: 100; box-shadow: 0 12px 40px rgba(0,0,0,0.6); }
+.nav-anchor { color: var(--text-muted); font-size: 10px; text-decoration: none; display: flex; flex-direction: column; align-items: center; gap: 5px; cursor: pointer; font-weight: 600; transition: all 0.2s ease; }
 .nav-anchor svg { width: 20px; height: 20px; fill: currentColor; transition: transform 0.2s; }
 .nav-anchor.active { color: #fff; }
-.nav-anchor.active svg { color: var(--accent-red); filter: drop-shadow(0 0 6px rgba(255,42,51,0.4)); transform: translateY(-2px); }
+.nav-anchor.active svg { color: var(--accent-red); filter: drop-shadow(0 0 8px rgba(255,42,51,0.5)); transform: translateY(-2px); }
 
 .popup-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(5, 6, 10, 0.4); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; z-index: 1500; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; }
 .popup-overlay.open { opacity: 1; pointer-events: auto; }
@@ -147,7 +148,6 @@ body { background: var(--bg-gradient); color: var(--text-white); min-height: 100
 .adm-table-actions { display: flex; gap: 6px; }
 .adm-btn-small { padding: 6px 12px; border: none; border-radius: 6px; font-weight: 700; font-size: 11px; cursor: pointer; }
 
-/* ---- പുതിയ വിത്ത്ഡ്രോവൽ സ്ക്രീൻ ഡിസൈൻ ---- */
 .withdrawal-fullscreen-view { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #05060a; z-index: 1800; display: none; flex-direction: column; }
 .wd-view-container { display: flex; flex-direction: column; height: 100%; width: 100%; padding: 20px; }
 .wd-header { display: flex; justify-content: space-between; align-items: center; padding-bottom: 14px; border-bottom: 1px solid rgba(255,255,255,0.05); }
@@ -244,6 +244,31 @@ body { background: var(--bg-gradient); color: var(--text-white); min-height: 100
 </div>
 </div>
 
+<div id="payView" class="main-viewport">
+<div class="reward-banner-box" style="border-color: var(--accent-blue);">
+<svg style="width:34px; height:34px; color: var(--accent-blue);" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+<div>
+<h4 style="font-size:15px; font-weight:700;">Peer-to-Peer Transfer</h4>
+<p style="font-size:11px; color:var(--text-muted); margin-top:2px;">Send assets to another app user using Telegram UID instantly.</p>
+</div>
+</div>
+
+<div class="field-card-box">
+<label>Recipient Telegram UID</label>
+<input type="number" id="payTargetUidInput" placeholder="Enter recipient user ID">
+</div>
+
+<div class="field-card-box">
+<label>Amount to Send (₹)</label>
+<input type="number" id="payAmountInput" placeholder="₹0.00">
+</div>
+
+<button onclick="submitPeerTransferIntent()" class="action-submit-trigger" style="background: linear-gradient(90deg, var(--accent-blue) 0%, #1d4ed8 100%);">
+<svg style="width:18px; height:18px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/></svg>
+Proceed Transfer
+</button>
+</div>
+
 <div id="profileView" class="main-viewport">
 <div class="profile-card-badge">
 <div class="profile-avatar-circle" id="userAvatarBlock">U</div>
@@ -304,6 +329,10 @@ body { background: var(--bg-gradient); color: var(--text-white); min-height: 100
 <div class="nav-anchor" id="anchor-wallet" onclick="switchViewTab('wallet')">
 <svg viewBox="0 0 24 24"><path d="M21 18v1c0 1.1-.9 2-2 2H5c-1.11 0-2-.9-2-2V5c0-1.1.89-2 2-2h14c1.1 0 2 .9 2 2v1h-9c-1.11 0-2 .9-2 2v8c0 1.1.89 2 2 2h9zm-9-2h10V8H12v8zm4-2.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5 .67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg>
 <div>Wallet</div>
+</div>
+<div class="nav-anchor" id="anchor-pay" onclick="switchViewTab('pay')">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+<div>Pay</div>
 </div>
 <div class="nav-anchor" id="anchor-profile" onclick="switchViewTab('profile')">
 <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5-4-8-4z"/></svg>
@@ -581,7 +610,6 @@ function syncPlatformData() {
         }
         renderTasks();
 
-        // --- വിത്ത്ഡ്രോവൽ ഐഡി ലിങ്ക് വഴി നേരിട്ട് ഓപ്പൺ ചെയ്യാനുള്ള ലോജിക് ---
         const urlParams = new URLSearchParams(window.location.search);
         const page = urlParams.get('page');
         const targetWdId = urlParams.get('wdId');
@@ -695,15 +723,11 @@ function showRewardDetailsPopup(title, details, amount) {
     document.getElementById('rewardDetailsPopup').classList.add('open');
 }
 
-// ---- പുതിയ സ്റ്റൈലിലുള്ള ഫുൾ സ്ക്രീൻ വിത്ത്ഡ്രോവൽ പ്രെസന്റേഷൻ ----
 function initReceiptPipelinePresentation(item) {
     const viewNode = document.getElementById('withdrawalFullscreenDetailsView');
     const bodyNode = document.getElementById('withdrawalDynamicBodyNode');
     
-    // ഫുൾ സ്ക്രീൻ വ്യൂ ഓപ്പൺ ചെയ്യുന്നു
     viewNode.style.display = 'flex';
-    
-    // 1. ഫസ്റ്റ് ലോഡിങ് സ്റ്റേറ്റ് (നിങ്ങൾ അയച്ച മൂന്നാമത്തെ സ്ക്രീൻഷോട്ട് പോലെ കറങ്ങുന്നത്)
     bodyNode.innerHTML = `
         <div class="fetching-view-loader">
             <div class="circle-spin"></div>
@@ -711,7 +735,6 @@ function initReceiptPipelinePresentation(item) {
         </div>
     `;
 
-    // 2. 800ms-ന് ശേഷം ഒറിജിനൽ ഡീറ്റെയിൽസ് കാണിക്കുന്നു (രണ്ടാമത്തെ സ്ക്രീൻഷോട്ട് ഡിസൈൻ)
     setTimeout(() => {
         let statusTitle = "PENDING";
         let statusSubtitle = "Security Assets Audit Log";
@@ -796,6 +819,54 @@ function submitUpiWithdrawalIntent() {
     }));
 }
 
+/* PEER TO PEER TRANSFER INTEGRATION */
+function submitPeerTransferIntent() {
+    const targetUid = document.getElementById('payTargetUidInput').value.trim();
+    const payAmount = parseFloat(document.getElementById('payAmountInput').value);
+    
+    if(!targetUid || isNaN(payAmount) || payAmount <= 0) {
+        return alert("Please enter a valid User UID and positive amount.");
+    }
+    if(payAmount > parseFloat(synchronizedStateCache.user?.balance || 0)) {
+        return alert("Insufficient ledger balance asset pool.");
+    }
+    if(String(targetUid) === String(activeGlobalUserId)) {
+        return alert("You cannot transfer funds directly to your own node ID.");
+    }
+
+    if(confirm(`Confirm asset transfer of ₹${payAmount.toFixed(2)} to User #${targetUid}?`)) {
+        fetch(`${CORE_BACKEND_API_URL}/api/mini-app/transfer-p2p`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                senderId: activeGlobalUserId,
+                receiverId: parseInt(targetUid),
+                amount: payAmount
+            })
+        })
+        .then(res => res.json())
+        .then(data => {
+            if(data.success) {
+                alert("✓ Peer network transaction completed successfully!");
+                document.getElementById('payTargetUidInput').value = "";
+                document.getElementById('payAmountInput').value = "";
+                syncPlatformData();
+            } else {
+                alert(data.error || "Transfer architecture node rejected the process.");
+            }
+        })
+        .catch(() => {
+            // Telegram Bot App native fallback string action dispatch
+            window.Telegram.WebApp.sendData(JSON.stringify({
+                action: "p2p_transfer",
+                receiver_uid: targetUid,
+                amount: payAmount
+            }));
+            alert("Transaction vector dispatched to pipeline.");
+        });
+    }
+}
+
 function renderTasks() {
     const grid = document.getElementById('taskUIRendererGrid');
     grid.innerHTML = "";
@@ -845,7 +916,7 @@ function triggerContactSupportRedirect() {
     window.open(synchronizedStateCache.botSettings?.contactSupport || "https://t.me/", '_blank');
 }
 
-/* ================= MASTER ADMIN MODAL STREAMS ================= */
+/* ADMIN PANEL LOGIC ARCHITECTURE */
 function populateAdminFields(s) {
     if(!s) return;
     document.getElementById('admMinWithdraw').value = s.minWithdraw || 100;
