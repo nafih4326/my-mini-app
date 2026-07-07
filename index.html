@@ -16,7 +16,6 @@
 --text-white: #ffffff;
 --text-muted: #9ca3af;
 --success-green: #10b981;
-/* 1. ബോട്ടം നാവിഗേഷൻ കൂടുതൽ ട്രാൻസ്പരന്റ് ആക്കി */
 --nav-bg: rgba(14, 17, 26, 0.4); 
 }
 
@@ -25,21 +24,21 @@ body { background: var(--bg-gradient); color: var(--text-white); min-height: 100
 
 .phone-layout { width: 100%; max-width: 430px; height: 100vh; position: relative; display: flex; flex-direction: column; overflow: hidden; }
 
-.loading-view { position: absolute; top:0; left:0; width:100%; height:100%; background:#05060a; display:flex; flex-direction:column; justify-content:center; align-items:center; z-index:1000; gap: 14px; }
+.loading-view { position: absolute; top:0; left:0; width:100%; height:100%; background:#05060a; display:flex; flex-direction:column; justify-content:center; align-items:center; z-index:2500; gap: 14px; }
 .spinner { width: 40px; height: 40px; border: 3px solid rgba(255,42,51,0.1); border-left-color: var(--accent-red); border-radius: 50%; animation: spin 0.8s cubic-bezier(0.5, 0, 0.5, 1) infinite; }
 @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 .loading-text { font-size: 11px; font-weight: 700; letter-spacing: 1.5px; color: var(--text-muted); }
 
 .top-bar { padding: 20px; display: flex; justify-content: space-between; align-items: center; background: transparent; }
-.top-bar .logo { font-size: 18px; font-weight: 900; letter-spacing: 0.5px; text-transform: uppercase; }
+.top-bar .logo { font-size: 18px; font-weight: 900; letter-spacing: 0.5px; text-transform: uppercase; margin: 0 auto; }
 .top-bar .logo .red-span { color: var(--accent-red); }
-.balance-pill { background: rgba(255,255,255,0.03); padding: 8px 16px; border-radius: 20px; font-weight: 700; font-size: 13px; border: 1px solid var(--panel-border); backdrop-filter: blur(10px); }
+.balance-pill { display: none; }
 
 .main-viewport { flex: 1; overflow-y: auto; padding: 0 20px 110px 20px; display: none; }
 .main-viewport.active { display: block; animation: tabFade 0.3s ease-out; }
 @keyframes tabFade { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
 
-.section-title-row { font-size: 11px; color: var(--text-muted); margin-bottom: 14px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; display: flex; align-items: center; gap: 6px; }
+.section-title-row { font-size: 11px; color: var(--text-muted); margin-bottom: 14px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; display: flex; align-items: center; justify-content: center; gap: 6px; }
 .section-title-row svg { width: 14px; height: 14px; fill: currentColor; }
 
 .mission-row-card { background: var(--surface-card); border: 1px solid var(--panel-border); border-radius: 16px; padding: 16px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; backdrop-filter: blur(10px); }
@@ -51,21 +50,25 @@ body { background: var(--bg-gradient); color: var(--text-white); min-height: 100
 .mission-action.done { background: rgba(255,255,255,0.05); color: var(--text-muted); border: 1px solid var(--panel-border); pointer-events: none; text-shadow: none; }
 
 .wallet-main-vault { background: linear-gradient(145deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.00) 100%); border: 1px solid var(--panel-border); border-radius: 24px; padding: 30px 20px; text-align: center; margin-bottom: 16px; backdrop-filter: blur(10px); position: relative; }
+.refresh-node-btn { position: absolute; top: 16px; right: 16px; background: transparent; border: none; color: var(--text-muted); cursor: pointer; display: flex; align-items: center; justify-content: center; padding: 4px; }
+.refresh-node-btn svg { width: 18px; height: 18px; fill: currentColor; transition: transform 0.4s ease; }
+.refresh-node-btn:active svg { transform: rotate(180deg); }
+
 .wallet-summary-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }
 .summary-subbox { background: var(--surface-card); border: 1px solid var(--panel-border); padding: 16px; border-radius: 16px; backdrop-filter: blur(5px); }
 
 .payout-methods-row { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 20px; }
 .method-card { background: var(--surface-card); border: 1px solid var(--panel-border); padding: 14px; border-radius: 14px; text-align: center; font-size: 11px; font-weight: 700; color: var(--text-muted); display: flex; flex-direction: column; align-items: center; gap: 6px; cursor: pointer; }
-.method-card svg { width: 18px; height: 18px; fill: currentColor; }
+.method-card svg { width: 22px; height: 22px; fill: currentColor; }
 .method-card.active { border-color: var(--accent-red); color: #fff; background: rgba(255,42,51,0.03); }
 
 .ledger-tabs-header { display: flex; background: rgba(255,255,255,0.02); border-radius: 12px; padding: 4px; margin-bottom: 14px; border: 1px solid var(--panel-border); }
 .ledger-tab-trigger { flex: 1; text-align: center; padding: 10px; font-size: 12px; font-weight: 700; border-radius: 8px; color: var(--text-muted); cursor: pointer; text-transform: uppercase; letter-spacing: 0.5px; }
 .ledger-tab-trigger.active { background: var(--surface-card); color: var(--accent-red); border: 1px solid var(--panel-border); }
 
-.status-pill { padding: 4px 10px; font-size: 10px; font-weight: 800; border-radius: 8px; text-transform: uppercase; letter-spacing: 0.5px; }
+.status-pill { padding: 4px 10px; font-size: 10px; font-weight: 800; border-radius: 8px; text-transform: uppercase; letter-spacing: 0.5px; display: inline-block; margin-top: 4px; }
 .status-pending { background: rgba(234, 179, 8, 0.15); color: #eab308; border: 1px solid rgba(234, 179, 8, 0.3); }
-.status-approved { background: rgba(255, 42, 51, 0.15); color: var(--accent-red); border: 1px solid rgba(255, 42, 51, 0.3); }
+.status-approved { background: rgba(16, 185, 129, 0.15); color: var(--success-green); border: 1px solid rgba(16, 185, 129, 0.3); }
 .status-rejected { background: rgba(255, 42, 51, 0.15); color: var(--accent-red); border: 1px solid rgba(255, 42, 51, 0.3); }
 
 .field-card-box { background: var(--surface-card); border: 1px solid var(--panel-border); padding: 16px; border-radius: 18px; margin-bottom: 16px; }
@@ -81,46 +84,44 @@ body { background: var(--bg-gradient); color: var(--text-white); min-height: 100
 .menu-item-left { display: flex; align-items: center; gap: 12px; font-size: 14px; font-weight: 500; }
 .menu-item-left svg { width: 18px; height: 18px; fill: currentColor; color: var(--text-muted); }
 
-/* 2. ബോട്ടം നാവിഗേഷൻ ഗ്ലാസ് എഫക്റ്റും ബ്ലറും */
-.fixed-bottom-nav { position: absolute; bottom: 16px; left: 16px; right: 16px; height: 70px; background: var(--nav-bg); border: 1px solid var(--panel-border); backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px); border-radius: 20px; display: grid; grid-template-columns: repeat(4, 1fr); align-items: center; text-align: center; z-index: 100; box-shadow: 0 10px 30px rgba(0,0,0,0.4); }
+.fixed-bottom-nav { position: absolute; bottom: 16px; left: 16px; right: 16px; height: 70px; background: var(--nav-bg); border: 1px solid var(--panel-border); backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px); border-radius: 20px; display: grid; grid-template-columns: repeat(3, 1fr); align-items: center; text-align: center; z-index: 100; box-shadow: 0 10px 30px rgba(0,0,0,0.4); }
 .nav-anchor { color: var(--text-muted); font-size: 10px; text-decoration: none; display: flex; flex-direction: column; align-items: center; gap: 5px; cursor: pointer; font-weight: 600; }
 .nav-anchor svg { width: 20px; height: 20px; fill: currentColor; transition: transform 0.2s; }
 .nav-anchor.active { color: #fff; }
 .nav-anchor.active svg { color: var(--accent-red); filter: drop-shadow(0 0 6px rgba(255,42,51,0.4)); transform: translateY(-2px); }
 
-/* 3. പോപ്പ് അപ്പുകൾ ഫുൾ സ്ക്രീനാക്കി മാറ്റി (ചുവപ്പ് പശ്ചാത്തലം) */
-.popup-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: #090b11; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; padding: 20px; z-index: 1500; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; overflow-y: auto; }
+.popup-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(5, 6, 10, 0.4); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; z-index: 1500; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; }
 .popup-overlay.open { opacity: 1; pointer-events: auto; }
-.popup-card { background: transparent; border: none; padding: 10px; width: 100%; max-width: 100%; box-shadow: none; position: relative; }
-.popup-card h3 { font-size: 20px; font-weight: 800; margin-bottom: 20px; display: flex; align-items: center; gap: 8px; color: var(--accent-red); justify-content: center; text-transform: uppercase; }
-.popup-card h3 svg { width: 22px; height: 22px; fill: currentColor; }
-.upi-badge-info { background: rgba(255,42,51,0.05); padding: 12px 16px; border-radius: 12px; font-size: 12px; color: #fff; border: 1px solid rgba(255,42,51,0.2); margin-bottom: 20px; line-height: 1.5; text-align: center; }
+.popup-card { background: rgba(14, 17, 26, 0.7); border: 1px solid var(--panel-border); backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px); padding: 24px; width: 100%; max-width: 380px; border-radius: 24px; box-shadow: 0 20px 40px rgba(0,0,0,0.5); position: relative; }
+.popup-card.black-opaque { background: rgba(5, 6, 10, 0.85); border: 1px solid rgba(255,255,255,0.05); }
+.popup-card h3 { font-size: 18px; font-weight: 800; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; color: #fff; justify-content: center; text-transform: uppercase; }
+.popup-card h3 svg { width: 20px; height: 20px; fill: currentColor; }
+.upi-badge-info { background: rgba(255,255,255,0.03); padding: 12px 16px; border-radius: 12px; font-size: 12px; color: var(--text-muted); border: 1px solid var(--panel-border); margin-bottom: 20px; line-height: 1.5; text-align: center; }
 
-.fetching-view-loader { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 50px 10px; text-align: center; }
-.fetching-view-loader .circle-spin { width: 50px; height: 50px; border: 3px solid rgba(255,255,255,0.03); border-top-color: var(--accent-red); border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 16px; }
+.fetching-view-loader { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 40px 10px; text-align: center; }
+.fetching-view-loader .circle-spin { width: 44px; height: 44px; border: 3px solid rgba(255,255,255,0.03); border-top-color: var(--accent-red); border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 16px; }
 .fetching-view-loader p { font-size: 11px; font-weight: 800; color: var(--text-muted); letter-spacing: 2px; text-transform: uppercase; }
 
-.receipt-layout { text-align: center; padding-top: 20px; }
-.receipt-success-icon { width: 64px; height: 64px; background: rgba(255, 42, 51, 0.1); border: 1px solid rgba(255, 42, 51, 0.3); color: var(--accent-red); border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 26px; margin-bottom: 16px; }
-.receipt-layout h4 { font-size: 18px; font-weight: 800; color: var(--accent-red); text-transform: uppercase; letter-spacing: 0.5px; }
-.receipt-layout .sub-info { font-size: 12px; color: var(--text-muted); margin-bottom: 24px; }
-.receipt-amount-display { font-size: 40px; font-weight: 900; color: #fff; margin-bottom: 24px; letter-spacing: -0.5px; }
-.receipt-table { background: var(--surface-card); border: 1px solid var(--panel-border); border-radius: 16px; padding: 16px; text-align: left; font-size: 13px; margin-bottom: 24px; }
+.receipt-layout { text-align: center; }
+.receipt-success-icon { width: 54px; height: 54px; background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.2); color: var(--success-green); border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 22px; margin-bottom: 14px; }
+.receipt-layout h4 { font-size: 16px; font-weight: 800; color: #fff; text-transform: uppercase; letter-spacing: 0.5px; }
+.receipt-layout .sub-info { font-size: 11px; color: var(--text-muted); margin-bottom: 20px; }
+.receipt-amount-display { font-size: 36px; font-weight: 900; color: #fff; margin-bottom: 20px; letter-spacing: -0.5px; }
+.receipt-table { background: rgba(0, 0, 0, 0.2); border: 1px solid var(--panel-border); border-radius: 16px; padding: 14px; text-align: left; font-size: 12px; margin-bottom: 20px; }
 .receipt-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px dashed rgba(255,255,255,0.05); }
 .receipt-row:last-child { border: none; }
 .receipt-label { color: var(--text-muted); font-weight: 500; }
 .receipt-value { font-weight: 600; color: #fff; text-align: right; word-break: break-all; max-width: 60%; }
 
-/* 4. അഡ്മിൻ ഫുൾ സ്ക്രീൻ ലേഔട്ട് */
+.text-link-btn { background: transparent; border: none; color: var(--text-muted); font-size: 13px; font-weight: 600; cursor: pointer; text-decoration: none; padding: 6px 12px; display: inline-block; transition: color 0.2s; }
+.text-link-btn:hover { color: #fff; }
+
 .admin-fullscreen-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #06080c; z-index: 2000; display: none; flex-direction: column; }
-.admin-modal-container { display: flex; flex-direction: column; height: 100%; width: 100%; padding: 20px; }
+.admin-modal-container { display: flex; flex-direction: column; height: 100%; width: 100%; padding: 20px 20px 95px 20px; }
 .admin-modal-header { display: flex; justify-content: space-between; align-items: center; padding-bottom: 14px; border-bottom: 1px solid rgba(255,255,255,0.05); margin-bottom: 15px; }
-.adm-tabs-nav { display: flex; gap: 8px; overflow-x: auto; margin-bottom: 15px; padding-bottom: 6px; border-bottom: 1px solid rgba(255,255,255,0.03); }
-.adm-tab-btn { background: rgba(255,255,255,0.03); border: 1px solid var(--panel-border); color: var(--text-muted); padding: 8px 14px; border-radius: 10px; font-size: 11px; font-weight: 700; cursor: pointer; white-space: nowrap; text-transform: uppercase; }
-.adm-tab-btn.active { background: var(--accent-red); color: #fff; border-color: var(--accent-red); }
-.adm-view-pane { flex: 1; overflow-y: auto; display: none; padding-bottom: 30px; }
+.adm-view-pane { flex: 1; overflow-y: auto; display: none; }
 .adm-view-pane.active { display: block; }
-.adm-card-node { background: var(--surface-card); border: 1px solid var(--panel-border); padding: 18px; border-radius: 20px; margin-bottom: 16px; }
+.adm-card-node { background: var(--surface-card); border: 1px solid var(--panel-border); padding: 18px; border-radius: 20px; margin-bottom: 16px; backdrop-filter: blur(10px); }
 .adm-card-node h4 { font-size: 12px; color: var(--accent-red); margin-bottom: 14px; text-transform: uppercase; letter-spacing: 0.8px; font-weight: 800; display: flex; align-items: center; gap: 6px; }
 .adm-card-node h4 svg { width: 14px; height: 14px; fill: currentColor; }
 .adm-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }
@@ -130,15 +131,18 @@ body { background: var(--bg-gradient); color: var(--text-white); min-height: 100
 .adm-input-wrapper textarea { resize: none; height: 70px; font-family: inherit; }
 .adm-commit-btn { width: 100%; padding: 14px; background: var(--success-green); border: none; color: #000; font-weight: 700; font-size: 13px; border-radius: 12px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; }
 
-/* 5. പുതിയ റിവാർഡ് കാർഡും ഫോട്ടോയും */
+.admin-bottom-nav { position: absolute; bottom: 16px; left: 16px; right: 16px; height: 65px; background: rgba(14, 17, 26, 0.6); border: 1px solid var(--panel-border); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-radius: 18px; display: grid; grid-template-columns: repeat(4, 1fr); align-items: center; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+.adm-nav-anchor { color: var(--text-muted); font-size: 9px; text-decoration: none; display: flex; flex-direction: column; align-items: center; gap: 4px; cursor: pointer; font-weight: 600; text-transform: uppercase; }
+.adm-nav-anchor svg { width: 18px; height: 18px; fill: currentColor; }
+.adm-nav-anchor.active { color: #fff; }
+.adm-nav-anchor.active svg { color: var(--accent-blue); filter: drop-shadow(0 0 5px rgba(37,99,235,0.5)); }
+
 .reward-banner-box { background: var(--surface-card); border: 1px solid var(--panel-border); border-radius: 20px; padding: 16px; margin-bottom: 20px; display: flex; align-items: center; gap: 16px; }
 .reward-image-node { width: 55px; height: 55px; object-fit: cover; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1); }
 
-/* 6. പുതിയ റഫറൽ ഗ്ലാസ് ഏരിയ */
 .referral-glass-panel { background: rgba(255, 255, 255, 0.03); border: 1px solid var(--panel-border); border-radius: 24px; padding: 20px; margin-bottom: 20px; backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); }
 .user-node-row { background: rgba(255,255,255,0.02); border: 1px solid var(--panel-border); padding: 14px; border-radius: 14px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
 
-/* 7. വിത്ഡ്രോ ടേബിൾ ശൈലി */
 .adm-table-row { display: flex; justify-content: space-between; align-items: center; padding: 12px; border-bottom: 1px solid rgba(255,255,255,0.05); background: rgba(0,0,0,0.1); margin-bottom: 6px; border-radius: 8px; }
 .adm-table-actions { display: flex; gap: 6px; }
 .adm-btn-small { padding: 6px 12px; border: none; border-radius: 6px; font-weight: 700; font-size: 11px; cursor: pointer; }
@@ -175,9 +179,11 @@ body { background: var(--bg-gradient); color: var(--text-white); min-height: 100
 
 <div id="walletView" class="main-viewport">
 <div class="wallet-main-vault">
+<button class="refresh-node-btn" onclick="triggerManualRefreshAnimation()">
+<svg viewBox="0 0 24 24"><path d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/></svg>
+</button>
 <p style="font-size:11px; color:var(--text-muted); font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase;">Available Ledger Assets</p>
 <h2 style="font-size:34px; margin-top:4px; font-weight: 800; letter-spacing: -0.5px;" id="vaultBalanceText">₹0.00</h2>
-<div style="margin-top: 8px;"><span class="status-pill status-approved" id="vaultStatusText" style="font-size:11px; padding: 5px 12px;">Approved</span></div>
 </div>
 
 <div class="wallet-summary-grid">
@@ -193,8 +199,8 @@ body { background: var(--bg-gradient); color: var(--text-white); min-height: 100
 
 <div class="payout-methods-row">
 <div class="method-card" id="method-upi" onclick="triggerUPIPopupGate()">
-<svg viewBox="0 0 24 24"><path d="M21 18v1c0 1.1-.9 2-2 2H5c-1.11 0-2-.9-2-2V5c0-1.1.89-2 2-2h14c1.1 0 2 .9 2 2v1h-9c-1.11 0-2 .9-2 2v8c0 1.1.89 2 2 2h9zm-9-2h10V8H12v8zm4-2.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5 .67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg>
-<span>UPI Withdraw</span>
+<svg viewBox="0 0 32 32" fill="none"><path d="M12.4 16.2h7.2M16 12.6v7.2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><rect x="4" y="6" width="24" height="20" rx="4" stroke="currentColor" stroke-width="2"/></svg>
+<span>UPI</span>
 </div>
 <div class="method-card" id="method-redeem" onclick="selectActivePaymentMethod('REDEEM')">
 <svg viewBox="0 0 24 24"><path d="M20 6h-2.18c.11-.31.18-.65.18-1 0-1.66-1.34-3-3-3-1.05 0-1.96.54-2.5 1.35l-.5.67-.5-.68C10.96 2.54 10.05 2 9 2 7.34 2 6 3.34 6 5c0 .35.07.69.18 1H4c-1.11 0-1.99.89-1.99 2L2 19c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V8c0-1.11-.89-2-2-2zm-5-2c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zM9 4c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zm11 15H4v-2h16v-2zm0-5H4V8h16v6z"/></svg>
@@ -218,19 +224,6 @@ body { background: var(--bg-gradient); color: var(--text-white); min-height: 100
 </div>
 </div>
 
-<div id="payView" class="main-viewport">
-<div class="section-title-row" style="justify-content: center; margin-top: 10px; margin-bottom: 20px;">
-<svg viewBox="0 0 24 24"><path d="M19 14V6c0-1.1-.9-2-2-2H3c-1.1 0-2 .9-2 2v8c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zm-2 0H3V6h14v8zm-5-7c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3zm11 7v5c0 1.1-.9 2-2 2H4v-2h16v-5h2z"/></svg>
-<span>Peer To Peer Gateway</span>
-</div>
-<div class="field-card-box"><label>Destination UID</label><input type="number" id="peerTargetInputId" placeholder="Receiver Telegram ID"></div>
-<div class="field-card-box"><label>Transfer Amount (INR)</label><input type="number" id="peerAmountInput" placeholder="₹0.00"></div>
-<button class="action-submit-trigger" onclick="executeSecureTransfer()">
-<svg style="width:16px; height:16px; fill:currentColor;" viewBox="0 0 24 24"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg>
-Authorize Peer Payout
-</button>
-</div>
-
 <div id="profileView" class="main-viewport">
 <div class="profile-card-badge">
 <div class="profile-avatar-circle" id="userAvatarBlock">U</div>
@@ -242,7 +235,7 @@ Authorize Peer Payout
 
 <div class="referral-glass-panel">
 <h4 style="font-size: 13px; font-weight:800; color:var(--accent-blue); margin-bottom: 6px;" id="lblBotName">Loading Partner Bot...</h4>
-<p style="font-size: 12px; color:#fff; margin-bottom: 12px;">Invite users to earn rewards. Click on down list to view complete profiles.</p>
+<p style="font-size: 12px; color:#fff; margin-bottom: 12px;">Invite users to earn rewards. View your network below.</p>
 <div class="field-card-box" style="padding:10px; margin-bottom:12px; background:rgba(0,0,0,0.3);">
 <input type="text" id="txtBotReferLink" readonly style="font-size:12px; color:var(--text-muted);">
 </div>
@@ -286,15 +279,11 @@ Authorize Peer Payout
 <div class="fixed-bottom-nav">
 <div class="nav-anchor active" id="anchor-home" onclick="switchViewTab('home')">
 <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
-<div>Missions</div>
+<div>Home</div>
 </div>
 <div class="nav-anchor" id="anchor-wallet" onclick="switchViewTab('wallet')">
 <svg viewBox="0 0 24 24"><path d="M21 18v1c0 1.1-.9 2-2 2H5c-1.11 0-2-.9-2-2V5c0-1.1.89-2 2-2h14c1.1 0 2 .9 2 2v1h-9c-1.11 0-2 .9-2 2v8c0 1.1.89 2 2 2h9zm-9-2h10V8H12v8zm4-2.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5 .67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg>
 <div>Wallet</div>
-</div>
-<div class="nav-anchor" id="anchor-pay" onclick="switchViewTab('pay')">
-<svg viewBox="0 0 24 24"><path d="M19 14V6c0-1.1-.9-2-2-2H3c-1.1 0-2 .9-2 2v8c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zm-2 0H3V6h14v8zm-5-7c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3zm11 7v5c0 1.1-.9 2-2 2H4v-2h16v-5h2z"/></svg>
-<div>Pay</div>
 </div>
 <div class="nav-anchor" id="anchor-profile" onclick="switchViewTab('profile')">
 <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5-4-8-4z"/></svg>
@@ -305,7 +294,7 @@ Authorize Peer Payout
 
 <div class="popup-overlay" id="upiWithdrawPopup">
 <div class="popup-card">
-<h3><svg viewBox="0 0 24 24"><path d="M21 18v1c0 1.1-.9 2-2 2H5c-1.11 0-2-.9-2-2V5c0-1.1.89-2 2-2h14c1.1 0 2 .9 2 2v1h-9c-1.11 0-2 .9-2 2v8c0 1.1.89 2 2 2h9zm-9-2h10V8H12v8zm4-2.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5 .67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg> UPI Payout Request</h3>
+<h3><svg viewBox="0 0 32 32" fill="none"><path d="M12 16h8M16 12v8" stroke="currentColor" stroke-width="2"/><rect x="4" y="6" width="24" height="20" rx="4" stroke="currentColor" stroke-width="2"/></svg> UPI Payout Request</h3>
 <div class="upi-badge-info" id="popupUpiLinkedStatus">Checking linked bot state configuration...</div>
 
 <div class="field-card-box" style="margin-bottom:12px;">
@@ -317,135 +306,121 @@ Authorize Peer Payout
 <input type="number" id="popupUpiAmountInput" placeholder="₹0.00">
 </div>
 
-<div style="display:flex; flex-direction:column; gap:10px;">
-<button onclick="submitUpiWithdrawalIntent()" style="padding:14px; background:var(--accent-red); color:#fff; border:none; border-radius:12px; font-weight:700; cursor:pointer; font-size:14px;">Withdraw</button>
-<button onclick="closePopupSheet('upiWithdrawPopup')" style="background:transparent; color:#ff2a33; border:none; font-weight:700; cursor:pointer; font-size:14px; padding:10px;">Close</button>
+<div style="display:flex; flex-direction:column; gap:10px; align-items:center;">
+<button onclick="submitUpiWithdrawalIntent()" class="action-submit-trigger" style="padding:14px; font-size:14px;">Withdraw</button>
+<button onclick="closePopupSheet('upiWithdrawPopup')" class="text-link-btn" style="margin-top: 5px;">Cancel</button>
 </div>
 </div>
+</div>
+
+<div class="popup-overlay" id="rewardDetailsPopup">
+<div class="popup-card black-opaque" id="rewardDetailsPopupContent"></div>
 </div>
 
 <div class="popup-overlay" id="receiptPipelinePopup">
-<div class="popup-card" id="receiptPopupDynamicContent">
-</div>
-</div>
-
-<div class="popup-overlay" id="userProfileDetailsPopup">
-<div class="popup-card" style="padding-top:40px;">
-<h3 style="color:#fff;">Network User Dossier</h3>
-<div class="receipt-table" id="popupUserProfileContent" style="margin-top:20px;"></div>
-<div style="text-align:center; margin-top:30px;">
-<button onclick="closePopupSheet('userProfileDetailsPopup')" style="background:transparent; color:var(--accent-red); border:none; font-size:16px; font-weight:800; cursor:pointer;">Close</button>
-</div>
-</div>
+<div class="popup-card" id="receiptPopupDynamicContent"></div>
 </div>
 
 <div class="admin-fullscreen-modal" id="adminControlModalElement">
 <div class="admin-modal-container">
 <div class="admin-modal-header">
-<h2 style="font-size: 14px; font-weight: 900; color: var(--accent-red); letter-spacing: 0.5px;">⚙️ Master Terminal Control Panel</h2>
-<button class="mission-action" style="background:#fff; color:#000;" onclick="closeAdminDashboardView()">Exit Console</button>
+<h2 style="font-size: 14px; font-weight: 900; color: var(--accent-red); letter-spacing: 0.5px;">⚙️ Master Web Dashboard</h2>
+<button class="text-link-btn" style="color:var(--accent-red)" onclick="closeAdminDashboardView()">Exit Console</button>
 </div>
 
-<div class="adm-tabs-nav">
-<button class="adm-tab-btn active" onclick="switchAdminTab('adm-tasks')">Missions</button>
-<button class="adm-tab-btn" onclick="switchAdminTab('adm-system')">Bot Params</button>
-<button class="adm-tab-btn" onclick="switchAdminTab('adm-withdrawals-panel')">Withdraw System</button>
-<button class="adm-tab-btn" onclick="switchAdminTab('adm-broadcast-panel')">Broadcast</button>
-<button class="adm-tab-btn" onclick="switchAdminTab('adm-users')">Ledger Users</button>
-<button class="adm-tab-btn" onclick="switchAdminTab('adm-promos')">Vouchers</button>
-<button class="adm-tab-btn" onclick="switchAdminTab('adm-security')">Admins</button>
-</div>
-
-<div class="adm-view-pane active" id="adm-tasks">
+<div class="adm-view-pane active" id="adm-home">
 <div class="adm-card-node">
-<h4>Publish App Operational Task</h4>
-<div class="adm-input-wrapper"><label>Task Label Title</label><input type="text" id="admInputTaskTitle" placeholder="Subscribe Channel"></div>
-<div class="adm-input-wrapper"><label>Task Details / Requirements</label><textarea id="admInputTaskDetails" placeholder="Subscribe and send proof screenshots..."></textarea></div>
+<h4>Publish Core Task Mission</h4>
+<div class="adm-input-wrapper"><label>Task Title</label><input type="text" id="admInputTaskTitle" placeholder="Subscribe Channel"></div>
+<div class="adm-input-wrapper"><label>Requirements</label><textarea id="admInputTaskDetails" placeholder="Subscribe and send proof screenshots..."></textarea></div>
 <div class="adm-grid-2">
-<div class="adm-input-wrapper"><label>Reward Amount (₹)</label><input type="number" id="admInputTaskReward" placeholder="10"></div>
-<div class="adm-input-wrapper"><label>Destination URL</label><input type="text" id="admInputTaskLink" placeholder="https://..."></div>
+<div class="adm-input-wrapper"><label>Reward (₹)</label><input type="number" id="admInputTaskReward" placeholder="10"></div>
+<div class="adm-input-wrapper"><label>Target Link</label><input type="text" id="admInputTaskLink" placeholder="https://..."></div>
 </div>
-<button class="adm-commit-btn" style="background:var(--accent-red); color:#fff;" onclick="executeAdminAddTaskSubmit()">Deploy Task Node</button>
-</div>
+<button class="adm-commit-btn" style="background:var(--accent-blue); color:#fff;" onclick="executeAdminAddTaskSubmit()">Deploy Task Node</button>
 </div>
 
-<div class="adm-view-pane" id="adm-system">
 <div class="adm-card-node">
-<h4>Bot External Integration Streams</h4>
-<div class="adm-input-wrapper"><label>Partner Bot Profile Display Name</label><input type="text" id="admInputPartnerBotName" placeholder="Mega Gift Bot"></div>
-<div class="adm-input-wrapper"><label>Partner Bot Referral Invite Link</label><input type="text" id="admInputPartnerBotLink" placeholder="https://t.me/MegaGiftBot?start="></div>
-<div class="adm-input-wrapper"><label>Telegram Channel Reference URL</label><input type="text" id="admInputTelegramChannel" placeholder="https://t.me/yourchannel"></div>
-<div class="adm-input-wrapper"><label>Contact Support Username / Link</label><input type="text" id="admInputContactSupport" placeholder="https://t.me/yourusername"></div>
-<div class="adm-grid-2">
-<div class="adm-input-wrapper"><label>Bot Runtime Status</label><select id="admBotActive"><option value="true">ACTIVE RUNTIME</option><option value="false">PAUSED SYSTEM</option></select></div>
-<div class="adm-input-wrapper"><label>Withdraw Mode</label><select id="admWithdrawMode"><option value="UPI Only">UPI Only</option></select></div>
+<h4>Banner Notifications Broadcast</h4>
+<div class="adm-input-wrapper">
+<label>Global Message Text</label>
+<textarea id="admBroadcastMsgInput" placeholder="Write system notifications here..."></textarea>
 </div>
-<div class="adm-grid-2">
-<div class="adm-input-wrapper"><label>Min Withdraw (₹)</label><input type="number" id="admMinWithdraw"></div>
-<div class="adm-input-wrapper"><label>Max Withdraw (₹)</label><input type="number" id="admMaxWithdraw"></div>
-</div>
-<div class="adm-grid-2">
-<div class="adm-input-wrapper"><label>Per Refer Payout (₹)</label><input type="number" step="0.01" id="admPerRefer"></div>
-<div class="adm-input-wrapper"><label>Required Referrals</label><input type="number" id="admReqReferrals"></div>
-</div>
-
-<button class="adm-commit-btn" style="background:var(--accent-blue); color:#fff;" onclick="saveUnifiedBotSettings()">Save Core Matrix</button>
+<button class="adm-commit-btn" style="background:var(--accent-red); color:#fff;" onclick="executeAdminBroadcastPush()">Dispatch Broadcast Alert</button>
 </div>
 </div>
 
-<div class="adm-view-pane" id="adm-withdrawals-panel">
+<div class="adm-view-pane" id="adm-wallet">
+<div class="adm-card-node" style="text-align: center; background: rgba(255,255,255,0.02);">
+<p style="font-size: 11px; color: var(--text-muted); text-transform: uppercase;">Total Users System Assets</p>
+<h3 style="font-size: 28px; font-weight: 800; color: var(--success-green); margin-top: 5px;" id="admTotalUserBalanceDisplay">₹0.00</h3>
+</div>
+
 <div class="adm-card-node">
-<h4>Pending Withdraw Requests</h4>
+<h4>Pending Withdraw Pipeline</h4>
 <div id="admPendingWithdrawalsList" style="margin-top:10px;"></div>
 </div>
-</div>
 
-<div class="adm-view-pane" id="adm-broadcast-panel">
 <div class="adm-card-node">
-<h4>Broadcast Push Notification System</h4>
-<div class="adm-input-wrapper">
-<label>Broadcast Message Text</label>
-<textarea id="admBroadcastMsgInput" placeholder="Write urgent system updates here..."></textarea>
-</div>
-<button class="adm-commit-btn" style="background:var(--accent-red); color:#fff;" onclick="executeAdminBroadcastPush()">Dispatch Broadcast Message</button>
-</div>
-</div>
-
-<div class="adm-view-pane" id="adm-users">
-<div class="adm-card-node">
-<h4>Adjust User Ledger & Core Balances</h4>
-<div class="adm-input-wrapper"><label>Target User Telegram UID</label><input type="number" id="admBalanceTargetUid" placeholder="User ID"></div>
+<h4>Manual Balance Modifications</h4>
+<div class="adm-input-wrapper"><label>User Telegram UID</label><input type="number" id="admBalanceTargetUid" placeholder="User ID"></div>
 <div class="adm-grid-2">
-<div class="adm-input-wrapper"><label>Action Protocol</label><select id="admBalanceAction"><option value="add">Add Wallet Balance</option><option value="remove">Remove Balance</option></select></div>
+<div class="adm-input-wrapper"><label>Protocol Action</label><select id="admBalanceAction"><option value="add_fund">Admin Add Fund</option><option value="add_balance">Admin Add Balance</option><option value="remove">Remove Assets</option></select></div>
 <div class="adm-input-wrapper"><label>Amount (₹)</label><input type="number" id="admBalanceAmount" placeholder="100"></div>
 </div>
-<button class="adm-commit-btn" style="background:#eab308; color:#000;" onclick="executeAdminBalanceOverride()">Modify Ledger Assets</button>
+<button class="adm-commit-btn" style="background:#eab308; color:#000;" onclick="executeAdminBalanceOverride()">Apply Balance Matrix</button>
 </div>
 </div>
 
-<div class="adm-view-pane" id="adm-promos">
+<div class="adm-view-pane" id="adm-profiles">
 <div class="adm-card-node">
-<h4>Multi-User Smart Gift Codes Generator</h4>
-<div class="adm-input-wrapper"><label>Custom Voucher String Code</label><input type="text" id="admGiftCodeString" placeholder="EARN2026" style="text-transform:uppercase;"></div>
+<h4>Audit Ledger Users Profiles</h4>
+<p style="font-size: 11px; color: var(--text-muted); margin-bottom: 12px;">Active synchronized system profiles pool allocation logs:</p>
+<div id="admUsersProfileAuditListContainer"></div>
+</div>
+</div>
+
+<div class="adm-view-pane" id="adm-settings">
+<div class="adm-card-node">
+<h4>Global Parameters Architecture</h4>
+<div class="adm-input-wrapper"><label>Partner Bot Name</label><input type="text" id="admInputPartnerBotName" placeholder="Mega Gift Bot"></div>
+<div class="adm-input-wrapper"><label>Partner Bot Referral Link</label><input type="text" id="admInputPartnerBotLink" placeholder="https://t.me/MegaGiftBot?start="></div>
+<div class="adm-input-wrapper"><label>Telegram Channel link</label><input type="text" id="admInputTelegramChannel" placeholder="https://t.me/yourchannel"></div>
+<div class="adm-input-wrapper"><label>Contact Support link</label><input type="text" id="admInputContactSupport" placeholder="https://t.me/yourusername"></div>
 <div class="adm-grid-2">
-<div class="adm-input-wrapper"><label>Worth Payout Value (₹)</label><input type="number" id="admGiftCodeAmount" placeholder="50"></div>
-<div class="adm-input-wrapper"><label>Max Allowed Redeem Users</label><input type="number" id="admGiftMaxUsers" placeholder="100" value="50"></div>
+<div class="adm-input-wrapper"><label>Min Withdraw (₹)</label><input type="number" id="admMinWithdraw"></div>
+<div class="adm-input-wrapper"><label>Per Refer Payout (₹)</label><input type="number" step="0.01" id="admPerRefer"></div>
+</div>
+<button class="adm-commit-btn" style="background:var(--success-green); color:#000;" onclick="saveUnifiedBotSettings()">Save Settings Matrix</button>
+</div>
+
+<div class="adm-card-node">
+<h4>Smart Vouchers Generator</h4>
+<div class="adm-input-wrapper"><label>Custom Voucher String</label><input type="text" id="admGiftCodeString" placeholder="EARN2026" style="text-transform:uppercase;"></div>
+<div class="adm-grid-2">
+<div class="adm-input-wrapper"><label>Worth Value (₹)</label><input type="number" id="admGiftCodeAmount" placeholder="50"></div>
+<div class="adm-input-wrapper"><label>Max Users</label><input type="number" id="admGiftMaxUsers" value="50"></div>
 </div>
 <button class="adm-commit-btn" style="background:#a855f7; color:#fff;" onclick="generateSystemGiftCode()">Deploy Multi-User Voucher</button>
 </div>
 </div>
 
-<div class="adm-view-pane" id="adm-security">
-<div class="adm-card-node">
-<h4>System Administrators Configuration</h4>
-<div class="adm-input-wrapper"><label>Target Telegram ID</label><input type="number" id="admTargetAdminId" placeholder="User UID"></div>
-<div class="adm-input-wrapper"><label>Management Action</label><select id="admAdminAction"><option value="add">Grant Admin Rights</option><option value="remove">Revoke Admin Rights</option></select></div>
-<button class="adm-commit-btn" style="background:#6b7280; color:#fff;" onclick="executeManageAdminsAction()">Apply Access Policy</button>
+<div class="admin-bottom-nav">
+<div class="adm-nav-anchor active" id="adm-anchor-home" onclick="switchAdminTab('adm-home')">
+<svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+<div>Home</div>
 </div>
-<div class="adm-card-node">
-<h4>Change Master Terminal Access PIN</h4>
-<div class="adm-input-wrapper"><label>New Security Master Access PIN</label><input type="password" id="admNewSecurityPin" placeholder="Enter New 4+ Digit PIN"></div>
-<button class="adm-commit-btn" style="background:#6b7280; color:#fff;" onclick="saveNewTerminalSecurityCode()">Update Authentication Key</button>
+<div class="adm-nav-anchor" id="adm-anchor-wallet" onclick="switchAdminTab('adm-wallet')">
+<svg viewBox="0 0 24 24"><path d="M21 18v1c0 1.1-.9 2-2 2H5c-1.11 0-2-.9-2-2V5c0-1.1.89-2 2-2h14c1.1 0 2 .9 2 2v1h-9c-1.11 0-2 .9-2 2v8c0 1.1.89 2 2 2h9zm-9-2h10V8H12v8zm4-2.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5 .67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg>
+<div>Wallet</div>
+</div>
+<div class="adm-nav-anchor" id="adm-anchor-profiles" onclick="switchAdminTab('adm-profiles')">
+<svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5-4-8-4z"/></svg>
+<div>Profiles</div>
+</div>
+<div class="adm-nav-anchor" id="adm-anchor-settings" onclick="switchAdminTab('adm-settings')">
+<svg viewBox="0 0 24 24"><path d="M19.43 12.98c.04-.32.07-.64.07-.98s-.03-.66-.07-.98l2.11-1.65c.19-.15.24-.42.12-.64l-2-3.46c-.12-.22-.39-.3-.61-.22l-2.49 1c-.52-.4-1.08-.73-1.69-.98l-.38-2.65C14.46 2.18 14.25 2 14 2h-4c-.25 0-.46.18-.49.42l-.38 2.65c-.61.25-1.17.59-1.69.98l-2.49-1c-.23-.09-.49 0-.61.22l-2 3.46c-.13.22-.07.49.12.64l2.11 1.65c-.04.32-.07.65-.07.98s.03.66.07.98l-2.11 1.65c-.19.15-.24.42-.12.64l2 3.46c.12.22.39.3.61.22l2.49-1c.52.4 1.08.73 1.69.98l.38 2.65c.03.24.24.42.49.42h4c.25 0 .46-.18.49-.42l.38-2.65c.61-.25 1.17-.59 1.69-.98l2.49 1c.23.09.49 0 .61-.22l2-3.46c.12-.22.07-.49-.12-.64l-2.11-1.65zM12 15.5c-1.93 0-3.5-1.57-3.5-3.5s1.57-3.5 3.5-3.5 3.5 1.57 3.5 3.5-1.57 3.5-3.5 3.5z"/></svg>
+<div>Settings</div>
 </div>
 </div>
 </div>
@@ -457,544 +432,505 @@ let activeGlobalUserId = null;
 let synchronizedStateCache = {};
 let hasAuthenticatedAdminSession = false;
 let currentActiveLedgerTab = "rewards"; 
-
 let MASTER_ACCESS_PIN = "1234";
 
 function selectActivePaymentMethod(methodName) {
-if(methodName === 'REDEEM') {
-document.querySelectorAll('.method-card').forEach(c => c.classList.remove('active'));
-document.getElementById('method-redeem').classList.add('active');
-document.getElementById('quickVoucherBox').style.display = 'block';
-}
+    document.querySelectorAll('.method-card').forEach(c => c.classList.remove('active'));
+    if(methodName === 'REDEEM') {
+        document.getElementById('method-redeem').classList.add('active');
+        document.getElementById('quickVoucherBox').style.display = 'block';
+    }
 }
 
 function triggerUPIPopupGate() {
-document.querySelectorAll('.method-card').forEach(c => c.classList.remove('active'));
-document.getElementById('method-upi').classList.add('active');
-document.getElementById('quickVoucherBox').style.display = 'none';
+    document.querySelectorAll('.method-card').forEach(c => c.classList.remove('active'));
+    document.getElementById('method-upi').classList.add('active');
+    document.getElementById('quickVoucherBox').style.display = 'none';
 
-const statusBox = document.getElementById('popupUpiLinkedStatus');
-const linkedUpi = synchronizedStateCache.user?.upi || null;
+    const statusBox = document.getElementById('popupUpiLinkedStatus');
+    const linkedUpi = synchronizedStateCache.user?.upi || null;
 
-if(linkedUpi && linkedUpi !== "not_linked") {
-statusBox.innerHTML = `✅ Linked UPI Address: <span style="color:#fff;font-weight:700;">${linkedUpi}</span>`;
-document.getElementById('popupUpiIdInput').value = linkedUpi;
-} else {
-statusBox.innerHTML = `⚠️ No UPI address linked on this system framework node.`;
-}
-document.getElementById('upiWithdrawPopup').classList.add('open');
+    if(linkedUpi && linkedUpi !== "not_linked") {
+        statusBox.innerHTML = `✅ Linked UPI Address: <span style="color:#fff;font-weight:700;">${linkedUpi}</span>`;
+        document.getElementById('popupUpiIdInput').value = linkedUpi;
+    } else {
+        statusBox.innerHTML = `⚠️ No UPI address linked on this system framework node.`;
+    }
+    document.getElementById('upiWithdrawPopup').classList.add('open');
 }
 
 function closePopupSheet(id) { document.getElementById(id).classList.remove('open'); }
 
 function toggleLedgerTab(targetTab) {
-currentActiveLedgerTab = targetTab;
-document.getElementById('tabNodeRewards').classList.toggle('active', targetTab === 'rewards');
-document.getElementById('tabNodeWithdrawals').classList.toggle('active', targetTab === 'withdrawals');
-renderLedgerTabLogs();
+    currentActiveLedgerTab = targetTab;
+    document.getElementById('tabNodeRewards').classList.toggle('active', targetTab === 'rewards');
+    document.getElementById('tabNodeWithdrawals').classList.toggle('active', targetTab === 'withdrawals');
+    renderLedgerTabLogs();
+}
+
+function switchViewTab(id) {
+    document.querySelectorAll('.main-viewport').forEach(v => v.classList.remove('active'));
+    document.querySelectorAll('.nav-anchor').forEach(a => a.classList.remove('active'));
+    document.getElementById(id + 'View').classList.add('active');
+    document.getElementById('anchor-' + id).classList.add('active');
+    if(id === 'wallet') {
+        animateValueCounter('vaultBalanceText', 0, synchronizedStateCache.user?.balance || 0, 800);
+    }
+}
+
+function triggerManualRefreshAnimation() {
+    const btnSvg = document.querySelector('.refresh-node-btn svg');
+    btnSvg.style.transform = "rotate(360deg)";
+    setTimeout(() => { btnSvg.style.transform = "rotate(0deg)"; }, 400);
+    syncPlatformData();
+}
+
+function animateValueCounter(id, start, end, duration) {
+    const obj = document.getElementById(id);
+    if (!obj) return;
+    let startTimestamp = null;
+    const step = (timestamp) => {
+        if (!startTimestamp) startTimestamp = timestamp;
+        const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+        obj.innerText = "₹" + parseFloat(progress * (end - start) + start).toFixed(2);
+        if (progress < 1) { window.requestAnimationFrame(step); }
+    };
+    window.requestAnimationFrame(step);
 }
 
 function syncPlatformData() {
-const tgApp = window.Telegram.WebApp;
-tgApp.ready(); tgApp.expand();
-const accountMeta = tgApp.initDataUnsafe?.user;
+    const tgApp = window.Telegram.WebApp;
+    tgApp.ready(); tgApp.expand();
+    const accountMeta = tgApp.initDataUnsafe?.user;
 
-activeGlobalUserId = accountMeta?.id || 501889840;
+    activeGlobalUserId = accountMeta?.id || 501889840;
 
-document.getElementById('userUIDLabelNode').innerText = "UID: #" + activeGlobalUserId;
-document.getElementById('userDisplayProfileName').innerText = (accountMeta?.first_name) || "Premium User";
-document.getElementById('userAvatarBlock').innerText = ((accountMeta?.first_name) || "U").charAt(0).toUpperCase();
+    document.getElementById('userUIDLabelNode').innerText = "UID: #" + activeGlobalUserId;
+    document.getElementById('userDisplayProfileName').innerText = (accountMeta?.first_name) || "Premium User";
+    document.getElementById('userAvatarBlock').innerText = ((accountMeta?.first_name) || "U").charAt(0).toUpperCase();
 
-fetch(`${CORE_BACKEND_API_URL}/api/mini-app/sync`, {
-method: 'POST',
-headers: { 'Content-Type': 'application/json' },
-body: JSON.stringify({ userId: activeGlobalUserId, username: (accountMeta?.first_name) || "User" })
-})
-.then(res => res.json())
-.then(payloadData => {
-synchronizedStateCache = payloadData;
-document.getElementById('loadingGate').style.display = 'none';
+    fetch(`${CORE_BACKEND_API_URL}/api/mini-app/sync`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ userId: activeGlobalUserId, username: (accountMeta?.first_name) || "User" })
+    })
+    .then(res => res.json())
+    .then(payloadData => {
+        synchronizedStateCache = payloadData;
+        document.getElementById('loadingGate').style.display = 'none';
 
-const balStr = "₹" + parseFloat(payloadData.user.balance || 0).toFixed(2);
-document.getElementById('headerBalanceDisplay').innerText = balStr;
-document.getElementById('vaultBalanceText').innerText = balStr;
+        const balValue = parseFloat(payloadData.user.balance || 0);
+        if(document.getElementById('walletView').classList.contains('active')) {
+            animateValueCounter('vaultBalanceText', 0, balValue, 800);
+        } else {
+            document.getElementById('vaultBalanceText').innerText = "₹" + balValue.toFixed(2);
+        }
+        
+        document.getElementById('headerBalanceDisplay').innerText = "₹" + balValue.toFixed(2);
+        document.getElementById('sumTotalEarnedText').innerText = "₹" + parseFloat(payloadData.user.totalEarned || balValue).toFixed(2);
+        document.getElementById('sumTotalWithdrawnText').innerText = "₹" + parseFloat(payloadData.user.totalWithdrawn || 0).toFixed(2);
 
-document.getElementById('sumTotalEarnedText').innerText = "₹" + parseFloat(payloadData.user.totalEarned || payloadData.user.balance || 0).toFixed(2);
-document.getElementById('sumTotalWithdrawnText').innerText = "₹" + parseFloat(payloadData.user.totalWithdrawn || 0).toFixed(2);
+        if(payloadData.botSettings?.telegramChannel && payloadData.botSettings.telegramChannel !== "https://t.me/") {
+            document.getElementById('appTelegramChannelRow').style.display = "flex";
+        } else { document.getElementById('appTelegramChannelRow').style.display = "none"; }
 
-// 18. ഡൈനാമിക് കോൺടാക്റ്റ് ചെക്കിങ് ലോജിക് (അഡ്മിൻ യുആർഎൽ ഇല്ലെങ്കിൽ ഹൈഡ് ചെയ്യും)
-if(payloadData.botSettings?.telegramChannel && payloadData.botSettings.telegramChannel !== "https://t.me/") {
-document.getElementById('appTelegramChannelRow').style.display = "flex";
-} else {
-document.getElementById('appTelegramChannelRow').style.display = "none";
-}
+        if(payloadData.botSettings?.contactSupport && payloadData.botSettings.contactSupport !== "https://t.me/") {
+            document.getElementById('appContactSupportRow').style.display = "flex";
+        } else { document.getElementById('appContactSupportRow').style.display = "none"; }
 
-if(payloadData.botSettings?.contactSupport && payloadData.botSettings.contactSupport !== "https://t.me/") {
-document.getElementById('appContactSupportRow').style.display = "flex";
-} else {
-document.getElementById('appContactSupportRow').style.display = "none";
-}
+        const partnerBotName = payloadData.botSettings?.partnerBotName || "Partner Task Bot";
+        const partnerBotLink = (payloadData.botSettings?.partnerBotLink || "https://t.me/YourTaskBot?start=") + activeGlobalUserId;
+        document.getElementById('lblBotName').innerText = "🤖 " + partnerBotName;
+        document.getElementById('txtBotReferLink').value = partnerBotLink;
 
-// Partner Bot Setup
-const partnerBotName = payloadData.botSettings?.partnerBotName || "Partner Task Bot";
-const partnerBotLink = (payloadData.botSettings?.partnerBotLink || "https://t.me/YourTaskBot?start=") + activeGlobalUserId;
-document.getElementById('lblBotName').innerText = "🤖 " + partnerBotName;
-document.getElementById('txtBotReferLink').value = partnerBotLink;
+        renderLedgerTabLogs();
+        renderReferredNetworkList();
 
-renderLedgerTabLogs();
-renderReferredNetworkList();
+        if(payloadData.botSettings?.securityPin) { MASTER_ACCESS_PIN = payloadData.botSettings.securityPin; }
 
-if(payloadData.botSettings?.securityPin) {
-MASTER_ACCESS_PIN = payloadData.botSettings.securityPin;
-}
-
-if (activeGlobalUserId === 501889840 || payloadData.user?.isAdmin === true) {
-document.getElementById('adminControlMenuWrapper').style.display = 'block';
-populateAdminFields(payloadData.botSettings);
-loadAdminDashboardLiveData();
-}
-renderTasks();
-})
-.catch(err => {
-document.getElementById('loadingGate').innerHTML = "<div class='loading-text' style='color:var(--accent-red); text-align:center;'>❌ SERVER UNREACHABLE<br><span style='font-size:10px;color:var(--text-muted);letter-spacing:0;margin-top:5px;display:block;'>Background deployment pipeline offline.</span></div>";
-});
+        if (activeGlobalUserId === 501889840 || payloadData.user?.isAdmin === true) {
+            document.getElementById('adminControlMenuWrapper').style.display = 'block';
+            populateAdminFields(payloadData.botSettings);
+            loadAdminDashboardLiveData();
+        }
+        renderTasks();
+    })
+    .catch(err => {
+        document.getElementById('loadingGate').innerHTML = "<div class='loading-text' style='color:var(--accent-red); text-align:center;'>❌ SERVER UNREACHABLE</div>";
+    });
 }
 
 function renderLedgerTabLogs() {
-const container = document.getElementById('livePayoutHistoryContainer');
-if(!container) return;
-container.innerHTML = "";
+    const container = document.getElementById('livePayoutHistoryContainer');
+    if(!container) return;
+    container.innerHTML = "";
+    const logs = synchronizedStateCache.user?.history || [];
 
-const logs = synchronizedStateCache.user?.history || [];
+    if(currentActiveLedgerTab === "rewards") {
+        const rewardLogs = logs.filter(item => typeof item === 'string' || (item.method && item.method !== 'UPI'));
+        if(rewardLogs.length === 0) {
+            container.innerHTML = `<p style="text-align:center; color:var(--text-muted); font-size:12px; padding:20px 0;">No reward payouts logged.</p>`;
+            return;
+        }
+        rewardLogs.forEach((item, index) => {
+            let titleText = "Task Reward";
+            let descText = "Mission objective verified successfully.";
+            let amtVal = 0;
 
-if(currentActiveLedgerTab === "rewards") {
-const rewardLogs = logs.filter(item => typeof item === 'string' || (item.method && item.method !== 'UPI'));
-if(rewardLogs.length === 0) {
-container.innerHTML = `<p style="text-align:center; color:var(--text-muted); font-size:12px; padding:20px 0;">No reward payouts logged.</p>`;
-return;
-}
-rewardLogs.forEach(item => {
-if(typeof item === 'string') {
-// 19. അഡ്മിൻ ആഡ് ഫണ്ട് ടാഗ് വ്യക്തത വരുത്തി
-let displayLabel = "Admin Added Fund";
-if(item.toLowerCase().includes("task")) displayLabel = "Task Dispatched Bonus";
-container.innerHTML += `
-<div class="mission-row-card" style="margin-bottom:8px; padding:14px 16px;">
-<div class="mission-meta"><h4>${displayLabel}</h4><p>${item}</p></div>
-</div>`;
-} else {
-container.innerHTML += `
-<div class="mission-row-card" style="margin-bottom:8px; padding:14px 16px;">
-<div class="mission-meta">
-<h4>${item.title || 'Task Reward / Bonus'}</h4>
-<p style="font-size:10px; color:var(--text-muted);">${item.date || 'Sync Time...'}</p>
-</div>
-<div><span style="font-size:14px; font-weight:800; color:var(--success-green);">+₹${parseFloat(item.amount).toFixed(2)}</span></div>
-</div>`;
-}
-});
-} else {
-const wdLogs = logs.filter(item => typeof item === 'object' && item.method === 'UPI');
-if(wdLogs.length === 0) {
-container.innerHTML = `<p style="text-align:center; color:var(--text-muted); font-size:12px; padding:20px 0;">No withdrawal logs synchronized.</p>`;
-return;
-}
-wdLogs.forEach(item => {
-let pillClass = "status-pending";
-if(item.status === "Approved") pillClass = "status-approved";
-if(item.status === "Rejected") pillClass = "status-rejected";
+            if(typeof item === 'string') {
+                descText = item;
+                if(item.toLowerCase().includes("fund")) { titleText = "Admin Add Fund"; }
+                else if(item.toLowerCase().includes("balance")) { titleText = "Admin Add Balance"; }
+                else if(item.toLowerCase().includes("task")) { titleText = "Task Reward"; }
+                const match = item.match(/₹?\s?(\d+(\.\d+)?)/);
+                if(match) amtVal = parseFloat(match[1]);
+            } else {
+                titleText = item.title || "Task Reward";
+                descText = item.date || "Task verified successfully";
+                amtVal = parseFloat(item.amount || 0);
+            }
 
-const cardNode = document.createElement('div');
-cardNode.className = "mission-row-card";
-cardNode.style.cssText = "margin-bottom:8px; padding:14px 16px; cursor:pointer;";
-cardNode.onclick = () => initReceiptPipelinePresentation(item);
-cardNode.innerHTML = `
-<div class="mission-meta">
-<h4>UPI Cashout Outflow</h4>
-<p style="font-size:10px; color:var(--text-muted);">${item.date || 'Processing...'}</p>
-<div style="margin-top:6px;"><span class="status-pill ${pillClass}">${item.status}</span></div>
-</div>
-<div><span style="font-size:14px; font-weight:800; color:#fff;">-₹${parseFloat(item.amount).toFixed(2)}</span></div>
-`;
-container.appendChild(cardNode);
-});
-}
-}
+            const row = document.createElement('div');
+            row.className = "mission-row-card";
+            row.style.cssText = "margin-bottom:8px; padding:14px 16px; cursor:pointer;";
+            row.onclick = () => showRewardDetailsPopup(titleText, descText, amtVal);
+            row.innerHTML = `
+                <div class="mission-meta">
+                    <h4>${titleText}</h4>
+                    <p style="font-size:11px; color:var(--text-muted);">${descText}</p>
+                </div>
+                <div><span style="font-size:14px; font-weight:800; color:var(--success-green);">+₹${amtVal.toFixed(2)}</span></div>
+            `;
+            container.appendChild(row);
+        });
+    } else {
+        const wdLogs = logs.filter(item => typeof item === 'object' && item.method === 'UPI');
+        if(wdLogs.length === 0) {
+            container.innerHTML = `<p style="text-align:center; color:var(--text-muted); font-size:12px; padding:20px 0;">No withdrawal logs synchronized.</p>`;
+            return;
+        }
+        wdLogs.forEach(item => {
+            let pillClass = "status-pending";
+            if(item.status === "Approved") pillClass = "status-approved";
+            if(item.status === "Rejected") pillClass = "status-rejected";
 
-// 20. റഫറൽ നെറ്റ്‌വർക്ക് സിസ്റ്റം റെൻഡറിങ്
-function renderReferredNetworkList() {
-const wrapper = document.getElementById('referredUsersListContainer');
-if(!wrapper) return;
-wrapper.innerHTML = "";
-
-const network = synchronizedStateCache.user?.referredNetwork || [];
-if(network.length === 0) {
-wrapper.innerHTML = `<p style="font-size:11px; color:var(--text-muted); text-align:center; padding:10px 0;">No profiles linked to your referral key.</p>`;
-return;
+            const cardNode = document.createElement('div');
+            cardNode.className = "mission-row-card";
+            cardNode.style.cssText = "margin-bottom:8px; padding:14px 16px; cursor:pointer;";
+            cardNode.onclick = () => initReceiptPipelinePresentation(item);
+            cardNode.innerHTML = `
+                <div class="mission-meta">
+                    <h4>UPI Outflow</h4>
+                    <p style="font-size:10px; color:var(--text-muted); margin-bottom:2px;">Amount requested</p>
+                    <span class="status-pill ${pillClass}">${item.status === 'Approved' ? 'Approved' : 'Pending'}</span>
+                </div>
+                <div><span style="font-size:14px; font-weight:800; color:#fff;">-₹${parseFloat(item.amount).toFixed(2)}</span></div>
+            `;
+            container.appendChild(cardNode);
+        });
+    }
 }
 
-network.forEach(user => {
-const row = document.createElement('div');
-row.className = "user-node-row";
-row.onclick = () => initiateUserProfilePopupView(user);
-row.innerHTML = `
-<div style="text-align:left;">
-<p style="font-size:13px; font-weight:700; color:#fff;">UID: #${user.uid || '000000'}</p>
-<p style="font-size:10px; color:var(--text-muted);">Click to audit logs</p>
-</div>
-<svg style="width:14px; height:14px; fill:var(--text-muted);" viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
-`;
-wrapper.appendChild(row);
-});
-}
-
-// 21. യൂസർ ഐഡി ക്ലിക്ക് ചെയ്താൽ ഫുൾ ഡീറ്റെയിൽസ് കാണിക്കുന്ന വിൻഡോ ലോജിക്
-function initiateUserProfilePopupView(user) {
-const targetBox = document.getElementById('popupUserProfileContent');
-targetBox.innerHTML = `
-<div class="receipt-row"><span class="receipt-label">Account UID</span><span class="receipt-value">#${user.uid || 'N/A'}</span></div>
-<div class="receipt-row"><span class="receipt-label">Profile Alias</span><span class="receipt-value">${user.username || 'Anonymous'}</span></div>
-<div class="receipt-row"><span class="receipt-label">Net Balance</span><span class="receipt-value" style="color:var(--success-green);">₹${parseFloat(user.balance || 0).toFixed(2)}</span></div>
-<div class="receipt-row"><span class="receipt-label">Total Earned</span><span class="receipt-value">₹${parseFloat(user.totalEarned || 0).toFixed(2)}</span></div>
-<div class="receipt-row"><span class="receipt-label">Linked Node VPA</span><span class="receipt-value">${user.upi || 'None Detected'}</span></div>
-`;
-document.getElementById('userProfileDetailsPopup').classList.add('open');
-}
-
-function copyPartnerBotLink() {
-const link = document.getElementById('txtBotReferLink').value;
-navigator.clipboard.writeText(link).then(() => alert("Referral network path link securely saved to memory!"));
-}
-
-function sharePartnerBotLink() {
-const link = document.getElementById('txtBotReferLink').value;
-window.open(`https://t.me/share/url?url=${encodeURIComponent(link)}&text=Join+and+earn+rewards+instantly!`, '_blank');
+function showRewardDetailsPopup(title, details, amount) {
+    const box = document.getElementById('rewardDetailsPopupContent');
+    box.innerHTML = `
+        <h3>${title}</h3>
+        <div style="text-align:center; margin-bottom:15px;">
+            <p style="font-size:12px; color:var(--text-muted);">Payout Transferred</p>
+            <h1 style="font-size:32px; font-weight:900; color:var(--success-green); margin-top:5px;">+₹${amount.toFixed(2)}</h1>
+        </div>
+        <div class="receipt-table" style="background:rgba(255,255,255,0.02);">
+            <div class="receipt-row"><span class="receipt-label">Description</span><span class="receipt-value">${details}</span></div>
+            <div class="receipt-row"><span class="receipt-label">Status</span><span class="receipt-value" style="color:var(--success-green);">Success</span></div>
+        </div>
+        <div style="text-align:center; margin-top:10px;">
+            <button onclick="closePopupSheet('rewardDetailsPopup')" class="text-link-btn">Close</button>
+        </div>
+    `;
+    document.getElementById('rewardDetailsPopup').classList.add('open');
 }
 
 function initReceiptPipelinePresentation(item) {
-const dynamicBox = document.getElementById('receiptPopupDynamicContent');
-document.getElementById('receiptPipelinePopup').classList.add('open');
+    const dynamicBox = document.getElementById('receiptPopupDynamicContent');
+    document.getElementById('receiptPipelinePopup').classList.add('open');
+    dynamicBox.innerHTML = `<div class="fetching-view-loader"><div class="circle-spin"></div><p>Fetching Details</p></div>`;
 
-dynamicBox.innerHTML = `
-<div class="fetching-view-loader">
-<div class="circle-spin"></div>
-<p>Fetching Details</p>
-</div>`;
+    setTimeout(() => {
+        dynamicBox.innerHTML = `
+            <div class="receipt-layout">
+                <div class="receipt-success-icon" style="${item.status === 'Rejected' ? 'color:var(--accent-red);border-color:var(--accent-red);' : ''}">${item.status === 'Rejected' ? '✕' : '✓'}</div>
+                <h4>Transfer Execution</h4>
+                <p class="sub-info">Security Assets Audit Log</p>
+                <div class="receipt-amount-display">₹${parseFloat(item.amount).toFixed(2)}</div>
+                <div class="receipt-table">
+                    <div class="receipt-row"><span class="receipt-label">TO VPA</span><span class="receipt-value">${synchronizedStateCache.user?.upi || 'Linked Node Target'}</span></div>
+                    <div class="receipt-row"><span class="receipt-label">REF TRANSACTION</span><span class="receipt-value">TXN${item.id || Math.floor(Math.random()*9000000)}</span></div>
+                    <div class="receipt-row"><span class="receipt-label">MATRIX STATUS</span><span class="receipt-value" style="color:${item.status === 'Approved' ? 'var(--success-green)' : 'var(--accent-red)'}">${item.status === 'Approved' ? 'Approved' : 'Pending'}</span></div>
+                </div>
+                <button onclick="closePopupSheet('receiptPipelinePopup')" class="text-link-btn" style="font-size:14px; font-weight:700;">Close</button>
+            </div>`;
+    }, 800);
+}
 
-setTimeout(() => {
-dynamicBox.innerHTML = `
-<div class="receipt-layout">
-<div class="receipt-success-icon">✓</div>
-<h4>Transfer Execution</h4>
-<p class="sub-info">Security Assets Audit Log</p>
-<div class="receipt-amount-display">₹${parseFloat(item.amount).toFixed(2)}</div>
-<div class="receipt-table">
-<div class="receipt-row"><span class="receipt-label">TO VPA</span><span class="receipt-value">${synchronizedStateCache.user?.upi || 'Linked Node Target'}</span></div>
-<div class="receipt-row"><span class="receipt-label">REF TRANSACTION</span><span class="receipt-value">TXN${item.id || Math.floor(Math.random()*9000000)}</span></div>
-<div class="receipt-row"><span class="receipt-label">TIMESTAMP</span><span class="receipt-value">${item.date || 'Syncing Now...'}</span></div>
-<div class="receipt-row"><span class="receipt-label">MATRIX STATUS</span><span class="receipt-value" style="color:var(--accent-red)">${item.status}</span></div>
-</div>
-<button onclick="closePopupSheet('receiptPipelinePopup')" class="action-submit-trigger" style="padding:12px; font-size:13px; border-radius:12px;">Close Receipt</button>
-</div>`;
-}, 1500);
+function renderReferredNetworkList() {
+    const wrapper = document.getElementById('referredUsersListContainer');
+    if(!wrapper) return; wrapper.innerHTML = "";
+    const network = synchronizedStateCache.user?.referredNetwork || [];
+    if(network.length === 0) {
+        wrapper.innerHTML = `<p style="font-size:11px; color:var(--text-muted); text-align:center; padding:10px 0;">No profiles linked to your network link.</p>`;
+        return;
+    }
+    network.forEach(user => {
+        const row = document.createElement('div');
+        row.className = "user-node-row";
+        row.innerHTML = `
+            <div style="text-align:left;">
+                <p style="font-size:13px; font-weight:700; color:#fff;">UID: #${user.uid || '000000'}</p>
+                <p style="font-size:10px; color:var(--text-muted);">Linked Account Partner Node</p>
+            </div>
+            <span style="font-size:12px; font-weight:700; color:var(--success-green);">Active</span>
+        `;
+        wrapper.appendChild(row);
+    });
 }
 
 function submitUpiWithdrawalIntent() {
-const upiVal = document.getElementById('popupUpiIdInput').value.trim();
-const amtVal = parseFloat(document.getElementById('popupUpiAmountInput').value);
-
-if(!upiVal || isNaN(amtVal) || amtVal <= 0) return alert("Verify core fields structure allocation.");
-
-closePopupSheet('upiWithdrawPopup');
-
-window.Telegram.WebApp.sendData(JSON.stringify({
-action: "withdraw_payout",
-method: "UPI",
-address: upiVal,
-amount: amtVal
-}));
+    const upiVal = document.getElementById('popupUpiIdInput').value.trim();
+    const amtVal = parseFloat(document.getElementById('popupUpiAmountInput').value);
+    if(!upiVal || isNaN(amtVal) || amtVal <= 0) return alert("Verify core fields structure allocation.");
+    closePopupSheet('upiWithdrawPopup');
+    window.Telegram.WebApp.sendData(JSON.stringify({
+        action: "withdraw_payout",
+        method: "UPI",
+        address: upiVal,
+        amount: amtVal
+    }));
 }
 
 function renderTasks() {
-const grid = document.getElementById('taskUIRendererGrid');
-grid.innerHTML = "";
-const tasks = synchronizedStateCache.botSettings?.tasks || [];
-if(tasks.length === 0) {
-grid.innerHTML = `<p style="text-align:center; color:var(--text-muted); font-size:12px; padding:30px 0;">No active operational tasks deployed.</p>`;
-return;
-}
-tasks.forEach(t => {
-const isDone = synchronizedStateCache.user.completedTasks?.includes(t.id);
-grid.innerHTML += `
-<div class="mission-row-card">
-<div class="mission-meta">
-<h4>${t.title}</h4>
-<p style="margin-bottom: 2px;">${t.details || 'Complete mission targets safely.'}</p>
-<p class="amt">+ ₹${parseFloat(t.amount).toFixed(2)}</p>
-</div>
-<div>
-${isDone ? '<button class="mission-action done">Completed</button>' : `<a href="${t.link}" target="_blank" class="mission-action" onclick="claimTask('${t.id}')">Verify</a>`}
-</div>
-</div>`;
-});
+    const grid = document.getElementById('taskUIRendererGrid');
+    grid.innerHTML = "";
+    const tasks = synchronizedStateCache.botSettings?.tasks || [];
+    if(tasks.length === 0) {
+        grid.innerHTML = `<p style="text-align:center; color:var(--text-muted); font-size:12px; padding:30px 0;">No active operational tasks deployed.</p>`;
+        return;
+    }
+    tasks.forEach(t => {
+        const isDone = synchronizedStateCache.user.completedTasks?.includes(t.id);
+        grid.innerHTML += `
+        <div class="mission-row-card">
+            <div class="mission-meta">
+                <h4>${t.title}</h4>
+                <p style="margin-bottom: 2px;">${t.details || 'Complete mission targets safely.'}</p>
+                <p class="amt">+ ₹${parseFloat(t.amount).toFixed(2)}</p>
+            </div>
+            <div>
+                ${isDone ? '<button class="mission-action done">Completed</button>' : `<a href="${t.link}" target="_blank" class="mission-action" onclick="claimTask('${t.id}')">Verify</a>`}
+            </div>
+        </div>`;
+    });
 }
 
 function claimTask(id) {
-fetch(`${CORE_BACKEND_API_URL}/api/mini-app/claim-task`, {
-method: 'POST',
-headers: { 'Content-Type': 'application/json' },
-body: JSON.stringify({ userId: activeGlobalUserId, taskId: id })
-}).then(() => { setTimeout(syncPlatformData, 1500); });
+    fetch(`${CORE_BACKEND_API_URL}/api/mini-app/claim-task`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ userId: activeGlobalUserId, taskId: id })
+    }).then(() => { setTimeout(syncPlatformData, 1500); });
 }
 
+function copyPartnerBotLink() {
+    const link = document.getElementById('txtBotReferLink').value;
+    navigator.clipboard.writeText(link).then(() => alert("Referral network path link securely saved to memory!"));
+}
+
+function sharePartnerBotLink() {
+    const link = document.getElementById('txtBotReferLink').value;
+    window.open(`https://t.me/share/url?url=${encodeURIComponent(link)}&text=Join+and+earn+rewards+instantly!`, '_blank');
+}
+
+function triggerTelegramChannelRedirect() {
+    window.open(synchronizedStateCache.botSettings?.telegramChannel || "https://t.me/", '_blank');
+}
+function triggerContactSupportRedirect() {
+    window.open(synchronizedStateCache.botSettings?.contactSupport || "https://t.me/", '_blank');
+}
+
+/* ================= MASTER ADMIN MODAL STREAMS ================= */
 function populateAdminFields(s) {
-if(!s) return;
-document.getElementById('admBotActive').value = s.botStatus ? "true" : "false";
-document.getElementById('admWithdrawMode').value = "UPI Only";
-document.getElementById('admMinWithdraw').value = s.minWithdraw || 100;
-document.getElementById('admMaxWithdraw').value = s.maxWithdraw || 500;
-document.getElementById('admPerRefer').value = s.perRefer || 10;
-document.getElementById('admReqReferrals').value = s.reqReferrals || 0;
-document.getElementById('admInputTelegramChannel').value = s.telegramChannel || "https://t.me/";
-document.getElementById('admInputContactSupport').value = s.contactSupport || "https://t.me/";
-document.getElementById('admInputPartnerBotName').value = s.partnerBotName || "Partner Bot";
-document.getElementById('admInputPartnerBotLink').value = s.partnerBotLink || "https://t.me/";
+    if(!s) return;
+    document.getElementById('admMinWithdraw').value = s.minWithdraw || 100;
+    document.getElementById('admPerRefer').value = s.perRefer || 10;
+    document.getElementById('admInputTelegramChannel').value = s.telegramChannel || "https://t.me/";
+    document.getElementById('admInputContactSupport').value = s.contactSupport || "https://t.me/";
+    document.getElementById('admInputPartnerBotName').value = s.partnerBotName || "Partner Bot";
+    document.getElementById('admInputPartnerBotLink').value = s.partnerBotLink || "https://t.me/";
 }
 
 function triggerAdminDashboardEntrance() {
-if (hasAuthenticatedAdminSession) {
-document.getElementById('adminControlModalElement').style.display = 'flex';
-return;
-}
-const pin = prompt("Enter Master Security Admin Code:");
-if (pin === MASTER_ACCESS_PIN) {
-hasAuthenticatedAdminSession = true;
-document.getElementById('adminControlModalElement').style.display = 'flex';
-} else { alert("Verification mismatch credentials error."); }
+    if (hasAuthenticatedAdminSession) {
+        document.getElementById('adminControlModalElement').style.display = 'flex';
+        return;
+    }
+    const pin = prompt("Enter Master Security Admin Code:");
+    if (pin === MASTER_ACCESS_PIN) {
+        hasAuthenticatedAdminSession = true;
+        document.getElementById('adminControlModalElement').style.display = 'flex';
+    } else { alert("Verification mismatch credentials error."); }
 }
 
 function switchAdminTab(paneId) {
-document.querySelectorAll('.adm-view-pane').forEach(p => p.classList.remove('active'));
-document.querySelectorAll('.adm-tab-btn').forEach(b => b.classList.remove('active'));
-document.getElementById(paneId).classList.add('active');
-event.currentTarget.classList.add('active');
+    document.querySelectorAll('.adm-view-pane').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.adm-nav-anchor').forEach(b => b.classList.remove('active'));
+    document.getElementById(paneId).classList.add('active');
+    document.getElementById('adm-anchor-' + paneId.replace('adm-', '')).classList.add('active');
 }
 
 function closeAdminDashboardView() { document.getElementById('adminControlModalElement').style.display = 'none'; }
 
-// 22. ലോഡ് അഡ്മിൻ ലൈവ് ഡാറ്റ (അപ്പ്രൂവൽ ടാസ്‌ക് ലിസ്റ്റ് ലോജിക്)
 function loadAdminDashboardLiveData() {
-const listContainer = document.getElementById('admPendingWithdrawalsList');
-if(!listContainer) return;
+    fetch(`${CORE_BACKEND_API_URL}/api/admin/pending-withdrawals`)
+    .then(res => res.json())
+    .then(data => {
+        const listContainer = document.getElementById('admPendingWithdrawalsList');
+        listContainer.innerHTML = "";
+        if(data.length === 0) {
+            listContainer.innerHTML = `<p style="font-size:12px; color:var(--text-muted);">No pending items inside pipeline.</p>`;
+            return;
+        }
+        data.forEach(item => {
+            const node = document.createElement('div');
+            node.className = "adm-table-row";
+            node.innerHTML = `
+                <div>
+                    <p style="font-size:12px; font-weight:700;">UID: #${item.userId} | Amount: ₹${item.amount}</p>
+                    <p style="font-size:10px; color:var(--text-muted);">Target VPA: ${item.address || 'N/A'}</p>
+                </div>
+                <div class="adm-table-actions">
+                    <button class="adm-btn-small" style="background:var(--success-green); color:#000;" onclick="processAdminWithdrawAction(${item.id}, 'Approved')">Approve</button>
+                    <button class="adm-btn-small" style="background:var(--accent-red); color:#fff;" onclick="processAdminWithdrawAction(${item.id}, 'Rejected')">Reject</button>
+                </div>
+            `;
+            listContainer.appendChild(node);
+        });
+    });
 
-fetch(`${CORE_BACKEND_API_URL}/api/admin/pending-withdrawals`)
-.then(res => res.json())
-.then(data => {
-listContainer.innerHTML = "";
-if(data.length === 0) {
-listContainer.innerHTML = `<p style="font-size:12px; color:var(--text-muted);">No pending withdrawal items present inside terminal pipeline.</p>`;
-return;
-}
-data.forEach(item => {
-const node = document.createElement('div');
-node.className = "adm-table-row";
-node.innerHTML = `
-<div>
-<p style="font-size:12px; font-weight:700;">UID: #${item.userId} | Amount: ₹${item.amount}</p>
-<p style="font-size:10px; color:var(--text-muted);">Target VPA: ${item.address || 'N/A'}</p>
-</div>
-<div class="adm-table-actions">
-<button class="adm-btn-small" style="background:var(--success-green); color:#000;" onclick="processAdminWithdrawAction(${item.id}, 'Approved')">Approve</button>
-<button class="adm-btn-small" style="background:var(--accent-red); color:#fff;" onclick="processAdminWithdrawAction(${item.id}, 'Rejected')">Reject</button>
-</div>
-`;
-listContainer.appendChild(node);
-});
-}).catch(() => {
-listContainer.innerHTML = `<p style="font-size:12px; color:var(--text-muted);">Pipeline offline or route not mounted inside host.</p>`;
-});
+    fetch(`${CORE_BACKEND_API_URL}/api/admin/users-audit`)
+    .then(res => res.json())
+    .then(usersPool => {
+        let runningGlobalBalanceTotal = 0;
+        const container = document.getElementById('admUsersProfileAuditListContainer');
+        container.innerHTML = "";
+        
+        usersPool.forEach(u => {
+            runningGlobalBalanceTotal += parseFloat(u.balance || 0);
+            const row = document.createElement('div');
+            row.className = "adm-table-row";
+            row.innerHTML = `
+                <div>
+                    <p style="font-size:12px; font-weight:700;">Alias: ${u.username || 'Anonymous'}</p>
+                    <p style="font-size:10px; color:var(--text-muted);">UID: #${u.uid} | VPA: ${u.upi || 'None'}</p>
+                </div>
+                <div><span style="font-weight:700; color:var(--success-green); font-size:12px;">₹${parseFloat(u.balance || 0).toFixed(2)}</span></div>
+            `;
+            container.appendChild(row);
+        });
+        document.getElementById('admTotalUserBalanceDisplay').innerText = "₹" + runningGlobalBalanceTotal.toFixed(2);
+    }).catch(() => {});
 }
 
 function processAdminWithdrawAction(id, actionStatus) {
-fetch(`${CORE_BACKEND_API_URL}/api/admin/approve-withdraw`, {
-method: 'POST',
-headers: { 'Content-Type': 'application/json' },
-body: JSON.stringify({ id: id, action: actionStatus })
-}).then(res => res.json()).then(res => {
-alert(`Transaction node marked as ${actionStatus}`);
-loadAdminDashboardLiveData();
-syncPlatformData();
-});
+    fetch(`${CORE_BACKEND_API_URL}/api/admin/approve-withdraw`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id: id, action: actionStatus })
+    }).then(() => { alert(`Transaction marked as ${actionStatus}`); loadAdminDashboardLiveData(); syncPlatformData(); });
 }
 
 function executeAdminBroadcastPush() {
-const text = document.getElementById('admBroadcastMsgInput').value.trim();
-if(!text) return alert("Broadcast text layer cannot be blank.");
-
-fetch(`${CORE_BACKEND_API_URL}/api/admin/broadcast`, {
-method: 'POST',
-headers: { 'Content-Type': 'application/json' },
-body: JSON.stringify({ message: text })
-}).then(res => res.json()).then(d => {
-alert("Push alert dispatched to user ecosystem pool.");
-document.getElementById('admBroadcastMsgInput').value = "";
-closeAdminDashboardView();
-});
+    const text = document.getElementById('admBroadcastMsgInput').value.trim();
+    if(!text) return alert("Broadcast text layer cannot be blank.");
+    fetch(`${CORE_BACKEND_API_URL}/api/admin/broadcast`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: text })
+    }).then(() => { alert("Push alert dispatched."); document.getElementById('admBroadcastMsgInput').value = ""; closeAdminDashboardView(); });
 }
 
 function executeAdminAddTaskSubmit() {
-const title = document.getElementById('admInputTaskTitle').value;
-const details = document.getElementById('admInputTaskDetails').value;
-const reward = parseFloat(document.getElementById('admInputTaskReward').value);
-const link = document.getElementById('admInputTaskLink').value;
-if(!title || isNaN(reward) || !link) { alert("Configure all vector fields safely."); return; }
+    const title = document.getElementById('admInputTaskTitle').value;
+    const details = document.getElementById('admInputTaskDetails').value;
+    const reward = parseFloat(document.getElementById('admInputTaskReward').value);
+    const link = document.getElementById('admInputTaskLink').value;
+    if(!title || isNaN(reward) || !link) return alert("Configure all vector fields safely.");
 
-const currentTasks = synchronizedStateCache.botSettings?.tasks || [];
-const newTask = { id: "task_" + Date.now(), title, details, amount: reward, link };
-const updatedTasks = [...currentTasks, newTask];
+    const currentTasks = synchronizedStateCache.botSettings?.tasks || [];
+    const newTask = { id: "task_" + Date.now(), title, details, amount: reward, link };
+    const updatedTasks = [...currentTasks, newTask];
 
-fetch(`${CORE_BACKEND_API_URL}/api/settings/update`, {
-method: 'POST',
-headers: { 'Content-Type': 'application/json' },
-body: JSON.stringify({ tasks: updatedTasks })
-}).then(() => {
-alert("Task deployed into active bot architecture.");
-document.getElementById('admInputTaskTitle').value = "";
-document.getElementById('admInputTaskDetails').value = "";
-document.getElementById('admInputTaskReward').value = "";
-document.getElementById('admInputTaskLink').value = "";
-closeAdminDashboardView();
-syncPlatformData();
-});
+    fetch(`${CORE_BACKEND_API_URL}/api/settings/update`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ tasks: updatedTasks })
+    }).then(() => { alert("Task deployed."); closeAdminDashboardView(); syncPlatformData(); });
 }
 
 function saveUnifiedBotSettings() {
-const settings = {
-botStatus: document.getElementById('admBotActive').value === "true",
-withdrawMode: "UPI Only",
-minWithdraw: parseInt(document.getElementById('admMinWithdraw').value),
-maxWithdraw: parseInt(document.getElementById('admMaxWithdraw').value),
-perRefer: parseFloat(document.getElementById('admPerRefer').value),
-reqReferrals: parseInt(document.getElementById('admReqReferrals').value),
-telegramChannel: document.getElementById('admInputTelegramChannel').value.trim(),
-contactSupport: document.getElementById('admInputContactSupport').value.trim(),
-partnerBotName: document.getElementById('admInputPartnerBotName').value.trim(),
-partnerBotLink: document.getElementById('admInputPartnerBotLink').value.trim()
-};
-
-fetch(`${CORE_BACKEND_API_URL}/api/settings/update`, {
-method: 'POST',
-headers: { 'Content-Type': 'application/json' },
-body: JSON.stringify(settings)
-}).then(() => { alert("Global parameters saved into bot module."); databaseSyncerBypass(); });
-}
-
-function executeManageAdminsAction() {
-const adminId = parseInt(document.getElementById('admTargetAdminId').value);
-const actionType = document.getElementById('admAdminAction').value;
-if(!adminId) return alert("Provide a valid profile Telegram UID.");
-
-fetch(`${CORE_BACKEND_API_URL}/api/admin/manage-admins`, {
-method: 'POST',
-headers: { 'Content-Type': 'application/json' },
-body: JSON.stringify({ adminId: adminId, action: actionType })
-}).then(res => res.json()).then(d => {
-alert(`Access control level matrix modified for ID #${adminId}`);
-databaseSyncerBypass();
-});
-}
-
-function saveNewTerminalSecurityCode() {
-const newPin = document.getElementById('admNewSecurityPin').value.trim();
-if(newPin.length < 4) return alert("Security key must be at least 4 digits long.");
-
-fetch(`${CORE_BACKEND_API_URL}/api/settings/update`, {
-method: 'POST',
-headers: { 'Content-Type': 'application/json' },
-body: JSON.stringify({ securityPin: newPin })
-}).then(() => { alert("Master security key changed safely."); MASTER_ACCESS_PIN = newPin; databaseSyncerBypass(); });
+    const settings = {
+        minWithdraw: parseInt(document.getElementById('admMinWithdraw').value),
+        perRefer: parseFloat(document.getElementById('admPerRefer').value),
+        telegramChannel: document.getElementById('admInputTelegramChannel').value.trim(),
+        contactSupport: document.getElementById('admInputContactSupport').value.trim(),
+        partnerBotName: document.getElementById('admInputPartnerBotName').value.trim(),
+        partnerBotLink: document.getElementById('admInputPartnerBotLink').value.trim()
+    };
+    fetch(`${CORE_BACKEND_API_URL}/api/settings/update`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(settings)
+    }).then(() => { alert("Global matrix saved."); closeAdminDashboardView(); syncPlatformData(); });
 }
 
 function executeAdminBalanceOverride() {
-const targetUid = parseInt(document.getElementById('admBalanceTargetUid').value);
-const action = document.getElementById('admBalanceAction').value;
-const amount = parseFloat(document.getElementById('admBalanceAmount').value);
-if(!targetUid || isNaN(amount)) { alert("Specify valid configuration variables."); return; }
+    const targetUid = parseInt(document.getElementById('admBalanceTargetUid').value);
+    const action = document.getElementById('admBalanceAction').value;
+    const amount = parseFloat(document.getElementById('admBalanceAmount').value);
+    if(!targetUid || isNaN(amount)) return alert("Specify valid variables.");
 
-fetch(`${CORE_BACKEND_API_URL}/api/admin/modify-balance`, {
-method: 'POST',
-headers: { 'Content-Type': 'application/json' },
-body: JSON.stringify({ targetUid, action, amount })
-}).then(res => res.json()).then(d => {
-if(d.success) { alert("Ledger balance synchronized globally."); databaseSyncerBypass(); }
-else { alert(d.error || "Execution failed."); }
-});
+    fetch(`${CORE_BACKEND_API_URL}/api/admin/modify-balance`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ targetUid, action, amount })
+    }).then(res => res.json()).then(d => {
+        if(d.success) { alert("Ledger balance synchronized."); closeAdminDashboardView(); syncPlatformData(); }
+        else alert(d.error || "Failed.");
+    });
 }
 
 function generateSystemGiftCode() {
-const code = document.getElementById('admGiftCodeString').value.toUpperCase();
-const amount = parseFloat(document.getElementById('admGiftCodeAmount').value);
-const maxUsers = parseInt(document.getElementById('admGiftMaxUsers').value);
-if(!code || isNaN(amount) || isNaN(maxUsers)) { alert("Configure valid gift card matrix variables."); return; }
+    const code = document.getElementById('admGiftCodeString').value.toUpperCase();
+    const amount = parseFloat(document.getElementById('admGiftCodeAmount').value);
+    const maxUsers = parseInt(document.getElementById('admGiftMaxUsers').value);
+    if(!code || isNaN(amount) || isNaN(maxUsers)) return alert("Configure valid parameters.");
 
-fetch(`${CORE_BACKEND_API_URL}/api/admin/create-code`, {
-method: 'POST',
-headers: { 'Content-Type': 'application/json' },
-body: JSON.stringify({ codeString: code, awardValue: amount, maxRedemptions: maxUsers })
-}).then(res => res.json()).then(d => {
-if(d.success) { alert(`Multi-user voucher pattern loaded for ${maxUsers} claims.`); closeAdminDashboardView(); }
-});
+    fetch(`${CORE_BACKEND_API_URL}/api/admin/create-code`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ codeString: code, awardValue: amount, maxRedemptions: maxUsers })
+    }).then(res => res.json()).then(d => { if(d.success) { alert(`Voucher deployed.`); closeAdminDashboardView(); } });
 }
 
 function claimPlatformGiftCode() {
-const code = document.getElementById('walletGiftCodeInput').value.trim().toUpperCase();
-if(!code) return alert("Please specify voucher reference details.");
-
-fetch(`${CORE_BACKEND_API_URL}/api/mini-app/redeem-code`, {
-method: 'POST',
-headers: { 'Content-Type': 'application/json' },
-body: JSON.stringify({ userId: activeGlobalUserId, code: code })
-}).then(res => res.json()).then(d => {
-if(d.success) { alert("Voucher approved! Assets deployed successfully."); document.getElementById('walletGiftCodeInput').value = ""; syncPlatformData(); }
-else { alert(d.error || "Code matches execution barrier parameters."); }
-});
-}
-
-function executeSecureTransfer() {
-const targetUid = parseInt(document.getElementById('peerTargetInputId').value);
-const amount = parseFloat(document.getElementById('peerAmountInput').value);
-if(!targetUid || isNaN(amount) || amount <= 0) return alert("Verify target parameter structures allocation.");
-
-fetch(`${CORE_BACKEND_API_URL}/api/mini-app/peer-transfer`, {
-method: 'POST',
-headers: { 'Content-Type': 'application/json' },
-body: JSON.stringify({ userId: activeGlobalUserId, targetUid, amount })
-}).then(res => res.json()).then(d => {
-if(d.success) { alert("Peer transaction complete."); document.getElementById('peerTargetInputId').value = ""; document.getElementById('peerAmountInput').value = ""; syncPlatformData(); }
-else { alert(d.error || "Gateway response failed."); }
-});
-}
-
-function triggerTelegramChannelRedirect() {
-const target = synchronizedStateCache.botSettings?.telegramChannel || "https://t.me/";
-window.open(target, '_blank');
-}
-
-function triggerContactSupportRedirect() {
-const target = synchronizedStateCache.botSettings?.contactSupport || "https://t.me/";
-window.open(target, '_blank');
-}
-
-function databaseSyncerBypass() {
-closeAdminDashboardView();
-syncPlatformData();
-}
-
-function switchViewTab(id) {
-document.querySelectorAll('.main-viewport').forEach(v => v.classList.remove('active'));
-document.querySelectorAll('.nav-anchor').forEach(a => a.classList.remove('active'));
-document.getElementById(id + 'View').classList.add('active');
-document.getElementById('anchor-' + id).classList.add('active');
+    const code = document.getElementById('walletGiftCodeInput').value.trim().toUpperCase();
+    if(!code) return alert("Please specify voucher reference details.");
+    fetch(`${CORE_BACKEND_API_URL}/api/mini-app/redeem-code`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ userId: activeGlobalUserId, code: code })
+    }).then(res => res.json()).then(d => {
+        if(d.success) { alert("Voucher approved!"); document.getElementById('walletGiftCodeInput').value = ""; syncPlatformData(); }
+        else { alert(d.error || "Execution failed."); }
+    });
 }
 
 window.onload = syncPlatformData;
