@@ -146,6 +146,26 @@ body { background: var(--bg-gradient); color: var(--text-white); min-height: 100
 .adm-table-row { display: flex; justify-content: space-between; align-items: center; padding: 12px; border-bottom: 1px solid rgba(255,255,255,0.05); background: rgba(0,0,0,0.1); margin-bottom: 6px; border-radius: 8px; }
 .adm-table-actions { display: flex; gap: 6px; }
 .adm-btn-small { padding: 6px 12px; border: none; border-radius: 6px; font-weight: 700; font-size: 11px; cursor: pointer; }
+
+/* ---- പുതിയ വിത്ത്ഡ്രോവൽ സ്ക്രീൻ ഡിസൈൻ ---- */
+.withdrawal-fullscreen-view { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #05060a; z-index: 1800; display: none; flex-direction: column; }
+.wd-view-container { display: flex; flex-direction: column; height: 100%; width: 100%; padding: 20px; }
+.wd-header { display: flex; justify-content: space-between; align-items: center; padding-bottom: 14px; border-bottom: 1px solid rgba(255,255,255,0.05); }
+.wd-header h2 { font-size: 15px; font-weight: 800; letter-spacing: 0.5px; }
+.wd-body { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+.wd-success-icon-box { width: 70px; height: 70px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 28px; margin-bottom: 16px; font-weight: bold; }
+.wd-icon-approved { background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.2); color: var(--success-green); }
+.wd-icon-pending { background: rgba(234, 179, 8, 0.1); border: 1px solid rgba(234, 179, 8, 0.2); color: #eab308; }
+.wd-icon-rejected { background: rgba(255, 42, 51, 0.1); border: 1px solid rgba(255, 42, 51, 0.2); color: var(--accent-red); }
+.wd-status-title { font-size: 18px; font-weight: 800; margin-bottom: 4px; text-transform: uppercase; }
+.wd-status-subtitle { font-size: 12px; color: var(--text-muted); margin-bottom: 24px; }
+.wd-amount-text { font-size: 38px; font-weight: 900; margin-bottom: 24px; }
+.wd-details-list { width: 100%; background: var(--surface-card); border: 1px solid var(--panel-border); border-radius: 20px; padding: 16px; text-align: left; font-size: 13px; margin-bottom: 20px; }
+.wd-details-item { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px dashed rgba(255,255,255,0.05); }
+.wd-details-item:last-child { border: none; }
+.wd-details-label { color: var(--text-muted); font-weight: 500; }
+.wd-details-val { font-weight: 600; color: #fff; text-align: right; word-break: break-all; max-width: 65%; }
+.wd-footer-btn { width: 100%; padding: 15px; background: rgba(255,255,255,0.05); border: 1px solid var(--panel-border); border-radius: 16px; color: #fff; font-weight: 700; font-size: 14px; cursor: pointer; text-align: center; }
 </style>
 </head>
 <body>
@@ -317,8 +337,15 @@ body { background: var(--bg-gradient); color: var(--text-white); min-height: 100
 <div class="popup-card black-opaque" id="rewardDetailsPopupContent"></div>
 </div>
 
-<div class="popup-overlay" id="receiptPipelinePopup">
-<div class="popup-card" id="receiptPopupDynamicContent"></div>
+<div class="withdrawal-fullscreen-view" id="withdrawalFullscreenDetailsView">
+<div class="wd-view-container">
+<div class="wd-header">
+<h2 style="color: #fff;">Withdrawal Info</h2>
+<button class="text-link-btn" style="color: var(--accent-red); font-size:14px;" onclick="closeWithdrawalDetailsView()">Close</button>
+</div>
+<div class="wd-body" id="withdrawalDynamicBodyNode">
+</div>
+</div>
 </div>
 
 <div class="admin-fullscreen-modal" id="adminControlModalElement">
@@ -421,7 +448,6 @@ body { background: var(--bg-gradient); color: var(--text-white); min-height: 100
 <div class="adm-nav-anchor" id="adm-anchor-settings" onclick="switchAdminTab('adm-settings')">
 <svg viewBox="0 0 24 24"><path d="M19.43 12.98c.04-.32.07-.64.07-.98s-.03-.66-.07-.98l2.11-1.65c.19-.15.24-.42.12-.64l-2-3.46c-.12-.22-.39-.3-.61-.22l-2.49 1c-.52-.4-1.08-.73-1.69-.98l-.38-2.65C14.46 2.18 14.25 2 14 2h-4c-.25 0-.46.18-.49.42l-.38 2.65c-.61.25-1.17.59-1.69.98l-2.49-1c-.23-.09-.49 0-.61.22l-2 3.46c-.13.22-.07.49.12.64l2.11 1.65c-.04.32-.07.65-.07.98s.03.66.07.98l-2.11 1.65c-.19.15-.24.42-.12.64l2 3.46c.12.22.39.3.61.22l2.49-1c.52.4 1.08.73 1.69.98l.38 2.65c.03.24.24.42.49.42h4c.25 0 .46-.18.49-.42l.38-2.65c.61-.25 1.17-.59 1.69-.98l2.49 1c.23.09.49 0 .61-.22l2-3.46c.12-.22.07-.49-.12-.64l-2.11-1.65zM12 15.5c-1.93 0-3.5-1.57-3.5-3.5s1.57-3.5 3.5-3.5 3.5 1.57 3.5 3.5-1.57 3.5-3.5 3.5z"/></svg>
 <div>Settings</div>
-</div>
 </div>
 </div>
 </div>
@@ -554,6 +580,25 @@ function syncPlatformData() {
             loadAdminDashboardLiveData();
         }
         renderTasks();
+
+        // --- വിത്ത്ഡ്രോവൽ ഐഡി ലിങ്ക് വഴി നേരിട്ട് ഓപ്പൺ ചെയ്യാനുള്ള ലോജിക് ---
+        const urlParams = new URLSearchParams(window.location.search);
+        const page = urlParams.get('page');
+        const targetWdId = urlParams.get('wdId');
+
+        if (page === 'history') {
+            switchViewTab('wallet');
+            toggleLedgerTab('withdrawals');
+
+            if (targetWdId) {
+                const logs = payloadData.user?.history || [];
+                const matchedItem = logs.find(item => typeof item === 'object' && String(item.id) === String(targetWdId));
+                
+                if (matchedItem) {
+                    initReceiptPipelinePresentation(matchedItem);
+                }
+            }
+        }
     })
     .catch(err => {
         document.getElementById('loadingGate').innerHTML = "<div class='loading-text' style='color:var(--accent-red); text-align:center;'>❌ SERVER UNREACHABLE</div>";
@@ -622,7 +667,7 @@ function renderLedgerTabLogs() {
                 <div class="mission-meta">
                     <h4>UPI Outflow</h4>
                     <p style="font-size:10px; color:var(--text-muted); margin-bottom:2px;">Amount requested</p>
-                    <span class="status-pill ${pillClass}">${item.status === 'Approved' ? 'Approved' : 'Pending'}</span>
+                    <span class="status-pill ${pillClass}">${item.status === 'Approved' ? 'Approved' : (item.status === 'Rejected' ? 'Rejected' : 'Pending')}</span>
                 </div>
                 <div><span style="font-size:14px; font-weight:800; color:#fff;">-₹${parseFloat(item.amount).toFixed(2)}</span></div>
             `;
@@ -650,26 +695,70 @@ function showRewardDetailsPopup(title, details, amount) {
     document.getElementById('rewardDetailsPopup').classList.add('open');
 }
 
+// ---- പുതിയ സ്റ്റൈലിലുള്ള ഫുൾ സ്ക്രീൻ വിത്ത്ഡ്രോവൽ പ്രെസന്റേഷൻ ----
 function initReceiptPipelinePresentation(item) {
-    const dynamicBox = document.getElementById('receiptPopupDynamicContent');
-    document.getElementById('receiptPipelinePopup').classList.add('open');
-    dynamicBox.innerHTML = `<div class="fetching-view-loader"><div class="circle-spin"></div><p>Fetching Details</p></div>`;
+    const viewNode = document.getElementById('withdrawalFullscreenDetailsView');
+    const bodyNode = document.getElementById('withdrawalDynamicBodyNode');
+    
+    // ഫുൾ സ്ക്രീൻ വ്യൂ ഓപ്പൺ ചെയ്യുന്നു
+    viewNode.style.display = 'flex';
+    
+    // 1. ഫസ്റ്റ് ലോഡിങ് സ്റ്റേറ്റ് (നിങ്ങൾ അയച്ച മൂന്നാമത്തെ സ്ക്രീൻഷോട്ട് പോലെ കറങ്ങുന്നത്)
+    bodyNode.innerHTML = `
+        <div class="fetching-view-loader">
+            <div class="circle-spin"></div>
+            <p>FETCHING DETAILS</p>
+        </div>
+    `;
 
+    // 2. 800ms-ന് ശേഷം ഒറിജിനൽ ഡീറ്റെയിൽസ് കാണിക്കുന്നു (രണ്ടാമത്തെ സ്ക്രീൻഷോട്ട് ഡിസൈൻ)
     setTimeout(() => {
-        dynamicBox.innerHTML = `
-            <div class="receipt-layout">
-                <div class="receipt-success-icon" style="${item.status === 'Rejected' ? 'color:var(--accent-red);border-color:var(--accent-red);' : ''}">${item.status === 'Rejected' ? '✕' : '✓'}</div>
-                <h4>Transfer Execution</h4>
-                <p class="sub-info">Security Assets Audit Log</p>
-                <div class="receipt-amount-display">₹${parseFloat(item.amount).toFixed(2)}</div>
-                <div class="receipt-table">
-                    <div class="receipt-row"><span class="receipt-label">TO VPA</span><span class="receipt-value">${synchronizedStateCache.user?.upi || 'Linked Node Target'}</span></div>
-                    <div class="receipt-row"><span class="receipt-label">REF TRANSACTION</span><span class="receipt-value">TXN${item.id || Math.floor(Math.random()*9000000)}</span></div>
-                    <div class="receipt-row"><span class="receipt-label">MATRIX STATUS</span><span class="receipt-value" style="color:${item.status === 'Approved' ? 'var(--success-green)' : 'var(--accent-red)'}">${item.status === 'Approved' ? 'Approved' : 'Pending'}</span></div>
+        let statusTitle = "PENDING";
+        let statusSubtitle = "Security Assets Audit Log";
+        let iconChar = "✕";
+        let iconClass = "wd-icon-pending";
+
+        if (item.status === 'Approved') {
+            statusTitle = "SUCCESS";
+            statusSubtitle = "Transfer Execution Success";
+            iconChar = "✓";
+            iconClass = "wd-icon-approved";
+        } else if (item.status === 'Rejected') {
+            statusTitle = "REJECTED";
+            statusSubtitle = "Transfer Failed / Cancelled";
+            iconChar = "✕";
+            iconClass = "wd-icon-rejected";
+        }
+
+        bodyNode.innerHTML = `
+            <div class="wd-success-icon-box ${iconClass}">${iconChar}</div>
+            <h4 class="wd-status-title" style="color:#fff;">${statusTitle}</h4>
+            <p class="wd-status-subtitle">${statusSubtitle}</p>
+            
+            <div class="wd-amount-text" style="color:#fff;">₹${parseFloat(item.amount).toFixed(2)}</div>
+            
+            <div class="wd-details-list">
+                <div class="wd-details-item">
+                    <span class="wd-details-label">TO VPA</span>
+                    <span class="wd-details-val">${synchronizedStateCache.user?.upi || 'Linked Node Target'}</span>
                 </div>
-                <button onclick="closePopupSheet('receiptPipelinePopup')" class="text-link-btn" style="font-size:14px; font-weight:700;">Close</button>
-            </div>`;
+                <div class="wd-details-item">
+                    <span class="wd-details-label">REF TRANSACTION</span>
+                    <span class="wd-details-val">TXN${item.id || Math.floor(Math.random()*9000000)}</span>
+                </div>
+                <div class="wd-details-item">
+                    <span class="wd-details-label">MATRIX STATUS</span>
+                    <span class="wd-details-val" style="color:${item.status === 'Approved' ? 'var(--success-green)' : (item.status === 'Rejected' ? 'var(--accent-red)' : '#eab308')}">${item.status || 'Pending'}</span>
+                </div>
+            </div>
+            
+            <button class="wd-footer-btn" onclick="closeWithdrawalDetailsView()">Close</button>
+        `;
     }, 800);
+}
+
+function closeWithdrawalDetailsView() {
+    document.getElementById('withdrawalFullscreenDetailsView').style.display = 'none';
 }
 
 function renderReferredNetworkList() {
