@@ -44,10 +44,14 @@ body { background: var(--bg-gradient); color: var(--text-white); min-height: 100
 
 /* DYNAMIC BANNER SYSTEM */
 .banners-wrapper { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
-.reward-banner-box { background: var(--surface-card); border: 1px solid var(--panel-border); border-radius: 20px; padding: 16px; display: flex; align-items: center; gap: 16px; relative; overflow: hidden; text-decoration: none; color: inherit; }
+.reward-banner-box { background: var(--surface-card); border: 1px solid var(--panel-border); border-radius: 20px; padding: 16px; display: flex; align-items: center; gap: 16px; position: relative; overflow: hidden; text-decoration: none; color: inherit; }
 .reward-image-node { width: 55px; height: 55px; object-fit: cover; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1); }
 
-.category-header-node { font-size: 12px; font-weight: 800; color: var(--accent-blue); letter-spacing: 0.5px; text-transform: uppercase; margin: 15px 0 8px 0; padding-bottom: 4px; border-bottom: 1px solid rgba(255,255,255,0.04); }
+/* DYNAMIC CATEGORY FILTER TABS */
+.category-tabs-container { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 12px; margin-bottom: 15px; -webkit-overflow-scrolling: touch; }
+.category-tabs-container::-webkit-scrollbar { display: none; }
+.category-filter-btn { padding: 8px 16px; background: rgba(255,255,255,0.03); border: 1px solid var(--panel-border); border-radius: 20px; color: var(--text-muted); font-size: 12px; font-weight: 700; cursor: pointer; white-space: nowrap; transition: all 0.2s; text-transform: uppercase; }
+.category-filter-btn.active { background: var(--accent-blue); color: #fff; border-color: var(--accent-blue); box-shadow: 0 4px 12px rgba(37,99,235,0.3); }
 
 .mission-row-card { background: var(--surface-card); border: 1px solid var(--panel-border); border-radius: 16px; padding: 16px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; backdrop-filter: blur(10px); }
 .mission-row-card:active { background: rgba(255,255,255,0.02); }
@@ -184,9 +188,11 @@ body { background: var(--bg-gradient); color: var(--text-white); min-height: 100
 <div id="homeView" class="main-viewport active">
 <div class="banners-wrapper" id="appLiveBannersStack"></div>
 
+<div class="category-tabs-container" id="taskCategoryTabsRow"></div>
+
 <div class="section-title-row">
 <svg viewBox="0 0 24 24"><path d="M19 5H5v14h14V5zM5 3c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2H5zm9 10H7v-2h7v2zm3-4H7V7h10v2zm-3 8H7v-2h7v2z"/></svg>
-<span>All Live Missions</span>
+<span id="currentCategoryTitle">All Live Missions</span>
 </div>
 <div id="taskUIRendererGrid"></div>
 </div>
@@ -480,6 +486,7 @@ let activeGlobalUserId = null;
 let synchronizedStateCache = { user: {}, botSettings: { tasks: [], banners: [], categories: [] } };
 let hasAuthenticatedAdminSession = false;
 let currentActiveLedgerTab = "rewards"; 
+let currentSelectedCategoryFilter = "ALL"; // ടാസ്ക് ഫിൽറ്റർ ട്രാക്ക് ചെയ്യാൻ
 let MASTER_ACCESS_PIN = "1234";
 
 function selectActivePaymentMethod(methodName) {
@@ -595,6 +602,7 @@ function syncPlatformData() {
         document.getElementById('txtBotReferLink').value = partnerBotLink;
 
         renderBanners();
+        renderCategoryTabs(); // ടാസ്ക് ടാബുകൾ ഉണ്ടാക്കാൻ
         renderTasks();
         renderLedgerTabLogs();
         renderReferredNetworkList();
@@ -617,15 +625,8 @@ function renderBanners() {
     container.innerHTML = "";
     const banners = synchronizedStateCache.botSettings?.banners || [];
     
+    // അഡ്മിൻ ബാനറുകൾ ആഡ് ചെയ്താൽ മാത്രം വരും, ഇല്ലെങ്കിൽ ഒന്നും കാണിക്കില്ല (ശൂന്യമായിരിക്കും)
     if(banners.length === 0) {
-        container.innerHTML = `
-        <div class="reward-banner-box">
-            <img src="https://cdn-icons-png.flaticon.com/512/3112/3112946.png" class="reward-image-node">
-            <div>
-                <h4 style="font-size:15px; font-weight:700;">Exclusive Rewards Matrix</h4>
-                <p style="font-size:11px; color:var(--text-muted); margin-top:2px;">Complete tasks correctly to instantly claim points.</p>
-            </div>
-        </div>`;
         return;
     }
 
@@ -641,6 +642,47 @@ function renderBanners() {
     });
 }
 
+// ഹെഡ്ഡറിൽ കാറ്റഗറി ടാബുകൾ റെൻഡർ ചെയ്യാനുള്ള ഫങ്ക്ഷൻ
+function renderCategoryTabs() {
+    const tabsRow = document.getElementById('taskCategoryTabsRow');
+    tabsRow.innerHTML = "";
+    
+    const categories = synchronizedStateCache.botSettings?.categories || [];
+    
+    // ഫസ്റ്റ് ഓപ്ഷൻ എപ്പോഴും 'ALL' ആയിരിക്കും
+    const allBtn = document.createElement('button');
+    allBtn.className = `category-filter-btn ${currentSelectedCategoryFilter === 'ALL' ? 'active' : ''}`;
+    allBtn.innerText = "All Tasks";
+    allBtn.onclick = () => filterTaskByCategory('ALL', 'All Live Missions');
+    tabsRow.appendChild(allBtn);
+
+    // ബാക്കി അഡ്മിൻ ആഡ് ചെയ്ത കാറ്റഗറികൾ
+    categories.forEach(cat => {
+        const btn = document.createElement('button');
+        btn.className = `category-filter-btn ${currentSelectedCategoryFilter === cat ? 'active' : ''}`;
+        btn.innerText = cat;
+        btn.onclick = () => filterTaskByCategory(cat, cat);
+        tabsRow.appendChild(btn);
+    });
+}
+
+// യൂസർ ടാബിൽ ക്ലിക്ക് ചെയ്യുമ്പോൾ കാറ്റഗറി മാറ്റാൻ
+function filterTaskByCategory(categoryKey, displayTitle) {
+    currentSelectedCategoryFilter = categoryKey;
+    document.getElementById('currentCategoryTitle').innerText = displayTitle;
+    
+    // ആക്ടീവ് ബട്ടൺ സ്റ്റൈൽ മാറ്റാൻ
+    document.querySelectorAll('.category-filter-btn').forEach(btn => {
+        if(btn.innerText.toLowerCase() === displayTitle.toLowerCase() || (categoryKey === 'ALL' && btn.innerText === "All Tasks")) {
+            btn.classList.add('active');
+        } else {
+            btn.classList.remove('active');
+        }
+    });
+    
+    renderTasks();
+}
+
 function renderTasks() {
     const grid = document.getElementById('taskUIRendererGrid');
     grid.innerHTML = "";
@@ -651,36 +693,21 @@ function renderTasks() {
         return;
     }
 
-    const categoriesMap = {};
-    const directTasks = [];
+    // യൂസർ സെലക്ട് ചെയ്ത കാറ്റഗറി അനുസരിച്ച് ടാസ്കുകൾ ഫിൽറ്റർ ചെയ്യുന്നു
+    let filteredTasks = tasks;
+    if(currentSelectedCategoryFilter !== "ALL") {
+        filteredTasks = tasks.filter(t => t.category === currentSelectedCategoryFilter);
+    }
 
-    tasks.forEach(t => {
-        if(t.category && t.category.trim() !== "") {
-            if(!categoriesMap[t.category]) categoriesMap[t.category] = [];
-            categoriesMap[t.category].push(t);
-        } else {
-            directTasks.push(t);
-        }
+    if(filteredTasks.length === 0) {
+        grid.innerHTML = `<p style="text-align:center; color:var(--text-muted); font-size:12px; padding:30px 0;">No tasks available in this category.</p>`;
+        return;
+    }
+
+    // ഫിൽറ്റർ ചെയ്ത ടാസ്കുകൾ മാത്രം ഇവിടെ കാണിക്കും
+    filteredTasks.forEach(t => {
+        grid.appendChild(createTaskCardElement(t));
     });
-
-    // ആഡ് ചെയ്തിട്ടുള്ള കാറ്റഗറികൾ മാത്രം ഉണ്ടെങ്കിൽ ഇവിടെ കാണിക്കും
-    for (const catName in categoriesMap) {
-        const catHeader = document.createElement('div');
-        catHeader.className = "category-header-node";
-        catHeader.innerText = catName;
-        grid.appendChild(catHeader);
-
-        categoriesMap[catName].forEach(t => {
-            grid.appendChild(createTaskCardElement(t));
-        });
-    }
-
-    // കാറ്റഗറി ഇല്ലാത്ത നോർമൽ ടാസ്ക്കുകൾ വെറും ആളായി താഴെ കാണിക്കും
-    if(directTasks.length > 0) {
-        directTasks.forEach(t => {
-            grid.appendChild(createTaskCardElement(t));
-        });
-    }
 }
 
 function createTaskCardElement(t) {
@@ -875,7 +902,6 @@ function populateAdminFields(s) {
     document.getElementById('admInputPartnerBotName').value = s.partnerBotName || "";
     document.getElementById('admInputPartnerBotLink').value = s.partnerBotLink || "";
     
-    // ক্যাটাগরি ড্রপডাউন আপডেট করা
     const catSelect = document.getElementById('admInputTaskCategory');
     catSelect.innerHTML = '<option value="">No Category (Direct Pool)</option>';
     if(s.categories) {
@@ -1047,7 +1073,7 @@ function saveUnifiedBotSettings() {
     fetch(`${CORE_BACKEND_API_URL}/api/settings/update`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(settings)
+        body: JSON.stringify({ settings })
     }).then(() => { alert("Parameters Sync Matrix Saved."); syncPlatformData(); });
 }
 
