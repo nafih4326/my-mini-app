@@ -3,119 +3,124 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>EXTRA EARN - Premium Pro Suite</title>
+<title>Extra Earn - Premium Member Suite</title>
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 <style>
 :root {
-    --bg-gradient: linear-gradient(145deg, #07090e 0%, #020305 100%);
-    --surface: #0b0e17;
-    --surface-card: rgba(18, 22, 35, 0.7);
+    --bg-gradient: linear-gradient(145deg, #060913 0%, #020408 100%);
+    --surface: #0a0e1a;
+    --surface-card: rgba(19, 24, 44, 0.75);
     --panel-border: rgba(255, 255, 255, 0.08);
-    --accent-red: #ff333f;
     --accent-blue: #3b82f6;
-    --accent-gradient: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+    --accent-gradient: linear-gradient(135deg, #1d4ed8 0%, #2563eb 100%);
     --text-white: #ffffff;
     --text-muted: #9ca3af;
     --success-green: #10b981;
-    --nav-bg: rgba(11, 14, 23, 0.4); 
+    --danger-red: #ef4444;
+    --warning-amber: #f59e0b;
+    --nav-bg: rgba(10, 14, 26, 0.6); 
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; font-family: '-apple-system', BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
 body { background: var(--bg-gradient); color: var(--text-white); min-height: 100vh; overflow: hidden; display: flex; justify-content: center; }
 
-.app-container { width: 100%; max-width: 480px; height: 100vh; display: flex; flex-direction: column; position: relative; background: transparent; }
-.main-content { flex: 1; overflow-y: auto; padding: 22px; padding-bottom: 100px; scrollbar-width: none; }
+.app-container { width: 100%; max-width: 480px; height: 100vh; display: flex; flex-direction: column; position: relative; }
+.main-content { flex: 1; overflow-y: auto; padding: 20px; padding-bottom: 100px; scrollbar-width: none; }
 .main-content::-webkit-scrollbar { display: none; }
 
-.view-section { display: none; animation: fadeIn 0.3s ease-in-out; }
+.view-section { display: none; animation: fadeIn 0.25s ease-in-out; }
 .view-section.active { display: block; }
 
 @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(8px); }
+    from { opacity: 0; transform: translateY(6px); }
     to { opacity: 1; transform: translateY(0); }
 }
 
-/* New Premium Header */
-.dashboard-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; }
-.user-profile-meta { display: flex; align-items: center; gap: 14px; }
-.avatar-frame { width: 48px; height: 48px; border-radius: 50%; border: 2px solid var(--accent-blue); padding: 2px; background: rgba(59, 130, 246, 0.1); overflow: hidden; }
-.avatar-frame img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; }
-.identity-lbl { font-size: 17px; font-weight: 700; color: var(--text-white); letter-spacing: -0.3px; }
-.status-badge { font-size: 11px; color: var(--success-green); background: rgba(16, 185, 129, 0.08); padding: 3px 10px; border-radius: 20px; border: 1px solid rgba(16, 185, 129, 0.15); font-weight: 600; display: inline-block; margin-top: 2px; }
+/* Header UI */
+.app-brand-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
+.brand-title { font-size: 22px; font-weight: 800; background: linear-gradient(120deg, #fff, #9ca3af); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 
-/* Elegant Glassmorphic Banner */
-.promo-banner-matrix { width: 100%; background: linear-gradient(135deg, rgba(23, 28, 45, 0.8) 0%, rgba(14, 17, 27, 0.8) 100%); border: 1px solid var(--panel-border); border-radius: 20px; padding: 20px; margin-bottom: 24px; position: relative; overflow: hidden; backdrop-filter: blur(10px); }
-.promo-banner-matrix::before { content: ''; position: absolute; top: -30%; left: -30%; width: 160%; height: 160%; background: radial-gradient(circle, rgba(59, 130, 246, 0.12) 0%, transparent 60%); pointer-events: none; }
-.banner-headline { font-size: 20px; font-weight: 800; color: var(--text-white); margin-bottom: 6px; letter-spacing: -0.4px; }
-.banner-subline { font-size: 13px; color: var(--text-muted); margin-bottom: 16px; line-height: 1.5; }
-.banner-action-btn { background: var(--accent-gradient); color: var(--text-white); font-weight: 600; font-size: 13px; padding: 10px 20px; border: none; border-radius: 12px; cursor: pointer; box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2); transition: all 0.2s; }
-.banner-action-btn:active { transform: scale(0.97); opacity: 0.9; }
+/* Dashboard Glass Banner */
+.promo-banner { background: linear-gradient(135deg, rgba(28, 36, 65, 0.7) 0%, rgba(15, 20, 38, 0.7) 100%); border: 1px solid var(--panel-border); border-radius: 20px; padding: 22px; margin-bottom: 24px; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); position: relative; overflow: hidden; }
+.promo-banner::after { content: ''; position: absolute; top: -50%; right: -50%; width: 130%; height: 130%; background: radial-gradient(circle, rgba(59, 130, 246, 0.1) 0%, transparent 60%); pointer-events: none; }
+.banner-head { font-size: 19px; font-weight: 800; margin-bottom: 6px; }
+.banner-sub { font-size: 13px; color: var(--text-muted); margin-bottom: 16px; line-height: 1.4; }
+.banner-btn { background: var(--accent-gradient); color: #fff; font-weight: 600; font-size: 13px; padding: 10px 18px; border: none; border-radius: 12px; cursor: pointer; box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25); }
 
-/* Metrics Cards Dynamic Style */
-.metrics-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 24px; }
-.metric-card { background: var(--surface-card); border: 1px solid var(--panel-border); border-radius: 18px; padding: 16px; backdrop-filter: blur(5px); }
-.metric-lbl { font-size: 11px; color: var(--text-muted); font-weight: 600; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.8px; }
-.metric-val { font-size: 24px; font-weight: 800; color: var(--text-white); letter-spacing: -0.5px; }
-.metric-val.currency::before { content: '₹'; margin-right: 3px; font-weight: 500; color: var(--text-muted); }
+/* Unified Metrics */
+.metrics-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 24px; }
+.metric-box { background: var(--surface-card); border: 1px solid var(--panel-border); border-radius: 18px; padding: 18px; position: relative; }
+.metric-title { font-size: 11px; color: var(--text-muted); font-weight: 700; text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 6px; }
+.metric-amount { font-size: 24px; font-weight: 800; }
+.metric-amount::before { content: '₹'; font-weight: 500; color: var(--text-muted); margin-right: 2px; }
 
-/* Task Section Styling */
-.section-title { font-size: 14px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 14px; display: flex; align-items: center; justify-content: space-between; }
-.task-scroll-area { display: flex; flex-direction: column; gap: 12px; }
-.task-item-card { background: var(--surface-card); border: 1px solid var(--panel-border); border-radius: 16px; padding: 16px; display: flex; align-items: center; justify-content: space-between; transition: all 0.2s; }
-.task-item-card:active { border-color: rgba(59, 130, 246, 0.4); background: rgba(23, 28, 45, 0.9); }
-.task-info-block { display: flex; flex-direction: column; gap: 4px; }
-.task-title-text { font-size: 15px; font-weight: 600; color: var(--text-white); }
-.task-payout-amt { font-size: 13px; font-weight: 700; color: var(--success-green); }
-.task-action-trigger { background: rgba(255,255,255,0.06); border: 1px solid var(--panel-border); color: var(--text-white); font-size: 12px; font-weight: 600; padding: 9px 16px; border-radius: 10px; cursor: pointer; transition: all 0.2s; }
-.task-action-trigger:active { background: rgba(255,255,255,0.1); }
-.task-action-trigger.claimed { color: var(--text-muted); background: transparent; border-color: transparent; cursor: default; font-weight: 500; }
+/* Section Headers */
+.section-lbl { font-size: 13px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 12px; }
 
-/* Premium Navigation System */
-.bottom-nav-bar { width: 100%; max-width: 480px; height: 76px; background: var(--nav-bg); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); border-top: 1px solid var(--panel-border); position: fixed; bottom: 0; display: grid; grid-template-columns: repeat(4, 1fr); align-items: center; justify-items: center; z-index: 100; box-shadow: 0 -8px 24px rgba(0,0,0,0.3); }
-.nav-tab-item { display: flex; flex-direction: column; align-items: center; gap: 5px; color: var(--text-muted); text-decoration: none; font-size: 11px; font-weight: 600; cursor: pointer; width: 100%; height: 100%; justify-content: center; transition: color 0.2s; }
-.nav-tab-item.active { color: var(--accent-blue); }
-.nav-icon { width: 22px; height: 22px; fill: currentColor; transition: transform 0.2s; }
-.nav-tab-item.active .nav-icon { transform: translateY(-2px); }
+/* Large Tasks Grid */
+.task-list { display: flex; flex-direction: column; gap: 12px; }
+.task-card { background: var(--surface-card); border: 1px solid var(--panel-border); border-radius: 16px; padding: 16px; display: flex; align-items: center; justify-content: space-between; cursor: pointer; transition: background 0.2s; }
+.task-card:active { background: rgba(28, 36, 65, 0.5); }
+.task-meta { display: flex; flex-direction: column; gap: 4px; }
+.task-name { font-size: 15px; font-weight: 600; color: #fff; }
+.task-prize { font-size: 13px; font-weight: 700; color: var(--success-green); }
+.task-badge-btn { background: rgba(255,255,255,0.06); border: 1px solid var(--panel-border); color: #fff; font-size: 12px; font-weight: 600; padding: 8px 14px; border-radius: 10px; pointer-events: none; }
+.task-badge-btn.done { color: var(--text-muted); background: transparent; border-color: transparent; }
 
-/* Sheets and Popups (Glassmorphism Modal) */
-.modal-view-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(3, 4, 7, 0.8); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); z-index: 1000; justify-content: center; align-items: flex-end; }
-.modal-view-overlay.active { display: flex; }
-.popup-sheet-plate { width: 100%; max-width: 480px; background: #0c0f1a; border-top: 1px solid rgba(255,255,255,0.1); border-radius: 28px 28px 0 0; padding: 26px; max-height: 88vh; overflow-y: auto; box-shadow: 0 -10px 30px rgba(0,0,0,0.5); animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
+/* Large Profile Layout & History */
+.profile-meta-card { background: var(--surface-card); border: 1px solid var(--panel-border); border-radius: 20px; padding: 20px; display: flex; align-items: center; gap: 16px; margin-bottom: 24px; }
+.profile-avatar { width: 56px; height: 56px; border-radius: 50%; border: 2px solid var(--accent-blue); object-fit: cover; background: #1a1e2e; }
+.profile-name { font-size: 18px; font-weight: 700; }
+.profile-uid { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
 
-@keyframes slideUp {
-    from { transform: translateY(100%); }
-    to { transform: translateY(0); }
-}
+/* Large Transaction Cards */
+.history-title-row { font-size: 15px; font-weight: 700; color: #fff; margin-bottom: 14px; margin-top: 10px; }
+.large-ledger-card { background: linear-gradient(135deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.01) 100%); border: 1px solid var(--panel-border); border-radius: 16px; padding: 18px; margin-bottom: 14px; display: flex; flex-direction: column; gap: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.15); }
+.ledger-upper { display: flex; justify-content: space-between; align-items: flex-start; }
+.ledger-op-name { font-size: 15px; font-weight: 700; color: #fff; }
+.ledger-time { font-size: 11px; color: var(--text-muted); margin-top: 3px; }
+.ledger-cash { font-size: 18px; font-weight: 800; color: #fff; }
+.ledger-lower { display: flex; align-items: center; justify-content: space-between; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 10px; }
+.ledger-desc-text { font-size: 12px; color: var(--text-muted); max-width: 70%; line-height: 1.3; }
+.status-pill { font-size: 10px; font-weight: 700; padding: 4px 10px; border-radius: 8px; text-transform: uppercase; letter-spacing: 0.5px; }
+.status-pill.approved { background: rgba(16, 185, 129, 0.12); color: var(--success-green); }
+.status-pill.pending { background: rgba(245, 158, 11, 0.12); color: var(--warning-amber); }
+.status-pill.rejected { background: rgba(239, 68, 68, 0.12); color: var(--danger-red); }
 
-.popup-header-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 22px; }
-.popup-title-text { font-size: 19px; font-weight: 700; letter-spacing: -0.3px; }
-.close-popup-icon { width: 24px; height: 24px; fill: var(--text-muted); cursor: pointer; opacity: 0.7; transition: opacity 0.2s; }
-.close-popup-icon:hover { opacity: 1; }
+/* Premium Tab Nav Bar */
+.bottom-navigation { width: 100%; max-width: 480px; height: 74px; background: var(--nav-bg); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-top: 1px solid var(--panel-border); position: fixed; bottom: 0; display: grid; grid-template-columns: repeat(3, 1fr); align-items: center; z-index: 100; }
+.nav-tab { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; color: var(--text-muted); font-size: 12px; font-weight: 600; cursor: pointer; height: 100%; text-decoration: none; }
+.nav-tab.active { color: var(--accent-blue); }
+.nav-svg-icon { width: 22px; height: 22px; fill: currentColor; }
 
-/* Input Elements */
-.input-group-block { margin-bottom: 18px; display: flex; flex-direction: column; gap: 7px; }
-.input-label-text { font-size: 11px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.8px; }
-.form-input-field { background: rgba(255,255,255,0.04); border: 1px solid var(--panel-border); height: 50px; border-radius: 12px; padding: 0 16px; color: var(--text-white); font-size: 14px; width: 100%; transition: border-color 0.2s; }
-.form-input-field:focus { outline: none; border-color: var(--accent-blue); background: rgba(255,255,255,0.06); }
-.form-select-field { background: #111524; border: 1px solid var(--panel-border); height: 50px; border-radius: 12px; padding: 0 16px; color: var(--text-white); font-size: 14px; width: 100%; outline: none; }
-.submit-action-btn { width: 100%; height: 50px; background: var(--accent-gradient); color: var(--text-white); font-weight: 600; border: none; border-radius: 12px; margin-top: 12px; cursor: pointer; font-size: 14px; box-shadow: 0 4px 14px rgba(37, 99, 235, 0.25); transition: all 0.2s; }
-.submit-action-btn:active { transform: scale(0.98); }
-.submit-action-btn.danger { background: linear-gradient(135deg, #ff2a33 0%, #cc141b 100%); box-shadow: 0 4px 14px rgba(255, 42, 51, 0.25); }
+/* Sheet Popups Overlay */
+.modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(2, 3, 6, 0.85); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); z-index: 1000; justify-content: center; align-items: flex-end; }
+.modal-overlay.active { display: flex; }
+.bottom-sheet { width: 100%; max-width: 480px; background: #090c14; border-top: 1px solid rgba(255,255,255,0.1); border-radius: 24px 24px 0 0; padding: 24px; max-height: 85vh; overflow-y: auto; animation: slideUp 0.25s cubic-bezier(0.1, 0.8, 0.2, 1); }
 
-/* Fixed Ledger Cards */
-.ledger-item-card { background: rgba(255,255,255,0.03); border: 1px solid var(--panel-border); border-radius: 14px; padding: 14px 16px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; }
-.ledger-meta-info { display: flex; flex-direction: column; gap: 5px; }
-.ledger-title-lbl { font-size: 14px; font-weight: 600; color: var(--text-white); }
-.ledger-date-stamp { font-size: 11px; color: var(--text-muted); }
-.ledger-status-pill { font-size: 11px; padding: 4px 10px; border-radius: 8px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
-.ledger-status-pill.approved { background: rgba(16,185,129,0.12); color: var(--success-green); }
-.ledger-status-pill.pending { background: rgba(245,158,11,0.12); color: #f59e0b; }
-.ledger-status-pill.rejected { background: rgba(255,42,51,0.12); color: var(--accent-red); }
+@keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+.sheet-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 18px; }
+.sheet-headline { font-size: 18px; font-weight: 700; }
+.sheet-close-btn { width: 24px; height: 24px; fill: var(--text-muted); cursor: pointer; }
 
-/* Message Templates Manager */
-.msg-template-box { background: rgba(255,255,255,0.02); border: 1px solid var(--panel-border); border-radius: 14px; padding: 14px; margin-bottom: 14px; }
-.msg-template-box textarea { width: 100%; background: rgba(0,0,0,0.25); border: 1px solid var(--panel-border); border-radius: 8px; padding: 10px; color: #fff; font-size: 13px; line-height: 1.4; resize: vertical; margin-top: 8px; min-height: 70px; outline: none; }
-.msg-template-box textarea:focus { border-color: var(--accent-blue); }
+/* Input Components */
+.input-block { margin-bottom: 16px; display: flex; flex-direction: column; gap: 6px; }
+.field-label { font-size: 11px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.6px; }
+.input-box { background: rgba(255,255,255,0.04); border: 1px solid var(--panel-border); height: 48px; border-radius: 12px; padding: 0 14px; color: #fff; font-size: 14px; width: 100%; }
+.input-box:focus { outline: none; border-color: var(--accent-blue); }
+.selector-box { background: #111522; border: 1px solid var(--panel-border); height: 48px; border-radius: 12px; padding: 0 14px; color: #fff; font-size: 14px; width: 100%; outline: none; }
+.textarea-box { background: rgba(0,0,0,0.2); border: 1px solid var(--panel-border); border-radius: 10px; padding: 12px; color: #fff; font-size: 13px; line-height: 1.4; resize: vertical; min-height: 65px; outline: none; width: 100%; }
+.textarea-box:focus { border-color: var(--accent-blue); }
+
+.action-btn { width: 100%; height: 48px; background: var(--accent-gradient); color: #fff; font-weight: 600; border: none; border-radius: 12px; cursor: pointer; font-size: 14px; box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2); }
+.action-btn:active { transform: scale(0.98); }
+
+/* Admin Grid System */
+.admin-tab-bar { display: flex; gap: 8px; margin-bottom: 16px; overflow-x: auto; padding-bottom: 6px; scrollbar-width: none; }
+.admin-tab-bar::-webkit-scrollbar { display: none; }
+.admin-pill-btn { background: #161b2e; color: var(--text-muted); font-size: 12px; font-weight: 600; padding: 8px 14px; border: none; border-radius: 10px; white-space: nowrap; cursor: pointer; }
+.admin-pill-btn.active { background: var(--accent-blue); color: #fff; }
+.template-card-item { background: rgba(255,255,255,0.02); border: 1px solid var(--panel-border); border-radius: 12px; padding: 12px; margin-bottom: 12px; }
 </style>
 </head>
 <body>
@@ -123,241 +128,251 @@ body { background: var(--bg-gradient); color: var(--text-white); min-height: 100
 <div class="app-container">
     <div class="main-content">
         
-        <div id="view_dashboard" class="view-section active">
-            <div class="dashboard-header">
-                <div class="user-profile-meta">
-                    <div class="avatar-frame"><img id="user_avatar_img" src="" alt=""></div>
-                    <div>
-                        <div id="user_display_name" class="identity-lbl">...</div>
-                        <span class="status-badge">Premium Pool User</span>
-                    </div>
-                </div>
-                <button id="master_adm_btn" class="banner-action-btn" style="background:#1e293b; display:none;" onclick="openAdminDashboardView()">Console</button>
+        <div id="view_home" class="view-section active">
+            <div class="app-brand-header">
+                <div class="brand-title">Extra Earn</div>
+                <button id="admin_console_trigger" class="banner-btn" style="background:#1e293b; display:none;" onclick="showAdminPanelWindow()">Console</button>
             </div>
 
-            <div class="promo-banner-matrix">
-                <div id="banner_headline_txt" class="banner-headline">...</div>
-                <div id="banner_subline_txt" class="banner-subline">...</div>
-                <button class="banner-action-btn" onclick="openGiftCodeRedeemPopup()">Claim Voucher</button>
+            <div class="promo-banner">
+                <div id="display_banner_title" class="banner-head">Premium Station</div>
+                <div id="display_banner_subtitle" class="banner-sub">Complete daily tasks to unlock instant wallet allocations.</div>
+                <button class="banner-btn" onclick="showVoucherRedeemWindow()">Redeem Code</button>
             </div>
 
-            <div class="metrics-grid">
-                <div class="metric-card">
-                    <div class="metric-lbl">Available Assets</div>
-                    <div id="user_balance_lbl" class="metric-val currency">0.00</div>
+            <div class="metrics-row">
+                <div class="metric-box">
+                    <div class="metric-title">Wallet Balance</div>
+                    <div id="lbl_user_wallet_bal" class="metric-amount">0.00</div>
                 </div>
-                <div class="metric-card">
-                    <div class="metric-lbl">Current Debt</div>
-                    <div id="user_debt_lbl" class="metric-val currency" style="color:var(--accent-red)">0.00</div>
+                <div class="metric-box">
+                    <div class="metric-title">Active Debt</div>
+                    <div id="lbl_user_debt_bal" class="metric-amount" style="color:var(--danger-red)">0.00</div>
                 </div>
             </div>
 
-            <div class="section-title">Micro Tasks Portal</div>
-            <div id="tasks_wrapper_panel" class="task-scroll-area"></div>
+            <div class="section-lbl">Available Micro Jobs</div>
+            <div id="render_tasks_container" class="task-list"></div>
         </div>
 
         <div id="view_wallet" class="view-section">
-            <div class="section-title">P2P Asset Transfer</div>
-            <div class="metric-card" style="margin-bottom:24px;">
-                <div class="input-group-block">
-                    <label class="input-label-text">Recipient User ID (UID)</label>
-                    <input type="number" id="p2p_recipient_uid" class="form-input-field" placeholder="Enter Telegram UID">
+            <div class="section-lbl">Peer-to-Peer Transfer</div>
+            <div class="metric-box" style="margin-bottom:20px; background:var(--surface-card)">
+                <div class="input-block">
+                    <label class="field-label">Recipient Telegram UID</label>
+                    <input type="number" id="input_p2p_uid" class="input-box" placeholder="Enter target user ID">
                 </div>
-                <div class="input-group-block">
-                    <label class="input-label-text">Amount to Send (₹)</label>
-                    <input type="number" id="p2p_transfer_amount" class="form-input-field" placeholder="0.00">
+                <div class="input-block">
+                    <label class="field-label">Transfer Asset Value (₹)</label>
+                    <input type="number" id="input_p2p_cash" class="input-box" placeholder="0.00">
                 </div>
-                <button class="submit-action-btn" onclick="executePeerToPeerAssetTransfer()">Authorize Transfer</button>
+                <button class="action-btn" onclick="performPeerAssetSend()">Authorize P2P Send</button>
             </div>
 
-            <div class="section-title">Withdrawal Gateway</div>
-            <div class="metric-card">
-                <div class="input-group-block">
-                    <label class="input-label-text">Linked UPI ID Address</label>
-                    <input type="text" id="withdrawal_upi_address" class="form-input-field" placeholder="username@bank">
+            <div class="section-lbl">Withdrawal Terminal</div>
+            <div class="metric-box" style="background:var(--surface-card)">
+                <div class="input-block">
+                    <label class="field-label">Linked UPI ID Address</label>
+                    <input type="text" id="input_wd_upi" class="input-box" placeholder="example@upi">
                 </div>
-                <div class="input-group-block">
-                    <label class="input-label-text">Amount to Disburse</label>
-                    <input type="number" id="withdrawal_payout_amount" class="form-input-field" placeholder="Min. ₹1.00">
+                <div class="input-block">
+                    <label class="field-label">Disbursement Cash Value (₹)</label>
+                    <input type="number" id="input_wd_cash" class="input-box" placeholder="Min. ₹1.00">
                 </div>
-                <button class="submit-action-btn" style="background:linear-gradient(135deg, #10b981 0%, #059669 100%); box-shadow: 0 4px 14px rgba(16, 185, 129, 0.25);" onclick="submitWithdrawalPayoutRequest()">Request Cashout</button>
+                <button class="action-btn" style="background:linear-gradient(135deg, #10b981 0%, #059669 100%); box-shadow: 0 4px 12px rgba(16,185,129,0.2);" onclick="performWithdrawalRequest()">Request Pay Out</button>
             </div>
         </div>
 
-        <div id="view_history" class="view-section">
-            <div class="section-title">Transaction Ledger History</div>
-            <div id="ledger_items_container"></div>
-        </div>
-
-        <div id="view_invites" class="view-section">
-            <div class="section-title">Referral Matrix Network</div>
-            <div class="metric-card" style="margin-bottom:24px; text-align:center;">
-                <div class="metric-lbl">Your Invited Affiliates</div>
-                <div id="total_invites_count" class="metric-val" style="font-size:36px; margin:12px 0; color: var(--accent-blue);">0</div>
-                <div class="input-group-block">
-                    <input type="text" id="txtBotReferLink" class="form-input-field" readonly style="text-align:center; background:rgba(0,0,0,0.25); border-color: rgba(255,255,255,0.04);">
-                </div>
-                <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:12px;">
-                    <button class="submit-action-btn" style="margin:0; background:#1e293b; box-shadow:none;" onclick="copyPartnerBotLink()">Copy Link</button>
-                    <button class="submit-action-btn" style="margin:0;" onclick="sharePartnerBotLink()">Share Link</button>
+        <div id="view_profile" class="view-section">
+            <div class="section-lbl">User Profile Identity</div>
+            <div class="profile-meta-card">
+                <img id="img_user_pic" class="profile-avatar" src="" alt="Avatar">
+                <div>
+                    <div id="txt_user_name_title" class="profile-name">...</div>
+                    <div id="txt_user_uid_sub" class="profile-uid">UID: --</div>
                 </div>
             </div>
+
+            <div class="metric-box" style="background:var(--surface-card); text-align:center; margin-bottom:24px;">
+                <div class="metric-title">Total Network Affiliates</div>
+                <div id="lbl_network_invites" style="font-size:32px; font-weight:800; color:var(--accent-blue); margin:8px 0;">0</div>
+                <input type="text" id="input_refer_url_string" class="input-box" readonly style="text-align:center; background:rgba(0,0,0,0.25); border-color:transparent; margin-bottom:12px;">
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+                    <button class="action-btn" style="background:#1e293b; box-shadow:none;" onclick="copyAffiliateURL()">Copy Link</button>
+                    <button class="action-btn" onclick="shareAffiliateURL()">Share Link</button>
+                </div>
+            </div>
+
+            <div class="history-title-row">Financial Statement Ledger</div>
+            <div id="render_large_ledger_box"></div>
         </div>
 
     </div>
 
-    <div class="bottom-nav-bar">
-        <div class="nav-tab-item active" onclick="switchApplicationView('dashboard', this)">
-            <svg class="nav-icon" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
-            <span>Tasks</span>
+    <div class="bottom-navigation">
+        <div class="nav-tab active" onclick="navigateApplicationView('home', this)">
+            <svg class="nav-svg-icon" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+            <span>Home</span>
         </div>
-        <div class="nav-tab-item" onclick="switchApplicationView('wallet', this)">
-            <svg class="nav-icon" viewBox="0 0 24 24"><path d="M21 18v1c0 1.1-.9 2-2 2H5c-1.11 0-2-.9-2-2V5c0-1.1.89-2 2-2h14c1.1 0 2 .9 2 2v1h-9c-1.11 0-2-.9-2 2v8c0 1.1.89 2 2 2h9zm-9-2h10V8H12v8zm4-2.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5 0.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg>
+        <div class="nav-tab" onclick="navigateApplicationView('wallet', this)">
+            <svg class="nav-svg-icon" viewBox="0 0 24 24"><path d="M21 18v1c0 1.1-.9 2-2 2H5c-1.11 0-2-.9-2-2V5c0-1.1.89-2 2-2h14c1.1 0 2 .9 2 2v1h-9c-1.11 0-2-.9-2 2v8c0 1.1.89 2 2 2h9zm-9-2h10V8H12v8zm4-2.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5 0.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg>
             <span>Wallet</span>
         </div>
-        <div class="nav-tab-item" onclick="switchApplicationView('history', this)">
-            <svg class="nav-icon" viewBox="0 0 24 24"><path d="M13 3c-4.97 0-9 4.03-9 9H1l3.89 3.89.07.14L9 12H6c0-3.87 3.13-7 7-7s7 3.13 7 7-3.13 7-7 7c-1.93 0-3.68-.79-4.94-2.06l-1.42 1.42C8.27 19.99 10.51 21 13 21c4.97 0 9-4.03 9-9s-4.03-9-9-9zm-1 5v5l4.28 2.54.72-1.21-3.5-2.08V8H12z"/></svg>
-            <span>Ledger</span>
-        </div>
-        <div class="nav-tab-item" onclick="switchApplicationView('invites', this)">
-            <svg class="nav-icon" viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
-            <span>Affiliates</span>
+        <div class="nav-tab" onclick="navigateApplicationView('profile', this)">
+            <svg class="nav-svg-icon" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5-4-8-4z"/></svg>
+            <span>Profile</span>
         </div>
     </div>
 </div>
 
-<div id="global_modal_overlay" class="modal-view-overlay" onclick="closeActiveModalWindow(event)">
+<div id="modal_global_overlay" class="modal-overlay" onclick="closeOverlayWindow(event)">
     
-    <div id="sheet_gift_code" class="popup-sheet-plate" style="display:none;">
-        <div class="popup-header-row">
-            <div class="popup-title-text">Redeem Token Voucher</div>
-            <svg class="close-popup-icon" onclick="dismissModalOverlayLayer()" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+    <div id="sheet_task_specification" class="bottom-sheet" style="display:none;">
+        <div class="sheet-top">
+            <div class="sheet-headline">Task Details</div>
+            <svg class="sheet-close-btn" onclick="dismissOverlayLayer()" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
         </div>
-        <div class="input-group-block">
-            <label class="input-label-text">Voucher String Code</label>
-            <input type="text" id="walletGiftCodeInput" class="form-input-field" placeholder="EXTRA-XXXX" style="text-transform:uppercase;">
+        <div style="margin-bottom:20px;">
+            <h3 id="popup_task_name_lbl" style="font-size:17px; margin-bottom:8px; color:#fff;">Task Name</h3>
+            <div id="popup_task_reward_lbl" style="font-size:15px; font-weight:700; color:var(--success-green); margin-bottom:14px;">₹0.00</div>
+            <div class="field-label" style="margin-bottom:6px;">Instructions / Description:</div>
+            <p id="popup_task_description_para" style="font-size:13px; color:var(--text-muted); line-height:1.4; background:rgba(255,255,255,0.02); padding:12px; border-radius:10px; border:1px solid var(--panel-border);">No description provided for this micro campaign.</p>
         </div>
-        <button class="submit-action-btn" onclick="claimPlatformGiftCode()">Redeem Voucher Asset</button>
+        <div id="popup_task_btn_placement"></div>
     </div>
 
-    <div id="sheet_admin_dashboard" class="popup-sheet-plate" style="display:none; max-height:92vh;">
-        <div class="popup-header-row">
-            <div class="popup-title-text">Ultra Suite Control Console</div>
-            <svg class="close-popup-icon" onclick="dismissModalOverlayLayer()" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+    <div id="sheet_redeem_code" class="bottom-sheet" style="display:none;">
+        <div class="sheet-top">
+            <div class="sheet-headline">Redeem Code</div>
+            <svg class="sheet-close-btn" onclick="dismissOverlayLayer()" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </div>
+        <div class="input-block">
+            <label class="field-label">Voucher String</label>
+            <input type="text" id="input_voucher_code" class="input-box" placeholder="EXTRA-XXXX" style="text-transform:uppercase;">
+        </div>
+        <button class="action-btn" onclick="executeVoucherClaim()">Claim Reward Asset</button>
+    </div>
+
+    <div id="sheet_admin_dashboard" class="bottom-sheet" style="display:none; max-height:90vh;">
+        <div class="sheet-top">
+            <div class="sheet-headline">Extra Earn Console</div>
+            <svg class="sheet-close-btn" onclick="dismissOverlayLayer()" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
         </div>
 
-        <div style="display:flex; gap:8px; margin-bottom:18px; overflow-x:auto; padding-bottom:6px; scrollbar-width:none;">
-            <button class="banner-action-btn" style="background:var(--accent-blue); padding: 8px 16px;" id="tab_btn_balance" onclick="switchAdminSubTab('balance')">Balance</button>
-            <button class="banner-action-btn" style="background:#1e293b; padding: 8px 16px;" id="tab_btn_tasks" onclick="switchAdminSubTab('tasks')">Task Mgr</button>
-            <button class="banner-action-btn" style="background:#1e293b; padding: 8px 16px;" id="tab_btn_banners" onclick="switchAdminSubTab('banners')">Banners</button>
-            <button class="banner-action-btn" style="background:#1e293b; padding: 8px 16px;" id="tab_btn_promo" onclick="switchAdminSubTab('promo')">Promo Codes</button>
-            <button class="banner-action-btn" style="background:#1e293b; padding: 8px 16px;" id="tab_btn_msg" onclick="switchAdminSubTab('msg')">Templates</button>
+        <div class="admin-tab-bar">
+            <button id="adm_tab_trigger_funds" class="admin-pill-btn active" onclick="switchAdminSubSection('funds')">Balance</button>
+            <button id="adm_tab_trigger_tasks" class="admin-pill-btn" onclick="switchAdminSubSection('tasks')">Task Mgr</button>
+            <button id="adm_tab_trigger_banner" class="admin-pill-btn" onclick="switchAdminSubSection('banner')">Banner</button>
+            <button id="adm_tab_trigger_promo" class="admin-pill-btn" onclick="switchAdminSubSection('promo')">Promo Generator</button>
+            <button id="adm_tab_trigger_template" class="admin-pill-btn" onclick="switchAdminSubSection('template')">Templates</button>
         </div>
 
-        <div id="adm_subtab_balance" class="adm-subtab-section">
-            <div class="input-group-block">
-                <label class="input-label-text">Target User Telegram UID</label>
-                <input type="number" id="admBalanceTargetUid" class="form-input-field" placeholder="User ID">
+        <div id="adm_panel_funds" class="adm-section-block">
+            <div class="input-block">
+                <label class="field-label">Target User Telegram UID</label>
+                <input type="number" id="adm_fund_uid" class="input-box" placeholder="User Unique ID">
             </div>
-            <div class="input-group-block">
-                <label class="input-label-text">Financial Operation Vector</label>
-                <select id="admBalanceAction" class="form-select-field">
-                    <option value="add_fund">Add Funds (Wallet Balance)</option>
-                    <option value="remove">Debit Assets (Remove Balance)</option>
-                    <option value="add_debt">Assign New Debt (Outstanding)</option>
-                    <option value="remove_debt">Clear Debt Pool Amount</option>
+            <div class="input-block">
+                <label class="field-label">Financial Action Protocol</label>
+                <select id="adm_fund_vector" class="selector-box">
+                    <option value="add_fund">Add Funds (Wallet)</option>
+                    <option value="remove">Debit Assets (Balance Removal)</option>
+                    <option value="add_debt">Assign Debt Balance</option>
+                    <option value="remove_debt">Clear Allocated Debt</option>
                 </select>
             </div>
-            <div class="input-group-block">
-                <label class="input-label-text">Quantity Asset Value (₹)</label>
-                <input type="number" id="admBalanceAmount" class="form-input-field" placeholder="0.00">
+            <div class="input-block">
+                <label class="field-label">Quantity Amount (₹)</label>
+                <input type="number" id="adm_fund_cash" class="input-box" placeholder="0.00">
             </div>
-            <button class="submit-action-btn" onclick="executeAdminBalanceOverride()">Commit Adjustments</button>
+            <button class="action-btn" onclick="commitAdminBalanceOverride()">Apply Modifications</button>
         </div>
 
-        <div id="adm_subtab_tasks" class="adm-subtab-section" style="display:none;">
-            <div class="input-group-block">
-                <label class="input-label-text">Task Campaign Title</label>
-                <input type="text" id="adm_task_title" class="form-input-field" placeholder="Join Official Channel">
+        <div id="adm_panel_tasks" class="adm-section-block" style="display:none;">
+            <div class="input-block">
+                <label class="field-label">Task Headline Title</label>
+                <input type="text" id="adm_task_title" class="input-box" placeholder="Subscribe to YouTube">
             </div>
-            <div class="input-group-block">
-                <label class="input-label-text">Reward Valuation Payout (₹)</label>
-                <input type="number" id="adm_task_payout" class="form-input-field" placeholder="5.00">
+            <div class="input-block">
+                <label class="field-label">Task Prize Reward (₹)</label>
+                <input type="number" id="adm_task_payout" class="input-box" placeholder="10.00">
             </div>
-            <div class="input-group-block">
-                <label class="input-label-text">Target Redirection URL Link</label>
-                <input type="url" id="adm_task_url" class="form-input-field" placeholder="https://t.me/example">
+            <div class="input-block">
+                <label class="field-label">Redirection Link URL</label>
+                <input type="url" id="adm_task_url" class="input-box" placeholder="https://youtube.com/...">
             </div>
-            <button class="submit-action-btn" onclick="executeAdminTaskDeployment()">Deploy Task Module</button>
+            <div class="input-block">
+                <label class="field-label">Task Details / Instructions</label>
+                <textarea id="adm_task_details" class="textarea-box" placeholder="Enter task instructions here..."></textarea>
+            </div>
+            <button class="action-btn" onclick="commitAdminTaskDeployment()">Deploy Task Suite</button>
         </div>
 
-        <div id="adm_subtab_promo" class="adm-subtab-section" style="display:none;">
-            <div class="input-group-block">
-                <label class="input-label-text">Voucher Gift Code String</label>
-                <input type="text" id="adm_promo_string" class="form-input-field" placeholder="BONUS50" style="text-transform:uppercase;">
+        <div id="adm_panel_promo" class="adm-section-block" style="display:none;">
+            <div class="input-block">
+                <label class="field-label">Promo Voucher Code String</label>
+                <input type="text" id="adm_promo_code" class="input-box" placeholder="CASH50" style="text-transform:uppercase;">
             </div>
-            <div class="input-group-block">
-                <label class="input-label-text">Voucher Liquidity Amount (₹)</label>
-                <input type="number" id="adm_promo_amount" class="form-input-field" placeholder="10.00">
+            <div class="input-block">
+                <label class="field-label">Voucher Liquid Asset Amount (₹)</label>
+                <input type="number" id="adm_promo_cash" class="input-box" placeholder="15.00">
             </div>
-            <button class="submit-action-btn" onclick="executeAdminPromoCodeGeneration()">Mint Voucher Code</button>
+            <button class="action-btn" onclick="commitAdminPromoGeneration()">Mint Gift Code</button>
         </div>
 
-        <div id="adm_subtab_banners" class="adm-subtab-section" style="display:none;">
-            <div class="input-group-block">
-                <label class="input-label-text">Banner Headline Title</label>
-                <input type="text" id="adm_banner_head" class="form-input-field" placeholder="Premium Dashboard Active">
+        <div id="adm_panel_banner" class="adm-section-block" style="display:none;">
+            <div class="input-block">
+                <label class="field-label">Promo Banner Headline</label>
+                <input type="text" id="adm_banner_head" class="input-box" placeholder="Big Premium Reward Active">
             </div>
-            <div class="input-group-block">
-                <label class="input-label-text">Sub-Headline Text Caption</label>
-                <input type="text" id="adm_banner_sub" class="form-input-field" placeholder="Complete jobs now to earn.">
+            <div class="input-block">
+                <label class="field-label">Sub-Headline Label Caption</label>
+                <input type="text" id="adm_banner_sub" class="input-box" placeholder="Complete jobs now.">
             </div>
-            <button class="submit-action-btn" onclick="saveActiveAdminBannerSettings()">Apply Banner Configuration</button>
-            <button class="submit-action-btn danger" onclick="removeActiveAdminBanner()">Uninstall Banner Matrix</button>
+            <button class="action-btn" onclick="commitAdminBannerSave()">Apply Dashboard Banner</button>
         </div>
 
-        <div id="adm_subtab_msg" class="adm-subtab-section" style="display:none;">
-            <div style="max-height: 42vh; overflow-y: auto; padding-right: 4px; scrollbar-width: thin;">
-                <div class="msg-template-box">
-                    <label class="input-label-text">Wallet Credited Alert Message</label>
-                    <textarea id="tpl_msg_credit" placeholder="Example: ₹{amount} added to your account."></textarea>
+        <div id="adm_panel_template" class="adm-section-block" style="display:none;">
+            <div style="max-height:40vh; overflow-y:auto; padding-right:2px; scrollbar-width:thin;">
+                <div class="template-card-item">
+                    <label class="field-label">Wallet Credited Alert</label>
+                    <textarea id="tpl_alert_credit" class="textarea-box" placeholder="₹{amount} credited to your account."></textarea>
                 </div>
-                <div class="msg-template-box">
-                    <label class="input-label-text">Wallet Debited Alert Message</label>
-                    <textarea id="tpl_msg_debit" placeholder="Example: ₹{amount} deducted from your account."></textarea>
+                <div class="template-card-item">
+                    <label class="field-label">Wallet Debited Alert</label>
+                    <textarea id="tpl_alert_debit" class="textarea-box" placeholder="₹{amount} debited from your account."></textarea>
                 </div>
-                <div class="msg-template-box">
-                    <label class="input-label-text">Withdrawal Processing Template</label>
-                    <textarea id="tpl_msg_wd_pending" placeholder="Your payout request of ₹{amount} is pending."></textarea>
+                <div class="template-card-item">
+                    <label class="field-label">Withdrawal Processing Notification</label>
+                    <textarea id="tpl_alert_wd_pending" class="textarea-box" placeholder="Cashout request of ₹{amount} is pending."></textarea>
                 </div>
-                <div class="msg-template-box">
-                    <label class="input-label-text">Withdrawal Approved Template</label>
-                    <textarea id="tpl_msg_wd_success" placeholder="Payout of ₹{amount} approved successfully!"></textarea>
+                <div class="template-card-item">
+                    <label class="field-label">Withdrawal Approved Alert</label>
+                    <textarea id="tpl_alert_wd_success" class="textarea-box" placeholder="Payout request of ₹{amount} approved."></textarea>
                 </div>
-                <div class="msg-template-box">
-                    <label class="input-label-text">Withdrawal Rejected Template</label>
-                    <textarea id="tpl_msg_wd_reject" placeholder="Your payout request of ₹{amount} was rejected."></textarea>
+                <div class="template-card-item">
+                    <label class="field-label">Withdrawal Rejected Alert</label>
+                    <textarea id="tpl_alert_wd_reject" class="textarea-box" placeholder="Payout request of ₹{amount} was rejected."></textarea>
                 </div>
             </div>
-            <button class="submit-action-btn" style="background:linear-gradient(135deg, #10b981 0%, #059669 100%);" onclick="saveGlobalMessageTemplates()">Save Message Configurations</button>
+            <button class="action-btn" style="background:linear-gradient(135deg, #10b981 0%, #059669 100%); margin-top:8px;" onclick="commitAdminTemplateSave()">Save Alert Configurations</button>
         </div>
 
     </div>
 </div>
 
 <script>
-const tgInstanceObj = window.Telegram.WebApp;
-tgInstanceObj.ready();
-tgInstanceObj.expand();
+const tgInstance = window.Telegram.WebApp;
+tgInstance.ready();
+tgInstance.expand();
 
-const activeGlobalUserId = tgInstanceObj.initDataUnsafe?.user?.id || 501889840;
-const activeGlobalUsername = tgInstanceObj.initDataUnsafe?.user?.first_name || "Suite Alpha Developer";
+const activeGlobalUserId = tgInstance.initDataUnsafe?.user?.id || 501889840;
+const activeGlobalUsername = tgInstance.initDataUnsafe?.user?.first_name || "Premium Member";
 
 const CORE_BACKEND_API_URL = window.location.origin;
+let applicationCachedState = null;
 
-let clientSideCachedState = null;
-
-function syncPlatformData() {
+function syncApplicationCoreData() {
     fetch(`${CORE_BACKEND_API_URL}/api/mini-app/sync`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -365,155 +380,195 @@ function syncPlatformData() {
     })
     .then(res => res.json())
     .then(data => {
-        clientSideCachedState = data;
-        renderUserDashboardInterface();
+        applicationCachedState = data;
+        renderPremiumUserInterface();
     })
-    .catch(err => console.error("Matrix synchronization exception:", err));
+    .catch(err => console.error("Error synchronizing ecosystem data matrix:", err));
 }
 
-function renderUserDashboardInterface() {
-    if (!clientSideCachedState) return;
+function renderPremiumUserInterface() {
+    if (!applicationCachedState) return;
     
-    const user = clientSideCachedState.user;
-    const settings = clientSideCachedState.botSettings;
+    const user = applicationCachedState.user;
+    const settings = applicationCachedState.botSettings;
 
-    // Profile Meta
-    document.getElementById('user_display_name').innerText = user.name;
-    document.getElementById('user_balance_lbl').innerText = parseFloat(user.balance).toFixed(2);
-    document.getElementById('user_debt_lbl').innerText = parseFloat(user.debt || 0).toFixed(2);
-    document.getElementById('total_invites_count').innerText = user.invites?.length || 0;
-    document.getElementById('txtBotReferLink').value = `https://t.me/${settings.botUsername || 'bot'}?start=${user.id}`;
+    // Financial Metrics Update
+    document.getElementById('lbl_user_wallet_bal').innerText = parseFloat(user.balance).toFixed(2);
+    document.getElementById('lbl_user_debt_bal').innerText = parseFloat(user.debt || 0).toFixed(2);
     
-    if (clientSideCachedState.profilePic) {
-        document.getElementById('user_avatar_img').src = clientSideCachedState.profilePic;
+    // Profile Configurations
+    document.getElementById('txt_user_name_title').innerText = user.name;
+    document.getElementById('txt_user_uid_sub').innerText = `UID: ${user.id}`;
+    document.getElementById('lbl_network_invites').innerText = user.invites?.length || 0;
+    document.getElementById('input_refer_url_string').value = `https://t.me/${settings.botUsername || 'bot'}?start=${user.id}`;
+    
+    if (applicationCachedState.profilePic) {
+        document.getElementById('img_user_pic').src = applicationCachedState.profilePic;
+    } else {
+        document.getElementById('img_user_pic').src = "https://ui-avatars.com/api/?name=" + encodeURIComponent(user.name) + "&background=1d4ed8&color=fff";
     }
 
-    // Dynamic Admin Button Visibility
+    // Dynamic Admin Dashboard Trigger Visibility
     if (parseInt(activeGlobalUserId) === parseInt(settings.masterAdminId || 501889840)) {
-        document.getElementById('master_adm_btn').style.display = 'block';
+        document.getElementById('admin_console_trigger').style.display = 'block';
     }
 
-    // Dynamic Customized Banner Displays
+    // Customized Dynamic Banner Configuration
     if (settings.customBanner) {
-        document.getElementById('banner_headline_txt').innerText = settings.customBanner.headline || "Premium Hub";
-        document.getElementById('banner_subline_txt').innerText = settings.customBanner.subline || "Tasks waiting.";
+        document.getElementById('display_banner_title').innerText = settings.customBanner.headline || "Premium Station";
+        document.getElementById('display_banner_subtitle').innerText = settings.customBanner.subline || "Complete tasks to unlock instant wallet allocations.";
     }
 
-    // Initialize Message Template inputs inside Admin View
+    // Hydrate Admin Message Input Configurations
     if (settings.messages) {
-        document.getElementById('tpl_msg_credit').value = settings.messages.adminCredit || "";
-        document.getElementById('tpl_msg_debit').value = settings.messages.adminDebit || "";
-        document.getElementById('tpl_msg_wd_pending').value = settings.messages.withdrawPending || "";
-        document.getElementById('tpl_msg_wd_success').value = settings.messages.withdrawSuccess || "";
-        document.getElementById('tpl_msg_wd_reject').value = settings.messages.withdrawReject || "";
+        document.getElementById('tpl_alert_credit').value = settings.messages.adminCredit || "";
+        document.getElementById('tpl_alert_debit').value = settings.messages.adminDebit || "";
+        document.getElementById('tpl_alert_wd_pending').value = settings.messages.withdrawPending || "";
+        document.getElementById('tpl_alert_wd_success').value = settings.messages.withdrawSuccess || "";
+        document.getElementById('tpl_alert_wd_reject').value = settings.messages.withdrawReject || "";
     }
 
-    // Map Micro Tasks Matrix
-    const taskPanel = document.getElementById('tasks_wrapper_panel');
+    // Render Micro Tasks Cards Engine
+    const taskPanel = document.getElementById('render_tasks_container');
     taskPanel.innerHTML = "";
     
     if (settings.tasks && settings.tasks.length > 0) {
         settings.tasks.forEach(task => {
             const isCompleted = user.completedTasks?.includes(task.id);
             const card = document.createElement('div');
-            card.className = "task-item-card";
+            card.className = "task-card";
+            card.onclick = () => viewTaskSpecificationDetails(task, isCompleted);
             card.innerHTML = `
-                <div class="task-info-block">
-                    <div class="task-title-text">${task.title}</div>
-                    <div class="task-payout-amt">₹${parseFloat(task.amount).toFixed(2)}</div>
+                <div class="task-meta">
+                    <div class="task-name">${task.title}</div>
+                    <div class="task-prize">₹${parseFloat(task.amount).toFixed(2)}</div>
                 </div>
                 ${isCompleted ? 
-                    `<button class="task-action-trigger claimed" disabled>Claimed ✅</button>` : 
-                    `<button class="task-action-trigger" onclick="claimMicroTaskPayout('${task.id}', '${task.link}')">Start Task</button>`
+                    `<button class="task-badge-btn done">Claimed ✅</button>` : 
+                    `<button class="task-badge-btn" style="color:var(--accent-blue); background:rgba(59,130,246,0.08);">View Details</button>`
                 }
             `;
             taskPanel.appendChild(card);
         });
     } else {
-        taskPanel.innerHTML = `<div style="text-align:center; color:var(--text-muted); font-size:13px; padding:20px;">No micro tasks assigned today.</div>`;
+        taskPanel.innerHTML = `<div style="text-align:center; color:var(--text-muted); font-size:13px; padding:30px 0;">No active micro task allocations available.</div>`;
     }
 
-    // Map Transaction Ledgers (FIXED [object Object] DISPLAY ISSUE HERE)
-    const ledgerPanel = document.getElementById('ledger_items_container');
+    // COMPREHENSIVE COMPACT SYSTEM TRANSACTIONS LEDGER (RESOLVED OBJECT & RECOGNITION ISSUE)
+    const ledgerPanel = document.getElementById('render_large_ledger_box');
     ledgerPanel.innerHTML = "";
+    
     if (user.history && user.history.length > 0) {
         user.history.forEach(item => {
-            const row = document.createElement('div');
-            row.className = "ledger-item-card";
+            const card = document.createElement('div');
+            card.className = "large-ledger-card";
             
             if (typeof item === 'string') {
-                row.innerHTML = `
-                    <div class="ledger-meta-info">
-                        <div class="ledger-title-lbl">${item}</div>
-                        <div class="ledger-date-stamp">System Ledger Log</div>
+                card.innerHTML = `
+                    <div class="ledger-upper">
+                        <div>
+                            <div class="ledger-op-name">System Update</div>
+                            <div class="ledger-time">Logged Operation Event</div>
+                        </div>
+                        <div class="ledger-cash" style="font-size:14px; color:var(--text-muted)">Sync</div>
                     </div>
-                    <span class="ledger-status-pill approved">System</span>
+                    <div class="ledger-lower">
+                        <div class="ledger-desc-text">${item}</div>
+                        <span class="status-pill approved">System Log</span>
+                    </div>
                 `;
             } else {
-                // Formatting Object Data beautifully safely
-                const statusClass = (item.status || "approved").toLowerCase();
-                const methodText = item.method || "Asset Log";
-                const amountText = item.amount ? `₹${parseFloat(item.amount).toFixed(2)}` : "0.00";
-                const titleText = item.taskTitle || item.description || "System Operation Sync";
-                const dateText = item.date || "Live Date";
+                const status = (item.status || "approved").toLowerCase();
+                const amountVal = item.amount ? `₹${parseFloat(item.amount).toFixed(2)}` : "₹0.00";
+                const method = item.method || "Transfer Event";
+                const dateStamp = item.date || "Just Now";
+                const description = item.taskTitle || item.description || "Ecosystem asset re-allocation event protocol.";
 
-                row.innerHTML = `
-                    <div class="ledger-meta-info">
-                        <div class="ledger-title-lbl">${methodText} - ${titleText}</div>
-                        <div class="ledger-date-stamp">${dateText}</div>
+                card.innerHTML = `
+                    <div class="ledger-upper">
+                        <div>
+                            <div class="ledger-op-name">${method}</div>
+                            <div class="ledger-time">${dateStamp}</div>
+                        </div>
+                        <div class="ledger-cash">${amountVal}</div>
                     </div>
-                    <span class="ledger-status-pill ${statusClass}">${item.status || 'Approved'} (${amountText})</span>
+                    <div class="ledger-lower">
+                        <div class="ledger-desc-text">${description}</div>
+                        <span class="status-pill ${status}">${status}</span>
+                    </div>
                 `;
             }
-            ledgerPanel.appendChild(row);
+            ledgerPanel.appendChild(card);
         });
     } else {
-        ledgerPanel.innerHTML = `<div style="text-align:center; color:var(--text-muted); font-size:13px; padding:20px;">No ledger transactions logged yet.</div>`;
+        ledgerPanel.innerHTML = `<div style="text-align:center; color:var(--text-muted); font-size:13px; padding:30px 0;">No ledger activities recorded in this lifecycle session.</div>`;
     }
 }
 
-function switchApplicationView(viewTarget, element) {
-    document.querySelectorAll('.view-section').forEach(v => v.classList.remove('active'));
-    document.querySelectorAll('.nav-tab-item').forEach(t => t.classList.remove('active'));
+function viewTaskSpecificationDetails(task, isCompleted) {
+    document.getElementById('popup_task_name_lbl').innerText = task.title;
+    document.getElementById('popup_task_reward_lbl').innerText = `Reward Value: ₹${parseFloat(task.amount).toFixed(2)}`;
+    document.getElementById('popup_task_description_para').innerText = task.description || "Follow the target destination link to complete this campaign job sequence and obtain verified rewards.";
     
-    document.getElementById(`view_${viewTarget}`).classList.add('active');
-    element.classList.add('active');
-}
-
-function openGiftCodeRedeemPopup() {
-    document.getElementById('global_modal_overlay').classList.add('active');
-    document.getElementById('sheet_gift_code').style.display = 'block';
+    const contextActionBtnBox = document.getElementById('popup_task_btn_placement');
+    contextActionBtnBox.innerHTML = "";
+    
+    if (isCompleted) {
+        contextActionBtnBox.innerHTML = `<button class="action-btn" style="background:#1c243d; color:var(--text-muted); cursor:default;" disabled>Campaign Payout Already Claimed</button>`;
+    } else {
+        contextActionBtnBox.innerHTML = `<button class="action-btn" onclick="executeMicroTaskClaim('${task.id}', '${task.link}')">Start Job Sequence</button>`;
+    }
+    
+    document.getElementById('modal_global_overlay').classList.add('active');
+    document.getElementById('sheet_task_specification').style.display = 'block';
+    document.getElementById('sheet_redeem_code').style.display = 'none';
     document.getElementById('sheet_admin_dashboard').style.display = 'none';
 }
 
-function openAdminDashboardView() {
-    document.getElementById('global_modal_overlay').classList.add('active');
-    document.getElementById('sheet_admin_dashboard').style.display = 'block';
-    document.getElementById('sheet_gift_code').style.display = 'none';
-}
-
-function dismissModalOverlayLayer() {
-    document.getElementById('global_modal_overlay').classList.remove('active');
-}
-
-function closeActiveModalWindow(event) {
-    if (event.target.id === "global_modal_overlay") dismissModalOverlayLayer();
-}
-
-function switchAdminSubTab(subTabId) {
-    document.querySelectorAll('.adm-subtab-section').forEach(s => s.style.display = 'none');
-    document.getElementById(`adm_subtab_${subTabId}`).style.display = 'block';
+function navigateApplicationView(targetViewId, element) {
+    document.querySelectorAll('.view-section').forEach(v => v.classList.remove('active'));
+    document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
     
-    document.querySelectorAll('#sheet_admin_dashboard .banner-action-btn').forEach(b => {
-        if(b.id.startsWith('tab_btn_')) b.style.background = '#1e293b';
-    });
-    document.getElementById(`tab_btn_${subTabId}`).style.background = 'var(--accent-blue)';
+    document.getElementById(`view_${targetViewId}`).classList.add('active');
+    element.classList.add('active');
 }
 
-/* ================= WEB APP CORE API ACTIONS ================= */
+function showVoucherRedeemWindow() {
+    document.getElementById('modal_global_overlay').classList.add('active');
+    document.getElementById('sheet_redeem_code').style.display = 'block';
+    document.getElementById('sheet_task_specification').style.display = 'none';
+    document.getElementById('sheet_admin_dashboard').style.display = 'none';
+}
 
-function claimMicroTaskPayout(taskId, link) {
-    if(link && link !== '#') window.open(link, '_blank');
+function showAdminPanelWindow() {
+    document.getElementById('modal_global_overlay').classList.add('active');
+    document.getElementById('sheet_admin_dashboard').style.display = 'block';
+    document.getElementById('sheet_redeem_code').style.display = 'none';
+    document.getElementById('sheet_task_specification').style.display = 'none';
+}
+
+function dismissOverlayLayer() {
+    document.getElementById('modal_global_overlay').classList.remove('active');
+}
+
+function closeOverlayWindow(event) {
+    if (event.target.id === "modal_global_overlay") dismissOverlayLayer();
+}
+
+function switchAdminSubSection(subSectionId) {
+    document.querySelectorAll('.adm-section-block').forEach(s => s.style.display = 'none');
+    document.getElementById(`adm_panel_${subSectionId}`).style.display = 'block';
+    
+    document.querySelectorAll('#sheet_admin_dashboard .admin-pill-btn').forEach(b => {
+        if(b.id.startsWith('adm_tab_trigger_')) b.classList.remove('active');
+    });
+    document.getElementById(`adm_tab_trigger_${subSectionId}`).classList.add('active');
+}
+
+/* ================= COMPREHENSIVE ECOSYSTEM API CORE CALLS ================= */
+
+function executeMicroTaskClaim(taskId, link) {
+    if (link && link !== '#') window.open(link, '_blank');
     
     fetch(`${CORE_BACKEND_API_URL}/api/mini-app/claim-task`, {
         method: 'POST',
@@ -522,16 +577,17 @@ function claimMicroTaskPayout(taskId, link) {
     })
     .then(res => res.json())
     .then(data => {
-        if(data.success) alert("Task verified and reward credited!");
-        syncPlatformData();
+        if (data.success) alert("Campaign reward validation complete. Account credited!");
+        dismissOverlayLayer();
+        syncApplicationCoreData();
     });
 }
 
-function executePeerToPeerAssetTransfer() {
-    const targetUid = parseInt(document.getElementById('p2p_recipient_uid').value);
-    const amount = parseFloat(document.getElementById('p2p_transfer_amount').value);
+function performPeerAssetSend() {
+    const targetUid = parseInt(document.getElementById('input_p2p_uid').value);
+    const amount = parseFloat(document.getElementById('input_p2p_cash').value);
     
-    if(!targetUid || isNaN(amount) || amount <= 0) return alert("Please specify valid values.");
+    if (!targetUid || isNaN(amount) || amount <= 0) return alert("Please clarify explicit accurate transaction targets.");
     
     fetch(`${CORE_BACKEND_API_URL}/api/mini-app/peer-transfer`, {
         method: 'POST',
@@ -539,44 +595,44 @@ function executePeerToPeerAssetTransfer() {
         body: JSON.stringify({ userId: activeGlobalUserId, targetUid: targetUid, amount: amount })
     })
     .then(res => {
-        if(!res.ok) return res.json().then(e => { throw new Error(e.error); });
+        if (!res.ok) return res.json().then(e => { throw new Error(e.error); });
         return res.json();
     })
     .then(() => {
-        alert("P2P Asset Transfer Completed!");
-        document.getElementById('p2p_recipient_uid').value = "";
-        document.getElementById('p2p_transfer_amount').value = "";
-        syncPlatformData();
+        alert("P2P Authorized Asset allocation success!");
+        document.getElementById('input_p2p_uid').value = "";
+        document.getElementById('input_p2p_cash').value = "";
+        syncApplicationCoreData();
     })
-    .catch(err => alert("Transfer Error: " + err.message));
+    .catch(err => alert("Allocation Exception: " + err.message));
 }
 
-function submitWithdrawalPayoutRequest() {
-    const address = document.getElementById('withdrawal_upi_address').value.trim();
-    const amount = parseFloat(document.getElementById('withdrawal_payout_amount').value);
+function performWithdrawalRequest() {
+    const upi = document.getElementById('input_wd_upi').value.trim();
+    const cash = parseFloat(document.getElementById('input_wd_cash').value);
     
-    if(!address || isNaN(amount) || amount <= 0) return alert("Verify gateway values.");
+    if (!upi || isNaN(cash) || cash <= 0) return alert("Verify core input field specifications.");
     
     fetch(`${CORE_BACKEND_API_URL}/api/mini-app/withdraw`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ userId: activeGlobalUserId, address: address, amount: amount, method: "UPI" })
+        body: JSON.stringify({ userId: activeGlobalUserId, address: upi, amount: cash, method: "UPI" })
     })
     .then(res => {
-        if(!res.ok) return res.json().then(e => { throw new Error(e.error); });
+        if (!res.ok) return res.json().then(e => { throw new Error(e.error); });
         return res.json();
     })
     .then(() => {
-        alert("Cashout Request Transmitted!");
-        document.getElementById('withdrawal_payout_amount').value = "";
-        syncPlatformData();
+        alert("Disbursement payout payload logged to queue successfully.");
+        document.getElementById('input_wd_cash').value = "";
+        syncApplicationCoreData();
     })
-    .catch(err => alert("Gateway Error: " + err.message));
+    .catch(err => alert("Ecosystem Exception: " + err.message));
 }
 
-function claimPlatformGiftCode() {
-    const code = document.getElementById('walletGiftCodeInput').value.trim().toUpperCase();
-    if(!code) return alert("Voucher string missing.");
+function executeVoucherClaim() {
+    const code = document.getElementById('input_voucher_code').value.trim().toUpperCase();
+    if (!code) return alert("Specify asset token identifier.");
 
     fetch(`${CORE_BACKEND_API_URL}/api/mini-app/redeem-code`, {
         method: 'POST',
@@ -584,160 +640,141 @@ function claimPlatformGiftCode() {
         body: JSON.stringify({ userId: activeGlobalUserId, code: code })
     })
     .then(res => {
-        if(!res.ok) return res.json().then(e => { throw new Error(e.error); });
+        if (!res.ok) return res.json().then(e => { throw new Error(e.error); });
         return res.json();
     })
     .then(() => {
-        alert("Voucher Asset Credited!");
-        document.getElementById('walletGiftCodeInput').value = "";
-        dismissModalOverlayLayer();
-        syncPlatformData();
+        alert("Ecosystem gift token allocation success!");
+        document.getElementById('input_voucher_code').value = "";
+        dismissOverlayLayer();
+        syncApplicationCoreData();
     })
-    .catch(err => alert("Voucher Exception: " + err.message));
+    .catch(err => alert("Voucher Error: " + err.message));
 }
 
-/* ================= ADMIN MANAGEMENT INTERFACE CORE ACTIONS ================= */
+/* ================= ADMIN CONSOLE PANEL COMMAND MODULES ================= */
 
-function executeAdminBalanceOverride() {
-    const targetUid = document.getElementById('admBalanceTargetUid').value.trim();
-    const action = document.getElementById('admBalanceAction').value;
-    const amount = parseFloat(document.getElementById('admBalanceAmount').value);
+function commitAdminBalanceOverride() {
+    const targetUid = document.getElementById('adm_fund_uid').value.trim();
+    const vector = document.getElementById('adm_fund_vector').value;
+    const cash = parseFloat(document.getElementById('adm_fund_cash').value);
     
-    if (!targetUid || isNaN(amount) || amount <= 0) return alert("Enter accurate metrics properties.");
+    if (!targetUid || isNaN(cash) || cash <= 0) return alert("Define absolute metadata fields.");
 
-    let operationAction = action;
+    let finalAction = vector;
     let targetIsDebt = false;
 
-    if (action === "add_debt") {
-        operationAction = "add";
-        targetIsDebt = true;
-    } else if (action === "remove_debt") {
-        operationAction = "remove";
-        targetIsDebt = true;
-    }
+    if (vector === "add_debt") { finalAction = "add"; targetIsDebt = true; }
+    else if (vector === "remove_debt") { finalAction = "remove"; targetIsDebt = true; }
 
     fetch(`${CORE_BACKEND_API_URL}/api/admin/modify-balance`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ targetUid: targetUid, action: operationAction, amount: amount, isDebt: targetIsDebt })
+        body: JSON.stringify({ targetUid: targetUid, action: finalAction, amount: cash, isDebt: targetIsDebt })
     })
-    .then(res => {
-        if(!res.ok) throw new Error("Synchronization failure.");
-        return res.json();
-    })
+    .then(res => { if(!res.ok) throw new Error("Sync Failure."); return res.json(); })
     .then(() => {
-        alert("User Assets Balance Adjusted Successfully!");
-        document.getElementById('admBalanceAmount').value = "";
-        dismissModalOverlayLayer();
-        syncPlatformData();
+        alert("Ecosystem core assets updated successfully!");
+        document.getElementById('adm_fund_cash').value = "";
+        dismissOverlayLayer();
+        syncApplicationCoreData();
     })
     .catch(err => alert(err.message));
 }
 
-function executeAdminTaskDeployment() {
+function commitAdminTaskDeployment() {
     const title = document.getElementById('adm_task_title').value.trim();
     const payout = document.getElementById('adm_task_payout').value;
     const link = document.getElementById('adm_task_url').value.trim();
+    const desc = document.getElementById('adm_task_details').value.trim();
 
-    if(!title || !payout) return alert("Provide metadata specs.");
+    if (!title || !payout) return alert("Required core campaign specs missing.");
 
     const generatedTaskId = "tk_" + Date.now();
-    const activeTasksList = [...(clientSideCachedState?.botSettings?.tasks || [])];
-    activeTasksList.push({ id: generatedTaskId, title: title, amount: payout, link: link || "#" });
+    const currentTasks = [...(applicationCachedState?.botSettings?.tasks || [])];
+    currentTasks.push({ id: generatedTaskId, title: title, amount: payout, link: link || "#", description: desc });
 
     fetch(`${CORE_BACKEND_API_URL}/api/settings/update`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ tasks: activeTasksList })
+        body: JSON.stringify({ tasks: currentTasks })
     }).then(() => {
-        alert("Micro Task Campaign Deployed!");
+        alert("Micro campaign job architecture updated!");
         document.getElementById('adm_task_title').value = "";
         document.getElementById('adm_task_payout').value = "";
         document.getElementById('adm_task_url').value = "";
-        dismissModalOverlayLayer();
-        syncPlatformData();
+        document.getElementById('adm_task_details').value = "";
+        dismissOverlayLayer();
+        syncApplicationCoreData();
     });
 }
 
-function executeAdminPromoCodeGeneration() {
-    const code = document.getElementById('adm_promo_string').value.trim().toUpperCase();
-    const amount = document.getElementById('adm_promo_amount').value;
+function commitAdminPromoGeneration() {
+    const code = document.getElementById('adm_promo_code').value.trim().toUpperCase();
+    const cash = document.getElementById('adm_promo_cash').value;
 
-    if(!code || !amount) return alert("Missing Voucher details.");
+    if (!code || !cash) return alert("Define asset allocations specifications.");
 
     fetch(`${CORE_BACKEND_API_URL}/api/admin/create-code`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ codeString: code, awardValue: amount })
+        body: JSON.stringify({ codeString: code, awardValue: cash })
     }).then(() => {
-        alert("Voucher Gift Token Minted!");
-        document.getElementById('adm_promo_string').value = "";
-        document.getElementById('adm_promo_amount').value = "";
-        dismissModalOverlayLayer();
-        syncPlatformData();
+        alert("Gift token minted successfully into global environment database layer.");
+        document.getElementById('adm_promo_code').value = "";
+        document.getElementById('adm_promo_cash').value = "";
+        dismissOverlayLayer();
+        syncApplicationCoreData();
     });
 }
 
-function saveActiveAdminBannerSettings() {
-    const head = document.getElementById('adm_banner_head').value.trim();
-    const sub = document.getElementById('adm_banner_sub').value.trim();
+function commitAdminBannerSave() {
+    const headline = document.getElementById('adm_banner_head').value.trim();
+    const subline = document.getElementById('adm_banner_sub').value.trim();
     
-    if(!head) return alert("Headline missing.");
-    const customBannerObj = { headline: head, subline: sub };
+    if (!headline) return alert("Headline is highly critical.");
+    const bannerObj = { headline: headline, subline: subline };
     
     fetch(`${CORE_BACKEND_API_URL}/api/settings/update`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ customBanner: customBannerObj })
+        body: JSON.stringify({ customBanner: bannerObj })
     }).then(() => {
-        alert("Global Dashboard Banner Saved!");
-        dismissModalOverlayLayer();
-        syncPlatformData();
+        alert("Ecosystem customized global banner dynamic save successful.");
+        dismissOverlayLayer();
+        syncApplicationCoreData();
     });
 }
 
-function removeActiveAdminBanner() {
-    const customBannerObj = { headline: "Premium Dashboard", subline: "Complete micro tasks to earn assets instantly." };
-    fetch(`${CORE_BACKEND_API_URL}/api/settings/update`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ customBanner: customBannerObj })
-    }).then(() => {
-        alert("Active Banner successfully uninstalled.");
-        dismissModalOverlayLayer();
-        syncPlatformData();
-    });
-}
-
-function saveGlobalMessageTemplates() {
-    const activeMessagesObj = { ...(clientSideCachedState?.botSettings?.messages || {}) };
+function commitAdminTemplateSave() {
+    const messagesObj = { ...(applicationCachedState?.botSettings?.messages || {}) };
     
-    activeMessagesObj.adminCredit = document.getElementById('tpl_msg_credit').value;
-    activeMessagesObj.adminDebit = document.getElementById('tpl_msg_debit').value;
-    activeMessagesObj.withdrawPending = document.getElementById('tpl_msg_wd_pending').value;
-    activeMessagesObj.withdrawSuccess = document.getElementById('tpl_msg_wd_success').value;
-    activeMessagesObj.withdrawReject = document.getElementById('tpl_msg_wd_reject').value;
+    messagesObj.adminCredit = document.getElementById('tpl_alert_credit').value;
+    messagesObj.adminDebit = document.getElementById('tpl_alert_debit').value;
+    messagesObj.withdrawPending = document.getElementById('tpl_alert_wd_pending').value;
+    messagesObj.withdrawSuccess = document.getElementById('tpl_alert_wd_success').value;
+    messagesObj.withdrawReject = document.getElementById('tpl_alert_wd_reject').value;
 
     fetch(`${CORE_BACKEND_API_URL}/api/settings/update`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ messages: activeMessagesObj })
+        body: JSON.stringify({ messages: messagesObj })
     }).then(() => {
-        alert("Message Templates Matrix Saved Successfully!");
-        dismissModalOverlayLayer();
-        syncPlatformData();
+        alert("System wide configurable alert notification templates saved.");
+        dismissOverlayLayer();
+        syncApplicationCoreData();
     });
 }
 
-function copyPartnerBotLink() {
-    navigator.clipboard.writeText(document.getElementById('txtBotReferLink').value).then(() => alert("Saved to memory!"));
+function copyAffiliateURL() {
+    navigator.clipboard.writeText(document.getElementById('input_refer_url_string').value).then(() => alert("Affiliate URL copied to clipboard memory."));
 }
-function sharePartnerBotLink() {
-    window.open(`https://t.me/share/url?url=${encodeURIComponent(document.getElementById('txtBotReferLink').value)}`, '_blank');
+function shareAffiliateURL() {
+    window.open(`https://t.me/share/url?url=${encodeURIComponent(document.getElementById('input_refer_url_string').value)}`, '_blank');
 }
 
-// Initial Core Data Pull
-syncPlatformData();
+// Global Core Pull On Launch Initialization
+syncApplicationCoreData();
 </script>
 </body>
 </html>
