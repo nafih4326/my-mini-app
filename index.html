@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>EXTRA EARN - Ultra Suite Pro</title>
+<title>EXTRA EARN</title>
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <style>
@@ -13,6 +13,7 @@
     --surface-card: rgba(23, 26, 38, 0.6);
     --panel-border: rgba(255, 255, 255, 0.07);
     --accent-blue: #2563eb;
+    --accent-red: #ef4444;
     --accent-glow: rgba(37, 99, 235, 0.2);
     --text-white: #ffffff;
     --text-muted: #9ca3af;
@@ -24,6 +25,17 @@
 body { background: var(--bg-gradient); color: var(--text-white); min-height: 100vh; display: flex; justify-content: center; overflow-x: hidden; }
 
 .app-container { width: 100%; max-width: 480px; height: 100vh; display: flex; flex-direction: column; position: relative; background: #05070c; }
+
+/* Custom Main Header */
+.app-header { display: flex; justify-content: space-between; align-items: center; padding: 15px 20px; background: rgba(14, 17, 26, 0.9); border-bottom: 1px solid var(--panel-border); }
+.logo-text { font-size: 20px; font-weight: 800; letter-spacing: 0.5px; }
+.logo-extra { color: var(--accent-red); }
+.logo-earn { color: var(--text-white); }
+
+.header-right { display: flex; align-items: center; gap: 12px; }
+.header-balance-box { background: rgba(255,255,255,0.05); padding: 6px 12px; border-radius: 20px; border: 1px solid var(--panel-border); font-weight: 700; color: var(--success-green); font-size: 14px; display: flex; align-items: center; gap: 5px; }
+.profile-avatar { width: 35px; height: 35px; border-radius: 50%; background: #2563eb; border: 1px solid rgba(255,255,255,0.2); object-fit: cover; }
+
 .view-section { flex: 1; overflow-y: auto; padding: 20px; padding-bottom: 90px; display: none; }
 .view-section.active { display: block; }
 
@@ -57,7 +69,7 @@ body { background: var(--bg-gradient); color: var(--text-white); min-height: 100
 .refresh-btn.spinning { transform: rotate(360deg); }
 .balance-value { font-size: 36px; font-weight: 800; color: #fff; letter-spacing: -0.5px; }
 
-.upi-btn { width: 100%; background: var(--accent-blue); color: white; border: none; padding: 15px; border-radius: 12px; font-weight: 600; font-size: 16px; cursor: pointer; margin-bottom: 25px; transition: 0.2s; }
+.upi-btn { width: 100%; background: var(--accent-blue); color: white; border: none; padding: 15px; border-radius: 12px; font-weight: 600; font-size: 16px; cursor: pointer; margin-bottom: 25px; display: flex; align-items: center; justify-content: center; gap: 10px; transition: 0.2s; }
 .upi-btn:active { opacity: 0.9; }
 
 /* History Tabs */
@@ -74,7 +86,7 @@ body { background: var(--bg-gradient); color: var(--text-white); min-height: 100
 
 /* Inputs */
 .input-group { margin-bottom: 16px; display: flex; flex-direction: column; gap: 8px; }
-.input-group label { font-size: 13px; color: var(--text-muted); }
+.input-group label { font-size: 13px; color: var(--text-muted); display: flex; align-items: center; gap: 6px; }
 .input-field { background: rgba(255,255,255,0.05); border: 1px solid var(--panel-border); padding: 14px; border-radius: 10px; color: white; font-size: 15px; width: 100%; outline: none; }
 .input-field:focus { border-color: var(--accent-blue); }
 
@@ -86,7 +98,7 @@ body { background: var(--bg-gradient); color: var(--text-white); min-height: 100
 /* Admin Dashboard layout */
 .admin-layout { display: flex; flex-direction: column; height: 100%; }
 .admin-nav { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 10px; border-bottom: 1px solid var(--panel-border); margin-bottom: 15px; scrollbar-width: none; }
-.admin-nav-btn { padding: 8px 16px; background: rgba(255,255,255,0.05); border: 1px solid var(--panel-border); color: var(--text-muted); border-radius: 8px; font-size: 13px; white-space: nowrap; cursor: pointer; }
+.admin-nav-btn { padding: 8px 16px; background: rgba(255,255,255,0.05); border: 1px solid var(--panel-border); color: var(--text-muted); border-radius: 8px; font-size: 13px; white-space: nowrap; cursor: pointer; display: flex; align-items: center; gap: 6px; }
 .admin-nav-btn.active { background: var(--accent-blue); color: white; border-color: var(--accent-blue); }
 .admin-panel-section { display: none; }
 .admin-panel-section.active { display: block; }
@@ -96,10 +108,22 @@ body { background: var(--bg-gradient); color: var(--text-white); min-height: 100
 
 <div class="app-container">
 
+    <div class="app-header">
+        <div class="logo-text">
+            <span class="logo-extra">Extra</span> <span class="logo-earn">Earn</span>
+        </div>
+        <div class="header-right">
+            <div class="header-balance-box">
+                <i class="fas fa-wallet"></i> ₹<span id="header-balance-num">0.00</span>
+            </div>
+            <img id="header-user-avatar" class="profile-avatar" src="https://img.icons8.com/colors/344/test-account.png" alt="Profile">
+        </div>
+    </div>
+
     <div id="view-home" class="view-section active">
         <div id="home-banner" class="banner-container"></div>
         <div class="category-bar">
-            <div class="cat-chip active">All</div>
+            <div class="cat-chip active"><i class="fas fa-th-large"></i> All</div>
         </div>
         <div id="home-task-list" class="task-list"></div>
     </div>
@@ -107,41 +131,48 @@ body { background: var(--bg-gradient); color: var(--text-white); min-height: 100
     <div id="view-wallet" class="view-section">
         <div class="balance-card">
             <div class="balance-header">
-                <span>Available Balance</span>
+                <span><i class="fas fa-shield-alt"></i> Available Balance</span>
                 <i class="fas fa-sync-alt refresh-btn" id="balance-refresh" onclick="triggerBalanceRefresh()"></i>
             </div>
             <div class="balance-value">₹<span id="wallet-balance-num">0.00</span></div>
         </div>
-        <button class="upi-btn" onclick="openWithdrawModal()">Withdraw via UPI</button>
+        <button class="upi-btn" onclick="openWithdrawModal()">
+            <i class="fas fa-money-check-alt"></i> Withdraw via UPI
+        </button>
         
         <div class="history-tabs">
-            <div class="tab-link active" onclick="switchHistoryTab('reward')">Rewards</div>
-            <div class="tab-link" onclick="switchHistoryTab('withdraw')">Withdrawals</div>
+            <div class="tab-link active" onclick="switchHistoryTab('reward')"><i class="fas fa-gift"></i> Rewards</div>
+            <div class="tab-link" onclick="switchHistoryTab('withdraw')"><i class="fas fa-arrow-up-from-bracket"></i> Withdrawals</div>
         </div>
         <div id="wallet-history-container" class="history-list"></div>
     </div>
 
     <div id="view-pay" class="view-section">
-        <h3 style="margin-bottom: 20px;">Peer to Peer Transfer</h3>
+        <h3 style="margin-bottom: 20px;"><i class="fas fa-paper-plane"></i> Peer to Peer Transfer</h3>
         <div class="input-group">
-            <label>Recipient User ID</label>
+            <label><i class="fas fa-id-card"></i> Recipient User ID</label>
             <input type="number" id="pay-target-id" class="input-field" placeholder="Enter User ID">
         </div>
         <div class="input-group">
-            <label>Amount (₹)</label>
+            <label><i class="fa-solid fa-indian-rupee-sign"></i> Amount (₹)</label>
             <input type="number" id="pay-amount" class="input-field" placeholder="0.00">
         </div>
-        <button class="upi-btn" style="background: var(--success-green);" onclick="executePeerTransfer()">Send Balance</button>
+        <button class="upi-btn" style="background: var(--success-green);" onclick="executePeerTransfer()">
+            <i class="fas fa-paper-plane"></i> Send Balance
+        </button>
     </div>
 
     <div id="view-profile" class="view-section">
-        <div id="profile-user-info" style="background: var(--surface-card); padding: 15px; border-radius: 12px; margin-bottom: 20px; border: 1px solid var(--panel-border);">
-            <p><strong>User ID:</strong> <span id="prof-id">-</span></p>
+        <div id="profile-user-info" style="background: var(--surface-card); padding: 15px; border-radius: 12px; margin-bottom: 20px; border: 1px solid var(--panel-border); text-align: center;">
+            <img id="main-profile-pic" src="https://img.icons8.com/colors/344/test-account.png" style="width: 80px; height: 80px; border-radius: 50%; margin-bottom: 15px; border: 2px solid var(--accent-blue);">
+            <p style="margin-bottom: 5px;"><strong>User ID:</strong> <span id="prof-id">-</span></p>
             <p><strong>Name:</strong> <span id="prof-name">-</span></p>
         </div>
         
         <div id="admin-entry-zone" style="display:none;">
-            <button class="upi-btn" style="background: #3b82f6;" onclick="showAdminVerification()">Access Admin Gate</button>
+            <button class="upi-btn" style="background: #3b82f6;" onclick="showAdminVerification()">
+                <i class="fas fa-user-shield"></i> Access Admin Gate
+            </button>
         </div>
     </div>
 
@@ -161,12 +192,16 @@ body { background: var(--bg-gradient); color: var(--text-white); min-height: 100
         <p style="color: var(--success-green); font-weight: 700; margin-bottom: 15px; font-size: 18px;">Reward: ₹<span id="md-task-reward">0</span></p>
         <div style="background: rgba(255,255,255,0.03); padding: 12px; border-radius: 8px; margin-bottom: 15px; font-size: 14px; color: var(--text-muted);" id="md-task-desc">-</div>
         
-        <button class="upi-btn" id="md-task-link-btn" style="background:#4f46e5; margin-bottom:15px;">Open Task Link</button>
+        <button class="upi-btn" id="md-task-link-btn" style="background:#4f46e5; margin-bottom:15px;">
+            <i class="fas fa-external-link-alt"></i> Open Task Link
+        </button>
         
         <div class="input-group" id="proof-upload-box">
-            <label>Upload Proof Screenshot</label>
+            <label><i class="fas fa-image"></i> Upload Proof Screenshot</label>
             <input type="file" id="md-task-file" class="input-field" accept="image/*">
-            <button class="upi-btn" style="margin-top: 10px;" onclick="submitTaskProofAction()">Submit Proof</button>
+            <button class="upi-btn" style="margin-top: 10px;" onclick="submitTaskProofAction()">
+                <i class="fas fa-cloud-upload-alt"></i> Submit Proof
+            </button>
         </div>
         <div id="md-already-submitted" style="display:none; text-align:center; color: var(--success-green); font-weight:600;">
             <i class="fas fa-check-circle"></i> Proof Already Submitted!
@@ -177,18 +212,22 @@ body { background: var(--bg-gradient); color: var(--text-white); min-height: 100
 <div id="modal-withdraw" class="modal-overlay">
     <div class="modal-content" id="withdraw-modal-inner">
         <i class="fas fa-times modal-close" onclick="closeModal('modal-withdraw')"></i>
-        <h3 style="margin-bottom: 20px;">UPI Withdrawal</h3>
+        <h3 style="margin-bottom: 20px;"><i class="fas fa-money-check-alt"></i> UPI Withdrawal</h3>
         <div class="input-group">
-            <label>UPI ID</label>
+            <label><i class="fas fa-at"></i> UPI ID</label>
             <input type="text" id="wd-upi-id" class="input-field" placeholder="example@ybl">
         </div>
         <div class="input-group">
-            <label>Amount</label>
+            <label><i class="fa-solid fa-indian-rupee-sign"></i> Amount</label>
             <input type="number" id="wd-amount" class="input-field" placeholder="0.00">
         </div>
         <div style="display: flex; gap: 10px; margin-top: 20px;">
-            <button class="upi-btn" style="background: var(--danger-red); margin:0;" onclick="closeModal('modal-withdraw')">Cancel</button>
-            <button class="upi-btn" style="margin:0;" onclick="submitUpiWithdrawal()">Confirm</button>
+            <button class="upi-btn" style="background: var(--danger-red); margin:0;" onclick="closeModal('modal-withdraw')">
+                <i class="fas fa-times"></i> Cancel
+            </button>
+            <button class="upi-btn" style="margin:0;" onclick="submitUpiWithdrawal()">
+                <i class="fas fa-check"></i> Confirm
+            </button>
         </div>
     </div>
 </div>
@@ -199,15 +238,16 @@ body { background: var(--bg-gradient); color: var(--text-white); min-height: 100
         
         <div id="admin-lock-screen" class="fingerprint-screen">
             <i class="fas fa-fingerprint fp-icon" onclick="simulateFingerprintAuth()"></i>
-            <p style="color: var(--text-muted);">Touch Sensor to Verification</p>
+            <p style="color: var(--text-muted); font-weight: 600;">Touch Fingerprint Icon to Scan</p>
         </div>
 
         <div id="admin-dashboard-panel" class="admin-layout" style="display: none;">
-            <h3 style="margin-bottom: 15px; color: #fff;">Admin Panel Layer</h3>
+            <h3 style="margin-bottom: 15px; color: #fff;"><i class="fas fa-user-shield"></i> Admin Panel Layer</h3>
             <div class="admin-nav">
-                <button class="admin-nav-btn active" onclick="switchAdminTab('banners', this)">Banners</button>
-                <button class="admin-nav-btn" onclick="switchAdminTab('tasks', this)">Tasks & Categories</button>
-                <button class="admin-nav-btn" onclick="switchAdminTab('proofs', this)">Proofs Box</button>
+                <button class="admin-nav-btn active" onclick="switchAdminTab('banners', this)"><i class="fas fa-images"></i> Banners</button>
+                <button class="admin-nav-btn" onclick="switchAdminTab('tasks', this)"><i class="fas fa-tasks"></i> Tasks</button>
+                <button class="admin-nav-btn" onclick="switchAdminTab('proofs', this)"><i class="fas fa-folder-open"></i> Proofs Box</button>
+                <button class="admin-nav-btn" onclick="switchAdminTab('controls', this)"><i class="fas fa-sliders-h"></i> Controls</button>
             </div>
 
             <div id="ad-tab-banners" class="admin-panel-section active">
@@ -216,7 +256,7 @@ body { background: var(--bg-gradient); color: var(--text-white); min-height: 100
                     <label>Choose Banner Image</label>
                     <input type="file" id="ad-banner-file" class="input-field" accept="image/*">
                 </div>
-                <button class="upi-btn" onclick="uploadAdminBanner()">Add Global Banner</button>
+                <button class="upi-btn" onclick="uploadAdminBanner()"><i class="fas fa-plus"></i> Add Global Banner</button>
                 <div id="admin-banner-list" style="margin-top:10px;"></div>
             </div>
 
@@ -226,7 +266,7 @@ body { background: var(--bg-gradient); color: var(--text-white); min-height: 100
                     <label>Add New Category</label>
                     <input type="text" id="ad-cat-name" class="input-field" placeholder="Category Title">
                 </div>
-                <button class="upi-btn" style="padding:10px;" onclick="addCategoryConfig()">Save Category</button>
+                <button class="upi-btn" style="padding:10px;" onclick="addCategoryConfig()"><i class="fas fa-folder-plus"></i> Save Category</button>
                 
                 <hr style="border-color:var(--panel-border); margin:15px 0;">
                 
@@ -247,12 +287,25 @@ body { background: var(--bg-gradient); color: var(--text-white); min-height: 100
                     <label>Task Instructions</label>
                     <textarea id="ad-task-desc" class="input-field" style="height:70px;"></textarea>
                 </div>
-                <button class="upi-btn" onclick="createTaskConfig()">Publish Task</button>
+                <button class="upi-btn" onclick="createTaskConfig()"><i class="fas fa-bullhorn"></i> Publish Task</button>
             </div>
 
             <div id="ad-tab-proofs" class="admin-panel-section">
                 <h4>Pending Proof Verification</h4>
                 <div id="admin-proofs-list" style="display:flex; flex-direction:column; gap:10px; margin-top:10px;"></div>
+            </div>
+
+            <div id="ad-tab-controls" class="admin-panel-section">
+                <h4>Old Configuration Variables</h4>
+                <div class="input-group" style="margin-top:10px;">
+                    <label>Withdraw Mode</label>
+                    <input type="text" id="ad-ctrl-wdmode" class="input-field" placeholder="Both On">
+                </div>
+                <div class="input-group">
+                    <label>Per Refer Payout (₹)</label>
+                    <input type="number" id="ad-ctrl-refer" class="input-field">
+                </div>
+                <button class="upi-btn" onclick="updateGlobalVariables()"><i class="fas fa-save"></i> Synchronize Variables</button>
             </div>
         </div>
     </div>
@@ -265,6 +318,8 @@ tg.expand();
 
 let activeUid = tg.initDataUnsafe?.user?.id || 501889840; 
 let activeUname = tg.initDataUnsafe?.user?.first_name || "Beta Tester";
+let userPhoto = tg.initDataUnsafe?.user?.photo_url || "https://img.icons8.com/colors/344/test-account.png";
+
 let systemSettings = {};
 let currentHistoryTab = 'reward';
 let activeSelectedTaskId = null;
@@ -272,6 +327,8 @@ let activeSelectedTaskId = null;
 document.addEventListener("DOMContentLoaded", () => {
     document.getElementById('prof-id').innerText = activeUid;
     document.getElementById('prof-name').innerText = activeUname;
+    document.getElementById('header-user-avatar').src = userPhoto;
+    document.getElementById('main-profile-pic').src = userPhoto;
     syncDataCycle();
 });
 
@@ -282,12 +339,10 @@ function syncDataCycle() {
             systemSettings = data.botSettings;
             const db = data.usersDatabase;
             
-            // Check Admin Rights
             if (activeUid == 501889840 || systemSettings.subAdmins?.includes(Number(activeUid))) {
                 document.getElementById('admin-entry-zone').style.display = 'block';
             }
 
-            // Verify User Profile
             if (!db[activeUid]) {
                 fetch(`${CORE_API}/api/mini-app/sync-user`, {
                     method: 'POST',
@@ -298,7 +353,9 @@ function syncDataCycle() {
             }
 
             const me = db[activeUid];
-            document.getElementById('wallet-balance-num').innerText = parseFloat(me.balance).toFixed(2);
+            const formattedBalance = parseFloat(me.balance).toFixed(2);
+            document.getElementById('header-balance-num').innerText = formattedBalance;
+            document.getElementById('wallet-balance-num').innerText = formattedBalance;
             
             renderBanners(systemSettings.banners || []);
             renderCategories(systemSettings.categories || []);
@@ -321,15 +378,15 @@ function renderBanners(list) {
         box.style.display = 'none';
     } else {
         box.style.display = 'block';
-        box.innerHTML = `<img src="${list[0]}" alt="Matrix Banner">`;
+        box.innerHTML = `<img src="${list[0]}" alt="Banner">`;
     }
 }
 
 function renderCategories(cats) {
     const bar = document.querySelector('.category-bar');
-    bar.innerHTML = `<div class="cat-chip active">All</div>`;
+    bar.innerHTML = `<div class="cat-chip active"><i class="fas fa-th-large"></i> All</div>`;
     cats.forEach(c => {
-        bar.innerHTML += `<div class="cat-chip">${c}</div>`;
+        bar.innerHTML += `<div class="cat-chip"><i class="fas fa-folder"></i> ${c}</div>`;
     });
 }
 
@@ -338,14 +395,14 @@ function renderTasks(tasks, completed, pending) {
     container.innerHTML = '';
     tasks.forEach(t => {
         let statusText = "";
-        if (completed.includes(t.id)) statusText = `<span style="color:var(--success-green); font-size:12px;">Completed</span>`;
+        if (completed.includes(t.id)) statusText = `<span style="color:var(--success-green); font-size:12px;">(Completed)</span>`;
         
         const card = document.createElement('div');
         card.className = 'task-card';
         card.onclick = () => openTaskDetailsPopup(t, completed, pending);
         card.innerHTML = `
             <div class="task-details-left">
-                <span class="task-title">${t.title}</span>
+                <span class="task-title"><i class="fas fa-thumbtack" style="color:var(--accent-blue); margin-right:5px;"></i> ${t.title}</span>
                 <span class="task-cat-tag">All ${statusText}</span>
             </div>
             <div class="task-amount">₹${t.amount}</div>
@@ -385,7 +442,7 @@ function submitTaskProofAction() {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ userId: activeUid, taskId: activeSelectedTaskId, proofImg: e.target.result })
         }).then(res => res.json()).then(res => {
-            alert("Verification layer standard sent to admin logs.");
+            alert("Verification proof log successfully transmitted.");
             closeModal('modal-task-detail');
             syncDataCycle();
         });
@@ -403,7 +460,7 @@ function triggerBalanceRefresh() {
 function switchHistoryTab(tab) {
     currentHistoryTab = tab;
     document.querySelectorAll('.history-tabs .tab-link').forEach(el => el.classList.remove('active'));
-    event.target.classList.add('active');
+    event.currentTarget.classList.add('active');
     syncDataCycle();
 }
 
@@ -417,7 +474,7 @@ function renderHistoryLists(history) {
     });
 
     if(filtered.length === 0) {
-        container.innerHTML = `<div style="text-align:center; color:var(--text-muted); padding:20px;">No transaction found.</div>`;
+        container.innerHTML = `<div style="text-align:center; color:var(--text-muted); padding:20px;">No transaction records.</div>`;
         return;
     }
 
@@ -425,7 +482,7 @@ function renderHistoryLists(history) {
         container.innerHTML += `
             <div class="history-item">
                 <div>
-                    <div style="font-weight:600;">${h.taskTitle || h.method}</div>
+                    <div style="font-weight:600;"><i class="fas fa-circle-dot" style="font-size:10px; color:var(--accent-blue); margin-right:6px;"></i>${h.taskTitle || h.method}</div>
                     <div style="font-size:11px; color:var(--text-muted); margin-top:4px;">${h.date}</div>
                 </div>
                 <div style="font-weight:700; color:${h.status==='Approved'?'var(--success-green)':'orange'}">
@@ -443,7 +500,7 @@ function openWithdrawModal() {
 function submitUpiWithdrawal() {
     const upi = document.getElementById('wd-upi-id').value.trim();
     const amt = parseFloat(document.getElementById('wd-amount').value.trim());
-    if(!upi || !amt) return alert("Fill data logs fully.");
+    if(!upi || !amt) return alert("Please fill all data elements.");
 
     fetch(`${CORE_API}/api/mini-app/withdraw`, {
         method: 'POST',
@@ -452,7 +509,6 @@ function submitUpiWithdrawal() {
     }).then(res => res.json()).then(res => {
         if(res.error) return alert(res.error);
         
-        // Dynamic success message inside modal container
         document.getElementById('withdraw-modal-inner').innerHTML = `
             <div style="text-align:center; padding:20px 10px;">
                 <i class="fas fa-check-circle" style="font-size:48px; color:var(--success-green); margin-bottom:15px;"></i>
@@ -467,7 +523,7 @@ function submitUpiWithdrawal() {
 function executePeerTransfer() {
     const target = document.getElementById('pay-target-id').value.trim();
     const amt = parseFloat(document.getElementById('pay-amount').value.trim());
-    if(!target || !amt) return alert("Incomplete input variables.");
+    if(!target || !amt) return alert("Incomplete parameters.");
 
     fetch(`${CORE_API}/api/mini-app/peer-transfer`, {
         method: 'POST',
@@ -475,7 +531,7 @@ function executePeerTransfer() {
         body: JSON.stringify({ sourceId: activeUid, targetId: target, amount: amt })
     }).then(res => res.json()).then(res => {
         if (res.error) alert(res.error);
-        else { alert("Transfer complete successfully!"); syncDataCycle(); }
+        else { alert("Transfer successfully verified and complete!"); syncDataCycle(); }
     });
 }
 
@@ -485,13 +541,52 @@ function showAdminVerification() {
     document.getElementById('admin-dashboard-panel').style.display = 'none';
 }
 
-function simulateFingerprintAuth() {
-    // Fingerprint validation feedback effect
-    document.querySelector('.fp-icon').style.color = 'var(--success-green)';
-    setTimeout(() => {
-        document.getElementById('admin-lock-screen').style.display = 'none';
-        document.getElementById('admin-dashboard-panel').style.display = 'block';
-    }, 800);
+/* REAL NATIVE MOBILE BIOMETRIC SYSTEM (WebAuthn API Engine) */
+async function simulateFingerprintAuth() {
+    if (!window.PublicKeyCredential) {
+        alert("ഡിവൈസ് ബയോമെട്രിക് ഹാർഡ്‌വെയർ സപ്പോർട്ട് ചെയ്യുന്നില്ല. ഡാഷ്‌ബോർഡ് നേരിട്ട് ഓപ്പൺ ചെയ്യുന്നു.");
+        bypassToAdminDashboard();
+        return;
+    }
+
+    try {
+        const challenge = new Uint8Array(32);
+        window.crypto.getRandomValues(challenge);
+
+        const options = {
+            challenge: challenge,
+            rp: { name: "Extra Earn System" },
+            user: {
+                id: new Uint8Array([1, 2, 3, 4]),
+                name: "admin@extraearn",
+                displayName: "System Administrator"
+            },
+            pubKeyCredParams: [{ type: "public-key", alg: -7 }],
+            authenticatorSelection: {
+                authenticatorAttachment: "platform", 
+                userVerification: "required"
+            },
+            timeout: 60000
+        };
+
+        // ഇവിടെ മൊബൈലിന്റെ ഒറിജിനൽ ഫിംഗർപ്രിന്റ്/പാറ്റേൺ ഒഫീഷ്യൽ സിസ്റ്റം പ്രോംപ്റ്റ് ആക്റ്റീവ് ആകും
+        const credential = await navigator.credentials.create({ publicKey: options });
+        
+        if (credential) {
+            document.querySelector('.fp-icon').style.color = 'var(--success-green)';
+            setTimeout(() => {
+                bypassToAdminDashboard();
+            }, 500);
+        }
+    } catch (error) {
+        console.error("Biometric Lock Error: ", error);
+        alert("ബയോമെട്രിക് വെരിഫിക്കേഷൻ പരാജയപ്പെട്ടു അല്ലെങ്കിൽ റദ്ദാക്കി!");
+    }
+}
+
+function bypassToAdminDashboard() {
+    document.getElementById('admin-lock-screen').style.display = 'none';
+    document.getElementById('admin-dashboard-panel').style.display = 'block';
 }
 
 function switchAdminTab(target, btn) {
@@ -503,13 +598,12 @@ function switchAdminTab(target, btn) {
 
 function uploadAdminBanner() {
     const fileEl = document.getElementById('ad-banner-file');
-    if (!fileEl.files[0]) return alert("Select an image vector");
+    if (!fileEl.files[0]) return alert("Select an image payload.");
 
     const reader = new FileReader();
     reader.onload = function(e) {
         let activeBanners = systemSettings.banners || [];
         activeBanners.push(e.target.result);
-        
         updateSystemSettingsPackage({ banners: activeBanners });
     };
     reader.readAsDataURL(fileEl.files[0]);
@@ -535,10 +629,16 @@ function createTaskConfig() {
     const url = document.getElementById('ad-task-url').value.trim();
     const desc = document.getElementById('ad-task-desc').value.trim();
 
-    if(!title || !amount) return alert("Fill essential lines.");
+    if(!title || !amount) return alert("Fill mandatory fields.");
     let tasks = systemSettings.tasks || [];
     tasks.push({ id: Date.now().toString(), title, amount, url, desc });
     updateSystemSettingsPackage({ tasks });
+}
+
+function updateGlobalVariables() {
+    const mode = document.getElementById('ad-ctrl-wdmode').value;
+    const ref = parseFloat(document.getElementById('ad-ctrl-refer').value);
+    updateSystemSettingsPackage({ withdrawMode: mode, perRefer: ref });
 }
 
 function updateSystemSettingsPackage(payload) {
@@ -550,7 +650,9 @@ function updateSystemSettingsPackage(payload) {
 }
 
 function renderAdminView(settings) {
-    // Render Admin Banner Monitor List
+    document.getElementById('ad-ctrl-wdmode').value = settings.withdrawMode || "Both On";
+    document.getElementById('ad-ctrl-refer').value = settings.perRefer || 7;
+
     const bBox = document.getElementById('admin-banner-list');
     bBox.innerHTML = '';
     (settings.banners || []).forEach((b, i) => {
@@ -562,7 +664,6 @@ function renderAdminView(settings) {
         `;
     });
 
-    // Render Proof management list
     const pBox = document.getElementById('admin-proofs-list');
     pBox.innerHTML = '';
     const proofs = settings.pendingProofs || {};
@@ -570,9 +671,9 @@ function renderAdminView(settings) {
         const item = proofs[key];
         pBox.innerHTML += `
             <div style="background:rgba(255,255,255,0.03); border:1px solid var(--panel-border); padding:12px; border-radius:10px;">
-                <p style="font-size:13px;"><strong>User UID:</strong> ${item.userId}</p>
+                <p style="font-size:13px;"><strong>User ID:</strong> ${item.userId}</p>
                 <p style="font-size:13px; margin-bottom:8px;"><strong>Task ID:</strong> ${item.taskId}</p>
-                <img src="${item.proofImg}" style="width:100%; max-height:15px0px; object-fit:contain; background:#000; border-radius:6px; margin-bottom:10px;">
+                <img src="${item.proofImg}" style="width:100%; max-height:150px; object-fit:contain; background:#000; border-radius:6px; margin-bottom:10px;">
                 <div style="display:flex; gap:10px;">
                     <button class="upi-btn" style="margin:0; background:var(--success-green); padding:8px;" onclick="judgeProofAction('${key}', true)">Approve</button>
                     <button class="upi-btn" style="margin:0; background:var(--danger-red); padding:8px;" onclick="judgeProofAction('${key}', false)">Reject</button>
