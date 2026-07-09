@@ -127,6 +127,12 @@ body { background: var(--bg-gradient); color: var(--text-white); min-height: 100
 .adm-nav-anchor.active div { color: var(--accent-blue); filter: drop-shadow(0 0 5px rgba(37,99,235,0.5)); }
 
 .referral-glass-panel { background: var(--surface-card); border: 1px solid var(--panel-border); padding: 16px; border-radius: 20px; backdrop-filter: blur(10px); margin-bottom: 20px; }
+
+/* New Admin Buttons */
+.adm-action-btn { padding: 6px 12px; border-radius: 8px; font-size: 11px; font-weight: bold; border: none; cursor: pointer; color: #fff; margin-right: 5px; }
+.btn-approve { background: var(--success-green); color: #000; }
+.btn-reject { background: var(--accent-red); }
+.btn-delete { background: #b91c1c; padding: 4px 10px; border-radius: 6px; font-size: 10px; color: #fff; border: none; cursor: pointer; }
 </style>
 </head>
 <body>
@@ -309,6 +315,11 @@ body { background: var(--bg-gradient); color: var(--text-white); min-height: 100
 </div>
 <button class="adm-commit-btn" style="background:var(--accent-blue); color:#fff;" onclick="executeAdminAddTaskSubmit()">Deploy Task Node</button>
 </div>
+
+<div class="adm-card-node">
+<h4>Manage Implemented Tasks</h4>
+<div id="admDeployedTasksListContainer" style="max-height: 180px; overflow-y: auto;"></div>
+</div>
 </div>
 
 <div class="adm-view-pane" id="adm-wallet">
@@ -330,14 +341,14 @@ body { background: var(--bg-gradient); color: var(--text-white); min-height: 100
 </div>
 <div class="adm-card-node">
 <h4>Pending Withdraw Pipeline</h4>
-<div id="admPendingWithdrawalsList"></div>
+<div id="admPendingWithdrawalsList" style="max-height: 250px; overflow-y: auto;"></div>
 </div>
 </div>
 
 <div class="adm-view-pane" id="adm-profiles">
 <div class="adm-card-node">
 <h4>Audit Ledger Users Profiles</h4>
-<div id="admUsersProfileAuditListContainer"></div>
+<div id="admUsersProfileAuditListContainer" style="max-height: 400px; overflow-y: auto;"></div>
 </div>
 </div>
 
@@ -369,6 +380,13 @@ body { background: var(--bg-gradient); color: var(--text-white); min-height: 100
     <input type="text" id="admNewCategoryInput" placeholder="Telegram, YouTube etc.">
 </div>
 <button class="adm-commit-btn" style="background:var(--success-green); color:#000;" onclick="executeCreateCategoryNode()">Deploy Category</button>
+</div>
+
+<div class="adm-card-node">
+<h4>Generate Platform Promo Codes</h4>
+<div class="adm-input-wrapper"><label>Promo Code String</label><input type="text" id="admInputPromoCode" placeholder="WELCOME50" style="text-transform: uppercase;"></div>
+<div class="adm-input-wrapper"><label>Bonus Reward (₹)</label><input type="number" id="admInputPromoReward" placeholder="50"></div>
+<button class="adm-commit-btn" style="background:var(--accent-blue); color:#fff;" onclick="executeCreatePromoCode()">Create Gift Code</button>
 </div>
 </div>
 
@@ -497,6 +515,8 @@ function syncPlatformData() {
             document.getElementById('adminControlMenuWrapper').style.display = 'block';
             populateAdminSelects();
             loadAdminDashboardLiveData();
+            renderAdminTasksManagementList();
+            renderAdminUsersProfileAudit();
         }
     })
     .catch(err => {
@@ -772,6 +792,7 @@ function switchAdminTab(paneId) {
 
 function closeAdminDashboardView() { document.getElementById('adminControlModalElement').style.display = 'none'; }
 
+/* ENHANCED ADMIN PIPELINE ACTIONS */
 function loadAdminDashboardLiveData() {
     fetch(`${CORE_BACKEND_API_URL}/api/admin/pending-withdrawals`)
     .then(res => res.json())
@@ -779,10 +800,112 @@ function loadAdminDashboardLiveData() {
         const listContainer = document.getElementById('admPendingWithdrawalsList');
         if(!listContainer) return;
         listContainer.innerHTML = "";
+        if(data.length === 0) {
+            listContainer.innerHTML = `<p style="font-size:12px; color:var(--text-muted);">No pending withdrawals pipeline.</p>`;
+            return;
+        }
         data.forEach(item => {
-            listContainer.innerHTML += `<div style="padding:10px; background:rgba(255,255,255,0.02); margin-bottom:5px; border-radius:8px;">UID: #${item.userId} | ₹${item.amount}</div>`;
+            listContainer.innerHTML += `
+                <div style="padding:12px; background:rgba(255,255,255,0.02); margin-bottom:8px; border-radius:10px; display:flex; justify-content:between; align-items:center;">
+                    <div style="flex:1;">
+                        <span style="font-size:12px; font-weight:bold; color:#fff;">UID: #${item.userId}</span><br>
+                        <span style="font-size:11px; color:var(--text-muted);">UPI: ${item.address || 'N/A'}</span>
+                    </div>
+                    <div>
+                        <span style="font-weight:800; color:var(--success-green); margin-right:10px;">₹${item.amount}</span>
+                        <button class="adm-action-btn btn-approve" onclick="executeAdminProcessWithdrawal('${item.id || item.userId}', 'approve')">Approve</button>
+                        <button class="adm-action-btn btn-reject" onclick="executeAdminProcessWithdrawal('${item.id || item.userId}', 'reject')">Reject</button>
+                    </div>
+                </div>`;
         });
     }).catch(() => {});
+}
+
+function executeAdminProcessWithdrawal(id, statusAction) {
+    fetch(`${CORE_BACKEND_API_URL}/api/admin/payout-action`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ requestId: id, action: statusAction })
+    }).then(() => { 
+        alert(`Withdrawal request marked as ${statusAction}.`); 
+        loadAdminDashboardLiveData(); 
+        syncPlatformData(); 
+    });
+}
+
+function renderAdminTasksManagementList() {
+    const container = document.getElementById('admDeployedTasksListContainer');
+    if(!container) return;
+    container.innerHTML = "";
+    const tasks = synchronizedStateCache.botSettings?.tasks || [];
+    if(tasks.length === 0) {
+        container.innerHTML = `<p style="font-size:11px; color:var(--text-muted);">No active tasks deployed.</p>`;
+        return;
+    }
+    tasks.forEach(t => {
+        container.innerHTML += `
+            <div style="padding:10px; background:rgba(0,0,0,0.2); margin-bottom:6px; border-radius:8px; display:flex; justify-content:space-between; align-items:center;">
+                <div style="font-size:12px;"><strong>${t.title}</strong> <span style="color:var(--text-muted)">(${t.category})</span></div>
+                <div>
+                    <span style="font-size:11px; color:var(--success-green); margin-right:8px;">₹${t.amount}</span>
+                    <button class="btn-delete" onclick="executeAdminDeleteTask('${t.id}')">Delete</button>
+                </div>
+            </div>`;
+    });
+}
+
+function executeAdminDeleteTask(taskId) {
+    if(!confirm("Are you sure you want to remove this task?")) return;
+    const currentTasks = synchronizedStateCache.botSettings?.tasks || [];
+    const updatedTasks = currentTasks.filter(t => t.id !== taskId);
+    fetch(`${CORE_BACKEND_API_URL}/api/settings/update`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ tasks: updatedTasks })
+    }).then(() => { alert("Task uninstalled successfully."); syncPlatformData(); });
+}
+
+function renderAdminUsersProfileAudit() {
+    const container = document.getElementById('admUsersProfileAuditListContainer');
+    if(!container) return;
+    container.innerHTML = "";
+    
+    fetch(`${CORE_BACKEND_API_URL}/api/admin/users-list`)
+    .then(res => res.json())
+    .then(users => {
+        if(users.length === 0) {
+            container.innerHTML = `<p style="font-size:12px; color:var(--text-muted);">No registered users profiles tracked.</p>`;
+            return;
+        }
+        users.forEach(u => {
+            container.innerHTML += `
+                <div style="padding:12px; background:rgba(255,255,255,0.02); margin-bottom:8px; border-radius:12px; font-size:12px;">
+                    <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
+                        <span style="color:#fff; font-weight:bold;">${u.username || 'User'} (#${u.userId})</span>
+                        <span style="color:var(--success-green); font-weight:800;">₹${parseFloat(u.balance || 0).toFixed(2)}</span>
+                    </div>
+                    <div style="color:var(--text-muted); font-size:11px;">UPI Address: ${u.upi || 'Not Linked'}</div>
+                </div>`;
+        });
+    }).catch(() => {
+        container.innerHTML = `<p style="font-size:11px; color:var(--text-muted);">Framework structural user tracking setup active.</p>`;
+    });
+}
+
+function executeCreatePromoCode() {
+    const codeStr = document.getElementById('admInputPromoCode').value.trim().toUpperCase();
+    const rewardAmt = parseFloat(document.getElementById('admInputPromoReward').value);
+    if(!codeStr || isNaN(rewardAmt) || rewardAmt <= 0) return alert("Verify fields before deploying promo structures.");
+    
+    fetch(`${CORE_BACKEND_API_URL}/api/admin/create-promo`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ code: codeStr, amount: rewardAmt })
+    }).then(() => {
+        alert(`Gift Code: ${codeStr} successfully implemented!`);
+        document.getElementById('admInputPromoCode').value = "";
+        document.getElementById('admInputPromoReward').value = "";
+    });
 }
 
 function executeAdminAddTaskSubmit() {
