@@ -3,100 +3,119 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>EXTRA EARN - Ultra Suite Pro</title>
+<title>EXTRA EARN - Premium Pro Suite</title>
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 <style>
 :root {
---bg-gradient: linear-gradient(135deg, #090b11 0%, #040508 100%);
---surface: #0e111a;
---surface-card: rgba(23, 26, 38, 0.6);
---panel-border: rgba(255, 255, 255, 0.07);
---accent-red: #ff2a33;
---accent-blue: #2563eb;
---text-white: #ffffff;
---text-muted: #9ca3af;
---success-green: #10b981;
---nav-bg: rgba(14, 17, 26, 0.25); 
+    --bg-gradient: linear-gradient(145deg, #07090e 0%, #020305 100%);
+    --surface: #0b0e17;
+    --surface-card: rgba(18, 22, 35, 0.7);
+    --panel-border: rgba(255, 255, 255, 0.08);
+    --accent-red: #ff333f;
+    --accent-blue: #3b82f6;
+    --accent-gradient: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+    --text-white: #ffffff;
+    --text-muted: #9ca3af;
+    --success-green: #10b981;
+    --nav-bg: rgba(11, 14, 23, 0.4); 
 }
 
-* { box-sizing: border-box; margin: 0; padding: 0; font-family: '-apple-system', BlinkMacSystemFont, sans-serif; }
+* { box-sizing: border-box; margin: 0; padding: 0; font-family: '-apple-system', BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
 body { background: var(--bg-gradient); color: var(--text-white); min-height: 100vh; overflow: hidden; display: flex; justify-content: center; }
 
 .app-container { width: 100%; max-width: 480px; height: 100vh; display: flex; flex-direction: column; position: relative; background: transparent; }
-.main-content { flex: 1; overflow-y: auto; padding: 20px; padding-bottom: 90px; scrollbar-width: none; }
+.main-content { flex: 1; overflow-y: auto; padding: 22px; padding-bottom: 100px; scrollbar-width: none; }
 .main-content::-webkit-scrollbar { display: none; }
 
-.view-section { display: none; }
+.view-section { display: none; animation: fadeIn 0.3s ease-in-out; }
 .view-section.active { display: block; }
 
-/* Dashboard Header & Banners */
-.dashboard-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
-.user-profile-meta { display: flex; align-items: center; gap: 12px; }
-.avatar-frame { width: 44px; height: 44px; border-radius: 50%; border: 2px solid var(--accent-blue); overflow: hidden; background: #1a2035; }
-.avatar-frame img { width: 100%; height: 100%; object-fit: cover; }
-.identity-lbl { font-size: 16px; font-weight: 700; color: var(--text-white); }
-.status-badge { font-size: 11px; color: var(--success-green); background: rgba(16, 185, 129, 0.1); padding: 2px 8px; border-radius: 20px; border: 1px solid rgba(16, 185, 129, 0.2); }
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+}
 
-.promo-banner-matrix { width: 100%; background: var(--surface-card); border: 1px solid var(--panel-border); border-radius: 16px; padding: 16px; margin-bottom: 20px; position: relative; overflow: hidden; }
-.promo-banner-matrix::before { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: radial-gradient(circle, rgba(37,99,235,0.08) 0%, transparent 70%); pointer-events: none; }
-.banner-headline { font-size: 18px; font-weight: 800; color: var(--text-white); margin-bottom: 4px; }
-.banner-subline { font-size: 13px; color: var(--text-muted); margin-bottom: 14px; line-height: 1.4; }
-.banner-action-btn { background: var(--accent-blue); color: var(--text-white); font-weight: 600; font-size: 13px; padding: 8px 16px; border: none; border-radius: 8px; cursor: pointer; }
+/* New Premium Header */
+.dashboard-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; }
+.user-profile-meta { display: flex; align-items: center; gap: 14px; }
+.avatar-frame { width: 48px; height: 48px; border-radius: 50%; border: 2px solid var(--accent-blue); padding: 2px; background: rgba(59, 130, 246, 0.1); overflow: hidden; }
+.avatar-frame img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; }
+.identity-lbl { font-size: 17px; font-weight: 700; color: var(--text-white); letter-spacing: -0.3px; }
+.status-badge { font-size: 11px; color: var(--success-green); background: rgba(16, 185, 129, 0.08); padding: 3px 10px; border-radius: 20px; border: 1px solid rgba(16, 185, 129, 0.15); font-weight: 600; display: inline-block; margin-top: 2px; }
 
-/* Metrics Panels */
-.metrics-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
-.metric-card { background: var(--surface-card); border: 1px solid var(--panel-border); border-radius: 14px; padding: 14px; }
-.metric-lbl { font-size: 12px; color: var(--text-muted); font-weight: 500; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; }
-.metric-val { font-size: 22px; font-weight: 800; color: var(--text-white); }
-.metric-val.currency::before { content: '₹'; margin-right: 2px; }
+/* Elegant Glassmorphic Banner */
+.promo-banner-matrix { width: 100%; background: linear-gradient(135deg, rgba(23, 28, 45, 0.8) 0%, rgba(14, 17, 27, 0.8) 100%); border: 1px solid var(--panel-border); border-radius: 20px; padding: 20px; margin-bottom: 24px; position: relative; overflow: hidden; backdrop-filter: blur(10px); }
+.promo-banner-matrix::before { content: ''; position: absolute; top: -30%; left: -30%; width: 160%; height: 160%; background: radial-gradient(circle, rgba(59, 130, 246, 0.12) 0%, transparent 60%); pointer-events: none; }
+.banner-headline { font-size: 20px; font-weight: 800; color: var(--text-white); margin-bottom: 6px; letter-spacing: -0.4px; }
+.banner-subline { font-size: 13px; color: var(--text-muted); margin-bottom: 16px; line-height: 1.5; }
+.banner-action-btn { background: var(--accent-gradient); color: var(--text-white); font-weight: 600; font-size: 13px; padding: 10px 20px; border: none; border-radius: 12px; cursor: pointer; box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2); transition: all 0.2s; }
+.banner-action-btn:active { transform: scale(0.97); opacity: 0.9; }
 
-/* Micro Tasks Layout */
-.section-title { font-size: 15px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 12px; display: flex; align-items: center; justify-content: space-between; }
-.task-scroll-area { display: flex; flex-direction: column; gap: 10px; }
-.task-item-card { background: var(--surface-card); border: 1px solid var(--panel-border); border-radius: 14px; padding: 14px; display: flex; align-items: center; justify-content: space-between; transition: border-color 0.2s; }
-.task-item-card:active { border-color: var(--accent-blue); }
+/* Metrics Cards Dynamic Style */
+.metrics-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 24px; }
+.metric-card { background: var(--surface-card); border: 1px solid var(--panel-border); border-radius: 18px; padding: 16px; backdrop-filter: blur(5px); }
+.metric-lbl { font-size: 11px; color: var(--text-muted); font-weight: 600; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.8px; }
+.metric-val { font-size: 24px; font-weight: 800; color: var(--text-white); letter-spacing: -0.5px; }
+.metric-val.currency::before { content: '₹'; margin-right: 3px; font-weight: 500; color: var(--text-muted); }
+
+/* Task Section Styling */
+.section-title { font-size: 14px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 14px; display: flex; align-items: center; justify-content: space-between; }
+.task-scroll-area { display: flex; flex-direction: column; gap: 12px; }
+.task-item-card { background: var(--surface-card); border: 1px solid var(--panel-border); border-radius: 16px; padding: 16px; display: flex; align-items: center; justify-content: space-between; transition: all 0.2s; }
+.task-item-card:active { border-color: rgba(59, 130, 246, 0.4); background: rgba(23, 28, 45, 0.9); }
 .task-info-block { display: flex; flex-direction: column; gap: 4px; }
-.task-title-text { font-size: 14px; font-weight: 600; color: var(--text-white); }
+.task-title-text { font-size: 15px; font-weight: 600; color: var(--text-white); }
 .task-payout-amt { font-size: 13px; font-weight: 700; color: var(--success-green); }
-.task-action-trigger { background: rgba(255,255,255,0.05); border: 1px solid var(--panel-border); color: var(--text-white); font-size: 12px; font-weight: 600; padding: 8px 14px; border-radius: 8px; cursor: pointer; }
-.task-action-trigger.claimed { color: var(--text-muted); background: transparent; border-color: transparent; cursor: default; }
+.task-action-trigger { background: rgba(255,255,255,0.06); border: 1px solid var(--panel-border); color: var(--text-white); font-size: 12px; font-weight: 600; padding: 9px 16px; border-radius: 10px; cursor: pointer; transition: all 0.2s; }
+.task-action-trigger:active { background: rgba(255,255,255,0.1); }
+.task-action-trigger.claimed { color: var(--text-muted); background: transparent; border-color: transparent; cursor: default; font-weight: 500; }
 
-/* Navigation Systems */
-.bottom-nav-bar { width: 100%; max-width: 480px; height: 74px; background: var(--nav-bg); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-top: 1px solid var(--panel-border); position: fixed; bottom: 0; display: grid; grid-template-columns: repeat(4, 1fr); align-items: center; justify-items: center; z-index: 100; }
-.nav-tab-item { display: flex; flex-direction: column; align-items: center; gap: 4px; color: var(--text-muted); text-decoration: none; font-size: 11px; font-weight: 500; cursor: pointer; width: 100%; height: 100%; justify-content: center; }
+/* Premium Navigation System */
+.bottom-nav-bar { width: 100%; max-width: 480px; height: 76px; background: var(--nav-bg); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); border-top: 1px solid var(--panel-border); position: fixed; bottom: 0; display: grid; grid-template-columns: repeat(4, 1fr); align-items: center; justify-items: center; z-index: 100; box-shadow: 0 -8px 24px rgba(0,0,0,0.3); }
+.nav-tab-item { display: flex; flex-direction: column; align-items: center; gap: 5px; color: var(--text-muted); text-decoration: none; font-size: 11px; font-weight: 600; cursor: pointer; width: 100%; height: 100%; justify-content: center; transition: color 0.2s; }
 .nav-tab-item.active { color: var(--accent-blue); }
-.nav-icon { width: 22px; height: 22px; fill: currentColor; }
+.nav-icon { width: 22px; height: 22px; fill: currentColor; transition: transform 0.2s; }
+.nav-tab-item.active .nav-icon { transform: translateY(-2px); }
 
-/* Overlay Popups */
-.modal-view-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(4,5,8,0.85); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); z-index: 1000; justify-content: center; align-items: flex-end; }
+/* Sheets and Popups (Glassmorphism Modal) */
+.modal-view-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(3, 4, 7, 0.8); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); z-index: 1000; justify-content: center; align-items: flex-end; }
 .modal-view-overlay.active { display: flex; }
-.popup-sheet-plate { width: 100%; max-width: 480px; background: var(--surface); border-top: 1px solid var(--panel-border); border-radius: 24px 24px 0 0; padding: 24px; max-height: 85vh; overflow-y: auto; }
-.popup-header-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
-.popup-title-text { font-size: 18px; font-weight: 700; }
-.close-popup-icon { width: 24px; height: 24px; fill: var(--text-muted); cursor: pointer; }
+.popup-sheet-plate { width: 100%; max-width: 480px; background: #0c0f1a; border-top: 1px solid rgba(255,255,255,0.1); border-radius: 28px 28px 0 0; padding: 26px; max-height: 88vh; overflow-y: auto; box-shadow: 0 -10px 30px rgba(0,0,0,0.5); animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
 
-/* Forms & Configuration Panels */
-.input-group-block { margin-bottom: 16px; display: flex; flex-direction: column; gap: 6px; }
-.input-label-text { font-size: 12px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; }
-.form-input-field { background: rgba(255,255,255,0.03); border: 1px solid var(--panel-border); height: 48px; border-radius: 10px; padding: 0 14px; color: var(--text-white); font-size: 14px; width: 100%; }
-.form-input-field:focus { outline: none; border-color: var(--accent-blue); }
-.form-select-field { background: #0e111a; border: 1px solid var(--panel-border); height: 48px; border-radius: 10px; padding: 0 14px; color: var(--text-white); font-size: 14px; width: 100%; }
-.submit-action-btn { width: 100%; height: 48px; background: var(--accent-blue); color: var(--text-white); font-weight: 600; border: none; border-radius: 10px; margin-top: 10px; cursor: pointer; font-size: 14px; }
-.submit-action-btn.danger { background: var(--accent-red); }
+@keyframes slideUp {
+    from { transform: translateY(100%); }
+    to { transform: translateY(0); }
+}
 
-/* Ledger History */
-.ledger-item-card { background: rgba(255,255,255,0.02); border: 1px solid var(--panel-border); border-radius: 12px; padding: 12px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
-.ledger-meta-info { display: flex; flex-direction: column; gap: 4px; }
-.ledger-title-lbl { font-size: 13px; font-weight: 600; }
+.popup-header-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 22px; }
+.popup-title-text { font-size: 19px; font-weight: 700; letter-spacing: -0.3px; }
+.close-popup-icon { width: 24px; height: 24px; fill: var(--text-muted); cursor: pointer; opacity: 0.7; transition: opacity 0.2s; }
+.close-popup-icon:hover { opacity: 1; }
+
+/* Input Elements */
+.input-group-block { margin-bottom: 18px; display: flex; flex-direction: column; gap: 7px; }
+.input-label-text { font-size: 11px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.8px; }
+.form-input-field { background: rgba(255,255,255,0.04); border: 1px solid var(--panel-border); height: 50px; border-radius: 12px; padding: 0 16px; color: var(--text-white); font-size: 14px; width: 100%; transition: border-color 0.2s; }
+.form-input-field:focus { outline: none; border-color: var(--accent-blue); background: rgba(255,255,255,0.06); }
+.form-select-field { background: #111524; border: 1px solid var(--panel-border); height: 50px; border-radius: 12px; padding: 0 16px; color: var(--text-white); font-size: 14px; width: 100%; outline: none; }
+.submit-action-btn { width: 100%; height: 50px; background: var(--accent-gradient); color: var(--text-white); font-weight: 600; border: none; border-radius: 12px; margin-top: 12px; cursor: pointer; font-size: 14px; box-shadow: 0 4px 14px rgba(37, 99, 235, 0.25); transition: all 0.2s; }
+.submit-action-btn:active { transform: scale(0.98); }
+.submit-action-btn.danger { background: linear-gradient(135deg, #ff2a33 0%, #cc141b 100%); box-shadow: 0 4px 14px rgba(255, 42, 51, 0.25); }
+
+/* Fixed Ledger Cards */
+.ledger-item-card { background: rgba(255,255,255,0.03); border: 1px solid var(--panel-border); border-radius: 14px; padding: 14px 16px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; }
+.ledger-meta-info { display: flex; flex-direction: column; gap: 5px; }
+.ledger-title-lbl { font-size: 14px; font-weight: 600; color: var(--text-white); }
 .ledger-date-stamp { font-size: 11px; color: var(--text-muted); }
-.ledger-status-pill { font-size: 11px; padding: 2px 8px; border-radius: 4px; font-weight: 600; }
-.ledger-status-pill.approved { background: rgba(16,185,129,0.1); color: var(--success-green); }
-.ledger-status-pill.pending { background: rgba(245,158,11,0.1); color: #f59e0b; }
-.ledger-status-pill.rejected { background: rgba(255,42,51,0.1); color: var(--accent-red); }
+.ledger-status-pill { font-size: 11px; padding: 4px 10px; border-radius: 8px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
+.ledger-status-pill.approved { background: rgba(16,185,129,0.12); color: var(--success-green); }
+.ledger-status-pill.pending { background: rgba(245,158,11,0.12); color: #f59e0b; }
+.ledger-status-pill.rejected { background: rgba(255,42,51,0.12); color: var(--accent-red); }
 
-/* Message Template Styles */
-.msg-template-box { background: rgba(255,255,255,0.02); border: 1px solid var(--panel-border); border-radius: 12px; padding: 12px; margin-bottom: 12px; }
-.msg-template-box textarea { width: 100%; background: rgba(0,0,0,0.2); border: 1px solid var(--panel-border); border-radius: 6px; padding: 8px; color: #fff; font-size: 13px; resize: vertical; margin-top: 6px; min-height: 60px; }
+/* Message Templates Manager */
+.msg-template-box { background: rgba(255,255,255,0.02); border: 1px solid var(--panel-border); border-radius: 14px; padding: 14px; margin-bottom: 14px; }
+.msg-template-box textarea { width: 100%; background: rgba(0,0,0,0.25); border: 1px solid var(--panel-border); border-radius: 8px; padding: 10px; color: #fff; font-size: 13px; line-height: 1.4; resize: vertical; margin-top: 8px; min-height: 70px; outline: none; }
+.msg-template-box textarea:focus { border-color: var(--accent-blue); }
 </style>
 </head>
 <body>
@@ -110,10 +129,10 @@ body { background: var(--bg-gradient); color: var(--text-white); min-height: 100
                     <div class="avatar-frame"><img id="user_avatar_img" src="" alt=""></div>
                     <div>
                         <div id="user_display_name" class="identity-lbl">...</div>
-                        <span class="status-badge">Verified Pool User</span>
+                        <span class="status-badge">Premium Pool User</span>
                     </div>
                 </div>
-                <button id="master_adm_btn" class="banner-action-btn" style="background:#1e293b; display:none;" onclick="openAdminDashboardView()">Admin Panel</button>
+                <button id="master_adm_btn" class="banner-action-btn" style="background:#1e293b; display:none;" onclick="openAdminDashboardView()">Console</button>
             </div>
 
             <div class="promo-banner-matrix">
@@ -139,7 +158,7 @@ body { background: var(--bg-gradient); color: var(--text-white); min-height: 100
 
         <div id="view_wallet" class="view-section">
             <div class="section-title">P2P Asset Transfer</div>
-            <div class="metric-card" style="margin-bottom:20px;">
+            <div class="metric-card" style="margin-bottom:24px;">
                 <div class="input-group-block">
                     <label class="input-label-text">Recipient User ID (UID)</label>
                     <input type="number" id="p2p_recipient_uid" class="form-input-field" placeholder="Enter Telegram UID">
@@ -161,7 +180,7 @@ body { background: var(--bg-gradient); color: var(--text-white); min-height: 100
                     <label class="input-label-text">Amount to Disburse</label>
                     <input type="number" id="withdrawal_payout_amount" class="form-input-field" placeholder="Min. ₹1.00">
                 </div>
-                <button class="submit-action-btn" style="background:var(--success-green);" onclick="submitWithdrawalPayoutRequest()">Request Cashout</button>
+                <button class="submit-action-btn" style="background:linear-gradient(135deg, #10b981 0%, #059669 100%); box-shadow: 0 4px 14px rgba(16, 185, 129, 0.25);" onclick="submitWithdrawalPayoutRequest()">Request Cashout</button>
             </div>
         </div>
 
@@ -172,14 +191,14 @@ body { background: var(--bg-gradient); color: var(--text-white); min-height: 100
 
         <div id="view_invites" class="view-section">
             <div class="section-title">Referral Matrix Network</div>
-            <div class="metric-card" style="margin-bottom:20px; text-align:center;">
+            <div class="metric-card" style="margin-bottom:24px; text-align:center;">
                 <div class="metric-lbl">Your Invited Affiliates</div>
-                <div id="total_invites_count" class="metric-val" style="font-size:32px; margin:10px 0;">0</div>
+                <div id="total_invites_count" class="metric-val" style="font-size:36px; margin:12px 0; color: var(--accent-blue);">0</div>
                 <div class="input-group-block">
-                    <input type="text" id="txtBotReferLink" class="form-input-field" readonly style="text-align:center; background:rgba(0,0,0,0.2);">
+                    <input type="text" id="txtBotReferLink" class="form-input-field" readonly style="text-align:center; background:rgba(0,0,0,0.25); border-color: rgba(255,255,255,0.04);">
                 </div>
-                <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:10px;">
-                    <button class="submit-action-btn" style="margin:0; background:#1e293b;" onclick="copyPartnerBotLink()">Copy Link</button>
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:12px;">
+                    <button class="submit-action-btn" style="margin:0; background:#1e293b; box-shadow:none;" onclick="copyPartnerBotLink()">Copy Link</button>
                     <button class="submit-action-btn" style="margin:0;" onclick="sharePartnerBotLink()">Share Link</button>
                 </div>
             </div>
@@ -193,7 +212,7 @@ body { background: var(--bg-gradient); color: var(--text-white); min-height: 100
             <span>Tasks</span>
         </div>
         <div class="nav-tab-item" onclick="switchApplicationView('wallet', this)">
-            <svg class="nav-icon" viewBox="0 0 24 24"><path d="M21 18v1c0 1.1-.9 2-2 2H5c-1.11 0-2-.9-2-2V5c0-1.1.89-2 2-2h14c1.1 0 2 .9 2 2v1h-9c-1.11 0-2 .9-2 2v8c0 1.1.89 2 2 2h9zm-9-2h10V8H12v8zm4-2.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5 0.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg>
+            <svg class="nav-icon" viewBox="0 0 24 24"><path d="M21 18v1c0 1.1-.9 2-2 2H5c-1.11 0-2-.9-2-2V5c0-1.1.89-2 2-2h14c1.1 0 2 .9 2 2v1h-9c-1.11 0-2-.9-2 2v8c0 1.1.89 2 2 2h9zm-9-2h10V8H12v8zm4-2.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5 0.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg>
             <span>Wallet</span>
         </div>
         <div class="nav-tab-item" onclick="switchApplicationView('history', this)">
@@ -221,18 +240,18 @@ body { background: var(--bg-gradient); color: var(--text-white); min-height: 100
         <button class="submit-action-btn" onclick="claimPlatformGiftCode()">Redeem Voucher Asset</button>
     </div>
 
-    <div id="sheet_admin_dashboard" class="popup-sheet-plate" style="display:none; max-height:90vh;">
+    <div id="sheet_admin_dashboard" class="popup-sheet-plate" style="display:none; max-height:92vh;">
         <div class="popup-header-row">
             <div class="popup-title-text">Ultra Suite Control Console</div>
             <svg class="close-popup-icon" onclick="dismissModalOverlayLayer()" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
         </div>
 
-        <div style="display:flex; gap:6px; margin-bottom:16px; overflow-x:auto; padding-bottom:6px; scrollbar-width:none;">
-            <button class="banner-action-btn" style="background:var(--accent-blue);" id="tab_btn_balance" onclick="switchAdminSubTab('balance')">Balance</button>
-            <button class="banner-action-btn" style="background:#1e293b;" id="tab_btn_tasks" onclick="switchAdminSubTab('tasks')">Task Mgr</button>
-            <button class="banner-action-btn" style="background:#1e293b;" id="tab_btn_banners" onclick="switchAdminSubTab('banners')">Banners</button>
-            <button class="banner-action-btn" style="background:#1e293b;" id="tab_btn_promo" onclick="switchAdminSubTab('promo')">Promo Codes</button>
-            <button class="banner-action-btn" style="background:#1e293b;" id="tab_btn_msg" onclick="switchAdminSubTab('msg')">Messages</button>
+        <div style="display:flex; gap:8px; margin-bottom:18px; overflow-x:auto; padding-bottom:6px; scrollbar-width:none;">
+            <button class="banner-action-btn" style="background:var(--accent-blue); padding: 8px 16px;" id="tab_btn_balance" onclick="switchAdminSubTab('balance')">Balance</button>
+            <button class="banner-action-btn" style="background:#1e293b; padding: 8px 16px;" id="tab_btn_tasks" onclick="switchAdminSubTab('tasks')">Task Mgr</button>
+            <button class="banner-action-btn" style="background:#1e293b; padding: 8px 16px;" id="tab_btn_banners" onclick="switchAdminSubTab('banners')">Banners</button>
+            <button class="banner-action-btn" style="background:#1e293b; padding: 8px 16px;" id="tab_btn_promo" onclick="switchAdminSubTab('promo')">Promo Codes</button>
+            <button class="banner-action-btn" style="background:#1e293b; padding: 8px 16px;" id="tab_btn_msg" onclick="switchAdminSubTab('msg')">Templates</button>
         </div>
 
         <div id="adm_subtab_balance" class="adm-subtab-section">
@@ -286,7 +305,7 @@ body { background: var(--bg-gradient); color: var(--text-white); min-height: 100
 
         <div id="adm_subtab_banners" class="adm-subtab-section" style="display:none;">
             <div class="input-group-block">
-                <label class="input-label-text">Banner Headline Headline</label>
+                <label class="input-label-text">Banner Headline Title</label>
                 <input type="text" id="adm_banner_head" class="form-input-field" placeholder="Premium Dashboard Active">
             </div>
             <div class="input-group-block">
@@ -298,29 +317,29 @@ body { background: var(--bg-gradient); color: var(--text-white); min-height: 100
         </div>
 
         <div id="adm_subtab_msg" class="adm-subtab-section" style="display:none;">
-            <div style="max-height: 40vh; overflow-y: auto; padding-right: 4px;">
+            <div style="max-height: 42vh; overflow-y: auto; padding-right: 4px; scrollbar-width: thin;">
                 <div class="msg-template-box">
                     <label class="input-label-text">Wallet Credited Alert Message</label>
-                    <textarea id="tpl_msg_credit"></textarea>
+                    <textarea id="tpl_msg_credit" placeholder="Example: ₹{amount} added to your account."></textarea>
                 </div>
                 <div class="msg-template-box">
                     <label class="input-label-text">Wallet Debited Alert Message</label>
-                    <textarea id="tpl_msg_debit"></textarea>
+                    <textarea id="tpl_msg_debit" placeholder="Example: ₹{amount} deducted from your account."></textarea>
                 </div>
                 <div class="msg-template-box">
                     <label class="input-label-text">Withdrawal Processing Template</label>
-                    <textarea id="tpl_msg_wd_pending"></textarea>
+                    <textarea id="tpl_msg_wd_pending" placeholder="Your payout request of ₹{amount} is pending."></textarea>
                 </div>
                 <div class="msg-template-box">
                     <label class="input-label-text">Withdrawal Approved Template</label>
-                    <textarea id="tpl_msg_wd_success"></textarea>
+                    <textarea id="tpl_msg_wd_success" placeholder="Payout of ₹{amount} approved successfully!"></textarea>
                 </div>
                 <div class="msg-template-box">
                     <label class="input-label-text">Withdrawal Rejected Template</label>
-                    <textarea id="tpl_msg_wd_reject"></textarea>
+                    <textarea id="tpl_msg_wd_reject" placeholder="Your payout request of ₹{amount} was rejected."></textarea>
                 </div>
             </div>
-            <button class="submit-action-btn" style="background:var(--success-green);" onclick="saveGlobalMessageTemplates()">Save Message Configurations</button>
+            <button class="submit-action-btn" style="background:linear-gradient(135deg, #10b981 0%, #059669 100%);" onclick="saveGlobalMessageTemplates()">Save Message Configurations</button>
         </div>
 
     </div>
@@ -380,7 +399,7 @@ function renderUserDashboardInterface() {
         document.getElementById('banner_subline_txt').innerText = settings.customBanner.subline || "Tasks waiting.";
     }
 
-    // Initialize Message Template inputs inside Admin View (if cached structure exists)
+    // Initialize Message Template inputs inside Admin View
     if (settings.messages) {
         document.getElementById('tpl_msg_credit').value = settings.messages.adminCredit || "";
         document.getElementById('tpl_msg_debit').value = settings.messages.adminDebit || "";
@@ -414,7 +433,7 @@ function renderUserDashboardInterface() {
         taskPanel.innerHTML = `<div style="text-align:center; color:var(--text-muted); font-size:13px; padding:20px;">No micro tasks assigned today.</div>`;
     }
 
-    // Map Transaction Ledgers
+    // Map Transaction Ledgers (FIXED [object Object] DISPLAY ISSUE HERE)
     const ledgerPanel = document.getElementById('ledger_items_container');
     ledgerPanel.innerHTML = "";
     if (user.history && user.history.length > 0) {
@@ -431,19 +450,25 @@ function renderUserDashboardInterface() {
                     <span class="ledger-status-pill approved">System</span>
                 `;
             } else {
-                const statusClass = (item.status || "").toLowerCase();
+                // Formatting Object Data beautifully safely
+                const statusClass = (item.status || "approved").toLowerCase();
+                const methodText = item.method || "Asset Log";
+                const amountText = item.amount ? `₹${parseFloat(item.amount).toFixed(2)}` : "0.00";
+                const titleText = item.taskTitle || item.description || "System Operation Sync";
+                const dateText = item.date || "Live Date";
+
                 row.innerHTML = `
                     <div class="ledger-meta-info">
-                        <div class="ledger-title-lbl">${item.method || 'System Op'} - ${item.taskTitle || 'Assets Sync'}</div>
-                        <div class="ledger-date-stamp">${item.date || 'Live Date'}</div>
+                        <div class="ledger-title-lbl">${methodText} - ${titleText}</div>
+                        <div class="ledger-date-stamp">${dateText}</div>
                     </div>
-                    <span class="ledger-status-pill ${statusClass}">${item.status || 'Approved'} - ₹${parseFloat(item.amount).toFixed(1)}</span>
+                    <span class="ledger-status-pill ${statusClass}">${item.status || 'Approved'} (${amountText})</span>
                 `;
             }
             ledgerPanel.appendChild(row);
         });
     } else {
-        ledgerPanel.innerHTML = `<div style="text-align:center; color:var(--text-muted); font-size:13px; padding:20px;">No ledgers transactions logged yet.</div>`;
+        ledgerPanel.innerHTML = `<div style="text-align:center; color:var(--text-muted); font-size:13px; padding:20px;">No ledger transactions logged yet.</div>`;
     }
 }
 
