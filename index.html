@@ -29,7 +29,6 @@ body { background: var(--bg-gradient); color: var(--text-white); min-height: 100
 @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 .loading-text { font-size: 11px; font-weight: 700; letter-spacing: 1.5px; color: var(--text-muted); }
 
-/* Top bar aligned as requested */
 .top-bar { padding: 20px; display: flex; justify-content: space-between; align-items: center; background: transparent; }
 .top-bar .logo { font-size: 18px; font-weight: 900; letter-spacing: 0.5px; text-transform: uppercase; }
 .top-bar .logo .red-span { color: var(--accent-red); }
@@ -39,28 +38,23 @@ body { background: var(--bg-gradient); color: var(--text-white); min-height: 100
 .main-viewport.active { display: block; animation: tabFade 0.3s ease-out; }
 @keyframes tabFade { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
 
-/* Dynamic Banner Slider Styles */
 .banner-carousel { display: none; width: 100%; overflow-x: auto; scroll-snap-type: x mandatory; gap: 10px; margin-bottom: 20px; border-radius: 16px; scrollbar-width: none; }
 .banner-carousel::-webkit-scrollbar { display: none; }
 .banner-slide { min-width: 100%; scroll-snap-align: start; position: relative; border-radius: 16px; overflow: hidden; cursor: pointer; aspect-ratio: 16/9; background: #000; }
 .banner-slide img { width: 100%; height: 100%; object-fit: contain; display: block; }
 
-/* Category Pills Container */
 .category-scroll-area { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 12px; margin-bottom: 12px; scrollbar-width: none; }
 .category-scroll-area::-webkit-scrollbar { display: none; }
 .category-pill { padding: 8px 16px; background: var(--surface-card); border: 1px solid var(--panel-border); border-radius: 20px; font-size: 11px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; cursor: pointer; white-space: nowrap; }
 .category-pill.active { background: var(--accent-red); color: #fff; border-color: transparent; }
 
-/* Clickable Task Card Grid */
 .mission-row-card { background: var(--surface-card); border: 1px solid var(--panel-border); border-radius: 16px; padding: 16px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; backdrop-filter: blur(10px); cursor: pointer; transition: transform 0.2s; }
 .mission-row-card:active { transform: scale(0.98); background: rgba(255,255,255,0.02); }
 .mission-meta h4 { font-size: 14px; font-weight: 600; color: #fff; }
 .mission-meta p { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
 .mission-meta .category-tag { font-size: 10px; color: var(--accent-blue); text-transform: uppercase; font-weight: 700; margin-top: 4px; display: inline-block;}
-.mission-meta .amt { color: var(--success-green); font-size: 13px; font-weight: 700; margin-top: 3px; display: none; }
 .task-right-side { font-size: 15px; font-weight: 800; color: var(--success-green); }
 
-/* Transparent Blurred Details View Screen */
 .task-details-fullscreen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(5, 6, 10, 0.5); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); z-index: 90; display: none; flex-direction: column; padding: 20px 20px 100px 20px; }
 .task-details-container { flex: 1; overflow-y: auto; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
 .details-action-row { width: 100%; display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 24px; }
@@ -108,16 +102,11 @@ body { background: var(--bg-gradient); color: var(--text-white); min-height: 100
 .nav-anchor.active { color: #fff; }
 .nav-anchor.active svg { color: var(--accent-red); filter: drop-shadow(0 0 8px rgba(255,42,51,0.5)); transform: translateY(-2px); }
 
-/* Updated Opaque/Transparent Blur Popups */
 .popup-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(5, 6, 10, 0.4); backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px); display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; z-index: 1500; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; }
 .popup-overlay.open { opacity: 1; pointer-events: auto; }
 .popup-card { background: rgba(14, 17, 26, 0.6); border: 1px solid var(--panel-border); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); padding: 24px; width: 100%; max-width: 380px; border-radius: 24px; box-shadow: 0 20px 40px rgba(0,0,0,0.5); position: relative; }
 .popup-card h3 { font-size: 18px; font-weight: 800; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; color: #fff; justify-content: center; text-transform: uppercase; }
 .upi-badge-info { background: rgba(255,255,255,0.03); padding: 12px 16px; border-radius: 12px; font-size: 12px; color: var(--text-muted); border: 1px solid var(--panel-border); margin-bottom: 20px; line-height: 1.5; text-align: center; }
-
-.fetching-view-loader { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 40px 10px; text-align: center; }
-.fetching-view-loader .circle-spin { width: 44px; height: 44px; border: 3px solid rgba(255,255,255,0.03); border-top-color: var(--accent-red); border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 16px; }
-.fetching-view-loader p { font-size: 11px; font-weight: 800; color: var(--text-muted); letter-spacing: 2px; text-transform: uppercase; }
 
 .admin-fullscreen-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #06080c; z-index: 2000; display: none; flex-direction: column; }
 .admin-modal-container { display: flex; flex-direction: column; height: 100%; width: 100%; padding: 20px 20px 95px 20px; }
@@ -134,23 +123,10 @@ body { background: var(--bg-gradient); color: var(--text-white); min-height: 100
 
 .admin-bottom-nav { position: absolute; bottom: 16px; left: 16px; right: 16px; height: 65px; background: rgba(14, 17, 26, 0.6); border: 1px solid var(--panel-border); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-radius: 18px; display: grid; grid-template-columns: repeat(4, 1fr); align-items: center; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
 .adm-nav-anchor { color: var(--text-muted); font-size: 9px; text-decoration: none; display: flex; flex-direction: column; align-items: center; gap: 4px; cursor: pointer; font-weight: 600; text-transform: uppercase; }
-.adm-nav-anchor svg { width: 18px; height: 18px; fill: currentColor; }
 .adm-nav-anchor.active { color: #fff; }
-.adm-nav-anchor.active svg { color: var(--accent-blue); filter: drop-shadow(0 0 5px rgba(37,99,235,0.5)); }
+.adm-nav-anchor.active div { color: var(--accent-blue); filter: drop-shadow(0 0 5px rgba(37,99,235,0.5)); }
 
-.withdrawal-fullscreen-view { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #05060a; z-index: 1800; display: none; flex-direction: column; }
-.wd-view-container { display: flex; flex-direction: column; height: 100%; width: 100%; padding: 20px; }
-.wd-header { display: flex; justify-content: space-between; align-items: center; padding-bottom: 14px; border-bottom: 1px solid rgba(255,255,255,0.05); }
-.wd-body { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
-.wd-success-icon-box { width: 70px; height: 70px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 28px; margin-bottom: 16px; }
-.wd-status-title { font-size: 18px; font-weight: 800; margin-bottom: 4px; text-transform: uppercase; }
-.wd-amount-text { font-size: 38px; font-weight: 900; margin-bottom: 24px; }
-.wd-details-list { width: 100%; background: var(--surface-card); border: 1px solid var(--panel-border); border-radius: 20px; padding: 16px; text-align: left; font-size: 13px; margin-bottom: 20px; }
-.wd-details-item { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px dashed rgba(255,255,255,0.05); }
-.wd-details-item:last-child { border: none; }
-.wd-details-label { color: var(--text-muted); font-weight: 500; }
-.wd-details-val { font-weight: 600; color: #fff; text-align: right; word-break: break-all; max-width: 65%; }
-.wd-footer-btn { width: 100%; padding: 15px; background: rgba(255,255,255,0.05); border: 1px solid var(--panel-border); border-radius: 16px; color: #fff; font-weight: 700; font-size: 14px; cursor: pointer; text-align: center; }
+.referral-glass-panel { background: var(--surface-card); border: 1px solid var(--panel-border); padding: 16px; border-radius: 20px; backdrop-filter: blur(10px); margin-bottom: 20px; }
 </style>
 </head>
 <body>
@@ -168,11 +144,9 @@ body { background: var(--bg-gradient); color: var(--text-white); min-height: 100
 
 <div id="homeView" class="main-viewport active">
 <div class="banner-carousel" id="dynamicBannerCarousel"></div>
-
 <div class="category-scroll-area" id="categoryTabsRack">
     <div class="category-pill active" onclick="switchCategoryFilter('all')">All</div>
 </div>
-
 <div id="taskUIRendererGrid"></div>
 </div>
 
@@ -273,19 +247,19 @@ body { background: var(--bg-gradient); color: var(--text-white); min-height: 100
 
 <div class="fixed-bottom-nav">
 <div class="nav-anchor active" id="anchor-home" onclick="switchViewTab('home')">
-<svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+<svg viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
 <div>Home</div>
 </div>
 <div class="nav-anchor" id="anchor-wallet" onclick="switchViewTab('wallet')">
-<svg viewBox="0 0 24 24"><path d="M21 18v1c0 1.1-.9 2-2 2H5c-1.11 0-2-.9-2-2V5c0-1.1.89-2 2-2h14c1.1 0 2 .9 2 2v1h-9c-1.11 0-2 .9-2 2v8c0 1.1.89 2 2 2h9zm-9-2h10V8H12v8zm4-2.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5 .67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg>
+<svg viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="M21 18v1c0 1.1-.9 2-2 2H5c-1.11 0-2-.9-2-2V5c0-1.1.89-2 2-2h14c1.1 0 2 .9 2 2v1h-9c-1.11 0-2 .9-2 2v8c0 1.1.89 2 2 2h9zm-9-2h10V8H12v8zm4-2.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5 .67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg>
 <div>Wallet</div>
 </div>
 <div class="nav-anchor" id="anchor-pay" onclick="switchViewTab('pay')">
-<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
 <div>Pay</div>
 </div>
 <div class="nav-anchor" id="anchor-profile" onclick="switchViewTab('profile')">
-<svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5-4-8-4z"/></svg>
+<svg viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5-4-8-4z"/></svg>
 <div>Profile</div>
 </div>
 </div>
@@ -304,7 +278,7 @@ body { background: var(--bg-gradient); color: var(--text-white); min-height: 100
 </div>
 <div style="display:flex; flex-direction:column; gap:10px; align-items:center;">
 <button onclick="submitUpiWithdrawalIntent()" class="action-submit-trigger">Withdraw</button>
-<button onclick="closePopupSheet('upiWithdrawPopup')" class="text-link-btn" style="margin-top: 5px; color:#fff;">Cancel</button>
+<button onclick="closePopupSheet('upiWithdrawPopup')" class="text-link-btn" style="margin-top: 5px; color:#fff; background:transparent; border:none; cursor:pointer;">Cancel</button>
 </div>
 </div>
 </div>
@@ -317,7 +291,7 @@ body { background: var(--bg-gradient); color: var(--text-white); min-height: 100
 <div class="admin-modal-container">
 <div class="admin-modal-header">
 <h2 style="font-size: 14px; font-weight: 900; color: var(--accent-red); letter-spacing: 0.5px;">⚙️ Master Web Dashboard</h2>
-<button class="text-link-btn" style="color:var(--accent-red)" onclick="closeAdminDashboardView()">Exit Console</button>
+<button style="color:var(--accent-red); background:transparent; border:none; font-weight:bold; cursor:pointer;" onclick="closeAdminDashboardView()">Exit Console</button>
 </div>
 
 <div class="adm-view-pane active" id="adm-home">
@@ -403,6 +377,7 @@ body { background: var(--bg-gradient); color: var(--text-white); min-height: 100
 <div class="adm-nav-anchor" id="adm-anchor-wallet" onclick="switchAdminTab('adm-wallet')"><div>Wallet</div></div>
 <div class="adm-nav-anchor" id="adm-anchor-profiles" onclick="switchAdminTab('adm-profiles')"><div>Profiles</div></div>
 <div class="adm-nav-anchor" id="adm-anchor-settings" onclick="switchAdminTab('adm-settings')"><div>Settings</div></div>
+</div>
 </div>
 </div>
 
@@ -498,7 +473,7 @@ function syncPlatformData() {
         synchronizedStateCache = payloadData;
         document.getElementById('loadingGate').style.display = 'none';
         
-        // Setup defaults for system extensions if not populated
+        if(!synchronizedStateCache.botSettings) synchronizedStateCache.botSettings = {};
         if(!synchronizedStateCache.botSettings.categories) synchronizedStateCache.botSettings.categories = ["Telegram", "YouTube"];
         if(!synchronizedStateCache.botSettings.bannersList) synchronizedStateCache.botSettings.bannersList = [];
 
@@ -724,10 +699,10 @@ function showTransparentRewardPopup(title, details, amount) {
             <h1 style="font-size:32px; font-weight:900; color:var(--success-green); margin-top:5px;">+₹${amount.toFixed(2)}</h1>
         </div>
         <div style="background:rgba(255,255,255,0.02); border:1px solid var(--panel-border); border-radius:12px; padding:12px; font-size:12px; text-align:left;">
-            <div style="display:flex; justify-content:between; margin-bottom:6px;"><span style="color:var(--text-muted)">Details:</span><span style="color:#fff; margin-left:auto;">${details}</span></div>
+            <div style="display:flex; justify-content:space-between; margin-bottom:6px;"><span style="color:var(--text-muted)">Details:</span><span style="color:#fff; margin-left:auto;">${details}</span></div>
         </div>
         <div style="text-align:center; margin-top:16px;">
-            <button onclick="closePopupSheet('rewardDetailsPopup')" class="text-link-btn" style="color:#fff;">Close</button>
+            <button onclick="closePopupSheet('rewardDetailsPopup')" style="background:transparent; border:none; color:#fff; cursor:pointer;">Close</button>
         </div>
     `;
     document.getElementById('rewardDetailsPopup').classList.add('open');
@@ -758,6 +733,7 @@ function submitPeerTransferIntent() {
 
 function populateAdminSelects() {
     const catSelect = document.getElementById('admInputTaskCategory');
+    if(!catSelect) return;
     catSelect.innerHTML = "";
     const pool = synchronizedStateCache.botSettings?.categories || [];
     pool.forEach(c => {
@@ -797,13 +773,16 @@ function switchAdminTab(paneId) {
 function closeAdminDashboardView() { document.getElementById('adminControlModalElement').style.display = 'none'; }
 
 function loadAdminDashboardLiveData() {
-    fetch(`${CORE_BACKEND_API_URL}/api/admin/pending-withdrawals`).then(res => res.json()).then(data => {
+    fetch(`${CORE_BACKEND_API_URL}/api/admin/pending-withdrawals`)
+    .then(res => res.json())
+    .then(data => {
         const listContainer = document.getElementById('admPendingWithdrawalsList');
+        if(!listContainer) return;
         listContainer.innerHTML = "";
         data.forEach(item => {
-            listContainer.innerHTML += `<div class="adm-table-row"><div>UID: #${item.userId} | ₹${item.amount}</div></div>`;
+            listContainer.innerHTML += `<div style="padding:10px; background:rgba(255,255,255,0.02); margin-bottom:5px; border-radius:8px;">UID: #${item.userId} | ₹${item.amount}</div>`;
         });
-    });
+    }).catch(() => {});
 }
 
 function executeAdminAddTaskSubmit() {
@@ -829,7 +808,6 @@ function executeAdminBalanceOverride() {
     const action = document.getElementById('admBalanceAction').value;
     const amount = parseFloat(document.getElementById('admBalanceAmount').value);
     
-    // Safety handling against negative balances on deletion overrides
     if(action === 'remove') {
         const currentUserObj = synchronizedStateCache.user;
         if(currentUserObj && (currentUserObj.balance - amount) < 0) {
@@ -872,7 +850,7 @@ function processAdminBannerUpload() {
 
 function saveAdminBannerConfigurations() {
     const destinationUrl = document.getElementById('admBannerTargetUrl').value.trim();
-    if(!tempBase64BannerHolderStr && synchronizedStateCache.botSettings.bannersList.length === 0) {
+    if(!tempBase64BannerHolderStr && (!synchronizedStateCache.botSettings?.bannersList || synchronizedStateCache.botSettings.bannersList.length === 0)) {
         return alert("Please select a file stream source banner first.");
     }
     const targetImg = tempBase64BannerHolderStr || synchronizedStateCache.botSettings.bannersList[0].img;
