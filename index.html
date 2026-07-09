@@ -64,7 +64,7 @@ body { background: var(--bg-gradient); color: var(--text-white); min-height: 100
 .task-meta { display: flex; flex-direction: column; gap: 4px; }
 .task-name { font-size: 15px; font-weight: 600; color: #fff; }
 .task-prize { font-size: 13px; font-weight: 700; color: var(--success-green); }
-.task-badge-btn { display: flex; align-items: center; gap: 4px; background: rgba(255,255,255,0.06); border: 1px solid var(--panel-border); color: #fff; font-size: 12px; font-weight: 600; padding: 8px 14px; border-radius: 10px; pointer-events: none; }
+.task-badge-btn { background: rgba(255,255,255,0.06); border: 1px solid var(--panel-border); color: #fff; font-size: 12px; font-weight: 600; padding: 8px 14px; border-radius: 10px; pointer-events: none; }
 .task-badge-btn.done { color: var(--text-muted); background: transparent; border-color: transparent; }
 
 /* Large Profile Layout & History */
@@ -444,10 +444,7 @@ function renderPremiumUserInterface() {
                     <div class="task-prize">₹${parseFloat(task.amount).toFixed(2)}</div>
                 </div>
                 ${isCompleted ? 
-                    `<button class="task-badge-btn done">
-                        <svg style="width:14px; height:14px;" viewBox="0 0 24 24" fill="none" stroke="var(--success-green)" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg>
-                        <span>Claimed</span>
-                     </button>` : 
+                    `<button class="task-badge-btn done">Claimed ✅</button>` : 
                     `<button class="task-badge-btn" style="color:var(--accent-blue); background:rgba(59,130,246,0.08);">View Details</button>`
                 }
             `;
