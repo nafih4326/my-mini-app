@@ -1,547 +1,819 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>EXTRA EARN</title>
-<script src="https://telegram.org/js/telegram-web-app.js"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-<style>
-:root {
-    --bg-gradient: linear-gradient(135deg, #090b11 0%, #040508 100%);
-    --surface: #0e111a;
-    --surface-card: rgba(23, 26, 38, 0.6);
-    --panel-border: rgba(255, 255, 255, 0.07);
-    --accent-blue: #2563eb;
-    --accent-red: #ef4444;
-    --text-white: #ffffff;
-    --text-muted: #9ca3af;
-    --success-green: #10b981;
-    --danger-red: #ef4444;
-}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Extra Earn - Pure Glass Edition</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg: #000000; 
+            --glass: rgba(255, 255, 255, 0.03);
+            --glass-card: rgba(255, 255, 255, 0.02);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --blue: #3498db;
+            --green: #2ecc71;
+            --danger: #e74c3c;
+            --text-muted: #9ca3af;
+        }
 
-* { box-sizing: border-box; margin: 0; padding: 0; font-family: '-apple-system', BlinkMacSystemFont, sans-serif; user-select: none; }
-body { background: var(--bg-gradient); color: var(--text-white); min-height: 100vh; display: flex; justify-content: center; overflow-x: hidden; }
+        * { 
+            margin: 0; padding: 0; 
+            box-sizing: border-box; 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            -webkit-tap-highlight-color: transparent;
+            user-select: none;
+        }
 
-.app-container { width: 100%; max-width: 480px; height: 100vh; display: flex; flex-direction: column; position: relative; background: #05070c; }
+        body { 
+            background: var(--bg); 
+            color: white; 
+            overflow-x: hidden; 
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+        }
 
-/* Dynamic Header Area */
-.app-header { display: flex; justify-content: space-between; align-items: center; padding: 15px 20px; background: rgba(14, 17, 26, 0.9); border-bottom: 1px solid var(--panel-border); }
-.logo-text { font-size: 20px; font-weight: 800; letter-spacing: 0.5px; }
-.logo-extra { color: var(--accent-red); }
-.logo-earn { color: var(--text-white); }
+        .app-container {
+            width: 100%;
+            max-width: 480px;
+            min-height: 100vh;
+            position: relative;
+            padding-bottom: 110px;
+            display: flex;
+            flex-direction: column;
+        }
 
-.header-right { display: flex; align-items: center; gap: 12px; }
-.header-balance-box { background: rgba(255,255,255,0.05); padding: 6px 12px; border-radius: 20px; border: 1px solid var(--panel-border); font-weight: 700; color: var(--success-green); font-size: 14px; display: flex; align-items: center; gap: 5px; }
-.profile-avatar { width: 35px; height: 35px; border-radius: 50%; background: #2563eb; border: 1px solid rgba(255,255,255,0.2); object-fit: cover; }
+        /* ✨ PREMIUM TOP HEADER (Pure Glass Style) */
+        .header {
+            height: 70px;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--glass-border);
+            position: sticky;
+            top: 0;
+            z-index: 99;
+        }
 
-.view-section { flex: 1; overflow-y: auto; padding: 20px; padding-bottom: 90px; display: none; }
-.view-section.active { display: block; }
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
 
-/* Bottom Menu Bar with Elegant Icons */
-.bottom-nav { position: absolute; bottom: 0; left: 0; right: 0; height: 70px; background: rgba(14, 17, 26, 0.95); backdrop-filter: blur(10px); border-top: 1px solid var(--panel-border); display: flex; justify-content: space-around; align-items: center; z-index: 100; }
-.nav-item { display: flex; flex-direction: column; align-items: center; color: var(--text-muted); font-size: 12px; cursor: pointer; transition: 0.3s; gap: 4px; }
-.nav-item i { font-size: 20px; }
-.nav-item.active { color: var(--accent-blue); text-shadow: 0 0 10px rgba(37,99,235,0.3); }
+        .logo-section h1 {
+            font-size: 19px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
 
-/* Banners */
-.banner-container { width: 100%; height: 150px; border-radius: 16px; overflow: hidden; margin-bottom: 20px; display: none; background: var(--surface-card); border: 1px solid var(--panel-border); }
-.banner-container img { width: 100%; height: 100%; object-fit: cover; }
+        .logo-section h1 span {
+            color: var(--blue);
+        }
 
-/* Task Items */
-.task-list { display: flex; flex-direction: column; gap: 12px; }
-.task-card { background: var(--surface-card); border: 1px solid var(--panel-border); border-radius: 14px; padding: 16px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
-.task-details-left { display: flex; flex-direction: column; gap: 4px; }
-.task-title { font-size: 15px; font-weight: 600; color: #fff; }
-.task-amount { font-size: 16px; font-weight: 700; color: var(--success-green); }
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
 
-/* Wallet Element Cards */
-.balance-card { background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); border: 1px solid var(--panel-border); border-radius: 20px; padding: 24px; margin-bottom: 20px; }
-.balance-header { display: flex; justify-content: space-between; align-items: center; color: var(--text-muted); font-size: 14px; margin-bottom: 8px; }
-.balance-value { font-size: 34px; font-weight: 800; color: #fff; }
+        .header-balance {
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--green);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
 
-.upi-btn { width: 100%; background: var(--accent-blue); color: white; border: none; padding: 15px; border-radius: 12px; font-weight: 600; font-size: 16px; cursor: pointer; margin-bottom: 20px; display: flex; align-items: center; justify-content: center; gap: 10px; }
+        .user-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border: 1px solid var(--glass-border);
+            object-fit: cover;
+        }
 
-/* Overlay Popups */
-.modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(5px); z-index: 1000; display: none; align-items: center; justify-content: center; padding: 20px; }
-.modal-content { background: var(--surface); border: 1px solid var(--panel-border); width: 100%; max-width: 400px; border-radius: 20px; padding: 24px; position: relative; }
-.modal-close { position: absolute; top: 15px; right: 15px; color: var(--text-muted); font-size: 20px; cursor: pointer; }
+        /* 🧭 NAVIGATION TABS SECTION */
+        .view-section {
+            flex: 1;
+            padding: 20px;
+            display: none;
+        }
+        .view-section.active {
+            display: block;
+        }
 
-.input-group { margin-bottom: 16px; display: flex; flex-direction: column; gap: 8px; }
-.input-field { background: rgba(255,255,255,0.05); border: 1px solid var(--panel-border); padding: 14px; border-radius: 10px; color: white; font-size: 15px; width: 100%; outline: none; }
+        /* 🖼️ GLASS SLIDER / BANNER */
+        .banner-wrapper {
+            width: 100%;
+            height: 160px;
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid var(--glass-border);
+            background: var(--glass-card);
+            margin-bottom: 24px;
+            display: none;
+        }
+        .banner-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
 
-/* Biometric Sensor Area */
-.fingerprint-screen { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 65vh; gap: 20px; }
-.fp-icon { font-size: 65px; color: var(--accent-blue); animation: pulse 2s infinite; cursor: pointer; }
-@keyframes pulse { 0% { transform: scale(1); opacity: 0.7; } 50% { transform: scale(1.1); opacity: 1; } 100% { transform: scale(1); opacity: 0.7; } }
+        /* 🎯 ULTRA GLASS LUXURY CARDS */
+        .glass-card {
+            background: var(--glass-card);
+            border: 1px solid var(--glass-border);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 16px;
+        }
 
-/* Admin Panels */
-.admin-nav { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 10px; margin-bottom: 15px; }
-.admin-nav-btn { padding: 8px 16px; background: rgba(255,255,255,0.05); border: 1px solid var(--panel-border); color: var(--text-muted); border-radius: 8px; font-size: 13px; cursor: pointer; white-space: nowrap; }
-.admin-nav-btn.active { background: var(--accent-blue); color: white; }
-.admin-panel-section { display: none; }
-.admin-panel-section.active { display: block; }
-</style>
+        .section-title {
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* 💸 TASK TILES */
+        .task-node {
+            background: rgba(255, 255, 255, 0.01);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .task-node:hover {
+            background: var(--glass);
+        }
+        .task-info-left {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        .task-node-title {
+            font-size: 15px;
+            font-weight: 600;
+        }
+        .task-node-payout {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--green);
+        }
+
+        /* 🔘 PURE GLASS INTERACTIVE INPUTS & BUTTONS */
+        .glass-input-group {
+            margin-bottom: 16px;
+        }
+        .glass-input-group label {
+            font-size: 13px;
+            color: var(--text-muted);
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 600;
+        }
+        .glass-input {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--glass-border);
+            padding: 14px;
+            border-radius: 14px;
+            color: white;
+            font-size: 15px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        .glass-input:focus {
+            border-color: var(--blue);
+        }
+
+        .glass-btn {
+            width: 100%;
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            color: white;
+            padding: 15px;
+            border-radius: 14px;
+            font-weight: 700;
+            font-size: 15px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: all 0.3s;
+        }
+        .glass-btn:active {
+            background: rgba(255, 255, 255, 0.1);
+        }
+        .glass-btn.primary {
+            background: var(--blue);
+            border: none;
+        }
+        .glass-btn.success {
+            background: rgba(46, 204, 113, 0.15);
+            border-color: rgba(46, 204, 113, 0.4);
+            color: var(--green);
+        }
+
+        /* 🧭 ORIGINAL GLASS NAVIGATION FOOTER */
+        .bottom-nav {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: calc(100% - 40px);
+            max-width: 440px;
+            height: 66px;
+            background: rgba(10, 10, 10, 0.3);
+            backdrop-filter: blur(20px) saturate(160%);
+            -webkit-backdrop-filter: blur(20px) saturate(160%);
+            border: 1px solid var(--glass-border);
+            border-radius: 22px;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            z-index: 999;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .nav-link {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: var(--text-muted);
+            font-size: 11px;
+            font-weight: 600;
+            text-decoration: none;
+            gap: 4px;
+            transition: color 0.3s;
+            cursor: pointer;
+        }
+
+        .nav-link i {
+            font-size: 20px;
+        }
+
+        .nav-link.active {
+            color: var(--blue);
+        }
+
+        /* 🚨 OVERLAY DOCK POPUPS (Glassmorphism Modal) */
+        .glass-modal {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            z-index: 10000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .modal-body {
+            background: rgba(15, 15, 15, 0.7);
+            border: 1px solid var(--glass-border);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            width: 100%;
+            max-width: 400px;
+            border-radius: 24px;
+            padding: 24px;
+            position: relative;
+        }
+        .close-trigger {
+            position: absolute;
+            top: 18px; right: 18px;
+            color: var(--text-muted);
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        /* 🔐 HARDWARE BIOMETRIC ZONE */
+        .hardware-auth-center {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 60vh;
+            gap: 24px;
+        }
+        .biometric-glyph {
+            font-size: 70px;
+            color: var(--blue);
+            animation: auraPulse 2.5s infinite;
+            cursor: pointer;
+        }
+        @keyframes auraPulse {
+            0% { transform: scale(1); opacity: 0.6; text-shadow: 0 0 0px rgba(52,152,219,0); }
+            50% { transform: scale(1.08); opacity: 1; text-shadow: 0 0 20px rgba(52,152,219,0.5); }
+            100% { transform: scale(1); opacity: 0.6; text-shadow: 0 0 0px rgba(52,152,219,0); }
+        }
+
+        /* 🛡️ ADMIN MANAGEMENT SWITCHES */
+        .admin-tab-strip {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            padding-bottom: 12px;
+            margin-bottom: 16px;
+        }
+        .admin-strip-btn {
+            padding: 8px 16px;
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            color: var(--text-muted);
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+        .admin-strip-btn.active {
+            background: var(--blue);
+            color: white;
+            border-color: var(--blue);
+        }
+        .panel-sub-view { display: none; }
+        .panel-sub-view.active { display: block; }
+    </style>
 </head>
 <body>
 
 <div class="app-container">
 
-    <div class="app-header">
-        <div class="logo-text">
-            <span class="logo-extra">Extra</span> <span class="logo-earn">Earn</span>
+    <header class="header">
+        <div class="logo-section">
+            <h1>Extra<span>Earn</span></h1>
         </div>
         <div class="header-right">
-            <div class="header-balance-box">
-                <i class="fas fa-wallet"></i> ₹<span id="header-balance-num">0.00</span>
+            <div class="header-balance">
+                <i class="fa-solid fa-wallet"></i> ₹<span id="lbl-top-bal">0.00</span>
             </div>
-            <img id="header-user-avatar" class="profile-avatar" src="https://img.icons8.com/colors/344/test-account.png">
+            <img id="img-top-avatar" class="user-avatar" src="https://img.icons8.com/colors/344/test-account.png">
         </div>
+    </header>
+
+    <div id="section-home" class="view-section active">
+        <div id="wrapper-banner" class="banner-wrapper"></div>
+        <div class="section-title"><i class="fa-solid fa-bolt"></i> Available Campaigns</div>
+        <div id="list-tasks-dock"></div>
     </div>
 
-    <div id="view-home" class="view-section active">
-        <div id="home-banner" class="banner-container"></div>
-        <div id="home-task-list" class="task-list"></div>
-    </div>
-
-    <div id="view-wallet" class="view-section">
-        <div class="balance-card">
-            <div class="balance-header">
-                <span><i class="fas fa-wallet"></i> Available Balance</span>
-                <span id="user-debt-indicator" style="color:var(--accent-red); font-weight:bold; display:none;"><i class="fas fa-hand-holding-dollar"></i> Debt: ₹<span id="user-debt-value">0</span></span>
+    <div id="section-wallet" class="view-section">
+        <div class="glass-card">
+            <div style="display: flex; justify-content: space-between; align-items: center; color: var(--text-muted); font-size: 13px; font-weight: 600; margin-bottom: 6px;">
+                <span>Available Capital</span>
+                <span id="indicator-debt" style="color: var(--danger); font-weight: 700; display: none;"><i class="fa-solid fa-hand-holding-dollar"></i> Debt: ₹<span id="lbl-debt-val">0</span></span>
             </div>
-            <div class="balance-value">₹<span id="wallet-balance-num">0.00</span></div>
+            <div style="font-size: 36px; font-weight: 800; letter-spacing: -1px;">₹<span id="lbl-main-bal">0.00</span></div>
         </div>
-        
-        <button class="upi-btn" onclick="openWithdrawModal()">
-            <i class="fas fa-money-check-alt"></i> Withdraw Payout
+
+        <button class="glass-btn primary" onclick="revealModal('popup-payout')">
+            <i class="fa-solid fa-money-bill-transfer"></i> Withdraw Payout
         </button>
 
-        <div class="input-group" style="margin-top:20px;">
-            <input type="text" id="gift-code-field" class="input-field" placeholder="Enter Gift Code here...">
-            <button class="upi-btn" style="background:var(--success-green);" onclick="claimGiftCodeAction()">
-                <i class="fas fa-gift"></i> Redeem Gift Code
+        <div class="glass-card" style="margin-top: 24px;">
+            <div class="section-title"><i class="fa-solid fa-gift"></i> Voucher Codes</div>
+            <div class="glass-input-group">
+                <input type="text" id="input-voucher-code" class="glass-input" placeholder="Enter Gift Code Payload...">
+            </div>
+            <button class="glass-btn success" onclick="triggerRedeemAction()">
+                <i class="fa-solid fa-ticket"></i> Redeem Voucher Link
             </button>
         </div>
     </div>
 
-    <div id="view-pay" class="view-section">
-        <h3><i class="fas fa-paper-plane"></i> Peer-to-Peer Pay</h3><br>
-        <div class="input-group">
-            <label><i class="fas fa-user"></i> Target User ID</label>
-            <input type="number" id="pay-target-uid" class="input-field" placeholder="Recipient ID">
-        </div>
-        <div class="input-group">
-            <label><i class="fa-solid fa-indian-rupee-sign"></i> Amount</label>
-            <input type="number" id="pay-amount" class="input-field" placeholder="0.00">
-        </div>
-        <button class="upi-btn" style="background:var(--success-green);" onclick="sendPeerFunds()">
-            <i class="fas fa-check-circle"></i> Transfer Balance
-        </button>
-    </div>
-
-    <div id="view-profile" class="view-section">
-        <div style="background: var(--surface-card); padding: 20px; border-radius: 12px; text-align: center; border: 1px solid var(--panel-border);">
-            <img id="main-profile-pic" src="" style="width:75px; height:75px; border-radius:50%; border:2px solid var(--accent-blue); margin-bottom:10px;">
-            <h4 id="prof-name">User Account</h4>
-            <p style="color:var(--text-muted); font-size:13px; margin-top:5px;">ID: <span id="prof-id">-</span></p>
-        </div>
-        
-        <div id="admin-entry-zone" style="display:none; margin-top:20px;">
-            <button class="upi-btn" style="background:#4b5563;" onclick="openAdminGate()">
-                <i class="fas fa-user-shield"></i> Open Control Gate
+    <div id="section-pay" class="view-section">
+        <div class="glass-card">
+            <div class="section-title"><i class="fa-solid fa-paper-plane"></i> P2P Funds Distribution</div>
+            <div class="glass-input-group">
+                <label>Target Identity Account UID</label>
+                <input type="number" id="pay-target-id" class="glass-input" placeholder="Recipient Telegram ID">
+            </div>
+            <div class="glass-input-group">
+                <label>Transfer Amount (₹)</label>
+                <input type="number" id="pay-target-amount" class="glass-input" placeholder="0.00">
+            </div>
+            <button class="glass-btn primary" onclick="executeP2PTransfer()">
+                <i class="fa-solid fa-circle-check"></i> Disburse Assets
             </button>
         </div>
     </div>
 
-    <div class="bottom-nav">
-        <div class="nav-item active" onclick="switchMainTab('home', this)"><i class="fas fa-home"></i>Home</div>
-        <div class="nav-item" onclick="switchMainTab('wallet', this)"><i class="fas fa-wallet"></i>Wallet</div>
-        <div class="nav-item" onclick="switchMainTab('pay', this)"><i class="fas fa-paper-plane"></i>Pay</div>
-        <div class="nav-item" onclick="switchMainTab('profile', this)"><i class="fas fa-user"></i>Profile</div>
+    <div id="section-profile" class="view-section">
+        <div class="glass-card" style="text-align: center;">
+            <img id="img-large-avatar" src="" style="width: 80px; height: 80px; border-radius: 50%; border: 2px solid var(--blue); margin-bottom: 12px; object-fit: cover;">
+            <h3 id="lbl-profile-name" style="font-size: 18px; font-weight: 700;">Account Master</h3>
+            <p style="color: var(--text-muted); font-size: 13px; margin-top: 4px;">UID Node: <span id="lbl-profile-uid">-</span></p>
+        </div>
+
+        <div id="admin-gate-access" style="display: none; margin-top: 20px;">
+            <button class="glass-btn" style="background: rgba(255,255,255,0.05);" onclick="openSecureAdminGate()">
+                <i class="fa-solid fa-user-shield" style="color: var(--blue);"></i> System Control Terminal
+            </button>
+        </div>
     </div>
+
+    <nav class="bottom-nav">
+        <div class="nav-link active" onclick="navigateTab('home', this)"><i class="fa-solid fa-grip"></i>Tasks</div>
+        <div class="nav-link" onclick="navigateTab('wallet', this)"><i class="fa-solid fa-wallet"></i>Wallet</div>
+        <div class="nav-link" onclick="navigateTab('pay', this)"><i class="fa-solid fa-paper-plane"></i>Pay</div>
+        <div class="nav-link" onclick="navigateTab('profile', this)"><i class="fa-solid fa-user"></i>Profile</div>
+    </nav>
 
 </div>
 
-<div id="modal-task-detail" class="modal-overlay">
-    <div class="modal-content">
-        <i class="fas fa-times modal-close" onclick="closeModal('modal-task-detail')"></i>
-        <h3 id="md-task-title">-</h3>
-        <p style="color:var(--success-green); font-weight:700; margin:10px 0; font-size:18px;">Reward: ₹<span id="md-task-amt">0</span></p>
-        <div id="md-task-desc" style="background:rgba(255,255,255,0.03); padding:10px; border-radius:8px; font-size:13px; margin-bottom:15px; color:var(--text-muted);">-</div>
+<div id="popup-task-hub" class="glass-modal">
+    <div class="modal-body">
+        <i class="fa-solid fa-xmark close-trigger" onclick="dismissModal('popup-task-hub')"></i>
+        <h3 id="lbl-modal-task-title" style="font-size: 18px; font-weight: 700; margin-bottom: 6px;">-</h3>
+        <div id="lbl-modal-task-bounty" style="color: var(--green); font-weight: 800; font-size: 18px; margin-bottom: 14px;">₹0.00</div>
+        <div id="lbl-modal-task-desc" style="background: rgba(255,255,255,0.02); border: 1px solid var(--glass-border); padding: 12px; border-radius: 12px; font-size: 13px; color: var(--text-muted); margin-bottom: 20px; line-height: 1.5;">-</div>
         
-        <button class="upi-btn" id="md-task-link-btn" style="background:#6366f1;">
-            <i class="fas fa-external-link-alt"></i> Open Task Link
+        <button class="glass-btn primary" id="btn-task-redirect" style="margin-bottom: 20px;">
+            <i class="fa-solid fa-arrow-up-right-from-square"></i> Open Mission Target
         </button>
 
-        <div id="proof-upload-zone">
-            <div class="input-group">
-                <label><i class="fas fa-image"></i> Submit Screenshots Verification Proof</label>
-                <input type="file" id="md-task-file" class="input-field" accept="image/*">
+        <div id="zone-proof-submission">
+            <div class="glass-input-group">
+                <label><i class="fa-solid fa-image"></i> Upload Screenshot Verification Proof</label>
+                <input type="file" id="file-proof-payload" class="glass-input" accept="image/*">
             </div>
-            <button class="upi-btn" onclick="uploadTaskProofData()"><i class="fas fa-cloud-upload-alt"></i> Upload Proof</button>
+            <button class="glass-btn success" onclick="uploadVerificationImage()"><i class="fa-solid fa-cloud-arrow-up"></i> Submit Audit Log</button>
         </div>
-        <div id="md-already-processed" style="display:none; text-align:center; color:var(--success-green); font-weight:600;">
-            <i class="fas fa-check-circle"></i> Verification Logs Registered.
+        <div id="zone-proof-lockout" style="display: none; text-align: center; color: var(--green); font-weight: 600; font-size: 14px; padding: 10px;">
+            <i class="fa-solid fa-circle-notch fa-spin"></i> Audit Record Registered & Locked.
         </div>
     </div>
 </div>
 
-<div id="modal-withdraw" class="modal-overlay">
-    <div class="modal-content">
-        <i class="fas fa-times modal-close" onclick="closeModal('modal-withdraw')"></i>
-        <h3><i class="fas fa-money-bill-transfer"></i> UPI Payout</h3><br>
-        <div class="input-group">
-            <label>UPI ID Address</label>
-            <input type="text" id="wd-upi-id" class="input-field" placeholder="name@upi">
+<div id="popup-payout" class="glass-modal">
+    <div class="modal-body">
+        <i class="fa-solid fa-xmark close-trigger" onclick="dismissModal('popup-payout')"></i>
+        <h3 style="font-size: 18px; font-weight: 700; margin-bottom: 16px;"><i class="fa-solid fa-money-bill-transfer"></i> Automated UPI Payout</h3>
+        <div class="glass-input-group">
+            <label>UPI Virtual Payment Address</label>
+            <input type="text" id="txt-payout-upi" class="glass-input" placeholder="username@upi">
         </div>
-        <div class="input-group">
-            <label>Payout Amount (₹)</label>
-            <input type="number" id="wd-amount" class="input-field" placeholder="0.00">
+        <div class="glass-input-group">
+            <label>Requested Payout Quantum (₹)</label>
+            <input type="number" id="txt-payout-sum" class="glass-input" placeholder="0.00">
         </div>
-        <button class="upi-btn" onclick="executeWithdrawalRequest()"><i class="fas fa-check"></i> Request Payout</button>
+        <button class="glass-btn primary" onclick="submitWithdrawalRequest()"><i class="fa-solid fa-paper-plane"></i> Deploy Withdrawal</button>
     </div>
 </div>
 
-<div id="modal-admin-gate" class="modal-overlay">
-    <div class="modal-content" style="max-width: 450px; height: 90vh; overflow-y: auto;">
-        <i class="fas fa-times modal-close" onclick="closeModal('modal-admin-gate')"></i>
+<div id="popup-admin-terminal" class="glass-modal">
+    <div class="modal-body" style="max-width: 440px; max-height: 85vh; overflow-y: auto;">
+        <i class="fa-solid fa-xmark close-trigger" onclick="dismissModal('popup-admin-terminal')"></i>
         
-        <div id="admin-lock-screen" class="fingerprint-screen">
-            <i class="fas fa-fingerprint fp-icon" onclick="triggerNativeBiometricAuth()"></i>
-            <p style="color: var(--text-muted); font-weight:600;">Scan Device Fingerprint Sensor</p>
+        <div id="layer-hardware-lock" class="hardware-auth-center">
+            <i class="fa-solid fa-fingerprint biometric-glyph" onclick="authenticateHardwareSensor()"></i>
+            <p style="color: var(--text-muted); font-size: 14px; font-weight: 600;">Scan Device Biometric Node</p>
         </div>
 
-        <div id="admin-dashboard-panel" style="display:none;">
-            <h3 style="margin-bottom:15px;"><i class="fas fa-user-shield"></i> System Control Panel</h3>
-            <div class="admin-nav">
-                <button class="admin-nav-btn active" onclick="switchAdminPanelSection('banners', this)">Banners</button>
-                <button class="admin-nav-btn" onclick="switchAdminPanelSection('tasks', this)">Tasks</button>
-                <button class="admin-nav-btn" onclick="switchAdminPanelSection('proofs', this)">Proofs Box</button>
-                <button class="admin-nav-btn" onclick="switchAdminPanelSection('codes', this)">Codes Engine</button>
+        <div id="layer-admin-dashboard" style="display: none;">
+            <h3 style="font-size: 18px; font-weight: 700; margin-bottom: 16px;"><i class="fa-solid fa-user-shield"></i> Control Matrix</h3>
+            
+            <div class="admin-tab-strip">
+                <button class="admin-strip-btn active" onclick="toggleAdminPanel('banners', this)">Banners</button>
+                <button class="admin-strip-btn" onclick="toggleAdminPanel('tasks', this)">Campaigns</button>
+                <button class="admin-strip-btn" onclick="toggleAdminPanel('proofs', this)">Audits Box</button>
+                <button class="admin-strip-btn" onclick="toggleAdminPanel('vouchers', this)">Vouchers</button>
             </div>
 
-            <div id="ad-sec-banners" class="admin-panel-section active">
-                <div class="input-group">
-                    <label>Upload Banner File</label>
-                    <input type="file" id="ad-banner-file" class="input-field" accept="image/*">
+            <div id="sub-panel-banners" class="panel-sub-view active">
+                <div class="glass-input-group">
+                    <label>Upload Banner Artwork</label>
+                    <input type="file" id="adm-banner-file" class="glass-input" accept="image/*">
                 </div>
-                <button class="upi-btn" onclick="saveAdminBanner()"><i class="fas fa-plus"></i> Add Global Banner</button>
-                <div id="ad-banner-list"></div>
+                <button class="glass-btn primary" onclick="pushAdminBanner()"><i class="fa-solid fa-circle-plus"></i> Overwrite Banner</button>
             </div>
 
-            <div id="ad-sec-tasks" class="admin-panel-section">
-                <div class="input-group">
-                    <label>Task Header</label>
-                    <input type="text" id="ad-task-title" class="input-field">
-                </div>
-                <div class="input-group">
-                    <label>Reward Payout (₹)</label>
-                    <input type="number" id="ad-task-amt" class="input-field">
-                </div>
-                <div class="input-group">
-                    <label>Target URL Link</label>
-                    <input type="text" id="ad-task-url" class="input-field">
-                </div>
-                <div class="input-group">
-                    <label>Directions/Instructions</label>
-                    <textarea id="ad-task-desc" class="input-field" style="height:60px;"></textarea>
-                </div>
-                <button class="upi-btn" onclick="publishAdminTask()"><i class="fas fa-bullhorn"></i> Deploy Task</button>
+            <div id="sub-panel-tasks" class="panel-sub-view">
+                <div class="glass-input-group"><label>Campaign Title</label><input type="text" id="adm-task-title" class="glass-input"></div>
+                <div class="glass-input-group"><label>Bounty Payout (₹)</label><input type="number" id="adm-task-sum" class="glass-input"></div>
+                <div class="glass-input-group"><label>Target Uniform Resource Locator</label><input type="text" id="adm-task-url" class="glass-input"></div>
+                <div class="glass-input-group"><label>Mission Description Guidelines</label><textarea id="adm-task-desc" class="glass-input" style="height: 60px; resize: none;"></textarea></div>
+                <button class="glass-btn primary" onclick="deployNewAdminTask()"><i class="fa-solid fa-bullhorn"></i> Inject Campaign</button>
             </div>
 
-            <div id="ad-sec-proofs" class="admin-panel-section">
-                <div id="ad-proofs-container" style="display:flex; flex-direction:column; gap:10px;"></div>
+            <div id="sub-panel-proofs" class="panel-sub-view">
+                <div id="adm-render-proofs-stack" style="display: flex; flex-direction: column; gap: 12px;"></div>
             </div>
 
-            <div id="ad-sec-codes" class="admin-panel-section">
-                <div class="input-group">
-                    <label>Custom Gift Code String</label>
-                    <input type="text" id="ad-code-string" class="input-field" placeholder="EXTRA50">
-                </div>
-                <div class="input-group">
-                    <label>Award Payout (₹)</label>
-                    <input type="number" id="ad-code-value" class="input-field" placeholder="50">
-                </div>
-                <button class="upi-btn" onclick="createSystemGiftCode()"><i class="fas fa-save"></i> Generate Code</button>
+            <div id="sub-panel-vouchers" class="panel-sub-view">
+                <div class="glass-input-group"><label>Voucher Code Token Phrase</label><input type="text" id="adm-code-string" class="glass-input" placeholder="PAYLOAD50"></div>
+                <div class="glass-input-group"><label>Voucher Credit Payout (₹)</label><input type="number" id="adm-code-sum" class="glass-input" placeholder="50"></div>
+                <button class="glass-btn success" onclick="buildSystemVoucher()"><i class="fa-solid fa-floppy-disk"></i> Register Token</button>
             </div>
         </div>
     </div>
 </div>
 
 <script>
-const BACKEND_API = window.location.origin;
-let tg = window.Telegram.WebApp;
-tg.expand();
+const SYSTEM_API_ENDPOINT = window.location.origin;
+let tgMatrix = window.Telegram.WebApp;
+tgMatrix.expand();
 
-let activeUid = tg.initDataUnsafe?.user?.id || 501889840;
-let activeUname = tg.initDataUnsafe?.user?.first_name || "Premium User";
-let userPhoto = tg.initDataUnsafe?.user?.photo_url || "https://img.icons8.com/colors/344/test-account.png";
+let currentSessionUid = tgMatrix.initDataUnsafe?.user?.id || 501889840;
+let currentSessionUser = tgMatrix.initDataUnsafe?.user?.first_name || "Premium Node";
+let currentSessionPic = tgMatrix.initDataUnsafe?.user?.photo_url || "https://img.icons8.com/colors/344/test-account.png";
 
-let currentSystemState = {};
-let selectedActiveTaskId = null;
+let globalEngineState = {};
+let activelySelectedTaskId = null;
 
 document.addEventListener("DOMContentLoaded", () => {
-    document.getElementById('prof-id').innerText = activeUid;
-    document.getElementById('prof-name').innerText = activeUname;
-    document.getElementById('header-user-avatar').src = userPhoto;
-    document.getElementById('main-profile-pic').src = userPhoto;
-    syncAppDataCycle();
+    document.getElementById('lbl-profile-uid').innerText = currentSessionUid;
+    document.getElementById('lbl-profile-name').innerText = currentSessionUser;
+    document.getElementById('img-top-avatar').src = currentSessionPic;
+    document.getElementById('img-large-avatar').src = currentSessionPic;
+    initializeTelemetrySync();
 });
 
-function syncAppDataCycle() {
-    fetch(`${BACKEND_API}/api/settings`)
+function initializeTelemetrySync() {
+    fetch(`${SYSTEM_API_ENDPOINT}/api/settings`)
         .then(res => res.json())
-        .then(data => {
-            currentSystemState = data.botSettings;
-            const users = data.usersDatabase;
+        .then(payload => {
+            globalEngineState = payload.botSettings;
+            const database = payload.usersDatabase;
 
-            if (activeUid == 501889840 || currentSystemState.subAdmins?.includes(Number(activeUid))) {
-                document.getElementById('admin-entry-zone').style.display = 'block';
+            if (currentSessionUid == 501889840 || globalEngineState.subAdmins?.includes(Number(currentSessionUid))) {
+                document.getElementById('admin-gate-access').style.display = 'block';
             }
 
-            if (!users[activeUid]) {
-                fetch(`${BACKEND_API}/api/mini-app/sync-user`, {
+            if (!database[currentSessionUid]) {
+                fetch(`${SYSTEM_API_ENDPOINT}/api/mini-app/sync-user`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ userId: activeUid, name: activeUname })
-                }).then(() => syncAppDataCycle());
+                    body: JSON.stringify({ userId: currentSessionUid, name: currentSessionUser })
+                }).then(() => initializeTelemetrySync());
                 return;
             }
 
-            const me = users[activeUid];
-            document.getElementById('header-balance-num').innerText = parseFloat(me.balance).toFixed(2);
-            document.getElementById('wallet-balance-num').innerText = parseFloat(me.balance).toFixed(2);
+            const clientData = database[currentSessionUid];
+            document.getElementById('lbl-top-bal').innerText = parseFloat(clientData.balance).toFixed(2);
+            document.getElementById('lbl-main-bal').innerText = parseFloat(clientData.balance).toFixed(2);
 
-            if (me.debt > 0) {
-                document.getElementById('user-debt-indicator').style.display = 'inline';
-                document.getElementById('user-debt-value').innerText = me.debt;
+            if (clientData.debt > 0) {
+                document.getElementById('indicator-debt').style.display = 'inline';
+                document.getElementById('lbl-debt-val').innerText = clientData.debt;
             } else {
-                document.getElementById('user-debt-indicator').style.display = 'none';
+                document.getElementById('indicator-debt').style.display = 'none';
             }
 
-            renderInterfaceBanners(currentSystemState.banners || []);
-            renderInterfaceTasks(currentSystemState.tasks || [], me.completedTasks || [], currentSystemState.pendingProofs || {});
-            renderAdminViewLogs(currentSystemState);
+            compileSystemBanners(globalEngineState.banners || []);
+            compileSystemCampaigns(globalEngineState.tasks || [], clientData.completedTasks || [], globalEngineState.pendingProofs || {});
+            renderAdminControlCenter(globalEngineState);
         });
 }
 
-function switchMainTab(target, element) {
-    document.querySelectorAll('.view-section').forEach(v => v.classList.remove('active'));
-    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-    document.getElementById(`view-${target}`).classList.add('active');
-    element.classList.add('active');
+function navigateTab(target, tabElement) {
+    document.querySelectorAll('.view-section').forEach(view => view.classList.remove('active'));
+    document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
+    document.getElementById(`section-${target}`).classList.add('active');
+    tabElement.classList.add('active');
 }
 
-function renderInterfaceBanners(banners) {
-    const box = document.getElementById('home-banner');
-    if (banners.length === 0) box.style.display = 'none';
-    else { box.style.display = 'block'; box.innerHTML = `<img src="${banners[0]}">`; }
+function compileSystemBanners(banners) {
+    const bannerBox = document.getElementById('wrapper-banner');
+    if (banners.length === 0) bannerBox.style.display = 'none';
+    else { bannerBox.style.display = 'block'; bannerBox.innerHTML = `<img src="${banners[0]}">`; }
 }
 
-function renderInterfaceTasks(tasks, completed, pending) {
-    const container = document.getElementById('home-task-list');
-    container.innerHTML = '';
-    tasks.forEach(t => {
-        let textMeta = "";
-        if (completed.includes(t.id)) textMeta = `<span style="color:var(--success-green); font-size:11px;">(Completed)</span>`;
+function compileSystemCampaigns(tasks, completed, pending) {
+    const stream = document.getElementById('list-tasks-dock');
+    stream.innerHTML = '';
+    tasks.forEach(task => {
+        let structuralFlag = "";
+        if (completed.includes(task.id)) structuralFlag = `<span style="color:var(--green); font-size:11px; margin-left:6px;">[Cleared]</span>`;
         
         const card = document.createElement('div');
-        card.className = 'task-card';
-        card.onclick = () => openTaskDetailsPopup(t, completed, pending);
+        card.className = 'task-node';
+        card.onclick = () => revealCampaignPopup(task, completed, pending);
         card.innerHTML = `
-            <div class="task-details-left">
-                <span class="task-title"><i class="fas fa-thumbtack" style="color:var(--accent-blue); margin-right:6px;"></i> ${t.title} ${textMeta}</span>
+            <div class="task-info-left">
+                <span class="task-node-title"><i class="fa-solid fa-hashtag" style="color:var(--blue); margin-right:6px;"></i> ${task.title} ${structuralFlag}</span>
             </div>
-            <div class="task-amount">₹${t.amount}</div>
+            <div class="task-node-payout">₹${task.amount}</div>
         `;
-        container.appendChild(card);
+        stream.appendChild(card);
     });
 }
 
-function openTaskDetailsPopup(task, completed, pending) {
-    selectedActiveTaskId = task.id;
-    document.getElementById('md-task-title').innerText = task.title;
-    document.getElementById('md-task-amt').innerText = task.amount;
-    document.getElementById('md-task-desc').innerText = task.desc || "Complete steps to earn rewards.";
-    document.getElementById('md-task-link-btn').onclick = () => window.open(task.url, '_blank');
+function revealCampaignPopup(task, completed, pending) {
+    activelySelectedTaskId = task.id;
+    document.getElementById('lbl-modal-task-title').innerText = task.title;
+    document.getElementById('lbl-modal-task-bounty').innerText = `₹${task.amount}`;
+    document.getElementById('lbl-modal-task-desc').innerText = task.desc || "Execute requested milestones to clear allocation parameters.";
+    document.getElementById('btn-task-redirect').onclick = () => window.open(task.url, '_blank');
 
-    const key = `${activeUid}_${task.id}`;
-    if (completed.includes(task.id) || pending[key]) {
-        document.getElementById('proof-upload-zone').style.display = 'none';
-        document.getElementById('md-already-processed').style.display = 'block';
+    const cacheKey = `${currentSessionUid}_${task.id}`;
+    if (completed.includes(task.id) || pending[cacheKey]) {
+        document.getElementById('zone-proof-submission').style.display = 'none';
+        document.getElementById('zone-proof-lockout').style.display = 'block';
     } else {
-        document.getElementById('proof-upload-zone').style.display = 'block';
-        document.getElementById('md-already-processed').style.display = 'none';
+        document.getElementById('zone-proof-submission').style.display = 'block';
+        document.getElementById('zone-proof-lockout').style.display = 'none';
     }
-    document.getElementById('modal-task-detail').style.display = 'flex';
+    revealModal('popup-task-hub');
 }
 
-function uploadTaskProofData() {
-    const file = document.getElementById('md-task-file').files[0];
-    if (!file) return alert("Proof screenshot required.");
-    const reader = new FileReader();
-    reader.onload = function(e) {
-        fetch(`${BACKEND_API}/api/mini-app/submit-proof`, {
+function uploadVerificationImage() {
+    const file = document.getElementById('file-proof-payload').files[0];
+    if (!file) return alert("System requires screenshot data vectors.");
+    const mappingReader = new FileReader();
+    mappingReader.onload = function(event) {
+        fetch(`${SYSTEM_API_ENDPOINT}/api/mini-app/submit-proof`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ userId: activeUid, taskId: selectedActiveTaskId, proofImg: e.target.result })
-        }).then(() => { alert("Proof submitted."); closeModal('modal-task-detail'); syncAppDataCycle(); });
+            body: JSON.stringify({ userId: currentSessionUid, taskId: activelySelectedTaskId, proofImg: event.target.result })
+        }).then(() => { alert("Verification logging complete."); dismissModal('popup-task-hub'); initializeTelemetrySync(); });
     };
-    reader.readAsDataURL(file);
+    mappingReader.readAsDataURL(file);
 }
 
-function claimGiftCodeAction() {
-    const code = document.getElementById('gift-code-field').value.trim();
-    if(!code) return;
-    fetch(`${BACKEND_API}/api/mini-app/redeem-code`, {
+function triggerRedeemAction() {
+    const payloadCode = document.getElementById('input-voucher-code').value.trim();
+    if(!payloadCode) return;
+    fetch(`${SYSTEM_API_ENDPOINT}/api/mini-app/redeem-code`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ userId: activeUid, code: code })
-    }).then(res => res.json()).then(res => {
-        if(res.error) alert(res.error);
-        else { alert(`Success! Received ₹${res.amount}`); syncAppDataCycle(); }
+        body: JSON.stringify({ userId: currentSessionUid, code: payloadCode })
+    }).then(res => res.json()).then(response => {
+        if(response.error) alert(response.error);
+        else { alert(`Matrix Verified! Added ₹${response.amount}`); initializeTelemetrySync(); }
     });
 }
 
-function openWithdrawModal() { document.getElementById('modal-withdraw').style.display = 'flex'; }
-
-function executeWithdrawalRequest() {
-    const upi = document.getElementById('wd-upi-id').value.trim();
-    const amt = parseFloat(document.getElementById('wd-amount').value);
-    fetch(`${BACKEND_API}/api/mini-app/withdraw`, {
+function submitWithdrawalRequest() {
+    const accountUPI = document.getElementById('txt-payout-upi').value.trim();
+    const sumAmount = parseFloat(document.getElementById('txt-payout-sum').value);
+    fetch(`${SYSTEM_API_ENDPOINT}/api/mini-app/withdraw`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ userId: activeUid, upi, amount: amt })
-    }).then(res => res.json()).then(res => {
-        if(res.error) alert(res.error);
-        else { alert("Payout request queued."); closeModal('modal-withdraw'); syncAppDataCycle(); }
+        body: JSON.stringify({ userId: currentSessionUid, upi: accountUPI, amount: sumAmount })
+    }).then(res => res.json()).then(response => {
+        if(response.error) alert(response.error);
+        else { alert("Payout clearing sequence queued."); dismissModal('popup-payout'); initializeTelemetrySync(); }
     });
 }
 
-function sendPeerFunds() {
-    const target = document.getElementById('pay-target-uid').value.trim();
-    const amt = parseFloat(document.getElementById('pay-amount').value);
-    fetch(`${BACKEND_API}/api/mini-app/peer-transfer`, {
+function executeP2PTransfer() {
+    const recipientUID = document.getElementById('pay-target-id').value.trim();
+    const transferQuantum = parseFloat(document.getElementById('pay-target-amount').value);
+    fetch(`${SYSTEM_API_ENDPOINT}/api/mini-app/peer-transfer`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ sourceId: activeUid, targetId: target, amount: amt })
-    }).then(res => res.json()).then(res => {
-        if(res.error) alert(res.error);
-        else { alert("Funds transferred."); syncAppDataCycle(); }
+        body: JSON.stringify({ sourceId: currentSessionUid, targetId: recipientUID, amount: transferQuantum })
+    }).then(res => res.json()).then(response => {
+        if(response.error) alert(response.error);
+        else { alert("P2P Assets disbursed successfully."); initializeTelemetrySync(); }
     });
 }
 
-function openAdminGate() {
-    document.getElementById('modal-admin-gate').style.display = 'flex';
-    document.getElementById('admin-lock-screen').style.display = 'flex';
-    document.getElementById('admin-dashboard-panel').style.display = 'none';
+function openSecureAdminGate() {
+    revealModal('popup-admin-terminal');
+    document.getElementById('layer-hardware-lock').style.display = 'flex';
+    document.getElementById('layer-admin-dashboard').style.display = 'none';
 }
 
-/* HIGH-SECURITY NATIVE HARDWARE GATEWAY INTERFACE ENGINE (WEBAUTHN API) */
-async function triggerNativeBiometricAuth() {
+/* 🔐 WEBAUTHN DEVICE FINGERPRINT HARDWARE SUBSYSTEM LINK */
+async function authenticateHardwareSensor() {
     if (!window.PublicKeyCredential) {
-        alert("ബയോമെട്രിക് ഹാർഡ്‌വെയർ ലഭ്യമല്ല, മാനുവൽ എൻട്രി നൽകുന്നു.");
-        authorizeDashboardAccess();
+        alert("ഹാർഡ്‌വെയർ ലഭ്യമല്ല, സിസ്റ്റം ബൈപാസ് ഓട്ടോറൈസേഷൻ നൽകുന്നു.");
+        unlockControlDashboard();
         return;
     }
     try {
-        const challenge = new Uint8Array(32);
-        window.crypto.getRandomValues(challenge);
-        const options = {
-            challenge,
-            rp: { name: "Extra Earn Engine" },
-            user: { id: new Uint8Array([9,9,9,9]), name: "admin", displayName: "Root Master" },
+        const dummyBuffer = new Uint8Array(32);
+        window.crypto.getRandomValues(dummyBuffer);
+        const optionsStructure = {
+            challenge: dummyBuffer,
+            rp: { name: "Extra Earn Glass Framework" },
+            user: { id: new Uint8Array([7,7,7,7]), name: "root", displayName: "Administrator" },
             pubKeyCredParams: [{ type: "public-key", alg: -7 }],
             authenticatorSelection: { authenticatorAttachment: "platform", userVerification: "required" },
             timeout: 60000
         };
-        const credential = await navigator.credentials.create({ publicKey: options });
-        if (credential) {
-            document.querySelector('.fp-icon').style.color = 'var(--success-green)';
-            setTimeout(authorizeDashboardAccess, 500);
+        const verificationToken = await navigator.credentials.create({ publicKey: optionsStructure });
+        if (verificationToken) {
+            document.querySelector('.biometric-glyph').style.color = 'var(--green)';
+            setTimeout(unlockControlDashboard, 600);
         }
-    } catch (e) {
-        alert("അധികാരപ്പെടുത്തൽ നിരസിച്ചു!");
+    } catch (err) {
+        alert("ഹാർഡ്‌വെയർ പരിശോധന പരാജയപ്പെട്ടു!");
     }
 }
 
-function authorizeDashboardAccess() {
-    document.getElementById('admin-lock-screen').style.display = 'none';
-    document.getElementById('admin-dashboard-panel').style.display = 'block';
+function unlockControlDashboard() {
+    document.getElementById('layer-hardware-lock').style.display = 'none';
+    document.getElementById('layer-admin-dashboard').style.display = 'block';
 }
 
-function switchAdminPanelSection(tab, btn) {
-    document.querySelectorAll('.admin-panel-section').forEach(s => s.classList.remove('active'));
-    document.getElementById(`ad-sec-${tab}`).classList.add('active');
+function toggleAdminPanel(subViewTab, tabBtn) {
+    document.querySelectorAll('.panel-sub-view').forEach(view => view.classList.remove('active'));
+    document.querySelectorAll('.admin-strip-btn').forEach(btn => btn.classList.remove('active'));
+    document.getElementById(`sub-panel-${subViewTab}`).classList.add('active');
+    tabBtn.classList.add('active');
 }
 
-function saveAdminBanner() {
-    const file = document.getElementById('ad-banner-file').files[0];
-    if(!file) return;
-    const reader = new FileReader();
-    reader.onload = function(e) {
-        fetch(`${BACKEND_API}/api/settings/update`, {
+function pushAdminBanner() {
+    const structuralFile = document.getElementById('adm-banner-file').files[0];
+    if(!structuralFile) return;
+    const processingReader = new FileReader();
+    processingReader.onload = function(e) {
+        fetch(`${SYSTEM_API_ENDPOINT}/api/settings/update`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ banners: [e.target.result] })
-        }).then(() => { alert("Banner modified."); syncAppDataCycle(); });
+        }).then(() => { alert("Artworks matrix refreshed."); initializeTelemetrySync(); });
     };
-    reader.readAsDataURL(file);
+    processingReader.readAsDataURL(structuralFile);
 }
 
-function publishAdminTask() {
-    const title = document.getElementById('ad-task-title').value;
-    const amount = document.getElementById('ad-task-amt').value;
-    const url = document.getElementById('ad-task-url').value;
-    const desc = document.getElementById('ad-task-desc').value;
-    let list = currentSystemState.tasks || [];
-    list.push({ id: Date.now().toString(), title, amount, url, desc });
-    fetch(`${BACKEND_API}/api/settings/update`, {
+function deployNewAdminTask() {
+    const title = document.getElementById('adm-task-title').value;
+    const amount = document.getElementById('adm-task-sum').value;
+    const url = document.getElementById('adm-task-url').value;
+    const desc = document.getElementById('adm-task-desc').value;
+    let stack = globalEngineState.tasks || [];
+    stack.push({ id: Date.now().toString(), title, amount, url, desc });
+    fetch(`${SYSTEM_API_ENDPOINT}/api/settings/update`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ tasks: list })
-    }).then(() => { alert("Task configured."); syncAppDataCycle(); });
+        body: JSON.stringify({ tasks: stack })
+    }).then(() => { alert("New Campaign injected."); initializeTelemetrySync(); });
 }
 
-function createSystemGiftCode() {
-    const codeString = document.getElementById('ad-code-string').value.trim();
-    const awardValue = document.getElementById('ad-code-value').value;
-    fetch(`${BACKEND_API}/api/admin/create-code`, {
+function buildSystemVoucher() {
+    const rawPhrase = document.getElementById('adm-code-string').value.trim();
+    const tokenBounty = document.getElementById('adm-code-sum').value;
+    fetch(`${SYSTEM_API_ENDPOINT}/api/admin/create-code`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ codeString, awardValue })
-    }).then(() => { alert("Giftcode system armed."); syncAppDataCycle(); });
+        body: JSON.stringify({ codeString: rawPhrase, awardValue: tokenBounty })
+    }).then(() => { alert("Voucher node registered."); initializeTelemetrySync(); });
 }
 
-function renderAdminViewLogs(settings) {
-    const container = document.getElementById('ad-proofs-container');
-    container.innerHTML = '';
-    const proofs = settings.pendingProofs || {};
-    Object.keys(proofs).forEach(k => {
-        const p = proofs[k];
-        container.innerHTML += `
-            <div style="background:rgba(255,255,255,0.02); border:1px solid var(--panel-border); padding:10px; border-radius:8px;">
-                <p style="font-size:12px;">User: ${p.userId} | Task: ${p.taskId}</p>
-                <img src="${p.proofImg}" style="width:100%; max-height:120px; object-fit:contain; margin:8px 0;">
-                <div style="display:flex; gap:10px;">
-                    <button class="upi-btn" style="margin:0; background:var(--success-green); padding:5px;" onclick="judgeVerificationBox('${k}', true)">Approve</button>
-                    <button class="upi-btn" style="margin:0; background:var(--danger-red); padding:5px;" onclick="judgeVerificationBox('${k}', false)">Reject</button>
-                </div>
+function renderAdminControlCenter(settings) {
+    const auditStackView = document.getElementById('adm-render-proofs-stack');
+    auditStackView.innerHTML = '';
+    const pendingProofs = settings.pendingProofs || {};
+    Object.keys(pendingProofs).forEach(keyId => {
+        const structuralRecord = pendingProofs[keyId];
+        const auditCard = document.createElement('div');
+        auditCard.style.cssText = "background:rgba(255,255,255,0.02); border:1px solid var(--glass-border); padding:12px; border-radius:14px;";
+        auditCard.innerHTML = `
+            <p style="font-size:12px; color:var(--text-muted)">User Node: ${structuralRecord.userId} | Mission ID: ${structuralRecord.taskId}</p>
+            <img src="${structuralRecord.proofImg}" style="width:100%; max-height:140px; object-fit:contain; margin:10px 0; border-radius:8px;">
+            <div style="display:flex; gap:10px;">
+                <button class="glass-btn success" style="padding:6px; font-size:13px;" onclick="adjudicateAuditLog('${keyId}', true)">Approve</button>
+                <button class="glass-btn" style="padding:6px; font-size:13px; color:var(--danger); border-color:rgba(231,76,60,0.3);" onclick="adjudicateAuditLog('${keyId}', false)">Reject</button>
             </div>
         `;
+        auditStackView.appendChild(auditCard);
     });
 }
 
-function judgeVerificationBox(key, status) {
-    fetch(`${BACKEND_API}/api/admin/judge-proof`, {
+function adjudicateAuditLog(targetKey, evaluationFlag) {
+    fetch(`${SYSTEM_API_ENDPOINT}/api/admin/judge-proof`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ proofKey: key, approve: status })
-    }).then(() => syncAppDataCycle());
+        body: JSON.stringify({ proofKey: targetKey, approve: evaluationFlag })
+    }).then(() => initializeTelemetrySync());
 }
 
-function closeModal(id) { document.getElementById(id).style.display = 'none'; }
+function revealModal(id) { document.getElementById(id).style.display = 'flex'; }
+function dismissModal(id) { document.getElementById(id).style.display = 'none'; }
 </script>
 </body>
 </html>
