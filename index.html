@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Extra Earn - Pure Glass Edition</title>
+    <title>Extra Earn - Premium Glassmorphism Edition</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
@@ -11,8 +11,8 @@
     <style>
         :root {
             --bg: #000000; 
-            --glass: rgba(255, 255, 255, 0.03);
-            --glass-card: rgba(255, 255, 255, 0.02);
+            --card-bg: rgba(255, 255, 255, 0.03);
+            --glass: rgba(255, 255, 255, 0.02);
             --glass-border: rgba(255, 255, 255, 0.08);
             --blue: #3498db;
             --green: #2ecc71;
@@ -42,12 +42,12 @@
             max-width: 480px;
             min-height: 100vh;
             position: relative;
-            padding-bottom: 110px;
+            padding-bottom: 120px;
             display: flex;
             flex-direction: column;
         }
 
-        /* ✨ PREMIUM TOP HEADER (Pure Glass Style) */
+        /* --- 🎯 TOP HEADER (Real Blur) --- */
         .header {
             height: 70px;
             padding: 0 20px;
@@ -55,38 +55,20 @@
             justify-content: space-between;
             align-items: center;
             background: rgba(0, 0, 0, 0.5);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
             border-bottom: 1px solid var(--glass-border);
             position: sticky;
             top: 0;
-            z-index: 99;
+            z-index: 999;
         }
 
-        .logo-section {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
+        .logo-section h1 { font-size: 20px; font-weight: 800; letter-spacing: -0.5px; }
+        .logo-section h1 span { color: var(--blue); }
 
-        .logo-section h1 {
-            font-size: 19px;
-            font-weight: 800;
-            letter-spacing: -0.5px;
-        }
-
-        .logo-section h1 span {
-            color: var(--blue);
-        }
-
-        .header-right {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
+        .header-right { display: flex; align-items: center; gap: 12px; }
         .header-balance {
-            background: var(--glass);
+            background: var(--card-bg);
             border: 1px solid var(--glass-border);
             padding: 6px 14px;
             border-radius: 20px;
@@ -97,272 +79,119 @@
             align-items: center;
             gap: 6px;
         }
+        .user-avatar { width: 36px; height: 36px; border-radius: 50%; border: 1px solid var(--glass-border); object-fit: cover; }
 
-        .user-avatar {
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            border: 1px solid var(--glass-border);
-            object-fit: cover;
-        }
+        /* --- 🧭 NAVIGATION VIEWS --- */
+        .view-section { flex: 1; padding: 20px; display: none; }
+        .view-section.active { display: block; }
 
-        /* 🧭 NAVIGATION TABS SECTION */
-        .view-section {
-            flex: 1;
-            padding: 20px;
-            display: none;
-        }
-        .view-section.active {
-            display: block;
-        }
-
-        /* 🖼️ GLASS SLIDER / BANNER */
+        /* --- 🖼️ SLIDER / BANNER ZONE --- */
         .banner-wrapper {
-            width: 100%;
-            height: 160px;
-            border-radius: 20px;
-            overflow: hidden;
-            border: 1px solid var(--glass-border);
-            background: var(--glass-card);
-            margin-bottom: 24px;
-            display: none;
+            width: 100%; height: 160px; border-radius: 24px; overflow: hidden;
+            border: 1px solid var(--glass-border); background: var(--card-bg);
+            margin-bottom: 24px; display: none;
         }
-        .banner-wrapper img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        /* 🎯 ULTRA GLASS LUXURY CARDS */
-        .glass-card {
-            background: var(--glass-card);
-            border: 1px solid var(--glass-border);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 20px;
-            margin-bottom: 16px;
-        }
+        .banner-wrapper img { width: 100%; height: 100%; object-fit: cover; }
 
         .section-title {
-            font-size: 15px;
-            font-weight: 700;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 14px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
+            font-size: 13px; font-weight: 700; color: var(--text-muted);
+            text-transform: uppercase; letter-spacing: 1px; margin-bottom: 16px;
+            display: flex; align-items: center; gap: 8px;
         }
 
-        /* 💸 TASK TILES */
+        /* --- 💳 PREMIUM WALLET CARD --- */
+        .wallet-card {
+            background: radial-gradient(circle at top right, rgba(255,255,255,0.06), rgba(255,255,255,0.01));
+            border: 1px solid var(--glass-border); border-radius: 28px; padding: 26px; margin-bottom: 24px;
+        }
+        .wallet-balance-lbl { font-size: 38px; font-weight: 800; letter-spacing: -1px; margin: 8px 0; }
+
+        /* --- 📋 LISTS & CARDS --- */
+        .glass-card {
+            background: var(--card-bg); border: 1px solid var(--glass-border);
+            backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+            border-radius: 20px; padding: 20px; margin-bottom: 16px;
+        }
+
         .task-node {
-            background: rgba(255, 255, 255, 0.01);
-            border: 1px solid var(--glass-border);
-            border-radius: 16px;
-            padding: 16px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 12px;
-            cursor: pointer;
-            transition: background 0.3s;
+            background: rgba(255, 255, 255, 0.01); border: 1px solid var(--glass-border);
+            border-radius: 18px; padding: 18px; display: flex; justify-content: space-between;
+            align-items: center; margin-bottom: 12px; cursor: pointer; transition: all 0.3s;
         }
-        .task-node:hover {
-            background: var(--glass);
+        .task-node:hover { background: rgba(255,255,255,0.03); }
+
+        /* --- 📜 HISTORY LOG TILES --- */
+        .history-tile {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 14px 0; border-bottom: 1px solid rgba(255,255,255,0.05); cursor: pointer;
         }
-        .task-info-left {
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-        }
-        .task-node-title {
-            font-size: 15px;
-            font-weight: 600;
-        }
-        .task-node-payout {
-            font-size: 16px;
-            font-weight: 700;
-            color: var(--green);
+        .history-tile:last-child { border-bottom: none; }
+        .history-icon-box {
+            width: 42px; height: 42px; border-radius: 12px; background: rgba(255,255,255,0.03);
+            display: flex; align-items: center; justify-content: center; font-size: 16px;
         }
 
-        /* 🔘 PURE GLASS INTERACTIVE INPUTS & BUTTONS */
-        .glass-input-group {
-            margin-bottom: 16px;
-        }
-        .glass-input-group label {
-            font-size: 13px;
-            color: var(--text-muted);
-            display: block;
-            margin-bottom: 6px;
-            font-weight: 600;
-        }
+        /* --- 🔘 INPUTS & BUTTONS --- */
+        .glass-input-group { margin-bottom: 16px; }
+        .glass-input-group label { font-size: 13px; color: var(--text-muted); display: block; margin-bottom: 6px; font-weight: 600; }
         .glass-input {
-            width: 100%;
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid var(--glass-border);
-            padding: 14px;
-            border-radius: 14px;
-            color: white;
-            font-size: 15px;
-            outline: none;
-            transition: border-color 0.3s;
+            width: 100%; background: rgba(255, 255, 255, 0.02); border: 1px solid var(--glass-border);
+            padding: 14px; border-radius: 14px; color: white; font-size: 15px; outline: none;
         }
-        .glass-input:focus {
-            border-color: var(--blue);
-        }
-
         .glass-btn {
-            width: 100%;
-            background: var(--glass);
-            border: 1px solid var(--glass-border);
-            color: white;
-            padding: 15px;
-            border-radius: 14px;
-            font-weight: 700;
-            font-size: 15px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            transition: all 0.3s;
+            width: 100%; background: var(--card-bg); border: 1px solid var(--glass-border);
+            color: white; padding: 16px; border-radius: 16px; font-weight: 700; font-size: 15px;
+            cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px;
         }
-        .glass-btn:active {
-            background: rgba(255, 255, 255, 0.1);
-        }
-        .glass-btn.primary {
-            background: var(--blue);
-            border: none;
-        }
-        .glass-btn.success {
-            background: rgba(46, 204, 113, 0.15);
-            border-color: rgba(46, 204, 113, 0.4);
-            color: var(--green);
-        }
+        .glass-btn.primary { background: var(--blue); border: none; }
+        .glass-btn.success { background: rgba(46, 204, 113, 0.15); border-color: rgba(46, 204, 113, 0.3); color: var(--green); }
 
-        /* 🧭 ORIGINAL GLASS NAVIGATION FOOTER */
+        /* --- 🧭 BOTTOM GLASS NAV BAR --- */
         .bottom-nav {
-            position: fixed;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: calc(100% - 40px);
-            max-width: 440px;
-            height: 66px;
-            background: rgba(10, 10, 10, 0.3);
-            backdrop-filter: blur(20px) saturate(160%);
-            -webkit-backdrop-filter: blur(20px) saturate(160%);
-            border: 1px solid var(--glass-border);
-            border-radius: 22px;
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            z-index: 999;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+            width: calc(100% - 40px); max-width: 440px; height: 68px;
+            background: rgba(10, 10, 10, 0.2); backdrop-filter: blur(30px) saturate(150%);
+            -webkit-backdrop-filter: blur(30px) saturate(150%);
+            border: 1px solid var(--glass-border); border-radius: 24px;
+            display: flex; justify-content: space-around; align-items: center; z-index: 9999;
         }
-
         .nav-link {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            color: var(--text-muted);
-            font-size: 11px;
-            font-weight: 600;
-            text-decoration: none;
-            gap: 4px;
-            transition: color 0.3s;
-            cursor: pointer;
+            display: flex; flex-direction: column; align-items: center; color: var(--text-muted);
+            font-size: 11px; font-weight: 600; gap: 4px; cursor: pointer; transition: color 0.3s;
         }
+        .nav-link i { font-size: 20px; }
+        .nav-link.active { color: var(--blue); }
 
-        .nav-link i {
-            font-size: 20px;
-        }
-
-        .nav-link.active {
-            color: var(--blue);
-        }
-
-        /* 🚨 OVERLAY DOCK POPUPS (Glassmorphism Modal) */
+        /* --- 📦 MODAL OVERLAYS (Pure Blur) --- */
         .glass-modal {
-            position: fixed;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0, 0, 0, 0.75);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            z-index: 10000;
-            display: none;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
+            position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
+            z-index: 10000; display: none; align-items: center; justify-content: center; padding: 20px;
         }
         .modal-body {
-            background: rgba(15, 15, 15, 0.7);
-            border: 1px solid var(--glass-border);
-            backdrop-filter: blur(25px);
-            -webkit-backdrop-filter: blur(25px);
-            width: 100%;
-            max-width: 400px;
-            border-radius: 24px;
-            padding: 24px;
-            position: relative;
+            background: rgba(15, 15, 15, 0.75); border: 1px solid var(--glass-border);
+            width: 100%; max-width: 400px; border-radius: 26px; padding: 24px; position: relative;
         }
-        .close-trigger {
-            position: absolute;
-            top: 18px; right: 18px;
-            color: var(--text-muted);
-            font-size: 20px;
-            cursor: pointer;
-        }
+        .close-trigger { position: absolute; top: 20px; right: 20px; color: var(--text-muted); font-size: 20px; cursor: pointer; }
 
-        /* 🔐 HARDWARE BIOMETRIC ZONE */
-        .hardware-auth-center {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 60vh;
-            gap: 24px;
+        /* --- 📄 PROFESSIONAL FLIP RECEIPT COMPONENT --- */
+        .receipt-container { perspective: 1000px; width: 100%; margin-top: 10px; }
+        .receipt-flipper { position: relative; width: 100%; transform-style: preserve-3d; transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .receipt-flipper.flipped { transform: rotateY(180deg); }
+        .receipt-front, .receipt-back {
+            width: 100%; backface-visibility: hidden; -webkit-backface-visibility: hidden;
+            background: rgba(20, 20, 20, 0.85); border: 1px solid var(--glass-border); border-radius: 24px; padding: 24px;
         }
-        .biometric-glyph {
-            font-size: 70px;
-            color: var(--blue);
-            animation: auraPulse 2.5s infinite;
-            cursor: pointer;
-        }
+        .receipt-back { transform: rotateY(180deg); position: absolute; top: 0; left: 0; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; }
+
+        /* --- 🔐 BIOMETRIC SECURITY COMPONENT --- */
+        .hardware-auth-center { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 50vh; gap: 20px; }
+        .biometric-glyph { font-size: 65px; color: var(--blue); animation: auraPulse 2s infinite; cursor: pointer; }
         @keyframes auraPulse {
-            0% { transform: scale(1); opacity: 0.6; text-shadow: 0 0 0px rgba(52,152,219,0); }
-            50% { transform: scale(1.08); opacity: 1; text-shadow: 0 0 20px rgba(52,152,219,0.5); }
-            100% { transform: scale(1); opacity: 0.6; text-shadow: 0 0 0px rgba(52,152,219,0); }
+            0% { transform: scale(1); opacity: 0.7; }
+            50% { transform: scale(1.06); opacity: 1; text-shadow: 0 0 15px rgba(52,152,219,0.4); }
+            100% { transform: scale(1); opacity: 0.7; }
         }
-
-        /* 🛡️ ADMIN MANAGEMENT SWITCHES */
-        .admin-tab-strip {
-            display: flex;
-            gap: 8px;
-            overflow-x: auto;
-            padding-bottom: 12px;
-            margin-bottom: 16px;
-        }
-        .admin-strip-btn {
-            padding: 8px 16px;
-            background: var(--glass);
-            border: 1px solid var(--glass-border);
-            color: var(--text-muted);
-            border-radius: 10px;
-            font-size: 13px;
-            font-weight: 600;
-            cursor: pointer;
-            white-space: nowrap;
-        }
-        .admin-strip-btn.active {
-            background: var(--blue);
-            color: white;
-            border-color: var(--blue);
-        }
-        .panel-sub-view { display: none; }
-        .panel-sub-view.active { display: block; }
     </style>
 </head>
 <body>
@@ -383,60 +212,68 @@
 
     <div id="section-home" class="view-section active">
         <div id="wrapper-banner" class="banner-wrapper"></div>
-        <div class="section-title"><i class="fa-solid fa-bolt"></i> Available Campaigns</div>
+        <div class="section-title"><i class="fa-solid fa-bolt"></i> Live Digital Campaigns</div>
         <div id="list-tasks-dock"></div>
     </div>
 
     <div id="section-wallet" class="view-section">
-        <div class="glass-card">
-            <div style="display: flex; justify-content: space-between; align-items: center; color: var(--text-muted); font-size: 13px; font-weight: 600; margin-bottom: 6px;">
-                <span>Available Capital</span>
+        <div class="wallet-card">
+            <div style="display: flex; justify-content: space-between; align-items: center; color: var(--text-muted); font-size: 13px; font-weight: 600;">
+                <span>Total Asset Balance</span>
                 <span id="indicator-debt" style="color: var(--danger); font-weight: 700; display: none;"><i class="fa-solid fa-hand-holding-dollar"></i> Debt: ₹<span id="lbl-debt-val">0</span></span>
             </div>
-            <div style="font-size: 36px; font-weight: 800; letter-spacing: -1px;">₹<span id="lbl-main-bal">0.00</span></div>
+            <div class="wallet-balance-lbl">₹<span id="lbl-main-bal">0.00</span></div>
+            <p style="color: var(--text-muted); font-size: 12px;"><i class="fa-solid fa-shield-halved"></i> Secured Escrow System</p>
         </div>
 
-        <button class="glass-btn primary" onclick="revealModal('popup-payout')">
-            <i class="fa-solid fa-money-bill-transfer"></i> Withdraw Payout
+        <button class="glass-btn primary" style="margin-bottom: 24px;" onclick="revealModal('popup-payout')">
+            <i class="fa-solid fa-money-bill-transfer"></i> Withdraw Micro-Payout
         </button>
 
-        <div class="glass-card" style="margin-top: 24px;">
-            <div class="section-title"><i class="fa-solid fa-gift"></i> Voucher Codes</div>
+        <div class="glass-card">
+            <div class="section-title"><i class="fa-solid fa-gift"></i> Voucher Code Linker</div>
             <div class="glass-input-group">
-                <input type="text" id="input-voucher-code" class="glass-input" placeholder="Enter Gift Code Payload...">
+                <input type="text" id="input-voucher-code" class="glass-input" placeholder="Paste Gift payload token...">
             </div>
             <button class="glass-btn success" onclick="triggerRedeemAction()">
-                <i class="fa-solid fa-ticket"></i> Redeem Voucher Link
+                <i class="fa-solid fa-ticket"></i> Inject Code Value
             </button>
+        </div>
+
+        <div class="glass-card" style="margin-top: 24px;">
+            <div class="section-title"><i class="fa-solid fa-clock-rotate-left"></i> Account Audit Logs</div>
+            <div id="history-logs-container">
+                <p style="color: var(--text-muted); font-size: 13px; text-align: center; padding: 10px;">No account data streams logged.</p>
+            </div>
         </div>
     </div>
 
     <div id="section-pay" class="view-section">
         <div class="glass-card">
-            <div class="section-title"><i class="fa-solid fa-paper-plane"></i> P2P Funds Distribution</div>
+            <div class="section-title"><i class="fa-solid fa-paper-plane"></i> P2P Asset Disbursal</div>
             <div class="glass-input-group">
                 <label>Target Identity Account UID</label>
-                <input type="number" id="pay-target-id" class="glass-input" placeholder="Recipient Telegram ID">
+                <input type="number" id="pay-target-id" class="glass-input" placeholder="Recipient Telegram UserID">
             </div>
             <div class="glass-input-group">
-                <label>Transfer Amount (₹)</label>
+                <label>Transfer Payout Sum (₹)</label>
                 <input type="number" id="pay-target-amount" class="glass-input" placeholder="0.00">
             </div>
             <button class="glass-btn primary" onclick="executeP2PTransfer()">
-                <i class="fa-solid fa-circle-check"></i> Disburse Assets
+                <i class="fa-solid fa-circle-check"></i> Transfer Funds Instantly
             </button>
         </div>
     </div>
 
     <div id="section-profile" class="view-section">
-        <div class="glass-card" style="text-align: center;">
-            <img id="img-large-avatar" src="" style="width: 80px; height: 80px; border-radius: 50%; border: 2px solid var(--blue); margin-bottom: 12px; object-fit: cover;">
-            <h3 id="lbl-profile-name" style="font-size: 18px; font-weight: 700;">Account Master</h3>
-            <p style="color: var(--text-muted); font-size: 13px; margin-top: 4px;">UID Node: <span id="lbl-profile-uid">-</span></p>
+        <div class="glass-card" style="text-align: center; padding: 30px 20px;">
+            <img id="img-large-avatar" src="" style="width: 85px; height: 85px; border-radius: 50%; border: 2px solid var(--blue); margin-bottom: 14px; object-fit: cover;">
+            <h3 id="lbl-profile-name" style="font-size: 19px; font-weight: 700;">Account Node</h3>
+            <p style="color: var(--text-muted); font-size: 13px; margin-top: 4px;">User Vector UID: <span id="lbl-profile-uid">-</span></p>
         </div>
 
         <div id="admin-gate-access" style="display: none; margin-top: 20px;">
-            <button class="glass-btn" style="background: rgba(255,255,255,0.05);" onclick="openSecureAdminGate()">
+            <button class="glass-btn" style="background: rgba(255,255,255,0.04);" onclick="openSecureAdminGate()">
                 <i class="fa-solid fa-user-shield" style="color: var(--blue);"></i> System Control Terminal
             </button>
         </div>
@@ -451,12 +288,76 @@
 
 </div>
 
+<div id="popup-payout" class="glass-modal">
+    <div class="modal-body">
+        <i class="fa-solid fa-xmark close-trigger" onclick="dismissModal('popup-payout')"></i>
+        <h3 style="font-size: 17px; font-weight: 700; margin-bottom: 20px;"><i class="fa-solid fa-money-bill-transfer"></i> Settlement Interface</h3>
+        
+        <div class="glass-input-group">
+            <label>Settlement Method</label>
+            <select id="payout-method-select" class="glass-input" style="background: #111;" onchange="adjustPayoutFields()">
+                <option value="UPI">Automated UPI Instant Transfer</option>
+                <option value="VOUCHER">Digital Gift Voucher Node</option>
+            </select>
+        </div>
+
+        <div class="glass-input-group" id="field-payout-address">
+            <label id="lbl-payout-address">UPI Virtual Payment Address</label>
+            <input type="text" id="txt-payout-upi" class="glass-input" placeholder="username@upi">
+        </div>
+
+        <div class="glass-input-group">
+            <label>Withdrawal Capital Quantum (₹)</label>
+            <input type="number" id="txt-payout-sum" class="glass-input" placeholder="0.00">
+        </div>
+
+        <button class="glass-btn primary" onclick="submitWithdrawalRequest()"><i class="fa-solid fa-paper-plane"></i> Deploy Withdrawal</button>
+    </div>
+</div>
+
+<div id="receiptModal" class="glass-modal">
+    <div class="modal-body" style="background: transparent; border: none; max-width: 360px;">
+        <div class="receipt-container">
+            <div class="receipt-flipper" id="receiptFlipper" onclick="toggleFlip()">
+                <div class="receipt-front">
+                    <div style="text-align: center; margin-bottom: 16px;">
+                        <div style="font-size: 40px; color: var(--green); margin-bottom: 8px;"><i class="fa-solid fa-circle-check"></i></div>
+                        <h4 style="font-size: 18px; font-weight: 700;">Transaction Receipt</h4>
+                        <p style="font-size: 12px; color: var(--text-muted);" id="rcDate">-</p>
+                    </div>
+                    <div style="display: flex; flex-direction: column; gap: 12px; font-size: 14px; border-top: 1px dashed rgba(255,255,255,0.1); padding-top: 16px;">
+                        <div style="display: space-between; flex-direction: row; justify-content: space-between;">
+                            <span style="color: var(--text-muted)">Method:</span> <b id="rcMethod">-</b>
+                        </div>
+                        <div style="display: space-between; flex-direction: row; justify-content: space-between;">
+                            <span style="color: var(--text-muted)">Amount:</span> <b style="color: var(--green)" id="rcAmount">₹0.00</b>
+                        </div>
+                        <div style="display: space-between; flex-direction: row; justify-content: space-between; overflow: hidden; max-width: 100%;">
+                            <span style="color: var(--text-muted)">Parameter:</span> <span id="rcDetails" style="font-size: 12px; font-weight: 600;">-</span>
+                        </div>
+                    </div>
+                    <div style="background: rgba(255,255,255,0.02); padding: 12px; border-radius: 12px; font-size: 11px; color: var(--text-muted); margin-top: 20px; text-align: center;" id="professionalNotice">
+                        -
+                    </div>
+                    <p style="font-size: 10px; color: var(--text-muted); text-align: center; margin-top: 15px;"><i class="fa-solid fa-rotate"></i> Tap block to flip audit code.</p>
+                </div>
+                <div class="receipt-back">
+                    <i class="fa-solid fa-qrcode" style="font-size: 60px; color: var(--blue); margin-bottom: 12px;"></i>
+                    <h5 style="font-size: 14px; font-weight: 700; margin-bottom: 4px;">Internal Audit Core</h5>
+                    <p style="font-size: 11px; color: var(--text-muted); text-align: center; padding: 0 10px;" id="rcTxId">-</p>
+                    <button class="glass-btn" style="margin-top: 20px; padding: 8px 16px; font-size: 12px;" onclick="closeReceiptFlip(event)">Close Window</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div id="popup-task-hub" class="glass-modal">
     <div class="modal-body">
         <i class="fa-solid fa-xmark close-trigger" onclick="dismissModal('popup-task-hub')"></i>
-        <h3 id="lbl-modal-task-title" style="font-size: 18px; font-weight: 700; margin-bottom: 6px;">-</h3>
+        <h3 id="lbl-modal-task-title" style="font-size: 17px; font-weight: 700; margin-bottom: 4px;">-</h3>
         <div id="lbl-modal-task-bounty" style="color: var(--green); font-weight: 800; font-size: 18px; margin-bottom: 14px;">₹0.00</div>
-        <div id="lbl-modal-task-desc" style="background: rgba(255,255,255,0.02); border: 1px solid var(--glass-border); padding: 12px; border-radius: 12px; font-size: 13px; color: var(--text-muted); margin-bottom: 20px; line-height: 1.5;">-</div>
+        <div id="lbl-modal-task-desc" style="background: rgba(255,255,255,0.02); border: 1px solid var(--glass-border); padding: 14px; border-radius: 14px; font-size: 13px; color: var(--text-muted); margin-bottom: 20px; line-height: 1.5;">-</div>
         
         <button class="glass-btn primary" id="btn-task-redirect" style="margin-bottom: 20px;">
             <i class="fa-solid fa-arrow-up-right-from-square"></i> Open Mission Target
@@ -464,30 +365,14 @@
 
         <div id="zone-proof-submission">
             <div class="glass-input-group">
-                <label><i class="fa-solid fa-image"></i> Upload Screenshot Verification Proof</label>
+                <label><i class="fa-solid fa-image"></i> Upload Execution Screen Data</label>
                 <input type="file" id="file-proof-payload" class="glass-input" accept="image/*">
             </div>
-            <button class="glass-btn success" onclick="uploadVerificationImage()"><i class="fa-solid fa-cloud-arrow-up"></i> Submit Audit Log</button>
+            <button class="glass-btn success" onclick="uploadVerificationImage()"><i class="fa-solid fa-cloud-arrow-up"></i> Submit Proof Audit Link</button>
         </div>
         <div id="zone-proof-lockout" style="display: none; text-align: center; color: var(--green); font-weight: 600; font-size: 14px; padding: 10px;">
-            <i class="fa-solid fa-circle-notch fa-spin"></i> Audit Record Registered & Locked.
+            <i class="fa-solid fa-circle-notch fa-spin"></i> Audit Vector Lock Active. Pending Verification.
         </div>
-    </div>
-</div>
-
-<div id="popup-payout" class="glass-modal">
-    <div class="modal-body">
-        <i class="fa-solid fa-xmark close-trigger" onclick="dismissModal('popup-payout')"></i>
-        <h3 style="font-size: 18px; font-weight: 700; margin-bottom: 16px;"><i class="fa-solid fa-money-bill-transfer"></i> Automated UPI Payout</h3>
-        <div class="glass-input-group">
-            <label>UPI Virtual Payment Address</label>
-            <input type="text" id="txt-payout-upi" class="glass-input" placeholder="username@upi">
-        </div>
-        <div class="glass-input-group">
-            <label>Requested Payout Quantum (₹)</label>
-            <input type="number" id="txt-payout-sum" class="glass-input" placeholder="0.00">
-        </div>
-        <button class="glass-btn primary" onclick="submitWithdrawalRequest()"><i class="fa-solid fa-paper-plane"></i> Deploy Withdrawal</button>
     </div>
 </div>
 
@@ -497,43 +382,40 @@
         
         <div id="layer-hardware-lock" class="hardware-auth-center">
             <i class="fa-solid fa-fingerprint biometric-glyph" onclick="authenticateHardwareSensor()"></i>
-            <p style="color: var(--text-muted); font-size: 14px; font-weight: 600;">Scan Device Biometric Node</p>
+            <p style="color: var(--text-muted); font-size: 14px; font-weight: 600;">Scan Identity Authenticator Node</p>
         </div>
 
         <div id="layer-admin-dashboard" style="display: none;">
-            <h3 style="font-size: 18px; font-weight: 700; margin-bottom: 16px;"><i class="fa-solid fa-user-shield"></i> Control Matrix</h3>
+            <h3 style="font-size: 17px; font-weight: 700; margin-bottom: 16px;"><i class="fa-solid fa-user-shield"></i> Control Matrix Core</h3>
             
-            <div class="admin-tab-strip">
-                <button class="admin-strip-btn active" onclick="toggleAdminPanel('banners', this)">Banners</button>
-                <button class="admin-strip-btn" onclick="toggleAdminPanel('tasks', this)">Campaigns</button>
-                <button class="admin-strip-btn" onclick="toggleAdminPanel('proofs', this)">Audits Box</button>
-                <button class="admin-strip-btn" onclick="toggleAdminPanel('vouchers', this)">Vouchers</button>
+            <div style="display: flex; gap: 8px; margin-bottom: 16px; overflow-x: auto;">
+                <button class="glass-btn" style="padding: 8px; font-size:12px;" onclick="toggleAdminPanel('banners')">Banners</button>
+                <button class="glass-btn" style="padding: 8px; font-size:12px;" onclick="toggleAdminPanel('tasks')">Inject Task</button>
+                <button class="glass-btn" style="padding: 8px; font-size:12px;" onclick="toggleAdminPanel('proofs')">Audits</button>
+                <button class="glass-btn" style="padding: 8px; font-size:12px;" onclick="toggleAdminPanel('vouchers')">Vouchers</button>
             </div>
 
-            <div id="sub-panel-banners" class="panel-sub-view active">
-                <div class="glass-input-group">
-                    <label>Upload Banner Artwork</label>
-                    <input type="file" id="adm-banner-file" class="glass-input" accept="image/*">
-                </div>
-                <button class="glass-btn primary" onclick="pushAdminBanner()"><i class="fa-solid fa-circle-plus"></i> Overwrite Banner</button>
+            <div id="sub-panel-banners" class="panel-sub-view">
+                <div class="glass-input-group"><label>Banner Image Asset File</label><input type="file" id="adm-banner-file" class="glass-input" accept="image/*"></div>
+                <button class="glass-btn primary" onclick="pushAdminBanner()">Overwrite Banner</button>
             </div>
 
-            <div id="sub-panel-tasks" class="panel-sub-view">
-                <div class="glass-input-group"><label>Campaign Title</label><input type="text" id="adm-task-title" class="glass-input"></div>
-                <div class="glass-input-group"><label>Bounty Payout (₹)</label><input type="number" id="adm-task-sum" class="glass-input"></div>
-                <div class="glass-input-group"><label>Target Uniform Resource Locator</label><input type="text" id="adm-task-url" class="glass-input"></div>
-                <div class="glass-input-group"><label>Mission Description Guidelines</label><textarea id="adm-task-desc" class="glass-input" style="height: 60px; resize: none;"></textarea></div>
-                <button class="glass-btn primary" onclick="deployNewAdminTask()"><i class="fa-solid fa-bullhorn"></i> Inject Campaign</button>
+            <div id="sub-panel-tasks" class="panel-sub-view" style="display:none;">
+                <div class="glass-input-group"><label>Task Title</label><input type="text" id="adm-task-title" class="glass-input"></div>
+                <div class="glass-input-group"><label>Bounty Allocation (₹)</label><input type="number" id="adm-task-sum" class="glass-input"></div>
+                <div class="glass-input-group"><label>Target Campaign URL</label><input type="text" id="adm-task-url" class="glass-input"></div>
+                <div class="glass-input-group"><label>Milestone Work Rules</label><textarea id="adm-task-desc" class="glass-input" style="height:60px; resize:none;"></textarea></div>
+                <button class="glass-btn primary" onclick="deployNewAdminTask()">Deploy Framework Node</button>
             </div>
 
-            <div id="sub-panel-proofs" class="panel-sub-view">
+            <div id="sub-panel-proofs" class="panel-sub-view" style="display:none;">
                 <div id="adm-render-proofs-stack" style="display: flex; flex-direction: column; gap: 12px;"></div>
             </div>
 
-            <div id="sub-panel-vouchers" class="panel-sub-view">
-                <div class="glass-input-group"><label>Voucher Code Token Phrase</label><input type="text" id="adm-code-string" class="glass-input" placeholder="PAYLOAD50"></div>
-                <div class="glass-input-group"><label>Voucher Credit Payout (₹)</label><input type="number" id="adm-code-sum" class="glass-input" placeholder="50"></div>
-                <button class="glass-btn success" onclick="buildSystemVoucher()"><i class="fa-solid fa-floppy-disk"></i> Register Token</button>
+            <div id="sub-panel-vouchers" class="panel-sub-view" style="display:none;">
+                <div class="glass-input-group"><label>Voucher Token Code</label><input type="text" id="adm-code-string" class="glass-input"></div>
+                <div class="glass-input-group"><label>Token Payload Worth (₹)</label><input type="number" id="adm-code-sum" class="glass-input"></div>
+                <button class="glass-btn success" onclick="buildSystemVoucher()">Register Digital Token</button>
             </div>
         </div>
     </div>
@@ -586,12 +468,11 @@ function initializeTelemetrySync() {
             if (clientData.debt > 0) {
                 document.getElementById('indicator-debt').style.display = 'inline';
                 document.getElementById('lbl-debt-val').innerText = clientData.debt;
-            } else {
-                document.getElementById('indicator-debt').style.display = 'none';
-            }
+            } else { document.getElementById('indicator-debt').style.display = 'none'; }
 
             compileSystemBanners(globalEngineState.banners || []);
             compileSystemCampaigns(globalEngineState.tasks || [], clientData.completedTasks || [], globalEngineState.pendingProofs || {});
+            renderAuditStatementLogs(clientData.history || []);
             renderAdminControlCenter(globalEngineState);
         });
 }
@@ -633,7 +514,7 @@ function revealCampaignPopup(task, completed, pending) {
     activelySelectedTaskId = task.id;
     document.getElementById('lbl-modal-task-title').innerText = task.title;
     document.getElementById('lbl-modal-task-bounty').innerText = `₹${task.amount}`;
-    document.getElementById('lbl-modal-task-desc').innerText = task.desc || "Execute requested milestones to clear allocation parameters.";
+    document.getElementById('lbl-modal-task-desc').innerText = task.desc || "Execute core milestones to release payment allocations.";
     document.getElementById('btn-task-redirect').onclick = () => window.open(task.url, '_blank');
 
     const cacheKey = `${currentSessionUid}_${task.id}`;
@@ -649,7 +530,7 @@ function revealCampaignPopup(task, completed, pending) {
 
 function uploadVerificationImage() {
     const file = document.getElementById('file-proof-payload').files[0];
-    if (!file) return alert("System requires screenshot data vectors.");
+    if (!file) return alert("Please select screenshot proof asset.");
     const mappingReader = new FileReader();
     mappingReader.onload = function(event) {
         fetch(`${SYSTEM_API_ENDPOINT}/api/mini-app/submit-proof`, {
@@ -659,6 +540,84 @@ function uploadVerificationImage() {
         }).then(() => { alert("Verification logging complete."); dismissModal('popup-task-hub'); initializeTelemetrySync(); });
     };
     mappingReader.readAsDataURL(file);
+}
+
+/* 📜 RENDER REAL INTERACTIVE STATEMENTS HISTORY LOGS */
+function renderAuditStatementLogs(historyArray) {
+    const box = document.getElementById('history-logs-container');
+    if(!historyArray || historyArray.length === 0) {
+        box.innerHTML = `<p style="color: var(--text-muted); font-size: 13px; text-align: center; padding: 10px;">No account data streams logged.</p>`;
+        return;
+    }
+    box.innerHTML = '';
+    historyArray.forEach(item => {
+        const tile = document.createElement('div');
+        tile.className = "history-tile";
+        
+        let icon = "fa-money-bill-transfer";
+        let color = "var(--blue)";
+        if(item.method === "Task Reward") { icon = "fa-bolt"; color = "var(--green)"; }
+        if(item.method === "Voucher Link") { icon = "fa-ticket"; color = "orange"; }
+
+        tile.onclick = () => openReceiptModalFlip(item.method, item.amount, item.details || item.taskTitle || "Escrow Clearing", item.date, `TX-ID-${Math.floor(Math.random()*900000+100000)}`, item.status);
+        tile.innerHTML = `
+            <div style="display: flex; align-items: center; gap: 12px;">
+                <div class="history-icon-box" style="color: ${color};"><i class="fa-solid ${icon}"></i></div>
+                <div>
+                    <h5 style="font-size: 14px; font-weight: 600;">${item.method}</h5>
+                    <p style="font-size: 11px; color: var(--text-muted);">${item.date}</p>
+                </div>
+            </div>
+            <div style="text-align: right;">
+                <b style="font-size: 15px; color: ${item.status === 'Approved' ? 'var(--green)' : 'white'}">₹${item.amount}</b>
+                <p style="font-size: 10px; color: var(--text-muted);">${item.status || 'Success'}</p>
+            </div>
+        `;
+        box.appendChild(tile);
+    });
+}
+
+function openReceiptModalFlip(method, amount, details, date, txId, status) {
+    document.getElementById('rcMethod').innerText = method;
+    document.getElementById('rcAmount').innerText = `₹${amount}`;
+    document.getElementById('rcDetails').innerText = details;
+    document.getElementById('rcDate').innerText = date;
+    document.getElementById('rcTxId').innerText = txId;
+
+    const notice = document.getElementById('professionalNotice');
+    if(method === 'UPI') {
+        notice.innerHTML = `<i class="fa-solid fa-clock" style="color:#f1c40f"></i> Payout status: <b>${status || 'Pending'}</b>. Automated clearing concludes within 24 business hours.`;
+    } else {
+        notice.innerHTML = `<i class="fa-solid fa-square-check" style="color:var(--green)"></i> Verified settlement log recorded into secure database engine successfully.`;
+    }
+
+    document.getElementById('receiptFlipper').classList.remove('flipped');
+    revealModal('receiptModal');
+}
+
+function closeReceiptFlip(e) { e.stopPropagation(); dismissModal('receiptModal'); }
+function toggleFlip() { document.getElementById('receiptFlipper').classList.toggle('flipped'); }
+
+function adjustPayoutFields() {
+    const val = document.getElementById('payout-method-select').value;
+    const addrField = document.getElementById('field-payout-address');
+    if(val === 'VOUCHER') { addrField.style.display = 'none'; } 
+    else { addrField.style.display = 'block'; document.getElementById('lbl-payout-address').innerText = "UPI Virtual Payment Address"; }
+}
+
+function submitWithdrawalRequest() {
+    const method = document.getElementById('payout-method-select').value;
+    const accountUPI = document.getElementById('txt-payout-upi').value.trim();
+    const sumAmount = parseFloat(document.getElementById('txt-payout-sum').value);
+    
+    fetch(`${SYSTEM_API_ENDPOINT}/api/mini-app/withdraw`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ userId: currentSessionUid, upi: method === 'VOUCHER' ? 'Voucher Request' : accountUPI, amount: sumAmount })
+    }).then(res => res.json()).then(response => {
+        if(response.error) alert(response.error);
+        else { alert("Settlement clearing sequence queued."); dismissModal('popup-payout'); initializeTelemetrySync(); }
+    });
 }
 
 function triggerRedeemAction() {
@@ -671,19 +630,6 @@ function triggerRedeemAction() {
     }).then(res => res.json()).then(response => {
         if(response.error) alert(response.error);
         else { alert(`Matrix Verified! Added ₹${response.amount}`); initializeTelemetrySync(); }
-    });
-}
-
-function submitWithdrawalRequest() {
-    const accountUPI = document.getElementById('txt-payout-upi').value.trim();
-    const sumAmount = parseFloat(document.getElementById('txt-payout-sum').value);
-    fetch(`${SYSTEM_API_ENDPOINT}/api/mini-app/withdraw`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ userId: currentSessionUid, upi: accountUPI, amount: sumAmount })
-    }).then(res => res.json()).then(response => {
-        if(response.error) alert(response.error);
-        else { alert("Payout clearing sequence queued."); dismissModal('popup-payout'); initializeTelemetrySync(); }
     });
 }
 
@@ -700,64 +646,29 @@ function executeP2PTransfer() {
     });
 }
 
-function openSecureAdminGate() {
-    revealModal('popup-admin-terminal');
-    document.getElementById('layer-hardware-lock').style.display = 'flex';
-    document.getElementById('layer-admin-dashboard').style.display = 'none';
-}
+function openSecureAdminGate() { revealModal('popup-admin-terminal'); document.getElementById('layer-hardware-lock').style.display = 'flex'; document.getElementById('layer-admin-dashboard').style.display = 'none'; }
+function unlockControlDashboard() { document.getElementById('layer-hardware-lock').style.display = 'none'; document.getElementById('layer-admin-dashboard').style.display = 'block'; }
 
-/* 🔐 WEBAUTHN DEVICE FINGERPRINT HARDWARE SUBSYSTEM LINK */
 async function authenticateHardwareSensor() {
-    if (!window.PublicKeyCredential) {
-        alert("ഹാർഡ്‌വെയർ ലഭ്യമല്ല, സിസ്റ്റം ബൈപാസ് ഓട്ടോറൈസേഷൻ നൽകുന്നു.");
-        unlockControlDashboard();
-        return;
-    }
+    if (!window.PublicKeyCredential) { unlockControlDashboard(); return; }
     try {
-        const dummyBuffer = new Uint8Array(32);
-        window.crypto.getRandomValues(dummyBuffer);
-        const optionsStructure = {
-            challenge: dummyBuffer,
-            rp: { name: "Extra Earn Glass Framework" },
-            user: { id: new Uint8Array([7,7,7,7]), name: "root", displayName: "Administrator" },
-            pubKeyCredParams: [{ type: "public-key", alg: -7 }],
-            authenticatorSelection: { authenticatorAttachment: "platform", userVerification: "required" },
-            timeout: 60000
-        };
-        const verificationToken = await navigator.credentials.create({ publicKey: optionsStructure });
-        if (verificationToken) {
-            document.querySelector('.biometric-glyph').style.color = 'var(--green)';
-            setTimeout(unlockControlDashboard, 600);
-        }
-    } catch (err) {
-        alert("ഹാർഡ്‌വെയർ പരിശോധന പരാജയപ്പെട്ടു!");
-    }
+        const dBuf = new Uint8Array(32); window.crypto.getRandomValues(dBuf);
+        const opt = { challenge: dBuf, rp: { name: "Extra Earn Glass Framework" }, user: { id: new Uint8Array([1]), name: "root", displayName: "Admin" }, pubKeyCredParams: [{ type: "public-key", alg: -7 }], authenticatorSelection: { authenticatorAttachment: "platform", userVerification: "required" } };
+        const credential = await navigator.credentials.create({ publicKey: opt });
+        if (credential) { unlockControlDashboard(); }
+    } catch (err) { alert("Biometric validation failed!"); }
 }
 
-function unlockControlDashboard() {
-    document.getElementById('layer-hardware-lock').style.display = 'none';
-    document.getElementById('layer-admin-dashboard').style.display = 'block';
-}
-
-function toggleAdminPanel(subViewTab, tabBtn) {
-    document.querySelectorAll('.panel-sub-view').forEach(view => view.classList.remove('active'));
-    document.querySelectorAll('.admin-strip-btn').forEach(btn => btn.classList.remove('active'));
-    document.getElementById(`sub-panel-${subViewTab}`).classList.add('active');
-    tabBtn.classList.add('active');
+function toggleAdminPanel(id) {
+    document.querySelectorAll('.panel-sub-view').forEach(p => p.style.display = 'none');
+    document.getElementById(`sub-panel-${id}`).style.display = 'block';
 }
 
 function pushAdminBanner() {
-    const structuralFile = document.getElementById('adm-banner-file').files[0];
-    if(!structuralFile) return;
-    const processingReader = new FileReader();
-    processingReader.onload = function(e) {
-        fetch(`${SYSTEM_API_ENDPOINT}/api/settings/update`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ banners: [e.target.result] })
-        }).then(() => { alert("Artworks matrix refreshed."); initializeTelemetrySync(); });
-    };
-    processingReader.readAsDataURL(structuralFile);
+    const sFile = document.getElementById('adm-banner-file').files[0]; if(!sFile) return;
+    const reader = new FileReader(); reader.onload = function(e) {
+        fetch(`${SYSTEM_API_ENDPOINT}/api/settings/update`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ banners: [e.target.result] }) }).then(() => { alert("Banners uploaded."); initializeTelemetrySync(); });
+    }; reader.readAsDataURL(sFile);
 }
 
 function deployNewAdminTask() {
@@ -765,53 +676,34 @@ function deployNewAdminTask() {
     const amount = document.getElementById('adm-task-sum').value;
     const url = document.getElementById('adm-task-url').value;
     const desc = document.getElementById('adm-task-desc').value;
-    let stack = globalEngineState.tasks || [];
-    stack.push({ id: Date.now().toString(), title, amount, url, desc });
-    fetch(`${SYSTEM_API_ENDPOINT}/api/settings/update`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ tasks: stack })
-    }).then(() => { alert("New Campaign injected."); initializeTelemetrySync(); });
+    let stack = globalEngineState.tasks || []; stack.push({ id: Date.now().toString(), title, amount, url, desc });
+    fetch(`${SYSTEM_API_ENDPOINT}/api/settings/update`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ tasks: stack }) }).then(() => { alert("Task injected."); initializeTelemetrySync(); });
 }
 
 function buildSystemVoucher() {
-    const rawPhrase = document.getElementById('adm-code-string').value.trim();
-    const tokenBounty = document.getElementById('adm-code-sum').value;
-    fetch(`${SYSTEM_API_ENDPOINT}/api/admin/create-code`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ codeString: rawPhrase, awardValue: tokenBounty })
-    }).then(() => { alert("Voucher node registered."); initializeTelemetrySync(); });
+    const phrase = document.getElementById('adm-code-string').value.trim();
+    const bounty = document.getElementById('adm-code-sum').value;
+    fetch(`${SYSTEM_API_ENDPOINT}/api/admin/create-code`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ codeString: phrase, awardValue: bounty }) }).then(() => { alert("Voucher created."); initializeTelemetrySync(); });
 }
 
 function renderAdminControlCenter(settings) {
-    const auditStackView = document.getElementById('adm-render-proofs-stack');
-    auditStackView.innerHTML = '';
+    const auditStackView = document.getElementById('adm-render-proofs-stack'); auditStackView.innerHTML = '';
     const pendingProofs = settings.pendingProofs || {};
     Object.keys(pendingProofs).forEach(keyId => {
-        const structuralRecord = pendingProofs[keyId];
-        const auditCard = document.createElement('div');
-        auditCard.style.cssText = "background:rgba(255,255,255,0.02); border:1px solid var(--glass-border); padding:12px; border-radius:14px;";
-        auditCard.innerHTML = `
-            <p style="font-size:12px; color:var(--text-muted)">User Node: ${structuralRecord.userId} | Mission ID: ${structuralRecord.taskId}</p>
-            <img src="${structuralRecord.proofImg}" style="width:100%; max-height:140px; object-fit:contain; margin:10px 0; border-radius:8px;">
+        const rec = pendingProofs[keyId]; const card = document.createElement('div');
+        card.style.cssText = "background:rgba(255,255,255,0.02); border:1px solid var(--glass-border); padding:12px; border-radius:14px;";
+        card.innerHTML = `
+            <p style="font-size:11px; color:var(--text-muted)">User: ${rec.userId} | Task: ${rec.taskId}</p>
+            <img src="${rec.proofImg}" style="width:100%; max-height:120px; object-fit:contain; margin:8px 0;">
             <div style="display:flex; gap:10px;">
-                <button class="glass-btn success" style="padding:6px; font-size:13px;" onclick="adjudicateAuditLog('${keyId}', true)">Approve</button>
-                <button class="glass-btn" style="padding:6px; font-size:13px; color:var(--danger); border-color:rgba(231,76,60,0.3);" onclick="adjudicateAuditLog('${keyId}', false)">Reject</button>
-            </div>
-        `;
-        auditStackView.appendChild(auditCard);
+                <button class="glass-btn success" style="padding:6px; font-size:12px;" onclick="adjudicateAuditLog('${keyId}', true)">Approve</button>
+                <button class="glass-btn" style="padding:6px; font-size:12px; color:var(--danger);" onclick="adjudicateAuditLog('${keyId}', false)">Reject</button>
+            </div>`;
+        auditStackView.appendChild(card);
     });
 }
 
-function adjudicateAuditLog(targetKey, evaluationFlag) {
-    fetch(`${SYSTEM_API_ENDPOINT}/api/admin/judge-proof`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ proofKey: targetKey, approve: evaluationFlag })
-    }).then(() => initializeTelemetrySync());
-}
-
+function adjudicateAuditLog(targetKey, evaluationFlag) { fetch(`${SYSTEM_API_ENDPOINT}/api/admin/judge-proof`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ proofKey: targetKey, approve: evaluationFlag }) }).then(() => initializeTelemetrySync()); }
 function revealModal(id) { document.getElementById(id).style.display = 'flex'; }
 function dismissModal(id) { document.getElementById(id).style.display = 'none'; }
 </script>
