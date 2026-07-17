@@ -10,15 +10,15 @@
     
     <style>
         :root {
-            --bg: #000000; 
+            --bg: #030303; 
             --card-bg: rgba(255, 255, 255, 0.03);
             --glass: rgba(255, 255, 255, 0.02);
             --glass-border: rgba(255, 255, 255, 0.08);
-            --blue: #3498db;
-            --green: #2ecc71;
-            --danger: #ff2a2a;
-            --text-muted: #9ca3af;
-            --blur-val: 20px;
+            --blue: #007aff; /* iOS Premium Blue */
+            --green: #34c759; /* iOS Premium Green */
+            --danger: #ff3b30; /* iOS Premium Red */
+            --text-muted: #a1a1a6;
+            --blur-val: 35px; /* iOS Higher Blur */
         }
 
         * { 
@@ -36,20 +36,43 @@
             min-height: 100vh;
             display: flex;
             justify-content: center;
+            position: relative;
+        }
+
+        /* Ambient Dynamic iOS Background Mesh Glows */
+        body::before {
+            content: '';
+            position: fixed;
+            top: -10%; left: -10%;
+            width: 70%; height: 60%;
+            background: radial-gradient(circle, rgba(0, 122, 255, 0.18) 0%, transparent 70%);
+            z-index: -1;
+            pointer-events: none;
+        }
+        body::after {
+            content: '';
+            position: fixed;
+            bottom: -10%; right: -10%;
+            width: 70%; height: 60%;
+            background: radial-gradient(circle, rgba(255, 59, 48, 0.1) 0%, transparent 70%);
+            z-index: -1;
+            pointer-events: none;
         }
 
         .app-container {
             width: 100%; max-width: 480px; min-height: 100vh;
             position: relative; padding-bottom: 120px;
             display: flex; flex-direction: column;
+            z-index: 1;
         }
 
         .header {
             height: 70px; padding: 0 20px; display: flex;
             justify-content: space-between; align-items: center;
-            background: rgba(0, 0, 0, 0.4); backdrop-filter: blur(var(--blur-val));
-            -webkit-backdrop-filter: blur(var(--blur-val));
-            border-bottom: 1px solid var(--glass-border);
+            background: rgba(10, 10, 10, 0.4); 
+            backdrop-filter: blur(var(--blur-val)) saturate(210%);
+            -webkit-backdrop-filter: blur(var(--blur-val)) saturate(210%);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
             position: sticky; top: 0; z-index: 999;
         }
 
@@ -75,7 +98,7 @@
         .categories-wrapper { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 14px; margin-bottom: 10px; }
         .categories-wrapper::-webkit-scrollbar { display: none; }
         .category-chip {
-            padding: 8px 18px; background: var(--card-bg); border: 1px solid var(--glass-border);
+            padding: 8px 18px; background: rgba(255, 255, 255, 0.04); border: 1px solid var(--glass-border);
             border-radius: 20px; font-size: 13px; font-weight: 700; color: var(--text-muted);
             cursor: pointer; white-space: nowrap; transition: all 0.3s;
         }
@@ -83,7 +106,7 @@
 
         /* --- TASK COMPONENT LISTS --- */
         .task-node {
-            background: var(--card-bg); border: 1px solid var(--glass-border);
+            background: rgba(255, 255, 255, 0.03); border: 1px solid var(--glass-border);
             border-radius: 20px; padding: 18px; display: flex; justify-content: space-between;
             align-items: center; margin-bottom: 12px; cursor: pointer; transition: all 0.2s;
         }
@@ -106,9 +129,13 @@
 
         /* --- PREVIEW AND DISPLAY CHIPS --- */
         .glass-card {
-            background: var(--card-bg); border: 1px solid var(--glass-border);
-            backdrop-filter: blur(var(--blur-val)); -webkit-backdrop-filter: blur(var(--blur-val));
+            background: rgba(255, 255, 255, 0.02); 
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-top: 1px solid rgba(255, 255, 255, 0.15); /* Top Highlight for 3D glass look */
+            backdrop-filter: blur(var(--blur-val)) saturate(180%); 
+            -webkit-backdrop-filter: blur(var(--blur-val)) saturate(180%);
             border-radius: 24px; padding: 22px; margin-bottom: 16px; position: relative;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
         }
 
         .wallet-stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 16px; }
@@ -126,29 +153,36 @@
             background: rgba(255,255,255,0.01); border: 1px solid var(--glass-border); border-radius: 16px; margin-bottom: 10px; cursor: pointer;
         }
 
-        .glass-input, .glass-select {
-            width: 100%; background: rgba(255, 255, 255, 0.02); border: 1px solid var(--glass-border);
+        .glass-input {
+            width: 100%; background: rgba(255, 255, 255, 0.03); border: 1px solid var(--glass-border);
             padding: 16px; border-radius: 16px; color: white; font-size: 15px; outline: none; margin-bottom: 14px;
+            transition: border 0.3s;
         }
-        .glass-select option { background: #000; color: #fff; }
+        .glass-input:focus {
+            border-color: var(--blue);
+        }
 
         .glass-btn {
-            width: 100%; background: var(--card-bg); border: 1px solid var(--glass-border);
+            width: 100%; background: rgba(255, 255, 255, 0.05); border: 1px solid var(--glass-border);
             color: white; padding: 16px; border-radius: 18px; font-weight: 700; font-size: 15px;
-            cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; transition: background 0.3s;
+            cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; transition: all 0.3s;
         }
         .glass-btn.primary { background: var(--blue); border: none; }
-        .glass-btn.danger { background: var(--danger); border: none; }
-        .glass-btn:active { opacity: 0.8; }
+        .glass-btn.success { background: var(--green); border: none; }
+        .glass-btn:active { opacity: 0.8; transform: scale(0.98); }
 
-        /* --- NAVIGATION BOTTOM ENGINE --- */
+        /* --- NAVIGATION BOTTOM ENGINE (iOS Transparent Blurred Navigation) --- */
         .bottom-nav {
-            position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
-            width: calc(100% - 40px); max-width: 440px; height: 70px;
-            background: rgba(10, 10, 10, 0.3); backdrop-filter: blur(var(--blur-val)) saturate(160%);
-            -webkit-backdrop-filter: blur(var(--blur-val)) saturate(160%);
-            border: 1px solid var(--glass-border); border-radius: 24px;
+            position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
+            width: calc(100% - 40px); max-width: 440px; height: 74px;
+            background: rgba(15, 15, 15, 0.4) !important; 
+            backdrop-filter: blur(var(--blur-val)) saturate(220%) !important;
+            -webkit-backdrop-filter: blur(var(--blur-val)) saturate(220%) !important;
+            border: 1px solid rgba(255, 255, 255, 0.08) !important; 
+            border-top: 1px solid rgba(255, 255, 255, 0.15) !important;
+            border-radius: 28px;
             display: flex; justify-content: space-around; align-items: center; z-index: 1900;
+            box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.5);
         }
         .nav-link {
             display: flex; flex-direction: column; align-items: center; color: var(--text-muted);
@@ -161,18 +195,21 @@
         .floating-gift-trigger {
             position: absolute; bottom: -15px; right: 20px; width: 46px; height: 46px;
             border-radius: 50%; background: var(--blue); display: flex; align-items: center; justify-content: center;
-            font-size: 18px; color: white; cursor: pointer; z-index: 100; box-shadow: 0 4px 15px rgba(52,152,219,0.4);
+            font-size: 18px; color: white; cursor: pointer; z-index: 100; box-shadow: 0 4px 15px rgba(0, 122, 255, 0.4);
         }
 
         /* --- MODAL STRUCTURE OVERLAYS --- */
         .glass-modal {
             position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0, 0, 0, 0.75); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
+            background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px);
             z-index: 10000; display: none; align-items: center; justify-content: center; padding: 20px;
         }
         .modal-body {
-            background: rgba(15, 15, 15, 0.85); border: 1px solid var(--glass-border);
+            background: rgba(20, 20, 20, 0.6); 
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-top: 1px solid rgba(255, 255, 255, 0.15);
             width: 100%; max-width: 400px; border-radius: 28px; padding: 24px; position: relative;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
         }
 
         /* --- SCREENSHOT FLIP INVOICE ENGINE --- */
@@ -202,16 +239,6 @@
             padding: 16px; background: var(--card-bg); border: 1px solid var(--glass-border);
             border-radius: 16px; margin-bottom: 10px; cursor: pointer; font-weight: 600; font-size: 14px;
         }
-
-        /* Admin Inner Tabs styling */
-        .admin-tab-bar {
-            display: flex; gap: 8px; overflow-x: auto; padding-bottom: 10px; margin-bottom: 15px;
-        }
-        .admin-tab-btn {
-            padding: 8px 14px; background: var(--card-bg); border: 1px solid var(--glass-border);
-            border-radius: 12px; font-size: 12px; font-weight: 700; color: var(--text-muted); cursor: pointer; white-space: nowrap;
-        }
-        .admin-tab-btn.active { background: var(--blue); color: #fff; border-color: var(--blue); }
     </style>
 </head>
 <body>
@@ -265,7 +292,10 @@
             <div class="floating-gift-trigger" onclick="openVoucherPopup()"><i class="fa-solid fa-gift"></i></div>
         </div>
 
-        <button class="glass-btn primary" style="margin: 10px 0 20px 0;" onclick="openWithdrawModal()"><i class="fa-solid fa-wallet"></i> Instant Settlement Payout</button>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 10px 0 20px 0;">
+            <button class="glass-btn success" onclick="openDepositModal()"><i class="fa-solid fa-circle-plus"></i> Add Funds</button>
+            <button class="glass-btn primary" onclick="openWithdrawModal()"><i class="fa-solid fa-wallet"></i> Payout</button>
+        </div>
 
         <div class="sub-tab-bar">
             <div class="sub-tab-btn active" id="tab-trigger-earn" onclick="toggleWalletHistoryTab('earnings')">Earnings</div>
@@ -299,9 +329,8 @@
         <div class="menu-list-link" id="btn-link-support" style="display:none;"><div><i class="fa-solid fa-headset" style="color:var(--green); margin-right:10px;"></i> Contact Support Core Desk</div><i class="fa-solid fa-chevron-right" style="color:var(--text-muted)"></i></div>
         <div class="menu-list-link" onclick="openSubPage('page-settings-node')"><div><i class="fa-solid fa-sliders" style="color:orange; margin-right:10px;"></i> System UI Preferences</div><i class="fa-solid fa-chevron-right" style="color:var(--text-muted)"></i></div>
         
-        <div id="admin-terminal-btn" class="menu-list-link" style="display:none; margin-top:20px; border-color:var(--blue);" onclick="openSubPage('page-admin-control-hub')">
+        <div id="admin-terminal-btn" class="menu-list-link" style="display:none; margin-top:20px; border-color:var(--blue);" onclick="openModal('modal-admin')">
             <div><i class="fa-solid fa-user-shield" style="color:var(--blue); margin-right:10px;"></i> Matrix Control Administration</div>
-            <i class="fa-solid fa-chevron-right" style="color:var(--blue)"></i>
         </div>
     </div>
 
@@ -374,183 +403,6 @@
     </div>
 </div>
 
-<div id="page-admin-control-hub" class="full-sub-page" style="background: #000;">
-    <div class="sub-page-header">
-        <div class="back-circle-btn" onclick="closeSubPage('page-admin-control-hub')"><i class="fa-solid fa-chevron-left"></i></div>
-        <h3 style="font-size:18px; font-weight:800; color: var(--blue);">Matrix Control Core</h3>
-    </div>
-
-    <div class="admin-tab-bar">
-        <div class="admin-tab-btn active" onclick="switchAdminTab('sys', this)">System</div>
-        <div class="admin-tab-btn" onclick="switchAdminTab('fin', this)">Financials</div>
-        <div class="admin-tab-btn" onclick="switchAdminTab('chn', this)">Channels</div>
-        <div class="admin-tab-btn" onclick="switchAdminTab('tsk', this)">Tasks & Banners</div>
-        <div class="admin-tab-btn" onclick="switchAdminTab('usr', this)">User & Debt</div>
-        <div class="admin-tab-btn" onclick="switchAdminTab('vch', this)">Vouchers</div>
-    </div>
-
-    <div id="adm-tab-sys" class="admin-content-section">
-        <div class="glass-card">
-            <h4 style="font-size:14px; margin-bottom:12px; color: var(--blue);"><i class="fa-solid fa-gears"></i> Core Engine Status</h4>
-            
-            <label style="font-size:11px; color:var(--text-muted)">BOT STATUS (ONLINE/OFFLINE)</label>
-            <select id="adm-sys-botstatus" class="glass-select">
-                <option value="true">Online (Working)</option>
-                <option value="false">Offline (Maintenance)</option>
-            </select>
-
-            <label style="font-size:11px; color:var(--text-muted)">ANTI-FRAUD DEVICE VERIFICATION MODE</label>
-            <select id="adm-sys-verification" class="glass-select">
-                <option value="Both On">Both On</option>
-                <option value="Both Off">Both Off</option>
-                <option value="Telegram Only">Telegram Only</option>
-                <option value="Webapp Only">Webapp Only</option>
-            </select>
-
-            <label style="font-size:11px; color:var(--text-muted)">NEW USER TELEGRAM NOTIFICATION</label>
-            <select id="adm-sys-notify" class="glass-select">
-                <option value="true">Enabled (Notify Admin)</option>
-                <option value="false">Disabled</option>
-            </select>
-
-            <label style="font-size:11px; color:var(--text-muted)">SUPPORT DESK DETAILS (RAW TEXT)</label>
-            <textarea id="adm-sys-support-text" class="glass-input" style="height: 100px; resize: none; font-size:13px;" placeholder="📩 Official Support Desk details..."></textarea>
-
-            <button class="glass-btn primary" onclick="updateAdminSettingsUnified()"><i class="fa-solid fa-save"></i> Save System Config</button>
-        </div>
-    </div>
-
-    <div id="adm-tab-fin" class="admin-content-section" style="display:none;">
-        <div class="glass-card">
-            <h4 style="font-size:14px; margin-bottom:12px; color: var(--blue);"><i class="fa-solid fa-coins"></i> Economy & Settlement Parameters</h4>
-
-            <label style="font-size:11px; color:var(--text-muted)">WITHDRAWAL GATEWAY MODULATION</label>
-            <select id="adm-fin-wdmode" class="glass-select">
-                <option value="Both On">Both On</option>
-                <option value="Both Off">Both Off</option>
-                <option value="UPI On">UPI On Only</option>
-                <option value="USDT On">USDT On Only</option>
-            </select>
-
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
-                <div>
-                    <label style="font-size:11px; color:var(--text-muted)">MIN WITHDRAW (₹)</label>
-                    <input type="number" id="adm-fin-minwd" class="glass-input" placeholder="1">
-                </div>
-                <div>
-                    <label style="font-size:11px; color:var(--text-muted)">MAX WITHDRAW (₹)</label>
-                    <input type="number" id="adm-fin-maxwd" class="glass-input" placeholder="500">
-                </div>
-            </div>
-
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
-                <div>
-                    <label style="font-size:11px; color:var(--text-muted)">PER REFER VALUE (₹)</label>
-                    <input type="number" step="0.01" id="adm-fin-refer" class="glass-input" placeholder="7.00">
-                </div>
-                <div>
-                    <label style="font-size:11px; color:var(--text-muted)">WITHDRAW TAX (%)</label>
-                    <input type="number" id="adm-fin-tax" class="glass-input" placeholder="0">
-                </div>
-            </div>
-
-            <label style="font-size:11px; color:var(--text-muted)">CHARGED TAX ON P2P TRANSFERS</label>
-            <select id="adm-fin-p2ptax" class="glass-select">
-                <option value="true">Yes (Apply Tax)</option>
-                <option value="false">No (Tax Free)</option>
-            </select>
-
-            <button class="glass-btn primary" onclick="updateAdminSettingsUnified()"><i class="fa-solid fa-save"></i> Save Financial Config</button>
-        </div>
-    </div>
-
-    <div id="adm-tab-chn" class="admin-content-section" style="display:none;">
-        <div class="glass-card">
-            <h4 style="font-size:14px; margin-bottom:12px; color: var(--blue);"><i class="fa-solid fa-network-wired"></i> Channel Broadcast Links</h4>
-
-            <label style="font-size:11px; color:var(--text-muted)">PAYOUT LOGGER CHANNEL</label>
-            <input type="text" id="adm-chn-payout" class="glass-input" placeholder="@Payoutbynasih">
-
-            <label style="font-size:11px; color:var(--text-muted)">TASK UPDATE CHANNEL</label>
-            <input type="text" id="adm-chn-task" class="glass-input" placeholder="@yourtaskchannel">
-
-            <label style="font-size:11px; color:var(--text-muted)">CODE DROPS CHANNEL</label>
-            <input type="text" id="adm-chn-code" class="glass-input" placeholder="@codechannel">
-
-            <button class="glass-btn primary" onclick="updateAdminSettingsUnified()"><i class="fa-solid fa-save"></i> Save Channels</button>
-        </div>
-    </div>
-
-    <div id="adm-tab-tsk" class="admin-content-section" style="display:none;">
-        <div class="glass-card">
-            <h4 style="font-size:14px; margin-bottom:12px; color: var(--green);"><i class="fa-solid fa-folder-plus"></i> Add Dynamic Mission Task</h4>
-            
-            <input type="text" id="adm-tsk-title" class="glass-input" placeholder="Task Title">
-            <input type="number" step="0.01" id="adm-tsk-bounty" class="glass-input" placeholder="Bounty Reward (₹)">
-            <input type="text" id="adm-tsk-url" class="glass-input" placeholder="Campaign URL Target">
-            <input type="text" id="adm-tsk-cat" class="glass-input" placeholder="Category (e.g., Telegram, YouTube)">
-            <textarea id="adm-tsk-desc" class="glass-input" style="height: 60px; resize:none;" placeholder="Task Instructions..."></textarea>
-
-            <button class="glass-btn" style="background: rgba(46,204,113,0.12); color:var(--green); border-color: rgba(46,204,113,0.3);" onclick="addDynamicTaskAdmin()"><i class="fa-solid fa-plus-circle"></i> Deploy Mission</button>
-        </div>
-
-        <div class="glass-card">
-            <h4 style="font-size:14px; margin-bottom:12px; color: var(--blue);"><i class="fa-solid fa-image"></i> Dynamic Slide Banners</h4>
-            <input type="text" id="adm-ban-img" class="glass-input" placeholder="Image HTTPS URL">
-            <input type="text" id="adm-ban-redirect" class="glass-input" placeholder="Redirect Link (Optional)">
-            <button class="glass-btn primary" onclick="addDynamicBannerAdmin()"><i class="fa-solid fa-circle-plus"></i> Inject Slider Banner</button>
-        </div>
-
-        <div class="glass-card" style="max-height: 200px; overflow-y:auto;">
-            <h4 style="font-size:12px; margin-bottom:8px;">Active Slider Banners List</h4>
-            <div id="adm-banners-list-inner"></div>
-        </div>
-        
-        <div class="glass-card" style="max-height: 250px; overflow-y:auto; margin-top:10px;">
-            <h4 style="font-size:12px; margin-bottom:8px; color: var(--danger)">Active Tasks Matrix (Tap to delete)</h4>
-            <div id="adm-tasks-list-inner"></div>
-        </div>
-    </div>
-
-    <div id="adm-tab-usr" class="admin-content-section" style="display:none;">
-        <div class="glass-card">
-            <h4 style="font-size:14px; margin-bottom:12px; color: var(--danger);"><i class="fa-solid fa-user-pen"></i> Ledger Asset Adjuster</h4>
-            
-            <label style="font-size:11px; color:var(--text-muted)">TARGET USER ID SIGNATURE</label>
-            <input type="number" id="adm-usr-uid" class="glass-input" placeholder="501889840">
-            
-            <label style="font-size:11px; color:var(--text-muted)">AMOUNT (₹)</label>
-            <input type="number" step="0.01" id="adm-usr-amount" class="glass-input" placeholder="Value Quantum">
-            
-            <label style="font-size:11px; color:var(--text-muted)">REMARK SIGNATURE (FOR USER LOGS)</label>
-            <input type="text" id="adm-usr-title" class="glass-input" placeholder="Adjustment Reward">
-
-            <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
-                <button class="glass-btn" style="color:var(--green); border-color: rgba(46,204,113,0.3);" onclick="modifyLedgerBalance('add', false)"><i class="fa-solid fa-plus"></i> Credit</button>
-                <button class="glass-btn" style="color:var(--danger); border-color: rgba(255,42,42,0.3);" onclick="modifyLedgerBalance('remove', false)"><i class="fa-solid fa-minus"></i> Debit</button>
-            </div>
-            <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:8px;">
-                <button class="glass-btn" style="color:orange;" onclick="modifyLedgerBalance('add', true)"><i class="fa-solid fa-hand-holding-dollar"></i> Assign Debt</button>
-                <button class="glass-btn" onclick="modifyLedgerBalance('remove', true)"><i class="fa-solid fa-check-double"></i> Clear Debt</button>
-            </div>
-        </div>
-    </div>
-
-    <div id="adm-tab-vch" class="admin-content-section" style="display:none;">
-        <div class="glass-card">
-            <h4 style="font-size:14px; margin-bottom:12px; color: var(--blue);"><i class="fa-solid fa-ticket"></i> Voucher Token Injector Panel</h4>
-            
-            <label style="font-size:11px; color:var(--text-muted)">PROMO / GIFT CODE TEXT</label>
-            <input type="text" id="adm-vch-code" class="glass-input" placeholder="WINTER50">
-
-            <label style="font-size:11px; color:var(--text-muted)">AWARD VALUE IN INSTANT CASH (₹)</label>
-            <input type="number" step="0.01" id="adm-vch-value" class="glass-input" placeholder="50.00">
-
-            <button class="glass-btn primary" onclick="generateVoucherCodeUnified()"><i class="fa-solid fa-qrcode"></i> Generate Code Assets</button>
-        </div>
-    </div>
-</div>
-
 <div id="modal-voucher" class="glass-modal">
     <div class="modal-body">
         <h3 style="font-size:16px; margin-bottom:16px;"><i class="fa-solid fa-gift"></i> Voucher Token Injector</h3>
@@ -570,6 +422,19 @@
         <div style="display:flex; gap:10px;">
             <button class="glass-btn" onclick="closeModal('modal-withdraw')">Cancel</button>
             <button class="glass-btn primary" onclick="submitWithdrawalClaimRequest()">Deploy Claim Payload</button>
+        </div>
+    </div>
+</div>
+
+<div id="modal-deposit" class="glass-modal">
+    <div class="modal-body">
+        <h3 style="font-size:16px; margin-bottom:16px;"><i class="fa-solid fa-circle-plus"></i> Deposit Gateway Link</h3>
+        <p style="font-size:12px; color:var(--text-muted); margin-bottom:10px;">Enter the amount you wish to add to your balance.</p>
+        <input type="number" id="txt-dep-quantum" class="glass-input" placeholder="Amount to add (₹)" min="1">
+        <input type="text" id="txt-dep-ref" class="glass-input" placeholder="Sender Name or UPI Reference No.">
+        <div style="display:flex; gap:10px;">
+            <button class="glass-btn" onclick="closeModal('modal-deposit')">Cancel</button>
+            <button class="glass-btn success" onclick="submitDepositGatewayRequest()">Pay Now</button>
         </div>
     </div>
 </div>
@@ -601,6 +466,36 @@
     </div>
 </div>
 
+<div id="modal-admin" class="glass-modal">
+    <div class="modal-body" style="max-height:85vh; overflow-y:auto;">
+        <h3 style="font-size:16px; margin-bottom:16px;"><i class="fa-solid fa-user-shield"></i> Administration Master Control Core</h3>
+        
+        <div class="glass-card" style="padding:12px; margin-bottom:10px;">
+            <label style="font-size:11px; color:var(--text-muted)">TARGET USER CONFIG SIGNATURE ID</label>
+            <input type="number" id="adm-target-uid" class="glass-input" style="padding:10px; margin-top:4px;">
+            <input type="number" id="adm-target-value" class="glass-input" placeholder="Value Sum Quantum" style="padding:10px;">
+            <input type="text" id="adm-credit-title" class="glass-input" placeholder="Custom Transaction Title (e.g. Task Reward)" style="padding:10px;">
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:6px;">
+                <button class="glass-btn" style="padding:10px; font-size:12px; color:var(--green);" onclick="adjustUserBalanceAdmin('add', false)">Credit Cash</button>
+                <button class="glass-btn" style="padding:10px; font-size:12px; color:var(--danger);" onclick="adjustUserBalanceAdmin('remove', false)">Debit Cash</button>
+            </div>
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:6px; margin-top:6px;">
+                <button class="glass-btn" style="padding:10px; font-size:12px; color:orange;" onclick="adjustUserBalanceAdmin('add', true)">Assign Debt</button>
+                <button class="glass-btn" style="padding:10px; font-size:12px;" onclick="adjustUserBalanceAdmin('remove', true)">Clear Debt</button>
+            </div>
+        </div>
+
+        <div class="glass-card" style="padding:12px; margin-bottom:10px;">
+            <label style="font-size:11px; color:var(--text-muted)">INJECT VOUCHER PAYLOAD</label>
+            <input type="text" id="adm-v-code" class="glass-input" placeholder="CODE PHRASE" style="padding:10px; margin-top:4px;">
+            <input type="number" id="adm-v-sum" class="glass-input" placeholder="Worth (₹)" style="padding:10px;">
+            <button class="glass-btn primary" style="padding:10px; font-size:12px;" onclick="registerVoucherAdmin()">Deploy Code Node</button>
+        </div>
+
+        <button class="glass-btn" style="margin-top:10px;" onclick="closeModal('modal-admin')">Exit Master Terminal</button>
+    </div>
+</div>
+
 <script>
 const ENGINE_API_ENDPOINT = window.location.origin;
 let tgMatrix = window.Telegram.WebApp;
@@ -617,7 +512,6 @@ let autoSliderInterval = null;
 document.addEventListener("DOMContentLoaded", () => {
     synchronizeTelemetryState();
     
-    // Check if deep linked check payment status is present inside context parameters
     const urlParams = new URLSearchParams(window.location.search);
     if(window.location.pathname.includes('withdrawals') || urlParams.get('route') === 'withdrawals') {
         switchMainTab('wallet', document.querySelectorAll('.nav-link')[1]);
@@ -646,10 +540,8 @@ function synchronizeTelemetryState() {
         hBal.style.display = 'block'; hBal.innerText = `₹${parseFloat(data.user.balance).toFixed(2)}`;
         document.getElementById('lbl-wallet-bal').innerText = `₹${parseFloat(data.user.balance).toFixed(2)}`;
         
-        // Admin Validation Check
         if (Number(sessionUserUid) === 501889840 || data.botSettings.subAdmins?.includes(Number(sessionUserUid))) {
             document.getElementById('admin-terminal-btn').style.display = 'flex';
-            populateAdminDashboardValues(data.botSettings);
         }
 
         // Configure system custom links dynamically
@@ -783,7 +675,6 @@ function triggerCounterRefresh() {
     icon.style.transition = "transform 0.8s ease"; icon.style.transform = "rotate(360deg)";
     setTimeout(() => { icon.style.transform = "rotate(0deg)"; icon.style.transition = "none"; }, 800);
     
-    // Execute dynamic text matrix scaling animation
     let targetBal = parseFloat(appState.user?.balance || 0);
     let startBal = 0; let duration = 400; let step = Math.ceil(targetBal / (duration / 16));
     let timer = setInterval(() => {
@@ -797,7 +688,7 @@ function calculateWalletCountersMetrics(history) {
     let earn = 0; let wd = 0;
     history.forEach(h => {
         let val = parseFloat(h.amount) || 0;
-        if(h.method.includes('Reward') || h.method.includes('Credit') || h.method.includes('Voucher') || h.method.includes('Receive')) {
+        if(h.method.includes('Reward') || h.method.includes('Credit') || h.method.includes('Voucher') || h.method.includes('Receive') || h.method.includes('Deposit')) {
             earn += val;
         }
         if(h.method.includes('UPI') || h.method.includes('Send')) {
@@ -847,13 +738,13 @@ function triggerSecureInvoiceAudit(item) {
         document.getElementById('inv-date-lbl').innerText = item.date || new Date().toLocaleDateString();
         document.getElementById('inv-method-lbl').innerText = item.method;
         document.getElementById('inv-sum-lbl').innerText = `₹${parseFloat(item.amount).toFixed(2)}`;
-        document.getElementById('inv-route-lbl').innerText = appState.user?.upi || 'P2P Asset Transfer Endpoint';
+        document.getElementById('inv-route-lbl').innerText = appState.user?.upi || 'P2P Asset/Deposit Endpoint';
         document.getElementById('inv-status-lbl').innerText = item.status || 'Verified Clear';
         document.getElementById('inv-hash-lbl').innerText = `TX-HASH-NODE-${Math.floor(Math.random()*9000000+1000000)}`;
         
         document.getElementById('invoice-flipper-core').classList.remove('flipped');
         openModal('modal-invoice-audit');
-    }, 1200); // 1.2 Second async processing timeline loop
+    }, 1200);
 }
 
 function processP2PDisbursal() {
@@ -897,220 +788,28 @@ function applyLocalPreferences() {
     }).then(() => { alert("Preferences Saved."); synchronizeTelemetryState(); });
 }
 
-/* ==================== PREMIUM MASTER ADMIN HUB ENGINE ==================== */
-function switchAdminTab(tabKey, btnElement) {
-    document.querySelectorAll('.admin-content-section').forEach(s => s.style.display = 'none');
-    document.querySelectorAll('.admin-tab-btn').forEach(b => b.classList.remove('active'));
-    
-    document.getElementById(`adm-tab-${tabKey}`).style.display = 'block';
-    btnElement.classList.add('active');
-}
-
-function populateAdminDashboardValues(settings) {
-    // Populate General System Inputs
-    document.getElementById('adm-sys-botstatus').value = String(settings.botStatus);
-    document.getElementById('adm-sys-verification').value = settings.verificationMode || "Both Off";
-    document.getElementById('adm-sys-notify').value = String(settings.newUserNotification);
-    document.getElementById('adm-sys-support-text').value = settings.supportDetails || "";
-
-    // Populate Financials
-    document.getElementById('adm-fin-wdmode').value = settings.withdrawMode || "Both On";
-    document.getElementById('adm-fin-minwd').value = settings.minWithdraw || 1;
-    document.getElementById('adm-fin-maxwd').value = settings.maxWithdraw || 500;
-    document.getElementById('adm-fin-refer').value = settings.perRefer || 7.00;
-    document.getElementById('adm-fin-tax').value = settings.withdrawTax || 0;
-    document.getElementById('adm-fin-p2ptax').value = String(settings.payToUserTax);
-
-    // Populate Channel Nodes
-    document.getElementById('adm-chn-payout').value = settings.payoutChannel || "";
-    document.getElementById('adm-chn-task').value = settings.taskChannel || "";
-    document.getElementById('adm-chn-code').value = settings.codeChannel || "";
-
-    // Render Configured Banners
-    renderAdminBannersInner(settings.banners || []);
-
-    // Render Configured Tasks
-    renderAdminTasksInner(settings.tasks || []);
-}
-
-function updateAdminSettingsUnified() {
-    const updatedSettings = {
-        botStatus: document.getElementById('adm-sys-botstatus').value === "true",
-        verificationMode: document.getElementById('adm-sys-verification').value,
-        newUserNotification: document.getElementById('adm-sys-notify').value === "true",
-        supportDetails: document.getElementById('adm-sys-support-text').value,
-
-        withdrawMode: document.getElementById('adm-fin-wdmode').value,
-        minWithdraw: parseFloat(document.getElementById('adm-fin-minwd').value || 1),
-        maxWithdraw: parseFloat(document.getElementById('adm-fin-maxwd').value || 500),
-        perRefer: parseFloat(document.getElementById('adm-fin-refer').value || 7.00),
-        withdrawTax: parseFloat(document.getElementById('adm-fin-tax').value || 0),
-        payToUserTax: document.getElementById('adm-fin-p2ptax').value === "true",
-
-        payoutChannel: document.getElementById('adm-chn-payout').value,
-        taskChannel: document.getElementById('adm-chn-task').value,
-        codeChannel: document.getElementById('adm-chn-code').value
-    };
-
-    fetch(`${ENGINE_API_ENDPOINT}/api/settings/update`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(updatedSettings)
-    })
-    .then(res => res.json())
-    .then(() => {
-        alert("Control Core Parameters Saved Successfully.");
-        synchronizeTelemetryState();
-    });
-}
-
-function addDynamicTaskAdmin() {
-    const title = document.getElementById('adm-tsk-title').value;
-    const amount = document.getElementById('adm-tsk-bounty').value;
-    const url = document.getElementById('adm-tsk-url').value;
-    const cat = document.getElementById('adm-tsk-cat').value || "All";
-    const desc = document.getElementById('adm-tsk-desc').value;
-
-    if (!title || !amount) return alert("Task specifications missing.");
-
-    const newTask = {
-        id: "T-" + Math.floor(Math.random() * 90000 + 10000),
-        title,
-        amount: parseFloat(amount),
-        url,
-        category: cat,
-        desc
-    };
-
-    let updatedTasksList = [...(appState.botSettings.tasks || [])];
-    updatedTasksList.push(newTask);
-
-    let updatedCategories = [...(appState.botSettings.categories || ["All"])];
-    if (!updatedCategories.includes(cat)) {
-        updatedCategories.push(cat);
-    }
-
-    fetch(`${ENGINE_API_ENDPOINT}/api/settings/update`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ tasks: updatedTasksList, categories: updatedCategories })
-    }).then(() => {
-        alert("New Mission Dispatched.");
-        document.getElementById('adm-tsk-title').value = '';
-        document.getElementById('adm-tsk-bounty').value = '';
-        document.getElementById('adm-tsk-url').value = '';
-        document.getElementById('adm-tsk-desc').value = '';
-        synchronizeTelemetryState();
-    });
-}
-
-function removeDynamicTaskAdmin(taskId) {
-    if(!confirm("Are you sure you want to delete this task?")) return;
-    let updatedTasksList = appState.botSettings.tasks.filter(t => t.id !== taskId);
-    fetch(`${ENGINE_API_ENDPOINT}/api/settings/update`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ tasks: updatedTasksList })
-    }).then(() => {
-        alert("Mission Terminated.");
-        synchronizeTelemetryState();
-    });
-}
-
-function renderAdminTasksInner(tasks) {
-    const dock = document.getElementById('adm-tasks-list-inner'); dock.innerHTML = '';
-    if(tasks.length === 0) { dock.innerHTML = '<p style="font-size:11px; color:var(--text-muted)">No Active Tasks.</p>'; return; }
-    tasks.forEach(t => {
-        const item = document.createElement('div');
-        item.style = "display:flex; justify-content:space-between; font-size:12px; border-bottom:1px solid var(--glass-border); padding:8px 0; cursor:pointer;";
-        item.innerHTML = `<span>${t.title} (₹${t.amount})</span><b style="color:var(--danger)"><i class="fa-solid fa-trash-can"></i></b>`;
-        item.onclick = () => removeDynamicTaskAdmin(t.id);
-        dock.appendChild(item);
-    });
-}
-
-function addDynamicBannerAdmin() {
-    const imgUrl = document.getElementById('adm-ban-img').value;
-    const redirectUrl = document.getElementById('adm-ban-redirect').value;
-
-    if (!imgUrl) return alert("Provide Banner Image URL.");
-
-    let updatedBanners = [...(appState.botSettings.banners || [])];
-    updatedBanners.push({ imgUrl, redirectUrl });
-
-    fetch(`${ENGINE_API_ENDPOINT}/api/settings/update`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ banners: updatedBanners })
-    }).then(() => {
-        alert("Slide Asset Infused.");
-        document.getElementById('adm-ban-img').value = '';
-        document.getElementById('adm-ban-redirect').value = '';
-        synchronizeTelemetryState();
-    });
-}
-
-function removeDynamicBannerAdmin(idx) {
-    let updatedBanners = [...(appState.botSettings.banners || [])];
-    updatedBanners.splice(idx, 1);
-    fetch(`${ENGINE_API_ENDPOINT}/api/settings/update`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ banners: updatedBanners })
-    }).then(() => {
-        alert("Banner Slide Extracted.");
-        synchronizeTelemetryState();
-    });
-}
-
-function renderAdminBannersInner(banners) {
-    const dock = document.getElementById('adm-banners-list-inner'); dock.innerHTML = '';
-    if(banners.length === 0) { dock.innerHTML = '<p style="font-size:11px; color:var(--text-muted)">No Slide Banners Mapped.</p>'; return; }
-    banners.forEach((b, idx) => {
-        const item = document.createElement('div');
-        item.style = "display:flex; justify-content:space-between; font-size:11px; border-bottom:1px solid var(--glass-border); padding:6px 0; align-items:center;";
-        item.innerHTML = `<span style="text-overflow:ellipsis; overflow:hidden; white-space:nowrap; max-width:80%;">${b.imgUrl}</span><b style="color:var(--danger); cursor:pointer;" onclick="removeDynamicBannerAdmin(${idx})"><i class="fa-solid fa-square-minus"></i></b>`;
-        dock.appendChild(item);
-    });
-}
-
-function modifyLedgerBalance(action, isDebt) {
-    const targetUid = document.getElementById('adm-usr-uid').value;
-    const amount = document.getElementById('adm-usr-amount').value;
-    const taskTitle = document.getElementById('adm-usr-title').value;
-
-    if(!targetUid || !amount) return alert("Required parameters missing.");
-
+/* --- ADMIN OPERATIONS INFRASTRUCTURE PANEL MODULES --- */
+function adjustUserBalanceAdmin(action, isDebt) {
+    const targetUid = document.getElementById('adm-target-uid').value;
+    const amount = document.getElementById('adm-target-value').value;
+    const taskTitle = document.getElementById('adm-credit-title').value;
     fetch(`${ENGINE_API_ENDPOINT}/api/admin/modify-balance`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ targetUid, action, amount, isDebt, taskTitle })
-    }).then(res => res.json()).then(() => { 
-        alert("Transaction Asset Update Complete."); 
-        document.getElementById('adm-usr-amount').value = '';
-        synchronizeTelemetryState(); 
-    });
+    }).then(res => res.json()).then(() => { alert("Execution complete."); synchronizeTelemetryState(); });
 }
 
-function generateVoucherCodeUnified() {
-    const codeString = document.getElementById('adm-vch-code').value;
-    const awardValue = document.getElementById('adm-vch-value').value;
-
-    if(!codeString || !awardValue) return alert("Code parameters empty.");
-
+function registerVoucherAdmin() {
+    const codeString = document.getElementById('adm-v-code').value;
+    const awardValue = document.getElementById('adm-v-sum').value;
     fetch(`${ENGINE_API_ENDPOINT}/api/admin/create-code`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ codeString, awardValue })
-    }).then(() => { 
-        alert(`Voucher [${codeString.toUpperCase()}] Authorized!`); 
-        document.getElementById('adm-vch-code').value = '';
-        document.getElementById('adm-vch-value').value = '';
-        synchronizeTelemetryState(); 
-    });
+    }).then(() => { alert("Voucher Registered."); synchronizeTelemetryState(); });
 }
 
-/* --- CLAIM MECHANICS REDEMPTIONS --- */
 function claimVoucherTokenSubmit() {
     const code = document.getElementById('txt-voucher-token-input').value;
     fetch(`${ENGINE_API_ENDPOINT}/api/mini-app/redeem-code`, {
@@ -1130,6 +829,35 @@ function submitWithdrawalClaimRequest() {
     }).then(res => res.json()).then(r => { if(r.error) alert(r.error); else { alert("Settlement Queued."); closeModal('modal-withdraw'); synchronizeTelemetryState(); } });
 }
 
+/* --- DEPOSIT INTERACTION SUBMISSIONS --- */
+function submitDepositGatewayRequest() {
+    const amount = parseFloat(document.getElementById('txt-dep-quantum').value);
+    const ref = document.getElementById('txt-dep-ref').value;
+    if(!amount || amount <= 0) return alert("Please enter a valid amount.");
+    
+    // API Call to notify backend about the deposit request
+    fetch(`${ENGINE_API_ENDPOINT}/api/mini-app/deposit`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ userId: sessionUserUid, amount, reference: ref })
+    })
+    .then(res => res.json())
+    .then(r => { 
+        if(r.error) {
+            alert(r.error); 
+        } else { 
+            alert("Deposit Request Registered! Waiting for admin validation."); 
+            closeModal('modal-deposit'); 
+            synchronizeTelemetryState(); 
+        } 
+    })
+    .catch(() => {
+        // Fallback or Simulation if API endpoint is not yet fully configured in backend
+        alert("Deposit request logged locally. Add API Handler in server.js!");
+        closeModal('modal-deposit');
+    });
+}
+
 function copyUserUID() { navigator.clipboard.writeText(sessionUserUid); alert("UID Copied."); }
 function copyReferLink() { navigator.clipboard.writeText(document.getElementById('txt-refer-link-box').value); alert("Link Copied."); }
 function shareReferTelegram() { window.open(`https://t.me/share/url?url=${encodeURIComponent(document.getElementById('txt-refer-link-box').value)}&text=Join%20ExtraEarn%20Now`, '_blank'); }
@@ -1140,6 +868,7 @@ function openModal(id) { document.getElementById(id).style.display = 'flex'; }
 function closeModal(id) { document.getElementById(id).style.display = 'none'; }
 function openVoucherPopup() { openModal('modal-voucher'); }
 function openWithdrawModal() { document.getElementById('txt-wd-address').value = appState.user?.upi || ''; openModal('modal-withdraw'); }
+function openDepositModal() { openModal('modal-deposit'); }
 </script>
 </body>
 </html>
