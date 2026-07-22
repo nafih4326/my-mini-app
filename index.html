@@ -22,1124 +22,502 @@
         }
 
         * { 
-            margin: 0; padding: 0; 
+            margin: 0; 
+            padding: 0; 
             box-sizing: border-box; 
-            font-family: 'Plus Jakarta Sans', sans-serif; 
+            font-family: 'Plus Jakarta Sans', sans-serif;
             -webkit-tap-highlight-color: transparent;
-            user-select: none;
         }
 
-        body { 
-            background: var(--bg); 
-            color: white; 
-            overflow-x: hidden; 
+        body {
+            background-color: var(--bg);
+            color: #ffffff;
             min-height: 100vh;
-            display: flex;
-            justify-content: center;
-        }
-
-        .app-container {
-            width: 100%; max-width: 480px; min-height: 100vh;
-            position: relative; padding-bottom: 120px;
-            display: flex; flex-direction: column;
+            padding-bottom: 90px;
+            overflow-x: hidden;
         }
 
         .header {
-            height: 70px; padding: 0 20px; display: flex;
-            justify-content: space-between; align-items: center;
-            background: rgba(0, 0, 0, 0.4); backdrop-filter: blur(var(--blur-val));
-            -webkit-backdrop-filter: blur(var(--blur-val));
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
             border-bottom: 1px solid var(--glass-border);
-            position: sticky; top: 0; z-index: 999;
         }
 
-        .logo-section h1 { font-size: 22px; font-weight: 800; letter-spacing: -0.5px; }
-        .logo-section h1 span.extra { color: var(--danger); }
-        .logo-section h1 span.earn { color: #ffffff; }
-
-        .view-section { flex: 1; padding: 20px; display: none; animation: fadeIn 0.4s ease; }
-        .view-section.active { display: block; }
-
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
-
-        /* --- AUTOMATED MULTI-BANNER SLIDER --- */
-        .slider-viewport {
-            width: 100%; height: 160px; border-radius: 24px; overflow: hidden;
-            border: 1px solid var(--glass-border); position: relative; margin-bottom: 20px; display: none;
-        }
-        .slider-track { display: flex; width: 100%; height: 100%; transition: transform 0.5s cubic-bezier(0.1, 0.8, 0.3, 1); }
-        .slide-node { min-width: 100%; height: 100%; position: relative; cursor: pointer; }
-        .slide-node img { width: 100%; height: 100%; object-fit: cover; }
-
-        /* --- HORIZONTAL CATEGORIES BAR --- */
-        .categories-wrapper { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 14px; margin-bottom: 10px; }
-        .categories-wrapper::-webkit-scrollbar { display: none; }
-        .category-chip {
-            padding: 8px 18px; background: var(--card-bg); border: 1px solid var(--glass-border);
-            border-radius: 20px; font-size: 13px; font-weight: 700; color: var(--text-muted);
-            cursor: pointer; white-space: nowrap; transition: all 0.3s;
-        }
-        .category-chip.active { background: white; color: black; border-color: white; }
-
-        /* --- TASK COMPONENT LISTS --- */
-        .task-node {
-            background: var(--card-bg); border: 1px solid var(--glass-border);
-            border-radius: 20px; padding: 18px; display: flex; justify-content: space-between;
-            align-items: center; margin-bottom: 12px; cursor: pointer; transition: all 0.2s;
-        }
-        .task-node:active { transform: scale(0.98); background: rgba(255,255,255,0.05); }
-        .task-title-lbl { font-size: 15px; font-weight: 700; color: #fff; }
-        .task-bounty-lbl { font-size: 16px; font-weight: 800; color: var(--green); }
-
-        /* --- FULL SCREEN SUB PAGES PANEL --- */
-        .full-sub-page {
-            position: fixed; top: 0; left: 50%; transform: translateX(-50%);
-            width: 100%; max-width: 480px; height: 100vh; background: #000;
-            z-index: 2000; display: none; flex-direction: column; overflow-y: auto; padding: 24px;
-        }
-        .sub-page-header { display: flex; align-items: center; gap: 16px; margin-bottom: 26px; }
-        .back-circle-btn {
-            width: 42px; height: 42px; border-radius: 50%; background: var(--card-bg);
-            border: 1px solid var(--glass-border); display: flex; align-items: center; justify-content: center;
-            font-size: 16px; color: #fff; cursor: pointer;
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 12px;
         }
 
-        /* --- PREVIEW AND DISPLAY CHIPS --- */
-        .glass-card {
-            background: var(--card-bg); border: 1px solid var(--glass-border);
-            backdrop-filter: blur(var(--blur-val)); -webkit-backdrop-filter: blur(var(--blur-val));
-            border-radius: 24px; padding: 22px; margin-bottom: 16px; position: relative;
+        .avatar {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--blue), var(--green));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 18px;
+            box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
         }
 
-        .wallet-stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 16px; }
-        .stat-mini-box { background: rgba(255,255,255,0.01); border: 1px solid var(--glass-border); padding: 14px; border-radius: 16px; }
-
-        .sub-tab-bar { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 20px 0; }
-        .sub-tab-btn {
-            padding: 12px; background: var(--card-bg); border: 1px solid var(--glass-border);
-            text-align: center; border-radius: 14px; font-weight: 700; font-size: 14px; color: var(--text-muted); cursor: pointer;
-        }
-        .sub-tab-btn.active { background: rgba(255,255,255,0.08); color: #fff; border-color: var(--blue); }
-
-        .history-item-tile {
-            display: flex; justify-content: space-between; align-items: center; padding: 14px;
-            background: rgba(255,255,255,0.01); border: 1px solid var(--glass-border); border-radius: 16px; margin-bottom: 10px; cursor: pointer;
+        .user-info h4 {
+            font-size: 15px;
+            font-weight: 700;
         }
 
-        .glass-input, .glass-select {
-            width: 100%; background: rgba(255, 255, 255, 0.02); border: 1px solid var(--glass-border);
-            padding: 16px; border-radius: 16px; color: white; font-size: 15px; outline: none; margin-bottom: 14px;
-        }
-        .glass-select option { background: #000; color: #fff; }
-
-        .glass-btn {
-            width: 100%; background: var(--card-bg); border: 1px solid var(--glass-border);
-            color: white; padding: 16px; border-radius: 18px; font-weight: 700; font-size: 15px;
-            cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; transition: background 0.3s;
-        }
-        .glass-btn.primary { background: var(--blue); border: none; }
-        .glass-btn.danger { background: var(--danger); border: none; }
-        .glass-btn:active { opacity: 0.8; }
-
-        /* --- NAVIGATION BOTTOM ENGINE --- */
-        .bottom-nav {
-            position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
-            width: calc(100% - 40px); max-width: 440px; height: 70px;
-            background: rgba(10, 10, 10, 0.3); backdrop-filter: blur(var(--blur-val)) saturate(160%);
-            -webkit-backdrop-filter: blur(var(--blur-val)) saturate(160%);
-            border: 1px solid var(--glass-border); border-radius: 24px;
-            display: flex; justify-content: space-around; align-items: center; z-index: 1900;
-        }
-        .nav-link {
-            display: flex; flex-direction: column; align-items: center; color: var(--text-muted);
-            font-size: 11px; font-weight: 700; gap: 5px; cursor: pointer; transition: color 0.3s;
-        }
-        .nav-link i { font-size: 22px; }
-        .nav-link.active { color: var(--blue); }
-
-        /* --- FLOATING VOUCHER BALL --- */
-        .floating-gift-trigger {
-            position: absolute; bottom: -15px; right: 20px; width: 46px; height: 46px;
-            border-radius: 50%; background: var(--blue); display: flex; align-items: center; justify-content: center;
-            font-size: 18px; color: white; cursor: pointer; z-index: 100; box-shadow: 0 4px 15px rgba(52,152,219,0.4);
+        .user-info p {
+            font-size: 12px;
+            color: var(--text-muted);
         }
 
-        /* --- MODAL STRUCTURE OVERLAYS --- */
-        .glass-modal {
-            position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0, 0, 0, 0.75); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
-            z-index: 10000; display: none; align-items: center; justify-content: center; padding: 20px;
-        }
-        .modal-body {
-            background: rgba(15, 15, 15, 0.85); border: 1px solid var(--glass-border);
-            width: 100%; max-width: 400px; border-radius: 28px; padding: 24px; position: relative;
-        }
-
-        /* --- SCREENSHOT FLIP INVOICE ENGINE --- */
-        .receipt-flipper { transform-style: preserve-3d; transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1); cursor: pointer; }
-        .receipt-flipper.flipped { transform: rotateY(180deg); }
-        .receipt-front, .receipt-back { backface-visibility: hidden; -webkit-backface-visibility: hidden; width: 100%; }
-        .receipt-back { transform: rotateY(180deg); position: absolute; top: 0; left: 0; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; background: #111; border-radius: 24px; border: 1px solid var(--glass-border); }
-
-        /* --- SYSTEM LOADER FULL OVERLAY SCREEN --- */
-        .async-screen-loader {
-            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: #000000;
-            z-index: 50000; display: none; flex-direction: column; align-items: center; justify-content: center; gap: 16px;
-        }
-        .spinner-ring {
-            width: 50px; height: 50px; border: 3px solid rgba(255,255,255,0.05);
-            border-top-color: var(--blue); border-radius: 50%; animation: spin 1s infinite linear;
-        }
-        @keyframes spin { to { transform: rotate(360deg); } }
-
-        /* --- GRAPHIC PROFILE GRID LAYOUT --- */
-        .profile-hero { display: flex; align-items: center; gap: 16px; padding: 10px 0; margin-bottom: 24px; }
-        .profile-hero img { width: 68px; height: 68px; border-radius: 50%; border: 2px solid var(--glass-border); object-fit: cover; }
-        .uid-badge { display: inline-flex; align-items: center; gap: 6px; background: var(--card-bg); border: 1px solid var(--glass-border); padding: 4px 10px; border-radius: 12px; font-size: 12px; color: var(--text-muted); cursor: pointer; margin-top: 4px; }
-
-        .menu-list-link {
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 16px; background: var(--card-bg); border: 1px solid var(--glass-border);
-            border-radius: 16px; margin-bottom: 10px; cursor: pointer; font-weight: 600; font-size: 14px;
+        .balance-card {
+            margin: 20px;
+            padding: 25px;
+            background: var(--card-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            backdrop-filter: blur(var(--blur-val));
+            text-align: center;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
         }
 
-        /* Admin Inner Tabs styling */
-        .admin-tab-bar {
-            display: flex; gap: 8px; overflow-x: auto; padding-bottom: 10px; margin-bottom: 15px;
+        .balance-title {
+            font-size: 13px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
         }
-        .admin-tab-btn {
-            padding: 8px 14px; background: var(--card-bg); border: 1px solid var(--glass-border);
-            border-radius: 12px; font-size: 12px; font-weight: 700; color: var(--text-muted); cursor: pointer; white-space: nowrap;
+
+        .balance-amount {
+            font-size: 36px;
+            font-weight: 800;
+            color: #fff;
+            margin-bottom: 20px;
         }
-        .admin-tab-btn.active { background: var(--blue); color: #fff; border-color: var(--blue); }
+
+        .action-buttons {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+
+        .btn-action {
+            padding: 12px;
+            border-radius: 14px;
+            border: 1px solid var(--glass-border);
+            background: rgba(255, 255, 255, 0.05);
+            color: #fff;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s ease;
+        }
+
+        .btn-action:active {
+            transform: scale(0.95);
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .btn-action i {
+            font-size: 18px;
+            color: var(--blue);
+        }
+
+        .section {
+            padding: 0 20px;
+            margin-bottom: 25px;
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .task-card {
+            background: var(--card-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 16px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            backdrop-filter: blur(var(--blur-val));
+        }
+
+        .task-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .task-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            background: rgba(52, 152, 219, 0.1);
+            color: var(--blue);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+
+        .task-details h5 {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .task-details p {
+            font-size: 12px;
+            color: var(--green);
+            font-weight: 600;
+        }
+
+        .btn-claim {
+            padding: 8px 16px;
+            border-radius: 10px;
+            border: none;
+            background: var(--blue);
+            color: #fff;
+            font-weight: 600;
+            font-size: 12px;
+            cursor: pointer;
+        }
+
+        /* Modal / Popup Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal-content {
+            background: #111;
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 25px;
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-bottom: 6px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px;
+            border-radius: 10px;
+            border: 1px solid var(--glass-border);
+            background: rgba(255, 255, 255, 0.05);
+            color: #fff;
+            outline: none;
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 12px;
+            border-radius: 10px;
+            border: none;
+            background: var(--green);
+            color: #fff;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        /* Nav Bar */
+        .nav-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(20px);
+            border-top: 1px solid var(--glass-border);
+            display: flex;
+            justify-content: space-around;
+            padding: 12px 0;
+            z-index: 100;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            color: var(--text-muted);
+            font-size: 11px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .nav-item.active {
+            color: var(--blue);
+        }
+
+        .nav-item i {
+            font-size: 18px;
+        }
     </style>
 </head>
 <body>
 
-<div id="global-async-loader" class="async-screen-loader">
-    <div class="spinner-ring"></div>
-    <p style="font-size: 13px; color: var(--text-muted); font-weight: 600; letter-spacing: 0.5px;">SECURE AUDIT INTEGRITY DEPLOYMENT...</p>
-</div>
-
-<div class="app-container">
-
-    <header class="header">
-        <div class="logo-section">
-            <h1><span class="extra">Extra</span><span class="earn">Earn</span></h1>
+    <div class="header">
+        <div class="user-profile">
+            <div class="avatar" id="lbl-user-avatar">U</div>
+            <div class="user-info">
+                <h4 id="lbl-user-name">User Name</h4>
+                <p>UID: <span id="lbl-user-uid">000000</span></p>
+            </div>
         </div>
-        <div id="header-balance-node" style="display:none; font-weight:800; color:var(--green); font-size:16px;"></div>
-    </header>
-
-    <div id="view-home" class="view-section active">
-        <div class="slider-viewport" id="slider-frame">
-            <div class="slider-track" id="slider-inner-track"></div>
-        </div>
-        
-        <div class="categories-wrapper" id="categories-dock">
-            <div class="category-chip active" onclick="filterCategory('All', this)">All</div>
-        </div>
-
-        <div id="home-tasks-container" style="margin-top: 10px;"></div>
+        <button class="btn-action" style="padding: 8px 12px;" onclick="copyUserUID()">
+            <i class="fa-regular fa-copy"></i>
+        </button>
     </div>
 
-    <div id="view-wallet" class="view-section">
-        <div class="glass-card" style="background: radial-gradient(circle at top left, rgba(255,255,255,0.04), transparent);">
-            <div style="display: flex; justify-content: space-between; align-items: center;">
-                <span style="font-size: 13px; font-weight: 700; color: var(--text-muted);">Current Assets Balance</span>
-                <i class="fa-solid fa-rotate" id="refresh-balance-icon" style="cursor: pointer; color: var(--text-muted); font-size: 16px;" onclick="triggerCounterRefresh()"></i>
-            </div>
-            
-            <div id="lbl-wallet-bal" style="font-size: 42px; font-weight: 800; margin: 10px 0; letter-spacing: -1px;">₹0.00</div>
-            
-            <div class="wallet-stat-grid">
-                <div class="stat-mini-box">
-                    <p style="font-size: 11px; color: var(--text-muted);">Total Earnings</p>
-                    <b style="font-size: 15px; color: var(--green);" id="lbl-stat-earn">₹0.00</b>
+    <div class="balance-card">
+        <div class="balance-title">Available Balance</div>
+        <div class="balance-amount" id="lbl-balance">₹0.00</div>
+        <div class="action-buttons">
+            <button class="btn-action" onclick="openWithdrawModal()">
+                <i class="fa-solid fa-wallet"></i> Withdraw
+            </button>
+            <button class="btn-action" onclick="openVoucherPopup()">
+                <i class="fa-solid fa-ticket"></i> Voucher
+            </button>
+            <button class="btn-action" onclick="openModal('modal-refer')">
+                <i class="fa-solid fa-user-plus"></i> Invite
+            </button>
+        </div>
+    </div>
+
+    <div class="section">
+        <div class="section-title">
+            <span>Available Tasks</span>
+        </div>
+        <div id="tasks-container">
+            <div class="task-card">
+                <div class="task-info">
+                    <div class="task-icon"><i class="fa-brands fa-telegram"></i></div>
+                    <div class="task-details">
+                        <h5>Join Telegram Channel</h5>
+                        <p>+₹5.00</p>
+                    </div>
                 </div>
-                <div class="stat-mini-box">
-                    <p style="font-size: 11px; color: var(--text-muted);">Total Withdrawals</p>
-                    <b style="font-size: 15px; color: #fff;" id="lbl-stat-wd">₹0.00</b>
-                </div>
-            </div>
-
-            <div class="floating-gift-trigger" onclick="openVoucherPopup()"><i class="fa-solid fa-gift"></i></div>
-        </div>
-
-        <button class="glass-btn primary" style="margin: 10px 0 20px 0;" onclick="openWithdrawModal()"><i class="fa-solid fa-wallet"></i> Instant Settlement Payout</button>
-
-        <div class="sub-tab-bar">
-            <div class="sub-tab-btn active" id="tab-trigger-earn" onclick="toggleWalletHistoryTab('earnings')">Earnings</div>
-            <div class="sub-tab-btn" id="tab-trigger-wd" onclick="toggleWalletHistoryTab('withdrawals')">Withdrawals</div>
-        </div>
-
-        <div id="wallet-history-stream"></div>
-    </div>
-
-    <div id="view-pay" class="view-section">
-        <div class="glass-card">
-            <div style="font-size:14px; font-weight:700; margin-bottom:16px; color:var(--text-muted);"><i class="fa-solid fa-paper-plane"></i> Peer Vector Transfer Node</div>
-            <input type="number" id="txt-p2p-uid" class="glass-input" placeholder="Recipient Telegram User UID">
-            <input type="number" id="txt-p2p-sum" class="glass-input" placeholder="Sum Capital Quantum (₹)">
-            <button class="glass-btn primary" onclick="processP2PDisbursal()">Execute Financial Link</button>
-        </div>
-    </div>
-
-    <div id="view-profile" class="view-section">
-        <div class="profile-hero">
-            <img id="prof-avatar-node" src="https://img.icons8.com/colors/344/test-account.png">
-            <div>
-                <h3 id="prof-name-node" style="font-size: 18px; font-weight: 800;">Framework User</h3>
-                <div class="uid-badge" onclick="copyUserUID()"><i class="fa-solid fa-copy"></i> ID: <span id="prof-uid-string">00000000</span></div>
-            </div>
-        </div>
-
-        <div class="menu-list-link" onclick="openSubPage('page-refer-hub')"><div><i class="fa-solid fa-users" style="color:var(--blue); margin-right:10px;"></i> Refer & Earn Network</div><i class="fa-solid fa-chevron-right" style="color:var(--text-muted)"></i></div>
-        <div class="menu-list-link" onclick="openSubPage('page-leaderboard')"><div><i class="fa-solid fa-trophy" style="color:gold; margin-right:10px;"></i> Top Wealth Leaderboard</div><i class="fa-solid fa-chevron-right" style="color:var(--text-muted)"></i></div>
-        <div class="menu-list-link" id="btn-link-tg" style="display:none;"><div><i class="fa-brands fa-telegram" style="color:#2ab6f6; margin-right:10px;"></i> Telegram Community Channel</div><i class="fa-solid fa-arrow-up-right-from-square" style="color:var(--text-muted)"></i></div>
-        <div class="menu-list-link" id="btn-link-support" style="display:none;"><div><i class="fa-solid fa-headset" style="color:var(--green); margin-right:10px;"></i> Contact Support Core Desk</div><i class="fa-solid fa-chevron-right" style="color:var(--text-muted)"></i></div>
-        <div class="menu-list-link" onclick="openSubPage('page-settings-node')"><div><i class="fa-solid fa-sliders" style="color:orange; margin-right:10px;"></i> System UI Preferences</div><i class="fa-solid fa-chevron-right" style="color:var(--text-muted)"></i></div>
-        
-        <div id="admin-terminal-btn" class="menu-list-link" style="display:none; margin-top:20px; border-color:var(--blue);" onclick="openSubPage('page-admin-control-hub')">
-            <div><i class="fa-solid fa-user-shield" style="color:var(--blue); margin-right:10px;"></i> Matrix Control Administration</div>
-            <i class="fa-solid fa-chevron-right" style="color:var(--blue)"></i>
-        </div>
-    </div>
-
-    <nav class="bottom-nav" id="bottom-nav-bar">
-        <div class="nav-link active" onclick="switchMainTab('home', this)" id="nav-item-home"><i class="fa-solid fa-home" id="nav-icon-home"></i><span id="nav-lbl-home">Home</span></div>
-        <div class="nav-link" onclick="switchMainTab('wallet', this)"><i class="fa-solid fa-wallet"></i>Wallet</div>
-        <div class="nav-link" onclick="switchMainTab('pay', this)"><i class="fa-solid fa-paper-plane"></i>Pay</div>
-        <div class="nav-link" onclick="switchMainTab('profile', this)"><i class="fa-solid fa-user"></i>Profile</div>
-    </nav>
-
-</div>
-
-<div id="page-task-details" class="full-sub-page">
-    <div class="sub-page-header">
-        <div class="back-circle-btn" onclick="closeSubPage('page-task-details')"><i class="fa-solid fa-chevron-left"></i></div>
-        <h3 style="font-size:18px; font-weight:800;">Task Matrix Specifications</h3>
-    </div>
-    <div class="glass-card">
-        <h2 id="det-task-title" style="font-size:20px; font-weight:800; margin-bottom:6px;">-</h2>
-        <div id="det-task-bounty" style="font-size:24px; font-weight:800; color:var(--green); margin-bottom:16px;">₹0.00</div>
-        <p id="det-task-desc" style="font-size:14px; color:var(--text-muted); line-height:1.6; margin-bottom:20px;">-</p>
-        
-        <button class="glass-btn primary" id="btn-task-redirect-link" style="margin-bottom:24px;"><i class="fa-solid fa-arrow-up-right-from-square"></i> Open Mission Campaign Link</button>
-        
-        <div id="det-submission-zone" style="border-top:1px dashed var(--glass-border); padding-top:20px;">
-            <label style="font-size:12px; font-weight:700; color:var(--text-muted); display:block; margin-bottom:8px;">UPLOAD SCREENSHOT PROOF METRIC</label>
-            <input type="file" id="file-task-proof" class="glass-input" accept="image/*">
-            <button class="glass-btn" style="background:rgba(46,204,113,0.12); color:var(--green); border-color:rgba(46,204,113,0.3);" onclick="uploadTaskProofData()"><i class="fa-solid fa-cloud-arrow-up"></i> Submit Audit Ledger</button>
-        </div>
-        <div id="det-lockout-zone" style="display:none; text-align:center; padding:20px; color:var(--green); font-weight:700;">
-            <i class="fa-solid fa-circle-notch fa-spin"></i> AUDIT FLOW LOCK ACTIVE. PENDING VERIFICATION.
-        </div>
-    </div>
-</div>
-
-<div id="page-refer-hub" class="full-sub-page">
-    <div class="sub-page-header">
-        <div class="back-circle-btn" onclick="closeSubPage('page-refer-hub')"><i class="fa-solid fa-chevron-left"></i></div>
-        <h3 style="font-size:18px; font-weight:800;">Referral Network</h3>
-    </div>
-    <div class="glass-card">
-        <p style="font-size:13px; color:var(--text-muted);">Share invite token parameter code:</p>
-        <input type="text" id="txt-refer-link-box" class="glass-input" style="margin-top:8px;" readonly>
-        <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
-            <button class="glass-btn" onclick="copyReferLink()"><i class="fa-solid fa-copy"></i> Copy Link</button>
-            <button class="glass-btn primary" onclick="shareReferTelegram()"><i class="fa-solid fa-share"></i> Share Node</button>
-        </div>
-    </div>
-    <div style="font-size:12px; font-weight:700; color:var(--text-muted); margin:10px 0;">YOUR REGISTERED REFERRALS</div>
-    <div id="refer-nodes-list-dock"></div>
-</div>
-
-<div id="page-leaderboard" class="full-sub-page">
-    <div class="sub-page-header">
-        <div class="back-circle-btn" onclick="closeSubPage('page-leaderboard')"><i class="fa-solid fa-chevron-left"></i></div>
-        <h3 style="font-size:18px; font-weight:800;">Top Wealth Leaderboard</h3>
-    </div>
-    <div id="leaderboard-rank-dock"></div>
-</div>
-
-<div id="page-settings-node" class="full-sub-page">
-    <div class="sub-page-header">
-        <div class="back-circle-btn" onclick="closeSubPage('page-settings-node')"><i class="fa-solid fa-chevron-left"></i></div>
-        <h3 style="font-size:18px; font-weight:800;">System Customizer UI</h3>
-    </div>
-    <div class="glass-card">
-        <label style="font-size:12px; color:var(--text-muted);">BLUR INTENSITY VALUE CONTROL</label>
-        <input type="text" id="cfg-ui-blur" class="glass-input" placeholder="20px" style="margin:8px 0 16px 0;">
-        <button class="glass-btn primary" onclick="applyLocalPreferences()"><i class="fa-solid fa-circle-check"></i> Apply UI Configuration Layout</button>
-    </div>
-</div>
-
-<div id="page-admin-control-hub" class="full-sub-page" style="background: #000;">
-    <div class="sub-page-header">
-        <div class="back-circle-btn" onclick="closeSubPage('page-admin-control-hub')"><i class="fa-solid fa-chevron-left"></i></div>
-        <h3 style="font-size:18px; font-weight:800; color: var(--blue);">Matrix Control Core</h3>
-    </div>
-
-    <div class="admin-tab-bar">
-        <div class="admin-tab-btn active" onclick="switchAdminTab('sys', this)">System</div>
-        <div class="admin-tab-btn" onclick="switchAdminTab('fin', this)">Financials</div>
-        <div class="admin-tab-btn" onclick="switchAdminTab('chn', this)">Channels</div>
-        <div class="admin-tab-btn" onclick="switchAdminTab('tsk', this)">Tasks & Banners</div>
-        <div class="admin-tab-btn" onclick="switchAdminTab('usr', this)">User & Debt</div>
-        <div class="admin-tab-btn" onclick="switchAdminTab('vch', this)">Vouchers</div>
-    </div>
-
-    <div id="adm-tab-sys" class="admin-content-section">
-        <div class="glass-card">
-            <h4 style="font-size:14px; margin-bottom:12px; color: var(--blue);"><i class="fa-solid fa-gears"></i> Core Engine Status</h4>
-            
-            <label style="font-size:11px; color:var(--text-muted)">BOT STATUS (ONLINE/OFFLINE)</label>
-            <select id="adm-sys-botstatus" class="glass-select">
-                <option value="true">Online (Working)</option>
-                <option value="false">Offline (Maintenance)</option>
-            </select>
-
-            <label style="font-size:11px; color:var(--text-muted)">ANTI-FRAUD DEVICE VERIFICATION MODE</label>
-            <select id="adm-sys-verification" class="glass-select">
-                <option value="Both On">Both On</option>
-                <option value="Both Off">Both Off</option>
-                <option value="Telegram Only">Telegram Only</option>
-                <option value="Webapp Only">Webapp Only</option>
-            </select>
-
-            <label style="font-size:11px; color:var(--text-muted)">NEW USER TELEGRAM NOTIFICATION</label>
-            <select id="adm-sys-notify" class="glass-select">
-                <option value="true">Enabled (Notify Admin)</option>
-                <option value="false">Disabled</option>
-            </select>
-
-            <label style="font-size:11px; color:var(--text-muted)">SUPPORT DESK DETAILS (RAW TEXT)</label>
-            <textarea id="adm-sys-support-text" class="glass-input" style="height: 100px; resize: none; font-size:13px;" placeholder="📩 Official Support Desk details..."></textarea>
-
-            <button class="glass-btn primary" onclick="updateAdminSettingsUnified()"><i class="fa-solid fa-save"></i> Save System Config</button>
-        </div>
-    </div>
-
-    <div id="adm-tab-fin" class="admin-content-section" style="display:none;">
-        <div class="glass-card">
-            <h4 style="font-size:14px; margin-bottom:12px; color: var(--blue);"><i class="fa-solid fa-coins"></i> Economy & Settlement Parameters</h4>
-
-            <label style="font-size:11px; color:var(--text-muted)">WITHDRAWAL GATEWAY MODULATION</label>
-            <select id="adm-fin-wdmode" class="glass-select">
-                <option value="Both On">Both On</option>
-                <option value="Both Off">Both Off</option>
-                <option value="UPI On">UPI On Only</option>
-                <option value="USDT On">USDT On Only</option>
-            </select>
-
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
-                <div>
-                    <label style="font-size:11px; color:var(--text-muted)">MIN WITHDRAW (₹)</label>
-                    <input type="number" id="adm-fin-minwd" class="glass-input" placeholder="1">
-                </div>
-                <div>
-                    <label style="font-size:11px; color:var(--text-muted)">MAX WITHDRAW (₹)</label>
-                    <input type="number" id="adm-fin-maxwd" class="glass-input" placeholder="500">
-                </div>
-            </div>
-
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
-                <div>
-                    <label style="font-size:11px; color:var(--text-muted)">PER REFER VALUE (₹)</label>
-                    <input type="number" step="0.01" id="adm-fin-refer" class="glass-input" placeholder="7.00">
-                </div>
-                <div>
-                    <label style="font-size:11px; color:var(--text-muted)">WITHDRAW TAX (%)</label>
-                    <input type="number" id="adm-fin-tax" class="glass-input" placeholder="0">
-                </div>
-            </div>
-
-            <label style="font-size:11px; color:var(--text-muted)">CHARGED TAX ON P2P TRANSFERS</label>
-            <select id="adm-fin-p2ptax" class="glass-select">
-                <option value="true">Yes (Apply Tax)</option>
-                <option value="false">No (Tax Free)</option>
-            </select>
-
-            <button class="glass-btn primary" onclick="updateAdminSettingsUnified()"><i class="fa-solid fa-save"></i> Save Financial Config</button>
-        </div>
-    </div>
-
-    <div id="adm-tab-chn" class="admin-content-section" style="display:none;">
-        <div class="glass-card">
-            <h4 style="font-size:14px; margin-bottom:12px; color: var(--blue);"><i class="fa-solid fa-network-wired"></i> Channel Broadcast Links</h4>
-
-            <label style="font-size:11px; color:var(--text-muted)">PAYOUT LOGGER CHANNEL</label>
-            <input type="text" id="adm-chn-payout" class="glass-input" placeholder="@Payoutbynasih">
-
-            <label style="font-size:11px; color:var(--text-muted)">TASK UPDATE CHANNEL</label>
-            <input type="text" id="adm-chn-task" class="glass-input" placeholder="@yourtaskchannel">
-
-            <label style="font-size:11px; color:var(--text-muted)">CODE DROPS CHANNEL</label>
-            <input type="text" id="adm-chn-code" class="glass-input" placeholder="@codechannel">
-
-            <button class="glass-btn primary" onclick="updateAdminSettingsUnified()"><i class="fa-solid fa-save"></i> Save Channels</button>
-        </div>
-    </div>
-
-    <div id="adm-tab-tsk" class="admin-content-section" style="display:none;">
-        <div class="glass-card">
-            <h4 style="font-size:14px; margin-bottom:12px; color: var(--green);"><i class="fa-solid fa-folder-plus"></i> Add Dynamic Mission Task</h4>
-            
-            <input type="text" id="adm-tsk-title" class="glass-input" placeholder="Task Title">
-            <input type="number" step="0.01" id="adm-tsk-bounty" class="glass-input" placeholder="Bounty Reward (₹)">
-            <input type="text" id="adm-tsk-url" class="glass-input" placeholder="Campaign URL Target">
-            <input type="text" id="adm-tsk-cat" class="glass-input" placeholder="Category (e.g., Telegram, YouTube)">
-            <textarea id="adm-tsk-desc" class="glass-input" style="height: 60px; resize:none;" placeholder="Task Instructions..."></textarea>
-
-            <button class="glass-btn" style="background: rgba(46,204,113,0.12); color:var(--green); border-color: rgba(46,204,113,0.3);" onclick="addDynamicTaskAdmin()"><i class="fa-solid fa-plus-circle"></i> Deploy Mission</button>
-        </div>
-
-        <div class="glass-card">
-            <h4 style="font-size:14px; margin-bottom:12px; color: var(--blue);"><i class="fa-solid fa-image"></i> Dynamic Slide Banners</h4>
-            <input type="text" id="adm-ban-img" class="glass-input" placeholder="Image HTTPS URL">
-            <input type="text" id="adm-ban-redirect" class="glass-input" placeholder="Redirect Link (Optional)">
-            <button class="glass-btn primary" onclick="addDynamicBannerAdmin()"><i class="fa-solid fa-circle-plus"></i> Inject Slider Banner</button>
-        </div>
-
-        <div class="glass-card" style="max-height: 200px; overflow-y:auto;">
-            <h4 style="font-size:12px; margin-bottom:8px;">Active Slider Banners List</h4>
-            <div id="adm-banners-list-inner"></div>
-        </div>
-        
-        <div class="glass-card" style="max-height: 250px; overflow-y:auto; margin-top:10px;">
-            <h4 style="font-size:12px; margin-bottom:8px; color: var(--danger)">Active Tasks Matrix (Tap to delete)</h4>
-            <div id="adm-tasks-list-inner"></div>
-        </div>
-    </div>
-
-    <div id="adm-tab-usr" class="admin-content-section" style="display:none;">
-        <div class="glass-card">
-            <h4 style="font-size:14px; margin-bottom:12px; color: var(--danger);"><i class="fa-solid fa-user-pen"></i> Ledger Asset Adjuster</h4>
-            
-            <label style="font-size:11px; color:var(--text-muted)">TARGET USER ID SIGNATURE</label>
-            <input type="number" id="adm-usr-uid" class="glass-input" placeholder="501889840">
-            
-            <label style="font-size:11px; color:var(--text-muted)">AMOUNT (₹)</label>
-            <input type="number" step="0.01" id="adm-usr-amount" class="glass-input" placeholder="Value Quantum">
-            
-            <label style="font-size:11px; color:var(--text-muted)">REMARK SIGNATURE (FOR USER LOGS)</label>
-            <input type="text" id="adm-usr-title" class="glass-input" placeholder="Adjustment Reward">
-
-            <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
-                <button class="glass-btn" style="color:var(--green); border-color: rgba(46,204,113,0.3);" onclick="modifyLedgerBalance('add', false)"><i class="fa-solid fa-plus"></i> Credit</button>
-                <button class="glass-btn" style="color:var(--danger); border-color: rgba(255,42,42,0.3);" onclick="modifyLedgerBalance('remove', false)"><i class="fa-solid fa-minus"></i> Debit</button>
-            </div>
-            <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:8px;">
-                <button class="glass-btn" style="color:orange;" onclick="modifyLedgerBalance('add', true)"><i class="fa-solid fa-hand-holding-dollar"></i> Assign Debt</button>
-                <button class="glass-btn" onclick="modifyLedgerBalance('remove', true)"><i class="fa-solid fa-check-double"></i> Clear Debt</button>
+                <button class="btn-claim" onclick="alert('Task system active')">Start</button>
             </div>
         </div>
     </div>
 
-    <div id="adm-tab-vch" class="admin-content-section" style="display:none;">
-        <div class="glass-card">
-            <h4 style="font-size:14px; margin-bottom:12px; color: var(--blue);"><i class="fa-solid fa-ticket"></i> Voucher Token Injector Panel</h4>
-            
-            <label style="font-size:11px; color:var(--text-muted)">PROMO / GIFT CODE TEXT</label>
-            <input type="text" id="adm-vch-code" class="glass-input" placeholder="WINTER50">
-
-            <label style="font-size:11px; color:var(--text-muted)">AWARD VALUE IN INSTANT CASH (₹)</label>
-            <input type="number" step="0.01" id="adm-vch-value" class="glass-input" placeholder="50.00">
-
-            <button class="glass-btn primary" onclick="generateVoucherCodeUnified()"><i class="fa-solid fa-qrcode"></i> Generate Code Assets</button>
-        </div>
-    </div>
-</div>
-
-<div id="modal-voucher" class="glass-modal">
-    <div class="modal-body">
-        <h3 style="font-size:16px; margin-bottom:16px;"><i class="fa-solid fa-gift"></i> Voucher Token Injector</h3>
-        <input type="text" id="txt-voucher-token-input" class="glass-input" placeholder="Paste gift token key string...">
-        <div style="display:flex; gap:10px;">
-            <button class="glass-btn" onclick="closeModal('modal-voucher')">Cancel</button>
-            <button class="glass-btn primary" onclick="claimVoucherTokenSubmit()">Inject Code Assets</button>
-        </div>
-    </div>
-</div>
-
-<div id="modal-withdraw" class="glass-modal">
-    <div class="modal-body">
-        <h3 style="font-size:16px; margin-bottom:16px;"><i class="fa-solid fa-wallet"></i> Liquidity Withdrawal Gateway</h3>
-        <input type="text" id="txt-wd-address" class="glass-input" placeholder="UPI Target Address Node">
-        <input type="number" id="txt-wd-quantum" class="glass-input" placeholder="Withdrawal Sum Amount (₹)">
-        <div style="display:flex; gap:10px;">
-            <button class="glass-btn" onclick="closeModal('modal-withdraw')">Cancel</button>
-            <button class="glass-btn primary" onclick="submitWithdrawalClaimRequest()">Deploy Claim Payload</button>
-        </div>
-    </div>
-</div>
-
-<div id="modal-invoice-audit" class="glass-modal" style="background:#050505;">
-    <div class="modal-body" style="background:transparent; border:none; max-width:380px;">
-        <div class="receipt-flipper" id="invoice-flipper-core" onclick="this.classList.toggle('flipped')">
-            <div class="receipt-front" style="background:#111; border:1px solid var(--glass-border); padding:24px; border-radius:24px;">
-                <div style="text-align:center; margin-bottom:20px;">
-                    <div style="font-size:44px; color:var(--green); margin-bottom:6px;"><i class="fa-solid fa-circle-check"></i></div>
-                    <h3 style="font-size:18px; font-weight:800;">Transaction Settlement Audit Invoice</h3>
-                    <p style="font-size:11px; color:var(--text-muted);" id="inv-date-lbl">-</p>
-                </div>
-                <div style="display:flex; flex-direction:column; gap:14px; font-size:13px; border-top:1px dashed rgba(255,255,255,0.1); padding-top:16px;">
-                    <div style="display:flex; justify-content:space-between;"><span>Method Interface:</span><b id="inv-method-lbl">-</b></div>
-                    <div style="display:flex; justify-content:space-between;"><span>Capital Quantum:</span><b id="inv-sum-lbl" style="color:var(--green)">₹0.00</b></div>
-                    <div style="display:flex; justify-content:space-between;"><span>Route Destination:</span><span id="inv-route-lbl" style="font-weight:700;">-</span></div>
-                    <div style="display:flex; justify-content:space-between;"><span>Verification Status:</span><b id="inv-status-lbl" style="color:orange;">-</b></div>
-                </div>
-                <p style="font-size:10px; color:var(--text-muted); text-align:center; margin-top:24px;"><i class="fa-solid fa-rotate"></i> Tap window frame block module to flip security core hash verification code.</p>
-                <button class="glass-btn" style="margin-top:16px; padding:10px;" onclick="event.stopPropagation(); closeModal('modal-invoice-audit');">Close Window Framework</button>
+    <div class="modal" id="modal-withdraw">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Withdraw Funds</h3>
+                <i class="fa-solid fa-xmark" onclick="closeModal('modal-withdraw')" style="cursor: pointer;"></i>
             </div>
-            <div class="receipt-back">
-                <i class="fa-solid fa-qrcode" style="font-size:68px; color:var(--blue); margin-bottom:10px;"></i>
-                <h4 style="font-size:15px; font-weight:800;">Core Ledger Hash Signature</h4>
-                <p style="font-size:11px; color:var(--text-muted); padding:0 14px;" id="inv-hash-lbl">-</p>
+            <div class="form-group">
+                <label>UPI ID / Address</label>
+                <input type="text" class="form-control" id="txt-wd-address" placeholder="example@upi">
             </div>
+            <div class="form-group">
+                <label>Amount (₹)</label>
+                <input type="number" class="form-control" id="txt-wd-quantum" placeholder="100">
+            </div>
+            <button class="btn-submit" onclick="submitWithdrawal()">Submit Request</button>
         </div>
     </div>
-</div>
 
-<script>
-const ENGINE_API_ENDPOINT = window.location.origin;
-let tgMatrix = window.Telegram.WebApp;
-tgMatrix.expand();
+    <div class="modal" id="modal-voucher">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Redeem Voucher</h3>
+                <i class="fa-solid fa-xmark" onclick="closeModal('modal-voucher')" style="cursor: pointer;"></i>
+            </div>
+            <div class="form-group">
+                <label>Voucher Code</label>
+                <input type="text" class="form-control" id="txt-voucher-code" placeholder="ENTER CODE">
+            </div>
+            <button class="btn-submit" onclick="claimVoucherCode()">Redeem Now</button>
+        </div>
+    </div>
 
-let sessionUserUid = tgMatrix.initDataUnsafe?.user?.id || 501889840;
-let sessionUserName = tgMatrix.initDataUnsafe?.user?.first_name || "Premium Node";
+    <div class="modal" id="modal-refer">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Refer & Earn</h3>
+                <i class="fa-solid fa-xmark" onclick="closeModal('modal-refer')" style="cursor: pointer;"></i>
+            </div>
+            <div class="form-group">
+                <label>Your Referral Link</label>
+                <input type="text" class="form-control" id="txt-refer-link-box" readonly>
+            </div>
+            <button class="btn-submit" onclick="copyReferLink()">Copy Link</button>
+            <button class="btn-submit" style="background: var(--blue); margin-top: 8px;" onclick="shareReferTelegram()">Share on Telegram</button>
+        </div>
+    </div>
 
-let appState = {};
-let selectedTaskContextId = null;
-let sliderIndex = 0;
-let autoSliderInterval = null;
+    <div class="nav-bar">
+        <div class="nav-item active">
+            <i class="fa-solid fa-house"></i>
+            <span>Home</span>
+        </div>
+        <div class="nav-item" onclick="openModal('modal-withdraw')">
+            <i class="fa-solid fa-wallet"></i>
+            <span>Wallet</span>
+        </div>
+        <div class="nav-item" onclick="openModal('modal-refer')">
+            <i class="fa-solid fa-users"></i>
+            <span>Friends</span>
+        </div>
+    </div>
 
-document.addEventListener("DOMContentLoaded", () => {
-    synchronizeTelemetryState();
-    
-    // Check if deep linked check payment status is present inside context parameters
-    const urlParams = new URLSearchParams(window.location.search);
-    if(window.location.pathname.includes('withdrawals') || urlParams.get('route') === 'withdrawals') {
-        switchMainTab('wallet', document.querySelectorAll('.nav-link')[1]);
-        toggleWalletHistoryTab('withdrawals');
-    }
-});
+    <script>
+        // Automatic Dynamic API Link
+        const ENGINE_API_ENDPOINT = window.location.origin;
 
-function synchronizeTelemetryState() {
-    fetch(`${ENGINE_API_ENDPOINT}/api/mini-app/sync`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ userId: sessionUserUid, username: sessionUserName })
-    })
-    .then(res => res.json())
-    .then(data => {
-        appState = data;
-        
-        // Profile DOM Mapping Execution
-        document.getElementById('prof-uid-string').innerText = sessionUserUid;
-        document.getElementById('prof-name-node').innerText = sessionUserName;
-        document.getElementById('prof-avatar-node').src = data.profilePic;
-        document.getElementById('txt-refer-link-box').value = `https://t.me/${data.botSettings.botUsername}?start=${sessionUserUid}`;
-        
-        // Balance Top Mapping Layout
-        const hBal = document.getElementById('header-balance-node');
-        hBal.style.display = 'block'; hBal.innerText = `₹${parseFloat(data.user.balance).toFixed(2)}`;
-        document.getElementById('lbl-wallet-bal').innerText = `₹${parseFloat(data.user.balance).toFixed(2)}`;
-        
-        // Admin Validation Check
-        if (Number(sessionUserUid) === 501889840 || data.botSettings.subAdmins?.includes(Number(sessionUserUid))) {
-            document.getElementById('admin-terminal-btn').style.display = 'flex';
-            populateAdminDashboardValues(data.botSettings);
-        }
+        let sessionUserUid = null;
+        const tg = window.Telegram ? window.Telegram.WebApp : null;
 
-        // Configure system custom links dynamically
-        if(data.botSettings.codeChannel) {
-            const btnTg = document.getElementById('btn-link-tg'); btnTg.style.display = 'flex';
-            btnTg.onclick = () => window.open(data.botSettings.codeChannel.startsWith('http') ? data.botSettings.codeChannel : `https://t.me/${data.botSettings.codeChannel.replace('@','')}`, '_blank');
-        }
-        if(data.botSettings.supportDetails) {
-            const btnSup = document.getElementById('btn-link-support'); btnSup.style.display = 'flex';
-            btnSup.onclick = () => alert(data.botSettings.supportDetails);
-        }
-
-        // Apply theme structural settings configuration data rules
-        if(data.botSettings.blurIntensity) {
-            document.documentElement.style.setProperty('--blur-val', data.botSettings.blurIntensity);
-            document.getElementById('cfg-ui-blur').value = data.botSettings.blurIntensity;
-        }
-        if(data.botSettings.navHomeTitle) {
-            document.getElementById('nav-lbl-home').innerText = data.botSettings.navHomeTitle;
-        }
-
-        buildMultiBannerSlider(data.botSettings.banners || []);
-        buildCategoryChips(data.botSettings.categories || ["All"]);
-        renderTasksMatrixView(data.botSettings.tasks || [], data.user.completedTasks || [], data.botSettings.pendingProofs || {});
-        calculateWalletCountersMetrics(data.user.history || []);
-        toggleWalletHistoryTab('earnings');
-        buildReferralsList(data.user.invites || []);
-        buildLeaderboardLayout(data.usersDatabase || {});
-    });
-}
-
-function switchMainTab(target, el) {
-    document.querySelectorAll('.view-section').forEach(v => v.classList.remove('active'));
-    document.querySelectorAll('.nav-link').forEach(n => n.classList.remove('active'));
-    document.getElementById(`view-${target}`).classList.add('active');
-    el.classList.add('active');
-}
-
-/* --- MULTI BANNER AUTOMATION SYSTEM LOGIC --- */
-function buildMultiBannerSlider(banners) {
-    const frame = document.getElementById('slider-frame');
-    const track = document.getElementById('slider-inner-track');
-    clearInterval(autoSliderInterval);
-    if(!banners || banners.length === 0) { frame.style.display = 'none'; return; }
-    
-    frame.style.display = 'block'; track.innerHTML = '';
-    banners.forEach(b => {
-        const node = document.createElement('div'); node.className = 'slide-node';
-        node.innerHTML = `<img src="${b.imgUrl || b}">`;
-        if(b.redirectUrl) node.onclick = () => window.open(b.redirectUrl, '_blank');
-        track.appendChild(node);
-    });
-
-    if(banners.length > 1) {
-        autoSliderInterval = setInterval(() => {
-            sliderIndex = (sliderIndex + 1) % banners.length;
-            track.style.transform = `translateX(-${sliderIndex * 100}%)`;
-        }, 3500);
-    }
-}
-
-function buildCategoryChips(categories) {
-    const dock = document.getElementById('categories-dock');
-    dock.innerHTML = '<div class="category-chip active" onclick="filterCategory(\'All\', this)">All</div>';
-    categories.forEach(c => {
-        if(c !== 'All') {
-            const chip = document.createElement('div'); chip.className = 'category-chip';
-            chip.innerText = c; chip.onclick = () => filterCategory(c, chip);
-            dock.appendChild(chip);
-        }
-    });
-}
-
-function filterCategory(cat, el) {
-    document.querySelectorAll('.category-chip').forEach(c => c.classList.remove('active')); el.classList.add('active');
-    const nodes = document.querySelectorAll('.task-node');
-    nodes.forEach(n => {
-        if(cat === 'All' || n.getAttribute('data-cat') === cat) n.style.display = 'flex';
-        else n.style.display = 'none';
-    });
-}
-
-function renderTasksMatrixView(tasks, completed, pending) {
-    const dock = document.getElementById('home-tasks-container'); dock.innerHTML = '';
-    tasks.forEach(t => {
-        const item = document.createElement('div'); item.className = 'task-node';
-        item.setAttribute('data-cat', t.category || 'All');
-        
-        let statusTag = "";
-        if(completed.includes(t.id)) statusTag = ' <span style="font-size:11px; color:var(--green)">[Cleared]</span>';
-        
-        item.onclick = () => openTaskDetailsSubPage(t, completed, pending);
-        item.innerHTML = `<div><div class="task-title-lbl"><i class="fa-solid fa-hashtag" style="color:var(--blue); margin-right:6px;"></i>${t.title}${statusTag}</div></div><div class="task-bounty-lbl">₹${parseFloat(t.amount).toFixed(2)}</div>`;
-        dock.appendChild(item);
-    });
-}
-
-function openTaskDetailsSubPage(task, completed, pending) {
-    selectedTaskContextId = task.id;
-    document.getElementById('det-task-title').innerText = task.title;
-    document.getElementById('det-task-bounty').innerText = `₹${parseFloat(task.amount).toFixed(2)}`;
-    document.getElementById('det-task-desc').innerText = task.desc || task.details || "Complete and upload snapshot verification data.";
-    
-    document.getElementById('btn-task-redirect-link').onclick = () => window.open(task.url || task.link, '_blank');
-    
-    const cKey = `${sessionUserUid}_${task.id}`;
-    if(completed.includes(task.id) || pending[cKey]) {
-        document.getElementById('det-submission-zone').style.display = 'none';
-        document.getElementById('det-lockout-zone').style.display = 'block';
-    } else {
-        document.getElementById('det-submission-zone').style.display = 'block';
-        document.getElementById('det-lockout-zone').style.display = 'none';
-    }
-    openSubPage('page-task-details');
-}
-
-function uploadTaskProofData() {
-    const f = document.getElementById('file-task-proof').files[0]; if(!f) return alert("Select screenshot asset.");
-    const r = new FileReader(); r.onload = function(e) {
-        fetch(`${ENGINE_API_ENDPOINT}/api/mini-app/submit-proof`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ userId: sessionUserUid, taskId: selectedTaskContextId, proofImg: e.target.result })
-        }).then(() => { alert("Proof validation log submitted."); closeSubPage('page-task-details'); synchronizeTelemetryState(); });
-    }; r.readAsDataURL(f);
-}
-
-/* --- WALLET METRICS MANAGEMENT ACCOUNT COUNTER REFRESH --- */
-function triggerCounterRefresh() {
-    const icon = document.getElementById('refresh-balance-icon');
-    icon.style.transition = "transform 0.8s ease"; icon.style.transform = "rotate(360deg)";
-    setTimeout(() => { icon.style.transform = "rotate(0deg)"; icon.style.transition = "none"; }, 800);
-    
-    // Execute dynamic text matrix scaling animation
-    let targetBal = parseFloat(appState.user?.balance || 0);
-    let startBal = 0; let duration = 400; let step = Math.ceil(targetBal / (duration / 16));
-    let timer = setInterval(() => {
-        startBal += step; if(startBal >= targetBal) { startBal = targetBal; clearInterval(timer); }
-        document.getElementById('lbl-wallet-bal').innerText = `₹${startBal.toFixed(2)}`;
-    }, 16);
-    synchronizeTelemetryState();
-}
-
-function calculateWalletCountersMetrics(history) {
-    let earn = 0; let wd = 0;
-    history.forEach(h => {
-        let val = parseFloat(h.amount) || 0;
-        if(h.method.includes('Reward') || h.method.includes('Credit') || h.method.includes('Voucher') || h.method.includes('Receive')) {
-            earn += val;
-        }
-        if(h.method.includes('UPI') || h.method.includes('Send')) {
-            if(h.status !== 'Rejected') wd += val;
-        }
-    });
-    document.getElementById('lbl-stat-earn').innerText = `₹${earn.toFixed(2)}`;
-    document.getElementById('lbl-stat-wd').innerText = `₹${wd.toFixed(2)}`;
-}
-
-function toggleWalletHistoryTab(type) {
-    document.getElementById('tab-trigger-earn').classList.remove('active');
-    document.getElementById('tab-trigger-wd').classList.remove('active');
-    const dock = document.getElementById('wallet-history-stream'); dock.innerHTML = '';
-    const history = appState.user?.history || [];
-    
-    if(type === 'earnings') {
-        document.getElementById('tab-trigger-earn').classList.add('active');
-        history.forEach(h => {
-            if(!h.method.includes('UPI') && !h.method.includes('Send')) {
-                const item = document.createElement('div'); item.className = 'history-item-tile';
-                item.onclick = () => triggerSecureInvoiceAudit(h);
-                item.innerHTML = `<div><div style="font-weight:700; font-size:14px;">${h.method}</div><div style="font-size:11px; color:var(--text-muted);">${h.date || ''}</div></div><b style="color:var(--green)">+₹${h.amount}</b>`;
-                dock.appendChild(item);
+        if (tg) {
+            tg.ready();
+            tg.expand();
+            if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
+                sessionUserUid = tg.initDataUnsafe.user.id;
+                document.getElementById('lbl-user-name').innerText = tg.initDataUnsafe.user.first_name || "User";
+                document.getElementById('lbl-user-avatar').innerText = (tg.initDataUnsafe.user.first_name || "U")[0].toUpperCase();
             }
-        });
-    } else {
-        document.getElementById('tab-trigger-wd').classList.add('active');
-        history.forEach(h => {
-            if(h.method.includes('UPI') || h.method.includes('Withdraw') || h.method.includes('Send')) {
-                const item = document.createElement('div'); item.className = 'history-item-tile';
-                item.onclick = () => triggerSecureInvoiceAudit(h);
-                let stColor = h.status === 'Approved' ? 'var(--green)' : 'orange';
-                if(h.status.includes('Reject')) stColor = 'var(--danger)';
-                item.innerHTML = `<div><div style="font-weight:700; font-size:14px;">${h.method}</div><div style="font-size:11px; color:var(--text-muted);">${h.date || ''}</div></div><b style="color:${stColor}">${h.status} (₹${h.amount})</b>`;
-                dock.appendChild(item);
+        }
+
+        // Fallback for browser testing
+        if (!sessionUserUid) {
+            sessionUserUid = "501889840"; // Default / Test User ID
+        }
+
+        document.getElementById('lbl-user-uid').innerText = sessionUserUid;
+        document.getElementById('txt-refer-link-box').value = `https://t.me/YourBotUsername?start=${sessionUserUid}`;
+
+        function synchronizeTelemetryState() {
+            if (!sessionUserUid) return;
+            fetch(`${ENGINE_API_ENDPOINT}/api/mini-app/user/${sessionUserUid}`)
+                .then(res => res.json())
+                .then(data => {
+                    if (data && !data.error) {
+                        document.getElementById('lbl-balance').innerText = `₹${parseFloat(data.balance || 0).toFixed(2)}`;
+                    }
+                })
+                .catch(err => console.error("Telemetry Sync Error:", err));
+        }
+
+        function submitWithdrawal() {
+            const upi = document.getElementById('txt-wd-address').value;
+            const amount = parseFloat(document.getElementById('txt-wd-quantum').value);
+
+            if (!upi || !amount || amount <= 0) {
+                alert("Please fill all withdrawal details accurately.");
+                return;
             }
-        });
-    }
-}
 
-/* --- LOADER SCREEN INTERCEPTOR CHIP IMPLEMENTATION --- */
-function triggerSecureInvoiceAudit(item) {
-    const loader = document.getElementById('global-async-loader'); loader.style.display = 'flex';
-    setTimeout(() => {
-        loader.style.display = 'none';
-        document.getElementById('inv-date-lbl').innerText = item.date || new Date().toLocaleDateString();
-        document.getElementById('inv-method-lbl').innerText = item.method;
-        document.getElementById('inv-sum-lbl').innerText = `₹${parseFloat(item.amount).toFixed(2)}`;
-        document.getElementById('inv-route-lbl').innerText = appState.user?.upi || 'P2P Asset Transfer Endpoint';
-        document.getElementById('inv-status-lbl').innerText = item.status || 'Verified Clear';
-        document.getElementById('inv-hash-lbl').innerText = `TX-HASH-NODE-${Math.floor(Math.random()*9000000+1000000)}`;
-        
-        document.getElementById('invoice-flipper-core').classList.remove('flipped');
-        openModal('modal-invoice-audit');
-    }, 1200); // 1.2 Second async processing timeline loop
-}
+            fetch(`${ENGINE_API_ENDPOINT}/api/mini-app/withdraw`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ userId: sessionUserUid, upi, amount })
+            })
+            .then(res => res.json())
+            .then(r => { 
+                if(r.error) {
+                    alert(r.error); 
+                } else { 
+                    alert("Settlement Queued."); 
+                    closeModal('modal-withdraw'); 
+                    synchronizeTelemetryState(); 
+                } 
+            })
+            .catch(err => alert("Server connection failed!"));
+        }
 
-function processP2PDisbursal() {
-    const t = document.getElementById('txt-p2p-uid').value; const s = parseFloat(document.getElementById('txt-p2p-sum').value);
-    fetch(`${ENGINE_API_ENDPOINT}/api/mini-app/peer-transfer`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ sourceId: sessionUserUid, targetId: t, amount: s })
-    }).then(res => res.json()).then(r => { if(r.error) alert(r.error); else { alert("P2P Complete."); synchronizeTelemetryState(); } });
-}
+        function claimVoucherCode() {
+            const code = document.getElementById('txt-voucher-code').value;
+            if (!code) return alert("Enter Voucher Code!");
 
-function buildReferralsList(invites) {
-    const dock = document.getElementById('refer-nodes-list-dock'); dock.innerHTML = '';
-    if(!invites || invites.length === 0) { dock.innerHTML = '<p style="font-size:12px; color:var(--text-muted); text-align:center;">No network referrals mapped.</p>'; return; }
-    invites.forEach(i => {
-        const item = document.createElement('div'); item.className = 'menu-list-link';
-        item.style.padding = '12px 16px';
-        item.innerHTML = `<div><b style="font-size:14px; color:#fff;">${i.name}</b><p style="font-size:11px; color:var(--text-muted)">Joined: ${i.date || ''}</p></div><span style="font-size:12px; color:var(--blue)">UID:${i.id}</span>`;
-        dock.appendChild(item);
-    });
-}
+            fetch(`${ENGINE_API_ENDPOINT}/api/mini-app/voucher`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ userId: sessionUserUid, code })
+            })
+            .then(res => res.json())
+            .then(r => {
+                if(r.error) alert(r.error);
+                else {
+                    alert(r.message || "Voucher Claimed!");
+                    closeModal('modal-voucher');
+                    synchronizeTelemetryState();
+                }
+            })
+            .catch(err => alert("Server connection failed!"));
+        }
 
-function buildLeaderboardLayout(db) {
-    const dock = document.getElementById('leaderboard-rank-dock'); dock.innerHTML = '';
-    let arr = Object.values(db).sort((a,b) => b.balance - a.balance);
-    arr.slice(0, appState.botSettings?.leaderboardLimit || 10).forEach((u, index) => {
-        const tile = document.createElement('div'); tile.className = 'menu-list-link';
-        let medal = `<b style="color:var(--text-muted); margin-right:8px;">#${index+1}</b>`;
-        if(index === 0) medal = '🥇 '; if(index === 1) medal = '🥈 '; if(index === 2) medal = '🥉 ';
-        tile.innerHTML = `<div>${medal} <span style="font-weight:700;">${u.name}</span></div><b style="color:var(--green)">₹${parseFloat(u.balance).toFixed(2)}</b>`;
-        dock.appendChild(tile);
-    });
-}
+        function copyUserUID() { 
+            navigator.clipboard.writeText(sessionUserUid); 
+            alert("UID Copied."); 
+        }
 
-function applyLocalPreferences() {
-    const b = document.getElementById('cfg-ui-blur').value;
-    fetch(`${ENGINE_API_ENDPOINT}/api/settings/update`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ blurIntensity: b })
-    }).then(() => { alert("Preferences Saved."); synchronizeTelemetryState(); });
-}
+        function copyReferLink() { 
+            navigator.clipboard.writeText(document.getElementById('txt-refer-link-box').value); 
+            alert("Link Copied."); 
+        }
 
-/* ==================== PREMIUM MASTER ADMIN HUB ENGINE ==================== */
-function switchAdminTab(tabKey, btnElement) {
-    document.querySelectorAll('.admin-content-section').forEach(s => s.style.display = 'none');
-    document.querySelectorAll('.admin-tab-btn').forEach(b => b.classList.remove('active'));
-    
-    document.getElementById(`adm-tab-${tabKey}`).style.display = 'block';
-    btnElement.classList.add('active');
-}
+        function shareReferTelegram() { 
+            window.open(`https://t.me/share/url?url=${encodeURIComponent(document.getElementById('txt-refer-link-box').value)}&text=Join%20ExtraEarn%20Now`, '_blank'); 
+        }
 
-function populateAdminDashboardValues(settings) {
-    // Populate General System Inputs
-    document.getElementById('adm-sys-botstatus').value = String(settings.botStatus);
-    document.getElementById('adm-sys-verification').value = settings.verificationMode || "Both Off";
-    document.getElementById('adm-sys-notify').value = String(settings.newUserNotification);
-    document.getElementById('adm-sys-support-text').value = settings.supportDetails || "";
+        function openModal(id) { document.getElementById(id).style.display = 'flex'; }
+        function closeModal(id) { document.getElementById(id).style.display = 'none'; }
+        function openVoucherPopup() { openModal('modal-voucher'); }
+        function openWithdrawModal() { openModal('modal-withdraw'); }
 
-    // Populate Financials
-    document.getElementById('adm-fin-wdmode').value = settings.withdrawMode || "Both On";
-    document.getElementById('adm-fin-minwd').value = settings.minWithdraw || 1;
-    document.getElementById('adm-fin-maxwd').value = settings.maxWithdraw || 500;
-    document.getElementById('adm-fin-refer').value = settings.perRefer || 7.00;
-    document.getElementById('adm-fin-tax').value = settings.withdrawTax || 0;
-    document.getElementById('adm-fin-p2ptax').value = String(settings.payToUserTax);
-
-    // Populate Channel Nodes
-    document.getElementById('adm-chn-payout').value = settings.payoutChannel || "";
-    document.getElementById('adm-chn-task').value = settings.taskChannel || "";
-    document.getElementById('adm-chn-code').value = settings.codeChannel || "";
-
-    // Render Configured Banners
-    renderAdminBannersInner(settings.banners || []);
-
-    // Render Configured Tasks
-    renderAdminTasksInner(settings.tasks || []);
-}
-
-function updateAdminSettingsUnified() {
-    const updatedSettings = {
-        botStatus: document.getElementById('adm-sys-botstatus').value === "true",
-        verificationMode: document.getElementById('adm-sys-verification').value,
-        newUserNotification: document.getElementById('adm-sys-notify').value === "true",
-        supportDetails: document.getElementById('adm-sys-support-text').value,
-
-        withdrawMode: document.getElementById('adm-fin-wdmode').value,
-        minWithdraw: parseFloat(document.getElementById('adm-fin-minwd').value || 1),
-        maxWithdraw: parseFloat(document.getElementById('adm-fin-maxwd').value || 500),
-        perRefer: parseFloat(document.getElementById('adm-fin-refer').value || 7.00),
-        withdrawTax: parseFloat(document.getElementById('adm-fin-tax').value || 0),
-        payToUserTax: document.getElementById('adm-fin-p2ptax').value === "true",
-
-        payoutChannel: document.getElementById('adm-chn-payout').value,
-        taskChannel: document.getElementById('adm-chn-task').value,
-        codeChannel: document.getElementById('adm-chn-code').value
-    };
-
-    fetch(`${ENGINE_API_ENDPOINT}/api/settings/update`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(updatedSettings)
-    })
-    .then(res => res.json())
-    .then(() => {
-        alert("Control Core Parameters Saved Successfully.");
+        // Initial fetch on page load
         synchronizeTelemetryState();
-    });
-}
-
-function addDynamicTaskAdmin() {
-    const title = document.getElementById('adm-tsk-title').value;
-    const amount = document.getElementById('adm-tsk-bounty').value;
-    const url = document.getElementById('adm-tsk-url').value;
-    const cat = document.getElementById('adm-tsk-cat').value || "All";
-    const desc = document.getElementById('adm-tsk-desc').value;
-
-    if (!title || !amount) return alert("Task specifications missing.");
-
-    const newTask = {
-        id: "T-" + Math.floor(Math.random() * 90000 + 10000),
-        title,
-        amount: parseFloat(amount),
-        url,
-        category: cat,
-        desc
-    };
-
-    let updatedTasksList = [...(appState.botSettings.tasks || [])];
-    updatedTasksList.push(newTask);
-
-    let updatedCategories = [...(appState.botSettings.categories || ["All"])];
-    if (!updatedCategories.includes(cat)) {
-        updatedCategories.push(cat);
-    }
-
-    fetch(`${ENGINE_API_ENDPOINT}/api/settings/update`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ tasks: updatedTasksList, categories: updatedCategories })
-    }).then(() => {
-        alert("New Mission Dispatched.");
-        document.getElementById('adm-tsk-title').value = '';
-        document.getElementById('adm-tsk-bounty').value = '';
-        document.getElementById('adm-tsk-url').value = '';
-        document.getElementById('adm-tsk-desc').value = '';
-        synchronizeTelemetryState();
-    });
-}
-
-function removeDynamicTaskAdmin(taskId) {
-    if(!confirm("Are you sure you want to delete this task?")) return;
-    let updatedTasksList = appState.botSettings.tasks.filter(t => t.id !== taskId);
-    fetch(`${ENGINE_API_ENDPOINT}/api/settings/update`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ tasks: updatedTasksList })
-    }).then(() => {
-        alert("Mission Terminated.");
-        synchronizeTelemetryState();
-    });
-}
-
-function renderAdminTasksInner(tasks) {
-    const dock = document.getElementById('adm-tasks-list-inner'); dock.innerHTML = '';
-    if(tasks.length === 0) { dock.innerHTML = '<p style="font-size:11px; color:var(--text-muted)">No Active Tasks.</p>'; return; }
-    tasks.forEach(t => {
-        const item = document.createElement('div');
-        item.style = "display:flex; justify-content:space-between; font-size:12px; border-bottom:1px solid var(--glass-border); padding:8px 0; cursor:pointer;";
-        item.innerHTML = `<span>${t.title} (₹${t.amount})</span><b style="color:var(--danger)"><i class="fa-solid fa-trash-can"></i></b>`;
-        item.onclick = () => removeDynamicTaskAdmin(t.id);
-        dock.appendChild(item);
-    });
-}
-
-function addDynamicBannerAdmin() {
-    const imgUrl = document.getElementById('adm-ban-img').value;
-    const redirectUrl = document.getElementById('adm-ban-redirect').value;
-
-    if (!imgUrl) return alert("Provide Banner Image URL.");
-
-    let updatedBanners = [...(appState.botSettings.banners || [])];
-    updatedBanners.push({ imgUrl, redirectUrl });
-
-    fetch(`${ENGINE_API_ENDPOINT}/api/settings/update`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ banners: updatedBanners })
-    }).then(() => {
-        alert("Slide Asset Infused.");
-        document.getElementById('adm-ban-img').value = '';
-        document.getElementById('adm-ban-redirect').value = '';
-        synchronizeTelemetryState();
-    });
-}
-
-function removeDynamicBannerAdmin(idx) {
-    let updatedBanners = [...(appState.botSettings.banners || [])];
-    updatedBanners.splice(idx, 1);
-    fetch(`${ENGINE_API_ENDPOINT}/api/settings/update`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ banners: updatedBanners })
-    }).then(() => {
-        alert("Banner Slide Extracted.");
-        synchronizeTelemetryState();
-    });
-}
-
-function renderAdminBannersInner(banners) {
-    const dock = document.getElementById('adm-banners-list-inner'); dock.innerHTML = '';
-    if(banners.length === 0) { dock.innerHTML = '<p style="font-size:11px; color:var(--text-muted)">No Slide Banners Mapped.</p>'; return; }
-    banners.forEach((b, idx) => {
-        const item = document.createElement('div');
-        item.style = "display:flex; justify-content:space-between; font-size:11px; border-bottom:1px solid var(--glass-border); padding:6px 0; align-items:center;";
-        item.innerHTML = `<span style="text-overflow:ellipsis; overflow:hidden; white-space:nowrap; max-width:80%;">${b.imgUrl}</span><b style="color:var(--danger); cursor:pointer;" onclick="removeDynamicBannerAdmin(${idx})"><i class="fa-solid fa-square-minus"></i></b>`;
-        dock.appendChild(item);
-    });
-}
-
-function modifyLedgerBalance(action, isDebt) {
-    const targetUid = document.getElementById('adm-usr-uid').value;
-    const amount = document.getElementById('adm-usr-amount').value;
-    const taskTitle = document.getElementById('adm-usr-title').value;
-
-    if(!targetUid || !amount) return alert("Required parameters missing.");
-
-    fetch(`${ENGINE_API_ENDPOINT}/api/admin/modify-balance`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ targetUid, action, amount, isDebt, taskTitle })
-    }).then(res => res.json()).then(() => { 
-        alert("Transaction Asset Update Complete."); 
-        document.getElementById('adm-usr-amount').value = '';
-        synchronizeTelemetryState(); 
-    });
-}
-
-function generateVoucherCodeUnified() {
-    const codeString = document.getElementById('adm-vch-code').value;
-    const awardValue = document.getElementById('adm-vch-value').value;
-
-    if(!codeString || !awardValue) return alert("Code parameters empty.");
-
-    fetch(`${ENGINE_API_ENDPOINT}/api/admin/create-code`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ codeString, awardValue })
-    }).then(() => { 
-        alert(`Voucher [${codeString.toUpperCase()}] Authorized!`); 
-        document.getElementById('adm-vch-code').value = '';
-        document.getElementById('adm-vch-value').value = '';
-        synchronizeTelemetryState(); 
-    });
-}
-
-/* --- CLAIM MECHANICS REDEMPTIONS --- */
-function claimVoucherTokenSubmit() {
-    const code = document.getElementById('txt-voucher-token-input').value;
-    fetch(`${ENGINE_API_ENDPOINT}/api/mini-app/redeem-code`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ userId: sessionUserUid, code })
-    }).then(res => res.json()).then(r => { if(r.error) alert(r.error); else { alert(`Token Injected! Added ₹${r.amount}`); closeModal('modal-voucher'); synchronizeTelemetryState(); } });
-}
-
-function submitWithdrawalClaimRequest() {
-    const upi = document.getElementById('txt-wd-address').value;
-    const amount = parseFloat(document.getElementById('txt-wd-quantum').value);
-    fetch(`${ENGINE_API_ENDPOINT}/api/mini-app/withdraw`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ userId: sessionUserUid, upi, amount })
-    }).then(res => res.json()).then(r => { if(r.error) alert(r.error); else { alert("Settlement Queued."); closeModal('modal-withdraw'); synchronizeTelemetryState(); } });
-}
-
-function copyUserUID() { navigator.clipboard.writeText(sessionUserUid); alert("UID Copied."); }
-function copyReferLink() { navigator.clipboard.writeText(document.getElementById('txt-refer-link-box').value); alert("Link Copied."); }
-function shareReferTelegram() { window.open(`https://t.me/share/url?url=${encodeURIComponent(document.getElementById('txt-refer-link-box').value)}&text=Join%20ExtraEarn%20Now`, '_blank'); }
-
-function openSubPage(id) { document.getElementById(id).style.display = 'flex'; }
-function closeSubPage(id) { document.getElementById(id).style.display = 'none'; }
-function openModal(id) { document.getElementById(id).style.display = 'flex'; }
-function closeModal(id) { document.getElementById(id).style.display = 'none'; }
-function openVoucherPopup() { openModal('modal-voucher'); }
-function openWithdrawModal() { document.getElementById('txt-wd-address').value = appState.user?.upi || ''; openModal('modal-withdraw'); }
-</script>
+    </script>
 </body>
 </html>
