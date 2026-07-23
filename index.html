@@ -148,8 +148,20 @@
             background: rgba(10, 10, 10, 0.3); backdrop-filter: blur(var(--blur-val)) saturate(160%);
             -webkit-backdrop-filter: blur(var(--blur-val)) saturate(160%);
             border: 1px solid var(--glass-border); border-radius: 24px;
-            display: flex; justify-around: space-around; align-items: center; z-index: 1900;
+            display: flex; justify-content: space-around; align-items: center; z-index: 1900;
         }
+        
+        .bottom-nav button, .bottom-nav a {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: none;
+            border: none;
+            color: #333;
+            font-size: 12px;
+            cursor: pointer;
+        }
+
         .nav-link {
             display: flex; flex-direction: column; align-items: center; color: var(--text-muted);
             font-size: 11px; font-weight: 700; gap: 5px; cursor: pointer; transition: color 0.3s;
@@ -289,7 +301,7 @@
         <div class="profile-hero">
             <img id="prof-avatar-node" src="https://img.icons8.com/colors/344/test-account.png">
             <div>
-                <h3 id="prof-name-node" style="font-size: 18px; font-weight: 800;">Framework User</h3>
+                <h3 id="prof-name-node" style="font-size: 18px; font-weight: 800;"><span id="user-name">Framework User</span></h3>
                 <div class="uid-badge" onclick="copyUserUID()"><i class="fa-solid fa-copy"></i> ID: <span id="prof-uid-string">00000000</span></div>
             </div>
         </div>
@@ -614,6 +626,30 @@
 
 <script>
 const ENGINE_API_ENDPOINT = "https://extra-earn-bot.onrender.com";
+
+// Telegram Web App SDK initialization
+const tg = window.Telegram.WebApp;
+tg.expand(); // Screen expand ചെയ്യാൻ
+
+// Get Current User ID from Telegram
+const user = tg.initDataUnsafe?.user;
+
+if (user && user.id) {
+    // MongoDB API Call to fetch live database values
+    fetch(`/api/user/${user.id}`)
+        .then(res => res.json())
+        .then(data => {
+            if (data.success) {
+                // Mini App UI Update
+                const nameElem = document.getElementById('user-name');
+                const balElem = document.getElementById('user-balance');
+                if (nameElem) nameElem.innerText = data.user.name;
+                if (balElem) balElem.innerText = '₹' + data.user.balance.toFixed(2);
+            }
+        })
+        .catch(err => console.error("Error fetching user data:", err));
+}
+
 let tgMatrix = window.Telegram.WebApp;
 tgMatrix.expand();
 
