@@ -148,7 +148,7 @@
             background: rgba(10, 10, 10, 0.3); backdrop-filter: blur(var(--blur-val)) saturate(160%);
             -webkit-backdrop-filter: blur(var(--blur-val)) saturate(160%);
             border: 1px solid var(--glass-border); border-radius: 24px;
-            display: flex; justify-content: space-around; align-items: center; z-index: 1900;
+            display: flex; justify-around: space-around; align-items: center; z-index: 1900;
         }
         .nav-link {
             display: flex; flex-direction: column; align-items: center; color: var(--text-muted);
@@ -207,6 +207,7 @@
         .admin-tab-bar {
             display: flex; gap: 8px; overflow-x: auto; padding-bottom: 10px; margin-bottom: 15px;
         }
+        .admin-tab-bar::-webkit-scrollbar { display: none; }
         .admin-tab-btn {
             padding: 8px 14px; background: var(--card-bg); border: 1px solid var(--glass-border);
             border-radius: 12px; font-size: 12px; font-weight: 700; color: var(--text-muted); cursor: pointer; white-space: nowrap;
@@ -387,6 +388,7 @@
         <div class="admin-tab-btn" onclick="switchAdminTab('tsk', this)">Tasks & Banners</div>
         <div class="admin-tab-btn" onclick="switchAdminTab('usr', this)">User & Debt</div>
         <div class="admin-tab-btn" onclick="switchAdminTab('vch', this)">Vouchers</div>
+        <div class="admin-tab-btn" onclick="switchAdminTab('proofs', this)">Pending Proofs</div>
     </div>
 
     <div id="adm-tab-sys" class="admin-content-section">
@@ -414,7 +416,7 @@
             </select>
 
             <label style="font-size:11px; color:var(--text-muted)">SUPPORT DESK DETAILS (RAW TEXT)</label>
-            <textarea id="adm-sys-support-text" class="glass-input" style="height: 100px; resize: none; font-size:13px;" placeholder="📩 Official Support Desk details..."></textarea>
+            <textarea id="adm-sys-support-text" class="glass-input" style="height: 100px; resize: none; font-size:13px;" placeholder="Official Support Desk details..."></textarea>
 
             <button class="glass-btn primary" onclick="updateAdminSettingsUnified()"><i class="fa-solid fa-save"></i> Save System Config</button>
         </div>
@@ -549,6 +551,15 @@
             <button class="glass-btn primary" onclick="generateVoucherCodeUnified()"><i class="fa-solid fa-qrcode"></i> Generate Code Assets</button>
         </div>
     </div>
+
+    <div id="adm-tab-proofs" class="admin-content-section" style="display:none;">
+        <div class="glass-card">
+            <h4 style="font-size:14px; margin-bottom:12px; color: var(--blue);"><i class="fa-solid fa-circle-check"></i> Pending Task Proof Verification</h4>
+            <div id="adm-pending-proofs-dock">
+                <p style="font-size:12px; color:var(--text-muted);">Fetching proofs...</p>
+            </div>
+        </div>
+    </div>
 </div>
 
 <div id="modal-voucher" class="glass-modal">
@@ -638,7 +649,7 @@ function synchronizeTelemetryState() {
         // Profile DOM Mapping Execution
         document.getElementById('prof-uid-string').innerText = sessionUserUid;
         document.getElementById('prof-name-node').innerText = sessionUserName;
-        document.getElementById('prof-avatar-node').src = data.profilePic;
+        document.getElementById('prof-avatar-node').src = data.profilePic || "https://img.icons8.com/colors/344/test-account.png";
         document.getElementById('txt-refer-link-box').value = `https://t.me/${data.botSettings.botUsername}?start=${sessionUserUid}`;
         
         // Balance Top Mapping Layout
@@ -650,6 +661,7 @@ function synchronizeTelemetryState() {
         if (Number(sessionUserUid) === 501889840 || data.botSettings.subAdmins?.includes(Number(sessionUserUid))) {
             document.getElementById('admin-terminal-btn').style.display = 'flex';
             populateAdminDashboardValues(data.botSettings);
+            renderPendingProofsAdmin(data.botSettings.pendingProofs || {});
         }
 
         // Configure system custom links dynamically
@@ -783,7 +795,6 @@ function triggerCounterRefresh() {
     icon.style.transition = "transform 0.8s ease"; icon.style.transform = "rotate(360deg)";
     setTimeout(() => { icon.style.transform = "rotate(0deg)"; icon.style.transition = "none"; }, 800);
     
-    // Execute dynamic text matrix scaling animation
     let targetBal = parseFloat(appState.user?.balance || 0);
     let startBal = 0; let duration = 400; let step = Math.ceil(targetBal / (duration / 16));
     let timer = setInterval(() => {
@@ -831,7 +842,7 @@ function toggleWalletHistoryTab(type) {
                 const item = document.createElement('div'); item.className = 'history-item-tile';
                 item.onclick = () => triggerSecureInvoiceAudit(h);
                 let stColor = h.status === 'Approved' ? 'var(--green)' : 'orange';
-                if(h.status.includes('Reject')) stColor = 'var(--danger)';
+                if(h.status?.includes('Reject')) stColor = 'var(--danger)';
                 item.innerHTML = `<div><div style="font-weight:700; font-size:14px;">${h.method}</div><div style="font-size:11px; color:var(--text-muted);">${h.date || ''}</div></div><b style="color:${stColor}">${h.status} (₹${h.amount})</b>`;
                 dock.appendChild(item);
             }
@@ -853,7 +864,7 @@ function triggerSecureInvoiceAudit(item) {
         
         document.getElementById('invoice-flipper-core').classList.remove('flipped');
         openModal('modal-invoice-audit');
-    }, 1200); // 1.2 Second async processing timeline loop
+    }, 1200);
 }
 
 function processP2PDisbursal() {
@@ -862,7 +873,7 @@ function processP2PDisbursal() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ sourceId: sessionUserUid, targetId: t, amount: s })
-    }).then(res => res.json()).then(r => { if(r.error) alert(r.error); else { alert("P2P Complete."); synchronizeTelemetryState(); } });
+    }).then(res => res.json()).then(r => { if(r.error) alert(r.error); else { alert("P2P Transfer Complete."); synchronizeTelemetryState(); } });
 }
 
 function buildReferralsList(invites) {
@@ -907,13 +918,11 @@ function switchAdminTab(tabKey, btnElement) {
 }
 
 function populateAdminDashboardValues(settings) {
-    // Populate General System Inputs
     document.getElementById('adm-sys-botstatus').value = String(settings.botStatus);
     document.getElementById('adm-sys-verification').value = settings.verificationMode || "Both Off";
     document.getElementById('adm-sys-notify').value = String(settings.newUserNotification);
     document.getElementById('adm-sys-support-text').value = settings.supportDetails || "";
 
-    // Populate Financials
     document.getElementById('adm-fin-wdmode').value = settings.withdrawMode || "Both On";
     document.getElementById('adm-fin-minwd').value = settings.minWithdraw || 1;
     document.getElementById('adm-fin-maxwd').value = settings.maxWithdraw || 500;
@@ -921,15 +930,11 @@ function populateAdminDashboardValues(settings) {
     document.getElementById('adm-fin-tax').value = settings.withdrawTax || 0;
     document.getElementById('adm-fin-p2ptax').value = String(settings.payToUserTax);
 
-    // Populate Channel Nodes
     document.getElementById('adm-chn-payout').value = settings.payoutChannel || "";
     document.getElementById('adm-chn-task').value = settings.taskChannel || "";
     document.getElementById('adm-chn-code').value = settings.codeChannel || "";
 
-    // Render Configured Banners
     renderAdminBannersInner(settings.banners || []);
-
-    // Render Configured Tasks
     renderAdminTasksInner(settings.tasks || []);
 }
 
@@ -1071,6 +1076,45 @@ function renderAdminBannersInner(banners) {
         item.style = "display:flex; justify-content:space-between; font-size:11px; border-bottom:1px solid var(--glass-border); padding:6px 0; align-items:center;";
         item.innerHTML = `<span style="text-overflow:ellipsis; overflow:hidden; white-space:nowrap; max-width:80%;">${b.imgUrl}</span><b style="color:var(--danger); cursor:pointer;" onclick="removeDynamicBannerAdmin(${idx})"><i class="fa-solid fa-square-minus"></i></b>`;
         dock.appendChild(item);
+    });
+}
+
+function renderPendingProofsAdmin(pendingProofs) {
+    const dock = document.getElementById('adm-pending-proofs-dock');
+    dock.innerHTML = '';
+    const keys = Object.keys(pendingProofs || {});
+    if (keys.length === 0) {
+        dock.innerHTML = '<p style="font-size:12px; color:var(--text-muted);">No Pending Proofs for Review.</p>';
+        return;
+    }
+    keys.forEach(key => {
+        const p = pendingProofs[key];
+        if (p && p.status === 'Pending') {
+            const card = document.createElement('div');
+            card.className = 'glass-card';
+            card.style.marginBottom = '10px';
+            card.innerHTML = `
+                <p style="font-size:12px; color:var(--blue)">Task ID: ${p.taskId} | User ID: ${p.userId}</p>
+                <b style="font-size:14px; color:var(--green)">Reward: ₹${p.amount}</b>
+                ${p.proofImg ? `<img src="${p.proofImg}" style="width:100%; border-radius:12px; margin:10px 0;">` : ''}
+                <div style="display:flex; gap:8px; margin-top:8px;">
+                    <button class="glass-btn" style="color:var(--green); border-color:rgba(46,204,113,0.3)" onclick="reviewProofAction('${key}', 'approve')"><i class="fa-solid fa-check"></i> Approve</button>
+                    <button class="glass-btn" style="color:var(--danger); border-color:rgba(255,42,42,0.3)" onclick="reviewProofAction('${key}', 'reject')"><i class="fa-solid fa-xmark"></i> Reject</button>
+                </div>
+            `;
+            dock.appendChild(card);
+        }
+    });
+}
+
+function reviewProofAction(key, action) {
+    fetch(`${ENGINE_API_ENDPOINT}/api/admin/review-proof`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ adminId: sessionUserUid, proofKey: key, action })
+    }).then(res => res.json()).then(() => {
+        alert(`Proof ${action}d successfully.`);
+        synchronizeTelemetryState();
     });
 }
 
