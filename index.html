@@ -636,7 +636,7 @@ const user = tg.initDataUnsafe?.user;
 
 if (user && user.id) {
     // MongoDB API Call to fetch live database values
-    fetch(`/api/user/${user.id}`)
+    fetch(`${ENGINE_API_ENDPOINT}/api/user/${user.id}`)
         .then(res => res.json())
         .then(data => {
             if (data.success) {
