@@ -538,6 +538,7 @@
         document.getElementById('prof-name-node').innerText = sessionUserName;
         document.getElementById('txt-refer-link-box').value = `https://t.me/ExtraEarnBot?start=${sessionUserUid}`;
 
+        // അഡ്മിൻ ഐഡി പരിശോധന (ബോട്ടിന്റെ കോഡിലെ അഡ്മിൻ ഐഡിയുമായി ഒത്തുപോകുന്നു)
         if (Number(sessionUserUid) === ADMIN_ID) {
             document.getElementById('admin-terminal-btn').style.display = 'flex';
         }
@@ -549,6 +550,7 @@
         fetchUserData();
     });
 
+    // ബോട്ടിലെ ഡാറ്റാബേസിൽ നിന്നുള്ള ബാലൻസ് തത്സമയം ഫെച്ച് ചെയ്യുക
     function fetchUserData() {
         if (!user || !user.id) return;
         fetch(`${ENGINE_API_ENDPOINT}/api/user/${sessionUserUid}`)
@@ -966,7 +968,7 @@
         })
         .then(() => { 
             alert(`Voucher [${codeString}] Created Successfully!`); 
-            document.getElementById('adm-vch-code').value = '';
+            document.getElementById('adm-vch-code.value') = '';
             document.getElementById('adm-vch-value').value = '';
         });
     }
