@@ -516,6 +516,19 @@
     </div>
 </div>
 
+<!-- New Pay Modal for entering UID and Name without prompt -->
+<div id="modal-new-pay" class="glass-modal">
+    <div class="modal-body">
+        <h3 style="font-size:16px; margin-bottom:14px;"><i class="fa-solid fa-user-plus"></i> New Payment</h3>
+        <input type="text" id="new-pay-uid" class="glass-input" placeholder="Recipient Telegram User ID (UID)">
+        <input type="text" id="new-pay-name" class="glass-input" placeholder="Contact Name (Optional)">
+        <div style="display:flex; gap:10px;">
+            <button class="glass-btn" onclick="closeModal('modal-new-pay')">Cancel</button>
+            <button class="glass-btn primary" onclick="submitNewPayPrompt()">Continue</button>
+        </div>
+    </div>
+</div>
+
 <script>
     /**
      * Application Constants & Initialization Parameters
@@ -524,15 +537,19 @@
     const ADMIN_ID = 501889840;
 
     const tg = window.Telegram.WebApp;
-    try {
-        tg.expand();
-    } catch (err) {
-        console.warn("Telegram WebApp API not detected in standard environment context.", err);
-    }
+    // Initialize Telegram WebApp properly
+    tg.ready();
+    tg.expand();
 
     const user = tg.initDataUnsafe?.user;
-    const sessionUserUid = user?.id || ADMIN_ID;
+    const sessionUserUid = user?.id || null; // Do not fallback to ADMIN_ID
     const sessionUserName = (user?.first_name || "User") + (user?.last_name ? " " + user.last_name : "");
+
+    // If no user ID, show error and disable interaction
+    if (!sessionUserUid) {
+        document.body.innerHTML = '<div style="color:white; text-align:center; padding:40px;">Error: Unable to identify user. Please open this app from Telegram.</div>';
+        throw new Error("No Telegram user ID");
+    }
 
     // Local state stores
     let appBanners = JSON.parse(localStorage.getItem('extra_app_banners') || '[]');
@@ -583,9 +600,16 @@
                 document.getElementById('header-bal').innerText = balFormatted;
                 document.getElementById('lbl-wallet-bal').innerText = balFormatted;
                 if (data.user.name) document.getElementById('prof-name-node').innerText = data.user.name;
+            } else {
+                // If backend returns error, still show 0
+                document.getElementById('header-bal').innerText = '₹0.00';
+                document.getElementById('lbl-wallet-bal').innerText = '₹0.00';
             }
         } catch (err) {
             console.error("Failed to query user profile:", err);
+            // Show offline fallback
+            document.getElementById('header-bal').innerText = '₹0.00';
+            document.getElementById('lbl-wallet-bal').innerText = '₹0.00';
         }
     }
 
@@ -673,24 +697,33 @@
     }
 
     function filterQuickPayContacts() {
-        const q = document.getElementById('quickpay-search-input').value;
+        const q = document.getElementById('quickpay-search-input').value.trim();
         renderQuickPayPeopleGrid(q);
     }
 
     function openNewPayPrompt() {
-        const uid = prompt("Enter Recipient Telegram User ID (UID):");
-        if (uid && uid.trim() !== '') {
-            const trimmedUid = uid.trim();
-            const name = prompt("Enter Contact Name (Optional):") || `User ${trimmedUid}`;
-            const contactObj = { uid: trimmedUid, name };
-            
-            if (!quickPayContacts.some(c => c.uid === trimmedUid)) {
-                quickPayContacts.push(contactObj);
-                localStorage.setItem('quickpay_contacts', JSON.stringify(quickPayContacts));
-                renderQuickPayPeopleGrid();
-            }
-            openQuickPayChat(contactObj);
+        // Instead of prompt, use custom modal
+        document.getElementById('new-pay-uid').value = '';
+        document.getElementById('new-pay-name').value = '';
+        openModal('modal-new-pay');
+    }
+
+    function submitNewPayPrompt() {
+        const uid = document.getElementById('new-pay-uid').value.trim();
+        const name = document.getElementById('new-pay-name').value.trim() || `User ${uid}`;
+        if (!uid) {
+            alert('Please enter a valid UID.');
+            return;
         }
+        const contactObj = { uid, name };
+        
+        if (!quickPayContacts.some(c => c.uid === uid)) {
+            quickPayContacts.push(contactObj);
+            localStorage.setItem('quickpay_contacts', JSON.stringify(quickPayContacts));
+            renderQuickPayPeopleGrid();
+        }
+        closeModal('modal-new-pay');
+        openQuickPayChat(contactObj);
     }
 
     function openQuickPayChat(contact) {
@@ -820,7 +853,11 @@
             const res = await fetch(`${ENGINE_API_ENDPOINT}/api/mini-app/peer-transfer`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ sourceId: sessionUserUid, targetId: currentActiveChatContact.uid, amount })
+                body: JSON.stringify({ 
+                    sourceId: sessionUserUid, 
+                    targetId: currentActiveChatContact.uid, 
+                    amount 
+                })
             });
             const r = await res.json();
             if (r.error) {
@@ -832,9 +869,10 @@
                 fetchUserData();
             }
         } catch (err) {
+            // Offline fallback: record locally
             recordPaymentInThread(amount);
             amtInput.value = '';
-            alert("Payment Recorded Locally (Offline Fallback)");
+            alert("Payment recorded locally (offline mode). Server will sync when online.");
         }
     }
 
@@ -954,7 +992,7 @@
     }
 
     async function claimVoucherTokenSubmit() {
-        const code = document.getElementById('txt-voucher-code').value;
+        const code = document.getElementById('txt-voucher-code').value.trim();
         if (!code) return alert("Please enter a voucher code.");
         
         try {
@@ -976,7 +1014,7 @@
     }
 
     async function submitWithdrawalClaimRequest() {
-        const upi = document.getElementById('txt-wd-address').value;
+        const upi = document.getElementById('txt-wd-address').value.trim();
         const amount = parseFloat(document.getElementById('txt-wd-quantum').value);
         if (!upi || !amount) return alert("Please fill all details.");
         
@@ -999,7 +1037,7 @@
     }
 
     async function generateVoucherCodeUnified() {
-        const codeString = document.getElementById('adm-vch-code').value;
+        const codeString = document.getElementById('adm-vch-code').value.trim();
         const awardValue = document.getElementById('adm-vch-value').value;
         if (!codeString || !awardValue) return alert("Enter code parameters.");
 
@@ -1007,7 +1045,11 @@
             await fetch(`${ENGINE_API_ENDPOINT}/api/admin/create-code`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ codeString, awardValue })
+                body: JSON.stringify({ 
+                    adminId: sessionUserUid, 
+                    codeString, 
+                    awardValue 
+                })
             });
             alert(`Voucher [${codeString}] Created Successfully!`); 
             document.getElementById('adm-vch-code').value = '';
