@@ -12,7 +12,6 @@
     <style>
         :root {
             --bg: #000000;
-            --bg-soft: #0a0a0a;
             --glass-base: rgba(255, 255, 255, 0.05);
             --glass-hover: rgba(255, 255, 255, 0.09);
             --glass-border: rgba(255, 255, 255, 0.09);
@@ -39,10 +38,7 @@
             -webkit-font-smoothing: antialiased;
         }
 
-        html, body {
-            height: 100%;
-            overflow-x: hidden;
-        }
+        html, body { height: 100%; overflow-x: hidden; }
 
         body {
             background: var(--bg);
@@ -57,7 +53,6 @@
             background-attachment: fixed;
         }
 
-        /* ====== APP CONTAINER (Mobile First) ====== */
         .app-container {
             width: 100%;
             max-width: 500px;
@@ -69,10 +64,7 @@
         }
 
         @media (min-width: 501px) {
-            body {
-                background: #000;
-                background-image: none;
-            }
+            body { background: #000; background-image: none; }
             .app-container {
                 border-left: 1px solid rgba(255,255,255,0.05);
                 border-right: 1px solid rgba(255,255,255,0.05);
@@ -83,7 +75,6 @@
             }
         }
 
-        /* ====== HEADER ====== */
         .header {
             height: 66px;
             padding: 0 18px;
@@ -117,9 +108,17 @@
             font-size: 13px;
             backdrop-filter: blur(10px);
             box-shadow: 0 4px 18px rgba(16, 185, 129, 0.15);
+            min-width: 80px;
+            text-align: center;
+            transition: all 0.3s;
+        }
+        .header-bal-badge.loading {
+            color: var(--text-sub);
+            background: rgba(148, 163, 184, 0.1);
+            border-color: rgba(148, 163, 184, 0.25);
+            box-shadow: none;
         }
 
-        /* ====== VIEWS ====== */
         .view-section {
             flex: 1;
             padding: 16px;
@@ -133,7 +132,6 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* ====== GLASS CARD ====== */
         .glass-card {
             background: linear-gradient(135deg, rgba(255, 255, 255, 0.055), rgba(255, 255, 255, 0.015));
             border: 1px solid var(--glass-border);
@@ -143,45 +141,28 @@
             padding: 18px;
             margin-bottom: 14px;
             box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.5);
-            transition: all 0.25s ease;
         }
 
-        /* ====== BANNER ====== */
-        .banner-wrapper {
-            display: none;
-            width: 100%;
-            margin-bottom: 16px;
-        }
+        .banner-wrapper { display: none; width: 100%; margin-bottom: 16px; }
         .banner-slider {
-            display: flex;
-            gap: 12px;
-            overflow-x: auto;
-            scroll-snap-type: x mandatory;
-            scrollbar-width: none;
-            padding-bottom: 4px;
+            display: flex; gap: 12px; overflow-x: auto;
+            scroll-snap-type: x mandatory; scrollbar-width: none; padding-bottom: 4px;
         }
         .banner-slider::-webkit-scrollbar { display: none; }
 
         .banner-item {
-            flex: 0 0 100%;
-            scroll-snap-align: start;
-            border-radius: var(--radius-lg);
-            overflow: hidden;
+            flex: 0 0 100%; scroll-snap-align: start;
+            border-radius: var(--radius-lg); overflow: hidden;
             border: 1px solid var(--glass-border-bright);
             background: rgba(0,0,0,0.4);
             box-shadow: 0 10px 25px rgba(0,0,0,0.5);
             cursor: pointer;
         }
         .banner-item img {
-            width: 100%;
-            height: auto;
-            max-height: 180px;
-            object-fit: contain;
-            display: block;
-            background: #000;
+            width: 100%; height: auto; max-height: 180px;
+            object-fit: contain; display: block; background: #000;
         }
 
-        /* ====== INPUTS & BUTTONS ====== */
         .glass-input {
             width: 100%;
             background: rgba(255, 255, 255, 0.045);
@@ -238,7 +219,6 @@
         }
         .glass-btn:active { transform: scale(0.97); }
 
-        /* ====== QUICK PAY CONTACTS ====== */
         .quickpay-people-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -247,177 +227,102 @@
             margin-bottom: 16px;
         }
         .quickpay-person-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            cursor: pointer;
-            text-align: center;
+            display: flex; flex-direction: column;
+            align-items: center; cursor: pointer; text-align: center;
         }
         .quickpay-avatar {
-            width: 52px;
-            height: 52px;
-            border-radius: 50%;
+            width: 52px; height: 52px; border-radius: 50%;
             background: linear-gradient(135deg, var(--blue-accent), var(--red-brand));
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 800;
-            font-size: 17px;
-            color: #fff;
+            display: flex; align-items: center; justify-content: center;
+            font-weight: 800; font-size: 17px; color: #fff;
             border: 2px solid var(--glass-border-bright);
             box-shadow: 0 6px 14px rgba(0,0,0,0.4);
             margin-bottom: 5px;
         }
         .quickpay-person-name {
-            font-size: 10.5px;
-            font-weight: 600;
-            color: var(--text-main);
-            width: 100%;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
+            font-size: 10.5px; font-weight: 600;
+            color: var(--text-main); width: 100%;
+            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
         }
 
-        /* ====== SEARCH ====== */
         .search-box-wrapper { position: relative; margin-bottom: 14px; }
         .search-box-wrapper i {
-            position: absolute;
-            left: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--text-sub);
-            font-size: 14px;
-            pointer-events: none;
+            position: absolute; left: 15px; top: 50%;
+            transform: translateY(-50%); color: var(--text-sub);
+            font-size: 14px; pointer-events: none;
         }
         .search-box-wrapper input { padding-left: 42px; margin-bottom: 0; }
 
-        /* ====== TX HISTORY ====== */
         .tx-history-item {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 12px 14px;
-            background: rgba(255,255,255,0.03);
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 12px 14px; background: rgba(255,255,255,0.03);
             border: 1px solid var(--glass-border);
-            border-radius: var(--radius-md);
-            margin-bottom: 9px;
-            cursor: pointer;
+            border-radius: var(--radius-md); margin-bottom: 9px; cursor: pointer;
         }
         .tx-history-left { display: flex; align-items: center; gap: 11px; }
         .tx-history-icon {
-            width: 38px;
-            height: 38px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 14px;
+            width: 38px; height: 38px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center; font-size: 14px;
         }
         .tx-history-icon.out { background: rgba(239, 68, 68, 0.15); color: #f87171; }
         .tx-history-icon.in { background: rgba(16, 185, 129, 0.15); color: var(--green-accent); }
 
-        /* ====== PROFILE ====== */
-        .profile-hero {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            margin-bottom: 18px;
-        }
+        .profile-hero { display: flex; align-items: center; gap: 14px; margin-bottom: 18px; }
         .profile-avatar-wrap {
-            width: 68px;
-            height: 68px;
-            border-radius: 50%;
-            border: 2px solid var(--red-brand);
-            padding: 2px;
+            width: 68px; height: 68px; border-radius: 50%;
+            border: 2px solid var(--red-brand); padding: 2px;
             position: relative;
             background: linear-gradient(135deg, var(--blue-accent), var(--red-brand));
-            flex-shrink: 0;
-            overflow: hidden;
+            flex-shrink: 0; overflow: hidden;
             box-shadow: 0 0 20px rgba(255, 42, 75, 0.3);
         }
         .profile-avatar-wrap img {
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            object-fit: cover;
-            display: block;
+            width: 100%; height: 100%;
+            border-radius: 50%; object-fit: cover; display: block;
         }
         .profile-avatar-fallback {
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 26px;
-            font-weight: 800;
-            color: #fff;
+            width: 100%; height: 100%; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 26px; font-weight: 800; color: #fff;
             background: linear-gradient(135deg, var(--blue-accent), var(--red-brand));
         }
         .uid-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            background: var(--glass-base);
-            border: 1px solid var(--glass-border);
-            padding: 5px 12px;
-            border-radius: 12px;
-            font-size: 11.5px;
-            color: var(--text-sub);
-            cursor: pointer;
-            margin-top: 5px;
+            display: inline-flex; align-items: center; gap: 6px;
+            background: var(--glass-base); border: 1px solid var(--glass-border);
+            padding: 5px 12px; border-radius: 12px;
+            font-size: 11.5px; color: var(--text-sub);
+            cursor: pointer; margin-top: 5px;
         }
 
-        /* ====== MENU LINKS ====== */
         .menu-list-link {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 16px 18px;
-            background: var(--glass-base);
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 16px 18px; background: var(--glass-base);
             border: 1px solid var(--glass-border);
-            border-radius: var(--radius-md);
-            margin-bottom: 10px;
-            cursor: pointer;
-            font-weight: 600;
-            font-size: 13.5px;
+            border-radius: var(--radius-md); margin-bottom: 10px;
+            cursor: pointer; font-weight: 600; font-size: 13.5px;
             transition: all 0.2s;
         }
         .menu-list-link:active { background: var(--glass-hover); transform: scale(0.99); }
 
-        /* ====== BOTTOM NAV (Transparent Blur) ====== */
         .bottom-nav {
-            position: fixed;
-            bottom: 14px;
-            left: 50%;
+            position: fixed; bottom: 14px; left: 50%;
             transform: translateX(-50%);
-            width: calc(100% - 28px);
-            max-width: 460px;
-            height: 68px;
+            width: calc(100% - 28px); max-width: 460px; height: 68px;
             background: rgba(255, 255, 255, 0.06);
             backdrop-filter: blur(40px) saturate(200%);
             -webkit-backdrop-filter: blur(40px) saturate(200%);
             border: 1px solid rgba(255, 255, 255, 0.14);
             border-radius: 26px;
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
+            display: flex; justify-content: space-around; align-items: center;
             z-index: 1000;
             box-shadow: 0 20px 50px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.08);
             padding-bottom: env(safe-area-inset-bottom, 0px);
         }
         .nav-link {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            color: var(--text-sub);
-            font-size: 10.5px;
-            font-weight: 700;
-            gap: 3px;
-            cursor: pointer;
-            transition: all 0.3s;
-            padding: 6px 14px;
-            border-radius: 14px;
+            display: flex; flex-direction: column; align-items: center;
+            color: var(--text-sub); font-size: 10.5px; font-weight: 700;
+            gap: 3px; cursor: pointer; transition: all 0.3s;
+            padding: 6px 14px; border-radius: 14px;
         }
         .nav-link i { font-size: 18px; }
         .nav-link.active {
@@ -426,21 +331,13 @@
             background: rgba(255, 42, 75, 0.1);
         }
 
-        /* ====== SUB PAGES ====== */
         .full-sub-page {
-            position: fixed;
-            top: 0;
-            left: 50%;
+            position: fixed; top: 0; left: 50%;
             transform: translateX(-50%);
-            width: 100%;
-            max-width: 500px;
-            height: 100dvh;
-            background: var(--bg);
-            z-index: 2000;
-            display: none;
-            flex-direction: column;
-            overflow-y: auto;
-            padding: 18px;
+            width: 100%; max-width: 500px; height: 100dvh;
+            background: var(--bg); z-index: 2000;
+            display: none; flex-direction: column;
+            overflow-y: auto; padding: 18px;
             padding-top: max(18px, env(safe-area-inset-top, 18px));
             padding-bottom: calc(30px + env(safe-area-inset-bottom, 0px));
             background-image: radial-gradient(circle at 50% 0%, rgba(255, 42, 75, 0.08) 0%, transparent 50%);
@@ -448,48 +345,27 @@
         .full-sub-page.active { display: flex; }
 
         .sub-page-header {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 18px;
-            position: sticky;
-            top: 0;
+            display: flex; align-items: center; gap: 12px; margin-bottom: 18px;
+            position: sticky; top: 0;
             background: rgba(0,0,0,0.85);
             backdrop-filter: blur(20px);
-            margin-left: -18px;
-            margin-right: -18px;
-            padding: 12px 18px;
-            z-index: 10;
+            margin-left: -18px; margin-right: -18px;
+            padding: 12px 18px; z-index: 10;
             border-bottom: 1px solid var(--glass-border);
         }
         .back-circle-btn {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: var(--glass-base);
-            border: 1px solid var(--glass-border);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 15px;
-            color: #fff;
-            cursor: pointer;
-            flex-shrink: 0;
+            width: 40px; height: 40px; border-radius: 50%;
+            background: var(--glass-base); border: 1px solid var(--glass-border);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 15px; color: #fff; cursor: pointer; flex-shrink: 0;
         }
 
-        /* ====== CHAT ====== */
         .chat-pay-page {
-            position: fixed;
-            top: 0;
-            left: 50%;
+            position: fixed; top: 0; left: 50%;
             transform: translateX(-50%);
-            width: 100%;
-            max-width: 500px;
-            height: 100dvh;
-            background: var(--bg);
-            z-index: 3000;
-            display: none;
-            flex-direction: column;
+            width: 100%; max-width: 500px; height: 100dvh;
+            background: var(--bg); z-index: 3000;
+            display: none; flex-direction: column;
         }
         .chat-pay-page.active { display: flex; }
 
@@ -498,38 +374,27 @@
             background: rgba(0, 0, 0, 0.88);
             backdrop-filter: blur(25px);
             border-bottom: 1px solid var(--glass-border);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
+            display: flex; align-items: center; justify-content: space-between;
             padding-top: max(14px, env(safe-area-inset-top, 14px));
         }
         .chat-body {
-            flex: 1;
-            padding: 18px;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
+            flex: 1; padding: 18px; overflow-y: auto;
+            display: flex; flex-direction: column; gap: 12px;
         }
         .chat-text-msg {
             background: rgba(255, 255, 255, 0.08);
             border: 1px solid var(--glass-border);
             padding: 11px 15px;
             border-radius: 16px 16px 4px 16px;
-            max-width: 78%;
-            align-self: flex-end;
-            font-size: 13px;
-            line-height: 1.4;
-            color: #fff;
+            max-width: 78%; align-self: flex-end;
+            font-size: 13px; line-height: 1.4; color: #fff;
             word-break: break-word;
         }
         .chat-bubble-card {
             background: linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.03));
             border: 1px solid var(--glass-border-bright);
-            border-radius: 18px;
-            padding: 16px;
-            max-width: 80%;
-            align-self: flex-end;
+            border-radius: 18px; padding: 16px;
+            max-width: 80%; align-self: flex-end;
             box-shadow: 0 8px 24px rgba(0,0,0,0.3);
         }
         .chat-footer-bar {
@@ -537,206 +402,132 @@
             background: rgba(0, 0, 0, 0.92);
             backdrop-filter: blur(25px);
             border-top: 1px solid var(--glass-border);
-            display: flex;
-            gap: 9px;
-            align-items: center;
-            flex-direction: column;
+            display: flex; gap: 9px; align-items: center; flex-direction: column;
             padding-bottom: max(12px, env(safe-area-inset-bottom, 12px));
         }
-        .chat-input-row {
-            display: flex;
-            gap: 8px;
-            width: 100%;
-            align-items: center;
-        }
+        .chat-input-row { display: flex; gap: 8px; width: 100%; align-items: center; }
 
-        /* ====== MODAL ====== */
         .glass-modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
+            position: fixed; top: 0; left: 0; right: 0; bottom: 0;
             background: rgba(0, 0, 0, 0.88);
-            backdrop-filter: blur(14px);
-            -webkit-backdrop-filter: blur(14px);
-            z-index: 10000;
-            display: none;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
+            backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+            z-index: 10000; display: none;
+            align-items: center; justify-content: center; padding: 20px;
         }
         .glass-modal.active { display: flex; }
         .modal-body {
             background: rgba(10, 10, 10, 0.97);
             border: 1px solid var(--glass-border-bright);
-            width: 100%;
-            max-width: 380px;
-            border-radius: 24px;
-            padding: 22px;
+            width: 100%; max-width: 380px;
+            border-radius: 24px; padding: 22px;
             box-shadow: 0 20px 50px rgba(0,0,0,0.85);
-            max-height: 90vh;
-            overflow-y: auto;
+            max-height: 90vh; overflow-y: auto;
         }
 
-        /* ====== ADMIN ====== */
         .admin-stats-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 10px;
-            margin-bottom: 14px;
+            display: grid; grid-template-columns: repeat(2, 1fr);
+            gap: 10px; margin-bottom: 14px;
         }
         .admin-stat-card {
             background: linear-gradient(135deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
             border: 1px solid var(--glass-border);
-            border-radius: var(--radius-md);
-            padding: 14px;
+            border-radius: var(--radius-md); padding: 14px;
         }
         .admin-stat-card .label {
-            font-size: 10.5px;
-            color: var(--text-sub);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            font-weight: 700;
-            margin-bottom: 5px;
+            font-size: 10.5px; color: var(--text-sub);
+            text-transform: uppercase; letter-spacing: 0.5px;
+            font-weight: 700; margin-bottom: 5px;
         }
-        .admin-stat-card .value {
-            font-size: 22px;
-            font-weight: 800;
-            color: #fff;
-        }
+        .admin-stat-card .value { font-size: 22px; font-weight: 800; color: #fff; }
 
         .admin-menu-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 10px;
-            margin-bottom: 14px;
+            display: grid; grid-template-columns: repeat(2, 1fr);
+            gap: 10px; margin-bottom: 14px;
         }
         .admin-menu-btn {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center; gap: 8px;
             padding: 14px 8px;
             background: linear-gradient(135deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
             border: 1px solid var(--glass-border);
             border-radius: var(--radius-md);
-            cursor: pointer;
-            transition: all 0.2s;
-            text-align: center;
+            cursor: pointer; transition: all 0.2s; text-align: center;
         }
-        .admin-menu-btn:active {
-            background: var(--glass-hover);
-            transform: scale(0.97);
-        }
+        .admin-menu-btn:active { background: var(--glass-hover); transform: scale(0.97); }
         .admin-menu-btn i { font-size: 20px; }
-        .admin-menu-btn span {
-            font-size: 11px;
-            font-weight: 700;
-            color: #fff;
-        }
+        .admin-menu-btn span { font-size: 11px; font-weight: 700; color: #fff; }
 
-        .admin-section {
-            display: none;
-            animation: fadeIn 0.25s ease;
-        }
+        .admin-section { display: none; animation: fadeIn 0.25s ease; }
         .admin-section.active { display: block; }
 
         .admin-section-title {
-            font-size: 14px;
-            font-weight: 800;
+            font-size: 14px; font-weight: 800;
             margin: 4px 0 12px 0;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            color: #fff;
+            display: flex; align-items: center; gap: 8px; color: #fff;
         }
         .admin-section-title i { color: var(--red-brand); }
 
         .admin-toggle-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 12px 14px;
-            background: var(--glass-base);
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 12px 14px; background: var(--glass-base);
             border: 1px solid var(--glass-border);
-            border-radius: var(--radius-md);
-            margin-bottom: 9px;
+            border-radius: var(--radius-md); margin-bottom: 9px;
         }
-        .admin-toggle-row span {
-            font-size: 12.5px;
-            font-weight: 600;
-        }
-        .switch {
-            position: relative;
-            width: 42px;
-            height: 24px;
-            flex-shrink: 0;
-        }
+        .admin-toggle-row span { font-size: 12.5px; font-weight: 600; }
+        .switch { position: relative; width: 42px; height: 24px; flex-shrink: 0; }
         .switch input { display: none; }
         .switch .slider {
-            position: absolute;
-            cursor: pointer;
+            position: absolute; cursor: pointer;
             top: 0; left: 0; right: 0; bottom: 0;
             background: rgba(255,255,255,0.12);
-            border-radius: 24px;
-            transition: 0.3s;
+            border-radius: 24px; transition: 0.3s;
         }
         .switch .slider:before {
-            content: "";
-            position: absolute;
-            height: 18px;
-            width: 18px;
-            left: 3px;
-            bottom: 3px;
-            background: white;
-            border-radius: 50%;
-            transition: 0.3s;
+            content: ""; position: absolute;
+            height: 18px; width: 18px; left: 3px; bottom: 3px;
+            background: white; border-radius: 50%; transition: 0.3s;
         }
-        .switch input:checked + .slider {
-            background: var(--green-accent);
-        }
-        .switch input:checked + .slider:before {
-            transform: translateX(18px);
-        }
+        .switch input:checked + .slider { background: var(--green-accent); }
+        .switch input:checked + .slider:before { transform: translateX(18px); }
 
         .blocked-banner-bar {
             background: rgba(239, 68, 68, 0.15);
             border: 1px solid rgba(239, 68, 68, 0.4);
-            color: #f87171;
-            text-align: center;
-            padding: 9px;
-            border-radius: 12px;
-            font-size: 11.5px;
-            font-weight: 700;
+            color: #f87171; text-align: center;
+            padding: 9px; border-radius: 12px;
+            font-size: 11.5px; font-weight: 700;
         }
         .banner-manage-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            display: flex; justify-content: space-between; align-items: center;
             background: rgba(0,0,0,0.35);
             border: 1px solid var(--glass-border);
-            padding: 9px 12px;
-            border-radius: 12px;
-            margin-bottom: 9px;
-            gap: 8px;
+            padding: 9px 12px; border-radius: 12px;
+            margin-bottom: 9px; gap: 8px;
         }
 
-        /* Scrollbar Hide */
+        /* Loading skeleton */
+        .skeleton {
+            background: linear-gradient(90deg, rgba(255,255,255,0.04) 25%, rgba(255,255,255,0.08) 50%, rgba(255,255,255,0.04) 75%);
+            background-size: 200% 100%;
+            animation: skeleton-loading 1.5s infinite;
+            border-radius: 8px;
+        }
+        @keyframes skeleton-loading {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+
         ::-webkit-scrollbar { width: 0; height: 0; }
     </style>
 </head>
 <body>
 
 <div class="app-container">
-
-    <!-- HEADER -->
     <header class="header">
         <div class="logo-section">
             <h1><span class="extra">Extra</span> <span class="earn">Earn</span></h1>
         </div>
-        <div id="header-bal" class="header-bal-badge">₹0.00</div>
+        <div id="header-bal" class="header-bal-badge loading">Loading...</div>
     </header>
 
     <!-- HOME -->
@@ -850,10 +641,9 @@
         <div class="nav-link" onclick="switchMainTab('pay', this)"><i class="fa-solid fa-paper-plane"></i>Quick Pay</div>
         <div class="nav-link" onclick="switchMainTab('profile', this)"><i class="fa-solid fa-user"></i>Profile</div>
     </nav>
-
 </div>
 
-<!-- ==================== QUICK PAY CHAT ==================== -->
+<!-- QUICK PAY CHAT -->
 <div id="page-quickpay-chat" class="chat-pay-page">
     <div class="chat-header">
         <div style="display:flex; align-items:center; gap:10px;">
@@ -887,7 +677,7 @@
     </div>
 </div>
 
-<!-- ==================== REFER HUB ==================== -->
+<!-- REFER HUB -->
 <div id="page-refer-hub" class="full-sub-page">
     <div class="sub-page-header">
         <div class="back-circle-btn" onclick="closeSubPage('page-refer-hub')"><i class="fa-solid fa-chevron-left"></i></div>
@@ -900,7 +690,7 @@
     </div>
 </div>
 
-<!-- ==================== LEADERBOARD ==================== -->
+<!-- LEADERBOARD -->
 <div id="page-leaderboard" class="full-sub-page">
     <div class="sub-page-header">
         <div class="back-circle-btn" onclick="closeSubPage('page-leaderboard')"><i class="fa-solid fa-chevron-left"></i></div>
@@ -914,7 +704,7 @@
     </div>
 </div>
 
-<!-- ==================== PAYOUT SETUP ==================== -->
+<!-- PAYOUT SETUP -->
 <div id="page-payout-setup" class="full-sub-page">
     <div class="sub-page-header">
         <div class="back-circle-btn" onclick="closeSubPage('page-payout-setup')"><i class="fa-solid fa-chevron-left"></i></div>
@@ -932,7 +722,7 @@
     </div>
 </div>
 
-<!-- ==================== HISTORY ==================== -->
+<!-- HISTORY -->
 <div id="page-history" class="full-sub-page">
     <div class="sub-page-header">
         <div class="back-circle-btn" onclick="closeSubPage('page-history')"><i class="fa-solid fa-chevron-left"></i></div>
@@ -941,16 +731,14 @@
     <div id="history-content-container"></div>
 </div>
 
-<!-- ==================== ADMIN CONTROL PANEL ==================== -->
+<!-- ADMIN PANEL -->
 <div id="page-admin-control-hub" class="full-sub-page">
     <div class="sub-page-header">
         <div class="back-circle-btn" onclick="closeSubPage('page-admin-control-hub')"><i class="fa-solid fa-chevron-left"></i></div>
         <h3 style="font-size:16.5px; font-weight:800; color:var(--red-brand);">Admin Control Core</h3>
     </div>
 
-    <!-- ADMIN MAIN MENU -->
     <div id="admin-main-menu">
-        <!-- Stats -->
         <div class="admin-stats-grid" id="admin-stats-grid">
             <div class="admin-stat-card"><div class="label">Total Users</div><div class="value" id="stat-users">-</div></div>
             <div class="admin-stat-card"><div class="label">Banned</div><div class="value" id="stat-banned" style="color:#f87171;">-</div></div>
@@ -961,57 +749,44 @@
         <h4 class="admin-section-title"><i class="fa-solid fa-sliders"></i> Control Modules</h4>
         <div class="admin-menu-grid">
             <div class="admin-menu-btn" onclick="openAdminSection('users')">
-                <i class="fa-solid fa-users" style="color:var(--blue-accent);"></i>
-                <span>Users Matrix</span>
+                <i class="fa-solid fa-users" style="color:var(--blue-accent);"></i><span>Users Matrix</span>
             </div>
             <div class="admin-menu-btn" onclick="openAdminSection('tasks')">
-                <i class="fa-solid fa-list-check" style="color:var(--green-accent);"></i>
-                <span>Tasks</span>
+                <i class="fa-solid fa-list-check" style="color:var(--green-accent);"></i><span>Tasks</span>
             </div>
             <div class="admin-menu-btn" onclick="openAdminSection('withdrawals')">
-                <i class="fa-solid fa-money-bill-transfer" style="color:var(--yellow-accent);"></i>
-                <span>Withdrawals</span>
+                <i class="fa-solid fa-money-bill-transfer" style="color:var(--yellow-accent);"></i><span>Withdrawals</span>
             </div>
             <div class="admin-menu-btn" onclick="openAdminSection('broadcast')">
-                <i class="fa-solid fa-bullhorn" style="color:var(--red-brand);"></i>
-                <span>Broadcast</span>
+                <i class="fa-solid fa-bullhorn" style="color:var(--red-brand);"></i><span>Broadcast</span>
             </div>
             <div class="admin-menu-btn" onclick="openAdminSection('vouchers')">
-                <i class="fa-solid fa-ticket" style="color:var(--purple-accent);"></i>
-                <span>Gift Codes</span>
+                <i class="fa-solid fa-ticket" style="color:var(--purple-accent);"></i><span>Gift Codes</span>
             </div>
             <div class="admin-menu-btn" onclick="openAdminSection('banners')">
-                <i class="fa-solid fa-images" style="color:var(--blue-accent);"></i>
-                <span>Banners</span>
+                <i class="fa-solid fa-images" style="color:var(--blue-accent);"></i><span>Banners</span>
             </div>
             <div class="admin-menu-btn" onclick="openAdminSection('channels')">
-                <i class="fa-solid fa-tower-broadcast" style="color:var(--green-accent);"></i>
-                <span>Channels</span>
+                <i class="fa-solid fa-tower-broadcast" style="color:var(--green-accent);"></i><span>Channels</span>
             </div>
             <div class="admin-menu-btn" onclick="openAdminSection('gateways')">
-                <i class="fa-solid fa-credit-card" style="color:var(--yellow-accent);"></i>
-                <span>Gateways</span>
+                <i class="fa-solid fa-credit-card" style="color:var(--yellow-accent);"></i><span>Gateways</span>
             </div>
             <div class="admin-menu-btn" onclick="openAdminSection('settings')">
-                <i class="fa-solid fa-gears" style="color:var(--red-brand);"></i>
-                <span>Settings</span>
+                <i class="fa-solid fa-gears" style="color:var(--red-brand);"></i><span>Settings</span>
             </div>
             <div class="admin-menu-btn" onclick="openAdminSection('bans')">
-                <i class="fa-solid fa-ban" style="color:#f87171;"></i>
-                <span>Ban Manager</span>
+                <i class="fa-solid fa-ban" style="color:#f87171;"></i><span>Ban Manager</span>
             </div>
             <div class="admin-menu-btn" onclick="openAdminSection('admins')">
-                <i class="fa-solid fa-user-shield" style="color:var(--purple-accent);"></i>
-                <span>Sub-Admins</span>
+                <i class="fa-solid fa-user-shield" style="color:var(--purple-accent);"></i><span>Sub-Admins</span>
             </div>
             <div class="admin-menu-btn" onclick="openAdminSection('msg_user')">
-                <i class="fa-solid fa-comment-dots" style="color:var(--blue-accent);"></i>
-                <span>Message User</span>
+                <i class="fa-solid fa-comment-dots" style="color:var(--blue-accent);"></i><span>Message User</span>
             </div>
         </div>
     </div>
 
-    <!-- === SECTION: USERS === -->
     <div id="admin-section-users" class="admin-section">
         <div style="display:flex; align-items:center; gap:10px; margin-bottom:14px;">
             <div class="back-circle-btn" onclick="closeAdminSection()"><i class="fa-solid fa-chevron-left"></i></div>
@@ -1028,10 +803,8 @@
             <input type="number" id="admin-adj-amt" class="glass-input" placeholder="Amount (+add / -remove)">
             <button class="glass-btn success" onclick="adminAdjustBalance()"><i class="fa-solid fa-check"></i> Adjust Balance</button>
         </div>
-        <div id="admin-user-result"></div>
     </div>
 
-    <!-- === SECTION: TASKS === -->
     <div id="admin-section-tasks" class="admin-section">
         <div style="display:flex; align-items:center; gap:10px; margin-bottom:14px;">
             <div class="back-circle-btn" onclick="closeAdminSection()"><i class="fa-solid fa-chevron-left"></i></div>
@@ -1051,7 +824,6 @@
         </div>
     </div>
 
-    <!-- === SECTION: WITHDRAWALS === -->
     <div id="admin-section-withdrawals" class="admin-section">
         <div style="display:flex; align-items:center; gap:10px; margin-bottom:14px;">
             <div class="back-circle-btn" onclick="closeAdminSection()"><i class="fa-solid fa-chevron-left"></i></div>
@@ -1068,7 +840,6 @@
         </div>
     </div>
 
-    <!-- === SECTION: BROADCAST === -->
     <div id="admin-section-broadcast" class="admin-section">
         <div style="display:flex; align-items:center; gap:10px; margin-bottom:14px;">
             <div class="back-circle-btn" onclick="closeAdminSection()"><i class="fa-solid fa-chevron-left"></i></div>
@@ -1077,15 +848,10 @@
         <div class="glass-card">
             <h4 style="font-size:13px; margin-bottom:10px;">📣 Send Broadcast</h4>
             <textarea id="admin-bc-text" class="glass-input" style="min-height:100px; resize:vertical; font-family:inherit;" placeholder="Type your broadcast message..."></textarea>
-            <div class="admin-toggle-row">
-                <span>Forward Mode</span>
-                <label class="switch"><input type="checkbox" id="admin-bc-forward"><span class="slider"></span></label>
-            </div>
             <button class="glass-btn primary" onclick="adminSendBroadcast()"><i class="fa-solid fa-paper-plane"></i> Send to All Users</button>
         </div>
     </div>
 
-    <!-- === SECTION: VOUCHERS === -->
     <div id="admin-section-vouchers" class="admin-section">
         <div style="display:flex; align-items:center; gap:10px; margin-bottom:14px;">
             <div class="back-circle-btn" onclick="closeAdminSection()"><i class="fa-solid fa-chevron-left"></i></div>
@@ -1106,7 +872,6 @@
         </div>
     </div>
 
-    <!-- === SECTION: BANNERS === -->
     <div id="admin-section-banners" class="admin-section">
         <div style="display:flex; align-items:center; gap:10px; margin-bottom:14px;">
             <div class="back-circle-btn" onclick="closeAdminSection()"><i class="fa-solid fa-chevron-left"></i></div>
@@ -1126,7 +891,6 @@
         </div>
     </div>
 
-    <!-- === SECTION: CHANNELS === -->
     <div id="admin-section-channels" class="admin-section">
         <div style="display:flex; align-items:center; gap:10px; margin-bottom:14px;">
             <div class="back-circle-btn" onclick="closeAdminSection()"><i class="fa-solid fa-chevron-left"></i></div>
@@ -1147,7 +911,6 @@
         </div>
     </div>
 
-    <!-- === SECTION: GATEWAYS === -->
     <div id="admin-section-gateways" class="admin-section">
         <div style="display:flex; align-items:center; gap:10px; margin-bottom:14px;">
             <div class="back-circle-btn" onclick="closeAdminSection()"><i class="fa-solid fa-chevron-left"></i></div>
@@ -1171,7 +934,6 @@
         </div>
     </div>
 
-    <!-- === SECTION: SETTINGS === -->
     <div id="admin-section-settings" class="admin-section">
         <div style="display:flex; align-items:center; gap:10px; margin-bottom:14px;">
             <div class="back-circle-btn" onclick="closeAdminSection()"><i class="fa-solid fa-chevron-left"></i></div>
@@ -1210,17 +972,8 @@
             <input type="number" id="set-tax" class="glass-input" placeholder="Tax percentage">
             <button class="glass-btn primary" onclick="adminSaveSettings()"><i class="fa-solid fa-save"></i> Save Settings</button>
         </div>
-
-        <div class="glass-card">
-            <h4 style="font-size:13px; margin-bottom:10px;">📣 Broadcast Mode</h4>
-            <div class="admin-toggle-row">
-                <span>Copy Mode (Analytics)</span>
-                <label class="switch"><input type="checkbox" id="set-bc-copy" checked><span class="slider"></span></label>
-            </div>
-        </div>
     </div>
 
-    <!-- === SECTION: BANS === -->
     <div id="admin-section-bans" class="admin-section">
         <div style="display:flex; align-items:center; gap:10px; margin-bottom:14px;">
             <div class="back-circle-btn" onclick="closeAdminSection()"><i class="fa-solid fa-chevron-left"></i></div>
@@ -1242,7 +995,6 @@
         </div>
     </div>
 
-    <!-- === SECTION: ADMINS === -->
     <div id="admin-section-admins" class="admin-section">
         <div style="display:flex; align-items:center; gap:10px; margin-bottom:14px;">
             <div class="back-circle-btn" onclick="closeAdminSection()"><i class="fa-solid fa-chevron-left"></i></div>
@@ -1259,7 +1011,6 @@
         </div>
     </div>
 
-    <!-- === SECTION: MESSAGE USER === -->
     <div id="admin-section-msg_user" class="admin-section">
         <div style="display:flex; align-items:center; gap:10px; margin-bottom:14px;">
             <div class="back-circle-btn" onclick="closeAdminSection()"><i class="fa-solid fa-chevron-left"></i></div>
@@ -1272,10 +1023,9 @@
             <button class="glass-btn primary" onclick="adminSendUserMessage()"><i class="fa-solid fa-paper-plane"></i> Send Message</button>
         </div>
     </div>
-
 </div>
 
-<!-- ==================== WITHDRAW MODAL ==================== -->
+<!-- WITHDRAW MODAL -->
 <div id="modal-withdraw" class="glass-modal">
     <div class="modal-body">
         <h3 style="font-size:15px; margin-bottom:14px;"><i class="fa-solid fa-wallet"></i> Withdraw Funds</h3>
@@ -1288,7 +1038,7 @@
     </div>
 </div>
 
-<!-- ==================== NEW PAY MODAL ==================== -->
+<!-- NEW PAY MODAL -->
 <div id="modal-new-pay" class="glass-modal">
     <div class="modal-body">
         <h3 style="font-size:15px; margin-bottom:14px;"><i class="fa-solid fa-user-plus"></i> New Payment</h3>
@@ -1301,7 +1051,7 @@
     </div>
 </div>
 
-<!-- ==================== USER DETAIL MODAL ==================== -->
+<!-- USER DETAIL MODAL -->
 <div id="modal-user-detail" class="glass-modal">
     <div class="modal-body">
         <h3 style="font-size:15px; margin-bottom:14px;"><i class="fa-solid fa-user"></i> User Details</h3>
@@ -1312,7 +1062,7 @@
     </div>
 </div>
 
-<!-- ==================== CONFIRM MODAL ==================== -->
+<!-- CONFIRM MODAL -->
 <div id="modal-confirm" class="glass-modal">
     <div class="modal-body">
         <h3 style="font-size:15px; margin-bottom:12px;" id="confirm-title">Confirm</h3>
@@ -1327,10 +1077,13 @@
 <script>
     /**
      * ============================================================
-     *  EXTRA EARN MINI APP - CORE ENGINE
+     *  EXTRA EARN MINI APP - CORE ENGINE v2.0
+     *  ✅ Same Database as Bot (uses window.location.origin)
+     *  ✅ Cached balance shows instantly
+     *  ✅ Optimized loading (no admin code for non-admins)
      * ============================================================
      */
-    const ENGINE_API_ENDPOINT = "https://extra-earn-bot.onrender.com";
+    const ENGINE_API_ENDPOINT = window.location.origin;
     const ADMIN_ID = 501889840;
 
     const tg = window.Telegram.WebApp;
@@ -1349,11 +1102,13 @@
         throw new Error("No Telegram user ID");
     }
 
+    const isRealAdmin = Number(sessionUserUid) === ADMIN_ID;
+
     // Local state
-    let appBanners = JSON.parse(localStorage.getItem('extra_app_banners') || '[]');
-    let quickPayContacts = JSON.parse(localStorage.getItem('quickpay_contacts') || '[]');
-    let quickPayThreads = JSON.parse(localStorage.getItem('quickpay_threads') || '{}');
-    let blockedUsersList = JSON.parse(localStorage.getItem('blocked_users_list') || '[]');
+    let appBanners = [];
+    let quickPayContacts = [];
+    let quickPayThreads = {};
+    let blockedUsersList = [];
     let currentActiveChatContact = null;
 
     // ==================== HELPERS ====================
@@ -1365,11 +1120,11 @@
 
     function showToast(msg, color = '#10b981') {
         const el = document.createElement('div');
-        el.style.cssText = `position:fixed;top:80px;left:50%;transform:translateX(-50%);background:${color};color:white;padding:11px 22px;border-radius:14px;font-weight:700;font-size:13px;z-index:99999;box-shadow:0 8px 25px rgba(0,0,0,0.5);`;
+        el.style.cssText = `position:fixed;top:80px;left:50%;transform:translateX(-50%);background:${color};color:white;padding:11px 22px;border-radius:14px;font-weight:700;font-size:13px;z-index:99999;box-shadow:0 8px 25px rgba(0,0,0,0.5);max-width:90%;text-align:center;`;
         el.innerText = msg;
         document.body.appendChild(el);
-        setTimeout(() => { el.style.transition = 'opacity 0.4s'; el.style.opacity = '0'; }, 1600);
-        setTimeout(() => el.remove(), 2100);
+        setTimeout(() => { el.style.transition = 'opacity 0.4s'; el.style.opacity = '0'; }, 1800);
+        setTimeout(() => el.remove(), 2300);
     }
 
     function showConfirm(title, msg, onYes) {
@@ -1380,35 +1135,83 @@
         openModal('modal-confirm');
     }
 
+    function setBalance(amount, isLoading = false) {
+        const balFormatted = '₹' + Number(amount || 0).toFixed(2);
+        const header = document.getElementById('header-bal');
+        const wallet = document.getElementById('lbl-wallet-bal');
+        header.innerText = balFormatted;
+        wallet.innerText = balFormatted;
+        if (isLoading) {
+            header.classList.add('loading');
+            header.innerText = 'Loading...';
+        } else {
+            header.classList.remove('loading');
+        }
+    }
+
+    // ==================== INSTANT BOOT (Cached Data) ====================
+    (function instantBoot() {
+        // Show cached balance IMMEDIATELY before any API call
+        try {
+            const cachedBal = localStorage.getItem('cached_balance_' + sessionUserUid);
+            if (cachedBal !== null) {
+                setBalance(parseFloat(cachedBal), false);
+            } else {
+                setBalance(0, true);
+            }
+        } catch(e) { setBalance(0, true); }
+
+        // Show cached user data
+        try {
+            const cachedName = localStorage.getItem('cached_name_' + sessionUserUid);
+            if (cachedName) {
+                const nameEl = document.getElementById('prof-name-node');
+                if (nameEl) nameEl.innerText = cachedName;
+            }
+        } catch(e) {}
+    })();
+
     // ==================== INIT ====================
     document.addEventListener("DOMContentLoaded", () => {
         document.getElementById('prof-uid-string').innerText = sessionUserUid;
         document.getElementById('prof-name-node').innerText = sessionUserName;
         document.getElementById('txt-refer-link-box').value = `https://t.me/ExtraEarnBot?start=${sessionUserUid}`;
 
-        // === AVATAR FIX ===
+        // Avatar
         const avatarImg = document.getElementById('prof-avatar-node');
         if (sessionUserPhoto) {
             avatarImg.src = sessionUserPhoto;
         } else {
-            // Fallback: initial-based avatar
             renderInitialAvatar();
         }
 
-        if (Number(sessionUserUid) === ADMIN_ID) {
+        if (isRealAdmin) {
             document.getElementById('admin-terminal-btn').style.display = 'flex';
         }
 
+        // Load local data
+        try {
+            appBanners = JSON.parse(localStorage.getItem('extra_app_banners') || '[]');
+            quickPayContacts = JSON.parse(localStorage.getItem('quickpay_contacts') || '[]');
+            quickPayThreads = JSON.parse(localStorage.getItem('quickpay_threads') || '{}');
+            blockedUsersList = JSON.parse(localStorage.getItem('blocked_users_list') || '[]');
+        } catch(e) { console.warn("Local data parse error:", e); }
+
+        // Render UI (fast)
         renderBannersOnHome();
-        renderAdminBannerList();
         renderQuickPayPeopleGrid();
         renderQuickPayTransactionHistory();
+
+        // Admin-only: skip for non-admins (faster load)
+        if (isRealAdmin) {
+            renderAdminBannerList();
+        }
+
+        // Fetch fresh data from server (async)
         fetchUserData();
     });
 
-    function handleAvatarError() {
-        renderInitialAvatar();
-    }
+    function handleAvatarError() { renderInitialAvatar(); }
 
     function renderInitialAvatar() {
         const wrap = document.getElementById('prof-avatar-wrap');
@@ -1416,25 +1219,44 @@
         wrap.innerHTML = `<div class="profile-avatar-fallback">${initial}</div>`;
     }
 
-    // ==================== USER DATA ====================
+    // ==================== USER DATA (CRITICAL) ====================
     async function fetchUserData() {
         if (!sessionUserUid) return;
         try {
-            const res = await fetch(`${ENGINE_API_ENDPOINT}/api/user/${sessionUserUid}`);
+            const ctrl = new AbortController();
+            const timeout = setTimeout(() => ctrl.abort(), 12000);
+
+            const res = await fetch(`${ENGINE_API_ENDPOINT}/api/user/${sessionUserUid}`, { signal: ctrl.signal });
+            clearTimeout(timeout);
+
             const data = await res.json();
             if (data.success && data.user) {
-                const balFormatted = '₹' + Number(data.user.balance || 0).toFixed(2);
-                document.getElementById('header-bal').innerText = balFormatted;
-                document.getElementById('lbl-wallet-bal').innerText = balFormatted;
-                if (data.user.name) document.getElementById('prof-name-node').innerText = data.user.name;
+                const bal = Number(data.user.balance || 0);
+                setBalance(bal, false);
+                if (data.user.name) {
+                    document.getElementById('prof-name-node').innerText = data.user.name;
+                }
+
+                // Cache for instant next-load
+                try {
+                    localStorage.setItem('cached_balance_' + sessionUserUid, String(bal));
+                    localStorage.setItem('cached_name_' + sessionUserUid, data.user.name || '');
+                } catch(e) {}
+
+                // Store UPI/wallet for setup page
+                window.__userData = data.user;
             } else {
-                document.getElementById('header-bal').innerText = '₹0.00';
-                document.getElementById('lbl-wallet-bal').innerText = '₹0.00';
+                setBalance(0, false);
             }
         } catch (err) {
-            console.error("Failed to query user:", err);
-            document.getElementById('header-bal').innerText = '₹0.00';
-            document.getElementById('lbl-wallet-bal').innerText = '₹0.00';
+            console.error("fetchUserData error:", err);
+            // Keep cached value if exists, otherwise show 0
+            const cached = localStorage.getItem('cached_balance_' + sessionUserUid);
+            if (cached !== null) {
+                setBalance(parseFloat(cached), false);
+            } else {
+                setBalance(0, false);
+            }
         }
     }
 
@@ -1443,7 +1265,7 @@
         const container = document.getElementById('quickpay-people-container');
         container.innerHTML = '';
         const filtered = quickPayContacts.filter(c =>
-            c.name.toLowerCase().includes(filterQuery.toLowerCase()) ||
+            (c.name || '').toLowerCase().includes(filterQuery.toLowerCase()) ||
             String(c.uid).includes(filterQuery)
         );
         if (filtered.length === 0) {
@@ -1454,7 +1276,7 @@
             const item = document.createElement('div');
             item.className = 'quickpay-person-item';
             item.onclick = () => openQuickPayChat(c);
-            const initial = sanitizeText(c.name.charAt(0).toUpperCase());
+            const initial = sanitizeText((c.name || 'U').charAt(0).toUpperCase());
             item.innerHTML = `
                 <div class="quickpay-avatar">${initial}</div>
                 <div class="quickpay-person-name">${sanitizeText(c.name)}</div>
@@ -1525,7 +1347,7 @@
         currentActiveChatContact = contact;
         document.getElementById('chat-user-title').innerText = contact.name;
         document.getElementById('chat-user-uid').innerText = `UID: ${contact.uid}`;
-        document.getElementById('chat-user-avatar').innerText = contact.name.charAt(0).toUpperCase();
+        document.getElementById('chat-user-avatar').innerText = (contact.name || 'U').charAt(0).toUpperCase();
         updateBlockStatusUI();
         renderChatThread();
         document.getElementById('page-quickpay-chat').classList.add('active');
@@ -1562,18 +1384,17 @@
         const uid = currentActiveChatContact.uid;
         if (blockedUsersList.includes(uid)) {
             blockedUsersList = blockedUsersList.filter(id => id !== uid);
+            localStorage.setItem('blocked_users_list', JSON.stringify(blockedUsersList));
+            updateBlockStatusUI();
             showToast(`Unblocked ${currentActiveChatContact.name}`, '#10b981');
-        } else {
-            showConfirm('Block User', `Block ${currentActiveChatContact.name}?`, () => {
-                blockedUsersList.push(uid);
-                localStorage.setItem('blocked_users_list', JSON.stringify(blockedUsersList));
-                updateBlockStatusUI();
-                showToast(`Blocked ${currentActiveChatContact.name}`, '#ef4444');
-            });
             return;
         }
-        localStorage.setItem('blocked_users_list', JSON.stringify(blockedUsersList));
-        updateBlockStatusUI();
+        showConfirm('Block User', `Block ${currentActiveChatContact.name}?`, () => {
+            blockedUsersList.push(uid);
+            localStorage.setItem('blocked_users_list', JSON.stringify(blockedUsersList));
+            updateBlockStatusUI();
+            showToast(`Blocked ${currentActiveChatContact.name}`, '#ef4444');
+        });
     }
 
     function renderChatThread() {
@@ -1630,6 +1451,10 @@
         const amtInput = document.getElementById('chat-pay-amount-input');
         const amount = parseFloat(amtInput.value);
         if (!amount || amount <= 0) return showToast('Enter a valid amount', '#ef4444');
+
+        const btn = event?.target?.closest('button');
+        if (btn) { btn.disabled = true; btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Sending'; }
+
         try {
             const res = await fetch(`${ENGINE_API_ENDPOINT}/api/mini-app/peer-transfer`, {
                 method: 'POST',
@@ -1637,15 +1462,18 @@
                 body: JSON.stringify({ sourceId: sessionUserUid, targetId: currentActiveChatContact.uid, amount })
             });
             const r = await res.json();
-            if (r.error) return showToast(r.error, '#ef4444');
-            showToast('Payment sent!', '#10b981');
-            recordPaymentInThread(amount);
-            amtInput.value = '';
-            fetchUserData();
+            if (r.error) {
+                showToast(r.error, '#ef4444');
+            } else {
+                showToast('Payment sent!', '#10b981');
+                recordPaymentInThread(amount);
+                amtInput.value = '';
+                fetchUserData();
+            }
         } catch (err) {
-            recordPaymentInThread(amount);
-            amtInput.value = '';
-            showToast('Recorded locally', '#f59e0b');
+            showToast('Network error', '#ef4444');
+        } finally {
+            if (btn) { btn.disabled = false; btn.innerHTML = '<i class="fa-solid fa-indian-rupee-sign"></i> Pay'; }
         }
     }
 
@@ -1735,12 +1563,13 @@
         });
     }
 
-    // ==================== NAV & PAGES ====================
+    // ==================== NAV ====================
     function switchMainTab(target, el) {
         document.querySelectorAll('.view-section').forEach(v => v.classList.remove('active'));
         document.querySelectorAll('.nav-link').forEach(n => n.classList.remove('active'));
         document.getElementById(`view-${target}`).classList.add('active');
         el.classList.add('active');
+        if (target === 'wallet') fetchUserData();
     }
 
     function openSubPage(id) {
@@ -1748,6 +1577,7 @@
         if (id === 'page-admin-control-hub') loadAdminStats();
         if (id === 'page-history') loadHistoryPage();
         if (id === 'page-payout-setup') loadPayoutSetup();
+        if (id === 'page-leaderboard') loadLeaderboard();
     }
     function closeSubPage(id) { document.getElementById(id).classList.remove('active'); }
     function openModal(id) { document.getElementById(id).classList.add('active'); }
@@ -1807,8 +1637,128 @@
         }
     }
 
+    // ==================== PAYOUT SETUP ====================
+    async function loadPayoutSetup() {
+        // Use cached user data if available
+        if (window.__userData) {
+            const r = window.__userData;
+            if (r.upi && r.upi !== 'not_linked') document.getElementById('setup-upi-input').value = r.upi;
+            if (r.wallet && r.wallet !== 'not_linked') document.getElementById('setup-wallet-input').value = r.wallet;
+            return;
+        }
+        try {
+            const res = await fetch(`${ENGINE_API_ENDPOINT}/api/user/${sessionUserUid}`);
+            const r = await res.json();
+            if (r.success && r.user) {
+                window.__userData = r.user;
+                if (r.user.upi && r.user.upi !== 'not_linked') document.getElementById('setup-upi-input').value = r.user.upi;
+                if (r.user.wallet && r.user.wallet !== 'not_linked') document.getElementById('setup-wallet-input').value = r.user.wallet;
+            }
+        } catch (e) {}
+    }
+
+    async function saveUpiSetup() {
+        const upi = document.getElementById('setup-upi-input').value.trim();
+        if (!upi) return showToast('Enter UPI ID', '#ef4444');
+        try {
+            const res = await fetch(`${ENGINE_API_ENDPOINT}/api/user/${sessionUserUid}/upi`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ upi })
+            });
+            const r = await res.json();
+            if (r.success) {
+                showToast('UPI saved!', '#10b981');
+                if (window.__userData) window.__userData.upi = upi;
+            } else showToast(r.error || 'Failed', '#ef4444');
+        } catch (e) { showToast('Network error', '#ef4444'); }
+    }
+
+    async function saveWalletSetup() {
+        const wallet = document.getElementById('setup-wallet-input').value.trim();
+        if (!wallet) return showToast('Enter wallet', '#ef4444');
+        try {
+            const res = await fetch(`${ENGINE_API_ENDPOINT}/api/user/${sessionUserUid}/wallet`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ wallet })
+            });
+            const r = await res.json();
+            if (r.success) {
+                showToast('Wallet saved!', '#10b981');
+                if (window.__userData) window.__userData.wallet = wallet;
+            } else showToast(r.error || 'Failed', '#ef4444');
+        } catch (e) { showToast('Network error', '#ef4444'); }
+    }
+
+    // ==================== HISTORY ====================
+    async function loadHistoryPage() {
+        const container = document.getElementById('history-content-container');
+        container.innerHTML = '<p style="font-size:12px; color:var(--text-sub); text-align:center; padding:20px;">Loading...</p>';
+        try {
+            const res = await fetch(`${ENGINE_API_ENDPOINT}/api/user/${sessionUserUid}`);
+            const data = await res.json();
+            if (data.success && data.user) {
+                const u = data.user;
+                const histHtml = (u.history && u.history.length > 0)
+                    ? u.history.slice(0, 10).map(h => `<div style="padding:8px; border-bottom:1px solid var(--glass-border); font-size:12px;">• ${sanitizeText(h.method || 'N/A')}: ₹${h.amount || 0} → ${sanitizeText(h.status || '')}</div>`).join('')
+                    : '<p style="font-size:12px; color:var(--text-sub); text-align:center; padding:10px;">No payout records.</p>';
+                container.innerHTML = `
+                    <div class="glass-card">
+                        <h4 style="font-size:13px; margin-bottom:8px;">💰 Total Withdrawn</h4>
+                        <div style="font-size:24px; font-weight:800; color:var(--green-accent);">₹${Number(u.totalWithdrawn || 0).toFixed(2)}</div>
+                    </div>
+                    <div class="glass-card">
+                        <h4 style="font-size:13px; margin-bottom:8px;">🎁 Current Balance</h4>
+                        <div style="font-size:24px; font-weight:800; color:var(--red-brand);">₹${Number(u.balance || 0).toFixed(2)}</div>
+                    </div>
+                    <div class="glass-card">
+                        <h4 style="font-size:13px; margin-bottom:8px;">📜 Payout History</h4>
+                        ${histHtml}
+                    </div>
+                `;
+            } else {
+                container.innerHTML = '<p style="font-size:12px; color:var(--text-sub); text-align:center;">No data.</p>';
+            }
+        } catch (e) {
+            container.innerHTML = '<p style="font-size:12px; color:var(--text-sub); text-align:center;">Error loading.</p>';
+        }
+    }
+
+    // ==================== LEADERBOARD ====================
+    async function loadLeaderboard() {
+        const container = document.getElementById('leaderboard-rank-dock');
+        container.innerHTML = '<div class="glass-card" style="text-align:center; padding:20px; color:var(--text-sub);"><i class="fa-solid fa-spinner fa-spin"></i> Loading...</div>';
+        try {
+            const res = await fetch(`${ENGINE_API_ENDPOINT}/api/leaderboard`);
+            const r = await res.json();
+            if (r.success && r.leaders && r.leaders.length > 0) {
+                container.innerHTML = '';
+                r.leaders.forEach((u, i) => {
+                    const medal = i === 0 ? '🥇' : i === 1 ? '🥈' : i === 2 ? '🥉' : `#${i+1}`;
+                    const row = document.createElement('div');
+                    row.className = 'glass-card';
+                    row.style.cssText = 'display:flex; justify-content:space-between; align-items:center; padding:14px;';
+                    row.innerHTML = `
+                        <div style="display:flex; align-items:center; gap:10px;">
+                            <span style="font-size:20px;">${medal}</span>
+                            <span style="font-weight:700; font-size:13px;">${sanitizeText(u.name)}</span>
+                        </div>
+                        <b style="color:var(--green-accent); font-size:14px;">₹${Number(u.balance).toFixed(2)}</b>
+                    `;
+                    container.appendChild(row);
+                });
+            } else {
+                container.innerHTML = '<div class="glass-card" style="text-align:center; padding:30px; color:var(--text-sub);"><i class="fa-solid fa-trophy" style="font-size:32px; color:gold; margin-bottom:10px;"></i><p style="font-size:12.5px;">No rankings yet.</p></div>';
+            }
+        } catch(e) {
+            container.innerHTML = '<div class="glass-card" style="text-align:center; padding:20px; color:var(--text-sub);">Error loading.</div>';
+        }
+    }
+
     // ==================== ADMIN: CORE ====================
     async function loadAdminStats() {
+        if (!isRealAdmin) return;
         try {
             const res = await fetch(`${ENGINE_API_ENDPOINT}/api/admin/stats?adminId=${sessionUserUid}`);
             const data = await res.json();
@@ -1818,9 +1768,7 @@
                 document.getElementById('stat-tasks').innerText = data.stats.activeTasks ?? '-';
                 document.getElementById('stat-pending').innerText = data.stats.pendingWithdrawals ?? '-';
             }
-        } catch (err) {
-            console.warn("Admin stats fetch failed:", err);
-        }
+        } catch (err) { console.warn("Admin stats fetch failed:", err); }
     }
 
     function openAdminSection(name) {
@@ -1829,7 +1777,6 @@
         const sec = document.getElementById(`admin-section-${name}`);
         if (sec) sec.classList.add('active');
 
-        // Lazy loads
         if (name === 'withdrawals') loadPendingWithdrawals();
         if (name === 'tasks') loadAdminTasks();
         if (name === 'vouchers') loadAdminVouchers();
@@ -1845,7 +1792,6 @@
         document.getElementById('admin-main-menu').style.display = 'block';
     }
 
-    // ==================== ADMIN: USERS ====================
     async function adminViewUser() {
         const uid = document.getElementById('admin-view-user-id').value.trim();
         if (!uid) return showToast('Enter User ID', '#ef4444');
@@ -1860,11 +1806,10 @@
                 <div><b>Balance:</b> ₹${Number(u.balance || 0).toFixed(2)}</div>
                 <div><b>UPI:</b> ${sanitizeText(u.upi || 'not linked')}</div>
                 <div><b>Wallet:</b> ${sanitizeText(u.wallet || 'not linked')}</div>
+                <div><b>Total Withdrawn:</b> ₹${Number(u.totalWithdrawn || 0).toFixed(2)}</div>
             `;
             openModal('modal-user-detail');
-        } catch (err) {
-            showToast('Fetch failed', '#ef4444');
-        }
+        } catch (err) { showToast('Fetch failed', '#ef4444'); }
     }
 
     async function adminAdjustBalance() {
@@ -1883,12 +1828,13 @@
                     showToast('Balance adjusted!', '#10b981');
                     document.getElementById('admin-adj-uid').value = '';
                     document.getElementById('admin-adj-amt').value = '';
+                    // If adjusted self, refresh
+                    if (String(uid) === String(sessionUserUid)) fetchUserData();
                 } else showToast(r.error || 'Failed', '#ef4444');
             } catch (e) { showToast('Network error', '#ef4444'); }
         });
     }
 
-    // ==================== ADMIN: TASKS ====================
     async function adminCreateTask() {
         const title = document.getElementById('admin-task-title').value.trim();
         const desc = document.getElementById('admin-task-desc').value.trim();
@@ -1948,7 +1894,6 @@
         });
     }
 
-    // ==================== ADMIN: WITHDRAWALS ====================
     async function loadPendingWithdrawals() {
         const container = document.getElementById('admin-withdrawals-list');
         container.innerHTML = '<p style="font-size:11.5px; color:var(--text-sub); text-align:center;">Loading...</p>';
@@ -2006,17 +1951,15 @@
         });
     }
 
-    // ==================== ADMIN: BROADCAST ====================
     async function adminSendBroadcast() {
         const text = document.getElementById('admin-bc-text').value.trim();
         if (!text) return showToast('Enter a message', '#ef4444');
-        const forward = document.getElementById('admin-bc-forward').checked;
         showConfirm('Broadcast', `Send to ALL users?`, async () => {
             try {
                 const res = await fetch(`${ENGINE_API_ENDPOINT}/api/admin/broadcast`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ adminId: sessionUserUid, text, mode: forward ? 'forward' : 'copy' })
+                    body: JSON.stringify({ adminId: sessionUserUid, text, mode: 'copy' })
                 });
                 const r = await res.json();
                 if (r.success) {
@@ -2027,7 +1970,6 @@
         });
     }
 
-    // ==================== ADMIN: VOUCHERS ====================
     async function generateVoucherCodeUnified() {
         const codeString = document.getElementById('adm-vch-code').value.trim();
         const awardValue = document.getElementById('adm-vch-value').value;
@@ -2073,7 +2015,6 @@
         }
     }
 
-    // ==================== ADMIN: CHANNELS ====================
     async function adminAddChannel() {
         const name = document.getElementById('admin-ch-name').value.trim();
         const link = document.getElementById('admin-ch-link').value.trim();
@@ -2129,7 +2070,6 @@
         });
     }
 
-    // ==================== ADMIN: GATEWAYS ====================
     async function adminAddGateway() {
         const name = document.getElementById('admin-gw-name').value.trim().toLowerCase();
         const type = document.getElementById('admin-gw-type').value;
@@ -2174,7 +2114,6 @@
         }
     }
 
-    // ==================== ADMIN: SETTINGS ====================
     async function loadAdminSettings() {
         try {
             const res = await fetch(`${ENGINE_API_ENDPOINT}/api/admin/settings?adminId=${sessionUserUid}`);
@@ -2217,7 +2156,6 @@
         } catch (e) { showToast('Network error', '#ef4444'); }
     }
 
-    // ==================== ADMIN: BANS ====================
     async function adminBanUser() {
         const uid = document.getElementById('admin-ban-uid').value.trim();
         if (!uid) return showToast('Enter User ID', '#ef4444');
@@ -2263,8 +2201,9 @@
             container.innerHTML = '';
             r.users.forEach(u => {
                 const row = document.createElement('div');
-                row.style.cssText = 'padding:10px; background:rgba(239,68,68,0.08); border-radius:10px; margin-bottom:8px; font-size:12px;';
-                row.innerHTML = `<b>${sanitizeText(u.name)}</b> — <code>${u.id}</code>`;
+                row.style.cssText = 'padding:10px; background:rgba(239,68,68,0.08); border-radius:10px; margin-bottom:8px; font-size:12px; display:flex; justify-content:space-between; align-items:center;';
+                row.innerHTML = `<div><b>${sanitizeText(u.name)}</b><br><code>${u.id}</code></div>
+                    <button class="glass-btn success" style="padding:5px 10px; width:auto; font-size:11px;" onclick="adminUnbanFromList('${u.id}')">Unban</button>`;
                 container.appendChild(row);
             });
         } catch (e) {
@@ -2272,7 +2211,18 @@
         }
     }
 
-    // ==================== ADMIN: SUB-ADMINS ====================
+    async function adminUnbanFromList(uid) {
+        try {
+            await fetch(`${ENGINE_API_ENDPOINT}/api/admin/unban`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ adminId: sessionUserUid, targetId: uid })
+            });
+            showToast('Unbanned', '#10b981');
+            loadBannedUsers();
+        } catch (e) { showToast('Failed', '#ef4444'); }
+    }
+
     async function adminAddSubAdmin() {
         const uid = document.getElementById('admin-new-subadm').value.trim();
         if (!uid) return showToast('Enter User ID', '#ef4444');
@@ -2324,7 +2274,6 @@
         });
     }
 
-    // ==================== ADMIN: MESSAGE USER ====================
     async function adminSendUserMessage() {
         const uid = document.getElementById('admin-msg-uid').value.trim();
         const text = document.getElementById('admin-msg-content').value.trim();
@@ -2341,70 +2290,6 @@
                 document.getElementById('admin-msg-uid').value = '';
                 document.getElementById('admin-msg-content').value = '';
             } else showToast(r.error || 'Failed', '#ef4444');
-        } catch (e) { showToast('Network error', '#ef4444'); }
-    }
-
-    // ==================== HISTORY ====================
-    async function loadHistoryPage() {
-        const container = document.getElementById('history-content-container');
-        container.innerHTML = '<p style="font-size:12px; color:var(--text-sub); text-align:center; padding:20px;">Loading...</p>';
-        try {
-            const res = await fetch(`${ENGINE_API_ENDPOINT}/api/user/${sessionUserUid}`);
-            const data = await res.json();
-            if (data.success && data.user) {
-                container.innerHTML = `
-                    <div class="glass-card">
-                        <h4 style="font-size:13px; margin-bottom:8px;">💰 Total Withdrawn</h4>
-                        <div style="font-size:24px; font-weight:800; color:var(--green-accent);">₹${Number(data.user.totalWithdrawn || 0).toFixed(2)}</div>
-                    </div>
-                    <div class="glass-card">
-                        <h4 style="font-size:13px; margin-bottom:8px;">🎁 Reward Points</h4>
-                        <div style="font-size:24px; font-weight:800; color:var(--red-brand);">₹${Number(data.user.balance || 0).toFixed(2)}</div>
-                    </div>
-                `;
-            } else {
-                container.innerHTML = '<p style="font-size:12px; color:var(--text-sub); text-align:center;">No data.</p>';
-            }
-        } catch (e) {
-            container.innerHTML = '<p style="font-size:12px; color:var(--text-sub); text-align:center;">Error loading.</p>';
-        }
-    }
-
-    // ==================== PAYOUT SETUP ====================
-    async function loadPayoutSetup() {
-        try {
-            const res = await fetch(`${ENGINE_API_ENDPOINT}/api/user/${sessionUserUid}`);
-            const r = await res.json();
-            if (r.success && r.user) {
-                if (r.user.upi && r.user.upi !== 'not_linked') document.getElementById('setup-upi-input').value = r.user.upi;
-                if (r.user.wallet && r.user.wallet !== 'not_linked') document.getElementById('setup-wallet-input').value = r.user.wallet;
-            }
-        } catch (e) {}
-    }
-
-    async function saveUpiSetup() {
-        const upi = document.getElementById('setup-upi-input').value.trim();
-        if (!upi) return showToast('Enter UPI ID', '#ef4444');
-        try {
-            await fetch(`${ENGINE_API_ENDPOINT}/api/user/${sessionUserUid}/upi`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ upi })
-            });
-            showToast('UPI saved!', '#10b981');
-        } catch (e) { showToast('Network error', '#ef4444'); }
-    }
-
-    async function saveWalletSetup() {
-        const wallet = document.getElementById('setup-wallet-input').value.trim();
-        if (!wallet) return showToast('Enter wallet', '#ef4444');
-        try {
-            await fetch(`${ENGINE_API_ENDPOINT}/api/user/${sessionUserUid}/wallet`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ wallet })
-            });
-            showToast('Wallet saved!', '#10b981');
         } catch (e) { showToast('Network error', '#ef4444'); }
     }
 </script>
