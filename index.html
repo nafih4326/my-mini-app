@@ -26,7 +26,6 @@
             --blur-strong: 32px;
             --radius-lg: 22px;
             --radius-md: 16px;
-            --radius-sm: 12px;
         }
 
         * {
@@ -505,18 +504,6 @@
             margin-bottom: 9px; gap: 8px;
         }
 
-        /* Loading skeleton */
-        .skeleton {
-            background: linear-gradient(90deg, rgba(255,255,255,0.04) 25%, rgba(255,255,255,0.08) 50%, rgba(255,255,255,0.04) 75%);
-            background-size: 200% 100%;
-            animation: skeleton-loading 1.5s infinite;
-            border-radius: 8px;
-        }
-        @keyframes skeleton-loading {
-            0% { background-position: 200% 0; }
-            100% { background-position: -200% 0; }
-        }
-
         ::-webkit-scrollbar { width: 0; height: 0; }
     </style>
 </head>
@@ -634,7 +621,6 @@
         </div>
     </div>
 
-    <!-- BOTTOM NAV -->
     <nav class="bottom-nav">
         <div class="nav-link active" onclick="switchMainTab('home', this)"><i class="fa-solid fa-house"></i>Home</div>
         <div class="nav-link" onclick="switchMainTab('wallet', this)"><i class="fa-solid fa-wallet"></i>Wallet</div>
@@ -739,7 +725,7 @@
     </div>
 
     <div id="admin-main-menu">
-        <div class="admin-stats-grid" id="admin-stats-grid">
+        <div class="admin-stats-grid">
             <div class="admin-stat-card"><div class="label">Total Users</div><div class="value" id="stat-users">-</div></div>
             <div class="admin-stat-card"><div class="label">Banned</div><div class="value" id="stat-banned" style="color:#f87171;">-</div></div>
             <div class="admin-stat-card"><div class="label">Active Tasks</div><div class="value" id="stat-tasks" style="color:var(--green-accent);">-</div></div>
@@ -784,9 +770,25 @@
             <div class="admin-menu-btn" onclick="openAdminSection('msg_user')">
                 <i class="fa-solid fa-comment-dots" style="color:var(--blue-accent);"></i><span>Message User</span>
             </div>
+            <div class="admin-menu-btn" onclick="openAdminSection('inline_customizer')">
+                <i class="fa-solid fa-palette" style="color:#ec4899;"></i><span>Inline Buttons</span>
+            </div>
+            <div class="admin-menu-btn" onclick="openAdminSection('keyboards')">
+                <i class="fa-solid fa-keyboard" style="color:#06b6d4;"></i><span>Reply Keyboard</span>
+            </div>
+            <div class="admin-menu-btn" onclick="openAdminSection('error_logs')">
+                <i class="fa-solid fa-triangle-exclamation" style="color:#f59e0b;"></i><span>Error Logs</span>
+            </div>
+            <div class="admin-menu-btn" onclick="openAdminSection('messages')">
+                <i class="fa-solid fa-message" style="color:#8b5cf6;"></i><span>Bot Messages</span>
+            </div>
+            <div class="admin-menu-btn" onclick="openAdminSection('transfer')">
+                <i class="fa-solid fa-crown" style="color:gold;"></i><span>Transfer Owner</span>
+            </div>
         </div>
     </div>
 
+    <!-- USERS -->
     <div id="admin-section-users" class="admin-section">
         <div style="display:flex; align-items:center; gap:10px; margin-bottom:14px;">
             <div class="back-circle-btn" onclick="closeAdminSection()"><i class="fa-solid fa-chevron-left"></i></div>
@@ -805,6 +807,7 @@
         </div>
     </div>
 
+    <!-- TASKS -->
     <div id="admin-section-tasks" class="admin-section">
         <div style="display:flex; align-items:center; gap:10px; margin-bottom:14px;">
             <div class="back-circle-btn" onclick="closeAdminSection()"><i class="fa-solid fa-chevron-left"></i></div>
@@ -824,6 +827,7 @@
         </div>
     </div>
 
+    <!-- WITHDRAWALS -->
     <div id="admin-section-withdrawals" class="admin-section">
         <div style="display:flex; align-items:center; gap:10px; margin-bottom:14px;">
             <div class="back-circle-btn" onclick="closeAdminSection()"><i class="fa-solid fa-chevron-left"></i></div>
@@ -840,6 +844,7 @@
         </div>
     </div>
 
+    <!-- BROADCAST -->
     <div id="admin-section-broadcast" class="admin-section">
         <div style="display:flex; align-items:center; gap:10px; margin-bottom:14px;">
             <div class="back-circle-btn" onclick="closeAdminSection()"><i class="fa-solid fa-chevron-left"></i></div>
@@ -852,6 +857,7 @@
         </div>
     </div>
 
+    <!-- VOUCHERS -->
     <div id="admin-section-vouchers" class="admin-section">
         <div style="display:flex; align-items:center; gap:10px; margin-bottom:14px;">
             <div class="back-circle-btn" onclick="closeAdminSection()"><i class="fa-solid fa-chevron-left"></i></div>
@@ -872,6 +878,7 @@
         </div>
     </div>
 
+    <!-- BANNERS -->
     <div id="admin-section-banners" class="admin-section">
         <div style="display:flex; align-items:center; gap:10px; margin-bottom:14px;">
             <div class="back-circle-btn" onclick="closeAdminSection()"><i class="fa-solid fa-chevron-left"></i></div>
@@ -891,6 +898,7 @@
         </div>
     </div>
 
+    <!-- CHANNELS -->
     <div id="admin-section-channels" class="admin-section">
         <div style="display:flex; align-items:center; gap:10px; margin-bottom:14px;">
             <div class="back-circle-btn" onclick="closeAdminSection()"><i class="fa-solid fa-chevron-left"></i></div>
@@ -911,6 +919,7 @@
         </div>
     </div>
 
+    <!-- GATEWAYS -->
     <div id="admin-section-gateways" class="admin-section">
         <div style="display:flex; align-items:center; gap:10px; margin-bottom:14px;">
             <div class="back-circle-btn" onclick="closeAdminSection()"><i class="fa-solid fa-chevron-left"></i></div>
@@ -934,12 +943,12 @@
         </div>
     </div>
 
+    <!-- SETTINGS -->
     <div id="admin-section-settings" class="admin-section">
         <div style="display:flex; align-items:center; gap:10px; margin-bottom:14px;">
             <div class="back-circle-btn" onclick="closeAdminSection()"><i class="fa-solid fa-chevron-left"></i></div>
             <h3 class="admin-section-title" style="margin:0;"><i class="fa-solid fa-gears"></i> Bot Settings</h3>
         </div>
-
         <div class="glass-card">
             <h4 style="font-size:13px; margin-bottom:10px;">🤖 System Controls</h4>
             <div class="admin-toggle-row">
@@ -959,7 +968,6 @@
                 <label class="switch"><input type="checkbox" id="set-newuser" checked><span class="slider"></span></label>
             </div>
         </div>
-
         <div class="glass-card">
             <h4 style="font-size:13px; margin-bottom:10px;">💰 Financial Settings</h4>
             <label style="font-size:11px; color:var(--text-sub); display:block; margin-bottom:4px;">Minimum Withdraw (₹)</label>
@@ -974,6 +982,7 @@
         </div>
     </div>
 
+    <!-- BANS -->
     <div id="admin-section-bans" class="admin-section">
         <div style="display:flex; align-items:center; gap:10px; margin-bottom:14px;">
             <div class="back-circle-btn" onclick="closeAdminSection()"><i class="fa-solid fa-chevron-left"></i></div>
@@ -995,6 +1004,7 @@
         </div>
     </div>
 
+    <!-- ADMINS -->
     <div id="admin-section-admins" class="admin-section">
         <div style="display:flex; align-items:center; gap:10px; margin-bottom:14px;">
             <div class="back-circle-btn" onclick="closeAdminSection()"><i class="fa-solid fa-chevron-left"></i></div>
@@ -1011,6 +1021,7 @@
         </div>
     </div>
 
+    <!-- MESSAGE USER -->
     <div id="admin-section-msg_user" class="admin-section">
         <div style="display:flex; align-items:center; gap:10px; margin-bottom:14px;">
             <div class="back-circle-btn" onclick="closeAdminSection()"><i class="fa-solid fa-chevron-left"></i></div>
@@ -1023,6 +1034,109 @@
             <button class="glass-btn primary" onclick="adminSendUserMessage()"><i class="fa-solid fa-paper-plane"></i> Send Message</button>
         </div>
     </div>
+
+    <!-- INLINE BUTTONS -->
+    <div id="admin-section-inline_customizer" class="admin-section">
+        <div style="display:flex; align-items:center; gap:10px; margin-bottom:14px;">
+            <div class="back-circle-btn" onclick="closeAdminSection()"><i class="fa-solid fa-chevron-left"></i></div>
+            <h3 class="admin-section-title" style="margin:0;"><i class="fa-solid fa-palette"></i> Inline Buttons</h3>
+        </div>
+        <div class="glass-card">
+            <h4 style="font-size:13px; margin-bottom:10px;">🎨 Dynamic Inline Button Customizer</h4>
+            <p style="font-size:11.5px; color:var(--text-sub); margin-bottom:12px;">Tap any button to edit its name or style.</p>
+            <div id="admin-inline-buttons-list">
+                <p style="font-size:11.5px; color:var(--text-sub); text-align:center;">Loading...</p>
+            </div>
+            <button class="glass-btn warning" style="margin-top:12px;" onclick="adminResetAllInline()"><i class="fa-solid fa-rotate-left"></i> Reset All to Default</button>
+        </div>
+    </div>
+
+    <!-- KEYBOARDS -->
+    <div id="admin-section-keyboards" class="admin-section">
+        <div style="display:flex; align-items:center; gap:10px; margin-bottom:14px;">
+            <div class="back-circle-btn" onclick="closeAdminSection()"><i class="fa-solid fa-chevron-left"></i></div>
+            <h3 class="admin-section-title" style="margin:0;"><i class="fa-solid fa-keyboard"></i> Reply Keyboard</h3>
+        </div>
+        <div class="glass-card">
+            <h4 style="font-size:13px; margin-bottom:10px;">⌨️ Current Layout</h4>
+            <div id="admin-keyboard-layout-view">
+                <p style="font-size:11.5px; color:var(--text-sub); text-align:center;">Loading...</p>
+            </div>
+            <button class="glass-btn primary" style="margin-top:12px;" onclick="adminPreviewKeyboard()"><i class="fa-solid fa-eye"></i> Preview Live Keyboard</button>
+            <button class="glass-btn warning" style="margin-top:8px;" onclick="adminToggleKeyboardLayout()"><i class="fa-solid fa-arrows-rotate"></i> Toggle Layout Mode</button>
+            <button class="glass-btn danger" style="margin-top:8px;" onclick="adminResetKeyboard()"><i class="fa-solid fa-rotate-left"></i> Reset All</button>
+        </div>
+        <div id="admin-keyboard-editor"></div>
+    </div>
+
+    <!-- ERROR LOGS -->
+    <div id="admin-section-error_logs" class="admin-section">
+        <div style="display:flex; align-items:center; gap:10px; margin-bottom:14px;">
+            <div class="back-circle-btn" onclick="closeAdminSection()"><i class="fa-solid fa-chevron-left"></i></div>
+            <h3 class="admin-section-title" style="margin:0;"><i class="fa-solid fa-triangle-exclamation"></i> Error Logs</h3>
+        </div>
+        <div class="glass-card">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+                <h4 style="font-size:13px; margin:0;">⚠️ Real-time Error Logs</h4>
+                <button class="glass-btn" style="width:auto; padding:6px 12px; font-size:11px;" onclick="loadErrorLogs()"><i class="fa-solid fa-refresh"></i></button>
+            </div>
+            <div id="admin-error-logs-list">
+                <p style="font-size:11.5px; color:var(--text-sub); text-align:center;">Loading...</p>
+            </div>
+            <button class="glass-btn danger" style="margin-top:12px;" onclick="adminClearErrorLogs()"><i class="fa-solid fa-trash"></i> Clear All Logs</button>
+        </div>
+    </div>
+
+    <!-- BOT MESSAGES -->
+    <div id="admin-section-messages" class="admin-section">
+        <div style="display:flex; align-items:center; gap:10px; margin-bottom:14px;">
+            <div class="back-circle-btn" onclick="closeAdminSection()"><i class="fa-solid fa-chevron-left"></i></div>
+            <h3 class="admin-section-title" style="margin:0;"><i class="fa-solid fa-message"></i> Bot Messages</h3>
+        </div>
+        <div class="glass-card">
+            <h4 style="font-size:13px; margin-bottom:10px;">📝 Customize Bot Texts</h4>
+            <p style="font-size:11.5px; color:var(--text-sub); margin-bottom:12px;">Placeholders: <code>{username}</code>, <code>{amount}</code>, <code>{balance}</code></p>
+            <label style="font-size:11px; color:var(--text-sub); display:block; margin-bottom:4px;">🚀 Start Welcome</label>
+            <textarea id="msg-start" class="glass-input" style="min-height:70px; resize:vertical; font-family:inherit;"></textarea>
+            <label style="font-size:11px; color:var(--text-sub); display:block; margin-bottom:4px;">📊 Dashboard Text</label>
+            <input type="text" id="msg-dash" class="glass-input">
+            <label style="font-size:11px; color:var(--text-sub); display:block; margin-bottom:4px;">💬 Support Details</label>
+            <textarea id="msg-support" class="glass-input" style="min-height:60px; resize:vertical; font-family:inherit;"></textarea>
+            <label style="font-size:11px; color:var(--text-sub); display:block; margin-bottom:4px;">🔗 Support Link</label>
+            <input type="text" id="msg-link" class="glass-input" placeholder="https://t.me/username">
+            <label style="font-size:11px; color:var(--text-sub); display:block; margin-bottom:4px;">❓ Unknown Command</label>
+            <textarea id="msg-unknown" class="glass-input" style="min-height:60px; resize:vertical; font-family:inherit;"></textarea>
+            <label style="font-size:11px; color:var(--text-sub); display:block; margin-bottom:4px;">✅ Task Approve</label>
+            <textarea id="msg-task-app" class="glass-input" style="min-height:60px; resize:vertical; font-family:inherit;"></textarea>
+            <label style="font-size:11px; color:var(--text-sub); display:block; margin-bottom:4px;">❌ Task Reject</label>
+            <textarea id="msg-task-rej" class="glass-input" style="min-height:60px; resize:vertical; font-family:inherit;"></textarea>
+            <label style="font-size:11px; color:var(--text-sub); display:block; margin-bottom:4px;">🎉 Withdraw Approve</label>
+            <textarea id="msg-wd-app" class="glass-input" style="min-height:60px; resize:vertical; font-family:inherit;"></textarea>
+            <label style="font-size:11px; color:var(--text-sub); display:block; margin-bottom:4px;">❌ Withdraw Reject</label>
+            <textarea id="msg-wd-rej" class="glass-input" style="min-height:60px; resize:vertical; font-family:inherit;"></textarea>
+            <label style="font-size:11px; color:var(--text-sub); display:block; margin-bottom:4px;">💰 Balance Adjust</label>
+            <textarea id="msg-bal-adj" class="glass-input" style="min-height:60px; resize:vertical; font-family:inherit;"></textarea>
+            <label style="font-size:11px; color:var(--text-sub); display:block; margin-bottom:4px;">🎁 Referral Bonus</label>
+            <textarea id="msg-referral" class="glass-input" style="min-height:60px; resize:vertical; font-family:inherit;"></textarea>
+            <button class="glass-btn primary" style="margin-top:12px;" onclick="adminSaveBotMessages()"><i class="fa-solid fa-save"></i> Save All Messages</button>
+        </div>
+    </div>
+
+    <!-- TRANSFER -->
+    <div id="admin-section-transfer" class="admin-section">
+        <div style="display:flex; align-items:center; gap:10px; margin-bottom:14px;">
+            <div class="back-circle-btn" onclick="closeAdminSection()"><i class="fa-solid fa-chevron-left"></i></div>
+            <h3 class="admin-section-title" style="margin:0;"><i class="fa-solid fa-crown"></i> Transfer Ownership</h3>
+        </div>
+        <div class="glass-card" style="border-color:var(--red-brand);">
+            <h4 style="font-size:13px; margin-bottom:10px; color:var(--red-brand);">⚠️ Danger Zone</h4>
+            <p style="font-size:11.5px; color:var(--text-sub); margin-bottom:14px;">Transfer full bot ownership. You will lose admin access immediately.</p>
+            <label style="font-size:11px; color:var(--text-sub); display:block; margin-bottom:4px;">New Owner User ID</label>
+            <input type="number" id="admin-new-owner-uid" class="glass-input" placeholder="Enter Telegram User ID">
+            <button class="glass-btn danger" onclick="adminTransferOwnership()"><i class="fa-solid fa-crown"></i> Transfer Ownership</button>
+        </div>
+    </div>
+
 </div>
 
 <!-- WITHDRAW MODAL -->
@@ -1075,14 +1189,6 @@
 </div>
 
 <script>
-    /**
-     * ============================================================
-     *  EXTRA EARN MINI APP - CORE ENGINE v2.0
-     *  ✅ Same Database as Bot (uses window.location.origin)
-     *  ✅ Cached balance shows instantly
-     *  ✅ Optimized loading (no admin code for non-admins)
-     * ============================================================
-     */
     const ENGINE_API_ENDPOINT = window.location.origin;
     const ADMIN_ID = 501889840;
 
@@ -1098,20 +1204,18 @@
     const sessionUserPhoto = user?.photo_url || null;
 
     if (!sessionUserUid) {
-        document.body.innerHTML = '<div style="color:white; text-align:center; padding:40px; font-family:sans-serif;">Error: Unable to identify user. Please open via Telegram.</div>';
+        document.body.innerHTML = '<div style="color:white; text-align:center; padding:40px; font-family:sans-serif;">Error: Please open via Telegram.</div>';
         throw new Error("No Telegram user ID");
     }
 
     const isRealAdmin = Number(sessionUserUid) === ADMIN_ID;
 
-    // Local state
     let appBanners = [];
     let quickPayContacts = [];
     let quickPayThreads = {};
     let blockedUsersList = [];
     let currentActiveChatContact = null;
 
-    // ==================== HELPERS ====================
     function sanitizeText(str) {
         const temp = document.createElement('div');
         temp.textContent = str || '';
@@ -1149,114 +1253,73 @@
         }
     }
 
-    // ==================== INSTANT BOOT (Cached Data) ====================
+    // Instant boot from cache
     (function instantBoot() {
-        // Show cached balance IMMEDIATELY before any API call
         try {
             const cachedBal = localStorage.getItem('cached_balance_' + sessionUserUid);
-            if (cachedBal !== null) {
-                setBalance(parseFloat(cachedBal), false);
-            } else {
-                setBalance(0, true);
-            }
+            if (cachedBal !== null) setBalance(parseFloat(cachedBal), false);
+            else setBalance(0, true);
         } catch(e) { setBalance(0, true); }
-
-        // Show cached user data
-        try {
-            const cachedName = localStorage.getItem('cached_name_' + sessionUserUid);
-            if (cachedName) {
-                const nameEl = document.getElementById('prof-name-node');
-                if (nameEl) nameEl.innerText = cachedName;
-            }
-        } catch(e) {}
     })();
 
-    // ==================== INIT ====================
     document.addEventListener("DOMContentLoaded", () => {
         document.getElementById('prof-uid-string').innerText = sessionUserUid;
         document.getElementById('prof-name-node').innerText = sessionUserName;
         document.getElementById('txt-refer-link-box').value = `https://t.me/ExtraEarnBot?start=${sessionUserUid}`;
 
-        // Avatar
         const avatarImg = document.getElementById('prof-avatar-node');
-        if (sessionUserPhoto) {
-            avatarImg.src = sessionUserPhoto;
-        } else {
-            renderInitialAvatar();
-        }
+        if (sessionUserPhoto) avatarImg.src = sessionUserPhoto;
+        else renderInitialAvatar();
 
         if (isRealAdmin) {
             document.getElementById('admin-terminal-btn').style.display = 'flex';
         }
 
-        // Load local data
         try {
             appBanners = JSON.parse(localStorage.getItem('extra_app_banners') || '[]');
             quickPayContacts = JSON.parse(localStorage.getItem('quickpay_contacts') || '[]');
             quickPayThreads = JSON.parse(localStorage.getItem('quickpay_threads') || '{}');
             blockedUsersList = JSON.parse(localStorage.getItem('blocked_users_list') || '[]');
-        } catch(e) { console.warn("Local data parse error:", e); }
+        } catch(e) {}
 
-        // Render UI (fast)
         renderBannersOnHome();
         renderQuickPayPeopleGrid();
         renderQuickPayTransactionHistory();
+        if (isRealAdmin) renderAdminBannerList();
 
-        // Admin-only: skip for non-admins (faster load)
-        if (isRealAdmin) {
-            renderAdminBannerList();
-        }
-
-        // Fetch fresh data from server (async)
         fetchUserData();
     });
 
     function handleAvatarError() { renderInitialAvatar(); }
-
     function renderInitialAvatar() {
         const wrap = document.getElementById('prof-avatar-wrap');
         const initial = sessionUserName.charAt(0).toUpperCase();
         wrap.innerHTML = `<div class="profile-avatar-fallback">${initial}</div>`;
     }
 
-    // ==================== USER DATA (CRITICAL) ====================
     async function fetchUserData() {
         if (!sessionUserUid) return;
         try {
             const ctrl = new AbortController();
             const timeout = setTimeout(() => ctrl.abort(), 12000);
-
             const res = await fetch(`${ENGINE_API_ENDPOINT}/api/user/${sessionUserUid}`, { signal: ctrl.signal });
             clearTimeout(timeout);
-
             const data = await res.json();
             if (data.success && data.user) {
                 const bal = Number(data.user.balance || 0);
                 setBalance(bal, false);
-                if (data.user.name) {
-                    document.getElementById('prof-name-node').innerText = data.user.name;
-                }
-
-                // Cache for instant next-load
+                if (data.user.name) document.getElementById('prof-name-node').innerText = data.user.name;
                 try {
                     localStorage.setItem('cached_balance_' + sessionUserUid, String(bal));
                     localStorage.setItem('cached_name_' + sessionUserUid, data.user.name || '');
                 } catch(e) {}
-
-                // Store UPI/wallet for setup page
                 window.__userData = data.user;
             } else {
                 setBalance(0, false);
             }
         } catch (err) {
-            console.error("fetchUserData error:", err);
-            // Keep cached value if exists, otherwise show 0
             const cached = localStorage.getItem('cached_balance_' + sessionUserUid);
-            if (cached !== null) {
-                setBalance(parseFloat(cached), false);
-            } else {
-                setBalance(0, false);
-            }
+            setBalance(cached !== null ? parseFloat(cached) : 0, false);
         }
     }
 
@@ -1277,10 +1340,7 @@
             item.className = 'quickpay-person-item';
             item.onclick = () => openQuickPayChat(c);
             const initial = sanitizeText((c.name || 'U').charAt(0).toUpperCase());
-            item.innerHTML = `
-                <div class="quickpay-avatar">${initial}</div>
-                <div class="quickpay-person-name">${sanitizeText(c.name)}</div>
-            `;
+            item.innerHTML = `<div class="quickpay-avatar">${initial}</div><div class="quickpay-person-name">${sanitizeText(c.name)}</div>`;
             container.appendChild(item);
         });
     }
@@ -1291,9 +1351,7 @@
         let allTxs = [];
         Object.keys(quickPayThreads).forEach(uid => {
             const thread = quickPayThreads[uid] || [];
-            thread.filter(item => item.kind === 'payment').forEach(p => {
-                allTxs.push({ ...p, uid });
-            });
+            thread.filter(item => item.kind === 'payment').forEach(p => allTxs.push({ ...p, uid }));
         });
         if (allTxs.length === 0) {
             container.innerHTML = `<div class="glass-card" style="text-align:center; padding:18px; color:var(--text-sub); font-size:12.5px;"><i class="fa-solid fa-receipt" style="font-size:22px; margin-bottom:8px; opacity:0.4;"></i><p>No transactions yet.</p></div>`;
@@ -1303,16 +1361,7 @@
             const item = document.createElement('div');
             item.className = 'tx-history-item';
             const contact = quickPayContacts.find(c => c.uid === tx.uid) || { name: `User ${tx.uid}` };
-            item.innerHTML = `
-                <div class="tx-history-left">
-                    <div class="tx-history-icon out"><i class="fa-solid fa-arrow-up-right"></i></div>
-                    <div>
-                        <div style="font-weight:700; font-size:13px;">${sanitizeText(contact.name)}</div>
-                        <div style="font-size:10.5px; color:var(--text-sub);">${sanitizeText(tx.time)}</div>
-                    </div>
-                </div>
-                <div style="font-weight:800; font-size:14.5px; color:#f87171;">-₹${Number(tx.amount).toFixed(2)}</div>
-            `;
+            item.innerHTML = `<div class="tx-history-left"><div class="tx-history-icon out"><i class="fa-solid fa-arrow-up-right"></i></div><div><div style="font-weight:700; font-size:13px;">${sanitizeText(contact.name)}</div><div style="font-size:10.5px; color:var(--text-sub);">${sanitizeText(tx.time)}</div></div></div><div style="font-weight:800; font-size:14.5px; color:#f87171;">-₹${Number(tx.amount).toFixed(2)}</div>`;
             item.onclick = () => openQuickPayChat({ uid: tx.uid, name: contact.name });
             container.appendChild(item);
         });
@@ -1415,11 +1464,7 @@
             } else if (item.kind === 'payment') {
                 const bubble = document.createElement('div');
                 bubble.className = 'chat-bubble-card';
-                bubble.innerHTML = `
-                    <div style="font-size:10.5px; color:var(--text-sub); margin-bottom:6px;"><i class="fa-solid fa-circle-check" style="color:var(--green-accent);"></i> Payment Sent</div>
-                    <div style="font-size:24px; font-weight:800; color:var(--green-accent);">₹${Number(item.amount).toFixed(2)}</div>
-                    <div style="font-size:10px; color:var(--text-sub); margin-top:6px; text-align:right;">${sanitizeText(item.time)}</div>
-                `;
+                bubble.innerHTML = `<div style="font-size:10.5px; color:var(--text-sub); margin-bottom:6px;"><i class="fa-solid fa-circle-check" style="color:var(--green-accent);"></i> Payment Sent</div><div style="font-size:24px; font-weight:800; color:var(--green-accent);">₹${Number(item.amount).toFixed(2)}</div><div style="font-size:10px; color:var(--text-sub); margin-top:6px; text-align:right;">${sanitizeText(item.time)}</div>`;
                 container.appendChild(bubble);
             }
         });
@@ -1434,12 +1479,7 @@
         if (!text) return;
         const uid = currentActiveChatContact.uid;
         if (!quickPayThreads[uid]) quickPayThreads[uid] = [];
-        quickPayThreads[uid].push({
-            kind: 'text',
-            text: text,
-            timestamp: Date.now(),
-            time: new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})
-        });
+        quickPayThreads[uid].push({ kind: 'text', text, timestamp: Date.now(), time: new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) });
         localStorage.setItem('quickpay_threads', JSON.stringify(quickPayThreads));
         txtInput.value = '';
         renderChatThread();
@@ -1451,10 +1491,6 @@
         const amtInput = document.getElementById('chat-pay-amount-input');
         const amount = parseFloat(amtInput.value);
         if (!amount || amount <= 0) return showToast('Enter a valid amount', '#ef4444');
-
-        const btn = event?.target?.closest('button');
-        if (btn) { btn.disabled = true; btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Sending'; }
-
         try {
             const res = await fetch(`${ENGINE_API_ENDPOINT}/api/mini-app/peer-transfer`, {
                 method: 'POST',
@@ -1462,30 +1498,18 @@
                 body: JSON.stringify({ sourceId: sessionUserUid, targetId: currentActiveChatContact.uid, amount })
             });
             const r = await res.json();
-            if (r.error) {
-                showToast(r.error, '#ef4444');
-            } else {
-                showToast('Payment sent!', '#10b981');
-                recordPaymentInThread(amount);
-                amtInput.value = '';
-                fetchUserData();
-            }
-        } catch (err) {
-            showToast('Network error', '#ef4444');
-        } finally {
-            if (btn) { btn.disabled = false; btn.innerHTML = '<i class="fa-solid fa-indian-rupee-sign"></i> Pay'; }
-        }
+            if (r.error) return showToast(r.error, '#ef4444');
+            showToast('Payment sent!', '#10b981');
+            recordPaymentInThread(amount);
+            amtInput.value = '';
+            fetchUserData();
+        } catch (err) { showToast('Network error', '#ef4444'); }
     }
 
     function recordPaymentInThread(amount) {
         const uid = currentActiveChatContact.uid;
         if (!quickPayThreads[uid]) quickPayThreads[uid] = [];
-        quickPayThreads[uid].push({
-            kind: 'payment',
-            amount: amount,
-            timestamp: Date.now(),
-            time: new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})
-        });
+        quickPayThreads[uid].push({ kind: 'payment', amount, timestamp: Date.now(), time: new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) });
         localStorage.setItem('quickpay_threads', JSON.stringify(quickPayThreads));
         renderChatThread();
         renderQuickPayTransactionHistory();
@@ -1495,10 +1519,7 @@
     function renderBannersOnHome() {
         const wrapper = document.getElementById('home-banner-wrapper');
         const slider = document.getElementById('home-banner-slider');
-        if (!appBanners || appBanners.length === 0) {
-            wrapper.style.display = 'none';
-            return;
-        }
+        if (!appBanners || appBanners.length === 0) { wrapper.style.display = 'none'; return; }
         wrapper.style.display = 'block';
         slider.innerHTML = '';
         appBanners.forEach(b => {
@@ -1506,8 +1527,7 @@
             item.className = 'banner-item';
             if (b.link && b.link.trim() !== '') item.onclick = () => window.open(b.link, '_blank');
             const img = document.createElement('img');
-            img.src = b.imgData;
-            img.alt = "Banner";
+            img.src = b.imgData; img.alt = "Banner";
             item.appendChild(img);
             slider.appendChild(item);
         });
@@ -1525,14 +1545,7 @@
             const row = document.createElement('div');
             row.className = 'banner-manage-row';
             const targetLinkText = b.link ? sanitizeText(b.link) : 'No Link';
-            row.innerHTML = `
-                <img src="${b.imgData}" style="width:48px; height:34px; object-fit:contain; border-radius:6px; background:#000;" alt="Thumb">
-                <div style="flex:1; overflow:hidden; font-size:11.5px;">
-                    <div style="font-weight:700;">Banner #${index + 1}</div>
-                    <div style="color:var(--text-sub); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${targetLinkText}</div>
-                </div>
-                <button class="glass-btn danger" style="padding:6px 10px; width:auto; font-size:11.5px;" onclick="removeBannerItem(${index})"><i class="fa-solid fa-trash"></i></button>
-            `;
+            row.innerHTML = `<img src="${b.imgData}" style="width:48px; height:34px; object-fit:contain; border-radius:6px; background:#000;"><div style="flex:1; overflow:hidden; font-size:11.5px;"><div style="font-weight:700;">Banner #${index + 1}</div><div style="color:var(--text-sub); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${targetLinkText}</div></div><button class="glass-btn danger" style="padding:6px 10px; width:auto; font-size:11.5px;" onclick="removeBannerItem(${index})"><i class="fa-solid fa-trash"></i></button>`;
             container.appendChild(row);
         });
     }
@@ -1609,9 +1622,7 @@
                 document.getElementById('txt-voucher-code').value = '';
                 fetchUserData();
             }
-        } catch (err) {
-            showToast('Network error', '#ef4444');
-        }
+        } catch (err) { showToast('Network error', '#ef4444'); }
     }
 
     // ==================== WITHDRAW ====================
@@ -1632,14 +1643,11 @@
                 closeModal('modal-withdraw');
                 fetchUserData();
             }
-        } catch (err) {
-            showToast('Network error', '#ef4444');
-        }
+        } catch (err) { showToast('Network error', '#ef4444'); }
     }
 
     // ==================== PAYOUT SETUP ====================
     async function loadPayoutSetup() {
-        // Use cached user data if available
         if (window.__userData) {
             const r = window.__userData;
             if (r.upi && r.upi !== 'not_linked') document.getElementById('setup-upi-input').value = r.upi;
@@ -1667,10 +1675,8 @@
                 body: JSON.stringify({ upi })
             });
             const r = await res.json();
-            if (r.success) {
-                showToast('UPI saved!', '#10b981');
-                if (window.__userData) window.__userData.upi = upi;
-            } else showToast(r.error || 'Failed', '#ef4444');
+            if (r.success) { showToast('UPI saved!', '#10b981'); if (window.__userData) window.__userData.upi = upi; }
+            else showToast(r.error || 'Failed', '#ef4444');
         } catch (e) { showToast('Network error', '#ef4444'); }
     }
 
@@ -1684,10 +1690,8 @@
                 body: JSON.stringify({ wallet })
             });
             const r = await res.json();
-            if (r.success) {
-                showToast('Wallet saved!', '#10b981');
-                if (window.__userData) window.__userData.wallet = wallet;
-            } else showToast(r.error || 'Failed', '#ef4444');
+            if (r.success) { showToast('Wallet saved!', '#10b981'); if (window.__userData) window.__userData.wallet = wallet; }
+            else showToast(r.error || 'Failed', '#ef4444');
         } catch (e) { showToast('Network error', '#ef4444'); }
     }
 
@@ -1703,20 +1707,7 @@
                 const histHtml = (u.history && u.history.length > 0)
                     ? u.history.slice(0, 10).map(h => `<div style="padding:8px; border-bottom:1px solid var(--glass-border); font-size:12px;">• ${sanitizeText(h.method || 'N/A')}: ₹${h.amount || 0} → ${sanitizeText(h.status || '')}</div>`).join('')
                     : '<p style="font-size:12px; color:var(--text-sub); text-align:center; padding:10px;">No payout records.</p>';
-                container.innerHTML = `
-                    <div class="glass-card">
-                        <h4 style="font-size:13px; margin-bottom:8px;">💰 Total Withdrawn</h4>
-                        <div style="font-size:24px; font-weight:800; color:var(--green-accent);">₹${Number(u.totalWithdrawn || 0).toFixed(2)}</div>
-                    </div>
-                    <div class="glass-card">
-                        <h4 style="font-size:13px; margin-bottom:8px;">🎁 Current Balance</h4>
-                        <div style="font-size:24px; font-weight:800; color:var(--red-brand);">₹${Number(u.balance || 0).toFixed(2)}</div>
-                    </div>
-                    <div class="glass-card">
-                        <h4 style="font-size:13px; margin-bottom:8px;">📜 Payout History</h4>
-                        ${histHtml}
-                    </div>
-                `;
+                container.innerHTML = `<div class="glass-card"><h4 style="font-size:13px; margin-bottom:8px;">💰 Total Withdrawn</h4><div style="font-size:24px; font-weight:800; color:var(--green-accent);">₹${Number(u.totalWithdrawn || 0).toFixed(2)}</div></div><div class="glass-card"><h4 style="font-size:13px; margin-bottom:8px;">🎁 Current Balance</h4><div style="font-size:24px; font-weight:800; color:var(--red-brand);">₹${Number(u.balance || 0).toFixed(2)}</div></div><div class="glass-card"><h4 style="font-size:13px; margin-bottom:8px;">📜 Payout History</h4>${histHtml}</div>`;
             } else {
                 container.innerHTML = '<p style="font-size:12px; color:var(--text-sub); text-align:center;">No data.</p>';
             }
@@ -1739,13 +1730,7 @@
                     const row = document.createElement('div');
                     row.className = 'glass-card';
                     row.style.cssText = 'display:flex; justify-content:space-between; align-items:center; padding:14px;';
-                    row.innerHTML = `
-                        <div style="display:flex; align-items:center; gap:10px;">
-                            <span style="font-size:20px;">${medal}</span>
-                            <span style="font-weight:700; font-size:13px;">${sanitizeText(u.name)}</span>
-                        </div>
-                        <b style="color:var(--green-accent); font-size:14px;">₹${Number(u.balance).toFixed(2)}</b>
-                    `;
+                    row.innerHTML = `<div style="display:flex; align-items:center; gap:10px;"><span style="font-size:20px;">${medal}</span><span style="font-weight:700; font-size:13px;">${sanitizeText(u.name)}</span></div><b style="color:var(--green-accent); font-size:14px;">₹${Number(u.balance).toFixed(2)}</b>`;
                     container.appendChild(row);
                 });
             } else {
@@ -1785,6 +1770,10 @@
         if (name === 'bans') loadBannedUsers();
         if (name === 'admins') loadSubAdmins();
         if (name === 'settings') loadAdminSettings();
+        if (name === 'inline_customizer') loadAdminInlineButtons();
+        if (name === 'keyboards') loadAdminKeyboardLayout();
+        if (name === 'error_logs') loadErrorLogs();
+        if (name === 'messages') loadBotMessages();
     }
 
     function closeAdminSection() {
@@ -1800,14 +1789,7 @@
             const data = await res.json();
             if (!data.success || !data.user) return showToast('User not found', '#ef4444');
             const u = data.user;
-            document.getElementById('modal-user-detail-content').innerHTML = `
-                <div><b>Name:</b> ${sanitizeText(u.name)}</div>
-                <div><b>UID:</b> <code>${u.id}</code></div>
-                <div><b>Balance:</b> ₹${Number(u.balance || 0).toFixed(2)}</div>
-                <div><b>UPI:</b> ${sanitizeText(u.upi || 'not linked')}</div>
-                <div><b>Wallet:</b> ${sanitizeText(u.wallet || 'not linked')}</div>
-                <div><b>Total Withdrawn:</b> ₹${Number(u.totalWithdrawn || 0).toFixed(2)}</div>
-            `;
+            document.getElementById('modal-user-detail-content').innerHTML = `<div><b>Name:</b> ${sanitizeText(u.name)}</div><div><b>UID:</b> <code>${u.id}</code></div><div><b>Balance:</b> ₹${Number(u.balance || 0).toFixed(2)}</div><div><b>UPI:</b> ${sanitizeText(u.upi || 'not linked')}</div><div><b>Wallet:</b> ${sanitizeText(u.wallet || 'not linked')}</div><div><b>Total Withdrawn:</b> ₹${Number(u.totalWithdrawn || 0).toFixed(2)}</div>`;
             openModal('modal-user-detail');
         } catch (err) { showToast('Fetch failed', '#ef4444'); }
     }
@@ -1828,7 +1810,6 @@
                     showToast('Balance adjusted!', '#10b981');
                     document.getElementById('admin-adj-uid').value = '';
                     document.getElementById('admin-adj-amt').value = '';
-                    // If adjusted self, refresh
                     if (String(uid) === String(sessionUserUid)) fetchUserData();
                 } else showToast(r.error || 'Failed', '#ef4444');
             } catch (e) { showToast('Network error', '#ef4444'); }
@@ -1872,11 +1853,7 @@
             r.tasks.forEach(t => {
                 const row = document.createElement('div');
                 row.style.cssText = 'padding:10px; background:rgba(255,255,255,0.03); border-radius:10px; margin-bottom:8px;';
-                row.innerHTML = `
-                    <div style="font-weight:700; font-size:12.5px;">${sanitizeText(t.title)}</div>
-                    <div style="font-size:11px; color:var(--text-sub);">Reward: ₹${t.amount} • ${t.active ? '🟢 Active' : '🔴 Off'}</div>
-                    <button class="glass-btn danger" style="padding:6px 10px; margin-top:8px; font-size:11px;" onclick="adminDeleteTask('${t.id}')"><i class="fa-solid fa-trash"></i> Delete</button>
-                `;
+                row.innerHTML = `<div style="font-weight:700; font-size:12.5px;">${sanitizeText(t.title)}</div><div style="font-size:11px; color:var(--text-sub);">Reward: ₹${t.amount} • ${t.active ? '🟢 Active' : '🔴 Off'}</div><button class="glass-btn danger" style="padding:6px 10px; margin-top:8px; font-size:11px;" onclick="adminDeleteTask('${t.id}')"><i class="fa-solid fa-trash"></i> Delete</button>`;
                 container.appendChild(row);
             });
         } catch (e) {
@@ -1908,14 +1885,7 @@
             r.withdrawals.forEach(w => {
                 const row = document.createElement('div');
                 row.style.cssText = 'padding:12px; background:rgba(255,255,255,0.03); border:1px solid var(--glass-border); border-radius:12px; margin-bottom:10px;';
-                row.innerHTML = `
-                    <div style="font-weight:700; font-size:13px;">User: <code>${w.userId}</code></div>
-                    <div style="font-size:11.5px; color:var(--text-sub); margin:4px 0;">₹${w.amount} → ${sanitizeText(w.destination)}</div>
-                    <div style="display:flex; gap:8px; margin-top:8px;">
-                        <button class="glass-btn success" style="padding:8px; font-size:11.5px;" onclick="adminApproveWd('${w.id}')"><i class="fa-solid fa-check"></i> Approve</button>
-                        <button class="glass-btn danger" style="padding:8px; font-size:11.5px;" onclick="adminRejectWd('${w.id}')"><i class="fa-solid fa-xmark"></i> Reject</button>
-                    </div>
-                `;
+                row.innerHTML = `<div style="font-weight:700; font-size:13px;">User: <code>${w.userId}</code></div><div style="font-size:11.5px; color:var(--text-sub); margin:4px 0;">₹${w.amount} → ${sanitizeText(w.destination)}</div><div style="display:flex; gap:8px; margin-top:8px;"><button class="glass-btn success" style="padding:8px; font-size:11.5px;" onclick="adminApproveWd('${w.id}')"><i class="fa-solid fa-check"></i> Approve</button><button class="glass-btn danger" style="padding:8px; font-size:11.5px;" onclick="adminRejectWd('${w.id}')"><i class="fa-solid fa-xmark"></i> Reject</button></div>`;
                 container.appendChild(row);
             });
         } catch (e) {
@@ -2006,8 +1976,7 @@
             r.codes.forEach(c => {
                 const row = document.createElement('div');
                 row.style.cssText = 'padding:10px; background:rgba(255,255,255,0.03); border-radius:10px; margin-bottom:8px; font-size:12px;';
-                row.innerHTML = `<div><b>${sanitizeText(c.code)}</b> — ₹${c.amount}</div>
-                    <div style="color:var(--text-sub); font-size:11px;">Used: ${c.claimedBy?.length || 0}/${c.maxUsers}</div>`;
+                row.innerHTML = `<div><b>${sanitizeText(c.code)}</b> — ₹${c.amount}</div><div style="color:var(--text-sub); font-size:11px;">Used: ${c.claimedBy?.length || 0}/${c.maxUsers}</div>`;
                 container.appendChild(row);
             });
         } catch (e) {
@@ -2051,8 +2020,7 @@
             r.channels.forEach((c, i) => {
                 const row = document.createElement('div');
                 row.style.cssText = 'padding:10px; background:rgba(255,255,255,0.03); border-radius:10px; margin-bottom:8px; font-size:12px; display:flex; justify-content:space-between; align-items:center;';
-                row.innerHTML = `<div><b>${sanitizeText(c.name)}</b><div style="color:var(--text-sub); font-size:11px;">${sanitizeText(c.link)}</div></div>
-                    <button class="glass-btn danger" style="padding:5px 10px; width:auto; font-size:11px;" onclick="adminRemoveChannel(${i})">✕</button>`;
+                row.innerHTML = `<div><b>${sanitizeText(c.name)}</b><div style="color:var(--text-sub); font-size:11px;">${sanitizeText(c.link)}</div></div><button class="glass-btn danger" style="padding:5px 10px; width:auto; font-size:11px;" onclick="adminRemoveChannel(${i})">✕</button>`;
                 container.appendChild(row);
             });
         } catch (e) {
@@ -2105,8 +2073,7 @@
             Object.entries(r.gateways).forEach(([key, gw]) => {
                 const row = document.createElement('div');
                 row.style.cssText = 'padding:10px; background:rgba(255,255,255,0.03); border-radius:10px; margin-bottom:8px; font-size:12px;';
-                row.innerHTML = `<div><b>${sanitizeText(gw.displayName || key)}</b> [${gw.type}]</div>
-                    <div style="color:var(--text-sub); font-size:11px; word-break:break-all;">${sanitizeText(gw.url)}</div>`;
+                row.innerHTML = `<div><b>${sanitizeText(gw.displayName || key)}</b> [${gw.type}]</div><div style="color:var(--text-sub); font-size:11px; word-break:break-all;">${sanitizeText(gw.url)}</div>`;
                 container.appendChild(row);
             });
         } catch (e) {
@@ -2202,8 +2169,7 @@
             r.users.forEach(u => {
                 const row = document.createElement('div');
                 row.style.cssText = 'padding:10px; background:rgba(239,68,68,0.08); border-radius:10px; margin-bottom:8px; font-size:12px; display:flex; justify-content:space-between; align-items:center;';
-                row.innerHTML = `<div><b>${sanitizeText(u.name)}</b><br><code>${u.id}</code></div>
-                    <button class="glass-btn success" style="padding:5px 10px; width:auto; font-size:11px;" onclick="adminUnbanFromList('${u.id}')">Unban</button>`;
+                row.innerHTML = `<div><b>${sanitizeText(u.name)}</b><br><code>${u.id}</code></div><button class="glass-btn success" style="padding:5px 10px; width:auto; font-size:11px;" onclick="adminUnbanFromList('${u.id}')">Unban</button>`;
                 container.appendChild(row);
             });
         } catch (e) {
@@ -2255,8 +2221,7 @@
             r.subAdmins.forEach(id => {
                 const row = document.createElement('div');
                 row.style.cssText = 'padding:10px; background:rgba(255,255,255,0.03); border-radius:10px; margin-bottom:8px; font-size:12px; display:flex; justify-content:space-between; align-items:center;';
-                row.innerHTML = `<code>${id}</code>
-                    <button class="glass-btn danger" style="padding:5px 10px; width:auto; font-size:11px;" onclick="adminRemoveSubAdmin('${id}')">Remove</button>`;
+                row.innerHTML = `<code>${id}</code><button class="glass-btn danger" style="padding:5px 10px; width:auto; font-size:11px;" onclick="adminRemoveSubAdmin('${id}')">Remove</button>`;
                 container.appendChild(row);
             });
         } catch (e) {
@@ -2291,6 +2256,327 @@
                 document.getElementById('admin-msg-content').value = '';
             } else showToast(r.error || 'Failed', '#ef4444');
         } catch (e) { showToast('Network error', '#ef4444'); }
+    }
+
+    // ==================== ADMIN: INLINE BUTTONS ====================
+    async function loadAdminInlineButtons() {
+        const container = document.getElementById('admin-inline-buttons-list');
+        container.innerHTML = '<p style="font-size:11.5px; color:var(--text-sub); text-align:center;">Loading...</p>';
+        try {
+            const res = await fetch(`${ENGINE_API_ENDPOINT}/api/admin/inline-buttons?adminId=${sessionUserUid}`);
+            const r = await res.json();
+            if (!r.success || !r.buttons) {
+                container.innerHTML = '<p style="font-size:11.5px; color:var(--text-sub); text-align:center;">Failed to load.</p>';
+                return;
+            }
+            container.innerHTML = '';
+            r.buttons.forEach(b => {
+                const row = document.createElement('div');
+                row.style.cssText = 'display:flex; align-items:center; gap:8px; padding:8px; background:rgba(255,255,255,0.03); border:1px solid var(--glass-border); border-radius:10px; margin-bottom:8px;';
+                const styleLabel = b.style && b.style !== 'none' ? `[${b.style}]` : '';
+                row.innerHTML = `<div style="flex:1; overflow:hidden;"><div style="font-size:11px; color:var(--text-sub);">${sanitizeText(b.key)}</div><div style="font-weight:700; font-size:12.5px;">${sanitizeText(b.label)} <span style="color:var(--purple-accent);font-size:10px;">${styleLabel}</span></div></div><button class="glass-btn" style="width:auto; padding:6px 10px; font-size:11px;" onclick="adminEditInlineName('${b.key}')"><i class="fa-solid fa-pen"></i></button><button class="glass-btn" style="width:auto; padding:6px 10px; font-size:11px;" onclick="adminEditInlineStyle('${b.key}', '${b.style || 'none'}')"><i class="fa-solid fa-palette"></i></button>`;
+                container.appendChild(row);
+            });
+        } catch (e) {
+            container.innerHTML = '<p style="font-size:11.5px; color:var(--text-sub); text-align:center;">Error loading.</p>';
+        }
+    }
+
+    function adminEditInlineName(key) {
+        const newName = prompt(`Enter new label for "${key}":`);
+        if (newName === null || newName.trim() === '') return;
+        saveInlineButtonUpdate(key, newName.trim(), null);
+    }
+
+    function adminEditInlineStyle(key, currentStyle) {
+        const styles = ['primary', 'success', 'danger', 'none'];
+        const choice = prompt(`Select style for "${key}"\nOptions: ${styles.join(', ')}\nCurrent: ${currentStyle}`, currentStyle);
+        if (choice === null) return;
+        if (!styles.includes(choice.trim().toLowerCase())) return showToast('Invalid style', '#ef4444');
+        saveInlineButtonUpdate(key, null, choice.trim().toLowerCase());
+    }
+
+    async function saveInlineButtonUpdate(key, newLabel, newStyle) {
+        try {
+            const payload = { adminId: sessionUserUid, key };
+            if (newLabel) payload.label = newLabel;
+            if (newStyle) payload.style = newStyle;
+            const res = await fetch(`${ENGINE_API_ENDPOINT}/api/admin/inline-buttons`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+            const r = await res.json();
+            if (r.success) {
+                showToast('Button updated!', '#10b981');
+                loadAdminInlineButtons();
+            } else showToast(r.error || 'Failed', '#ef4444');
+        } catch (e) { showToast('Network error', '#ef4444'); }
+    }
+
+    async function adminResetAllInline() {
+        showConfirm('Reset All Inline', 'Reset all inline buttons to default?', async () => {
+            try {
+                await fetch(`${ENGINE_API_ENDPOINT}/api/admin/inline-buttons/reset`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ adminId: sessionUserUid })
+                });
+                showToast('All reset!', '#10b981');
+                loadAdminInlineButtons();
+            } catch (e) { showToast('Failed', '#ef4444'); }
+        });
+    }
+
+    // ==================== ADMIN: REPLY KEYBOARD ====================
+    async function loadAdminKeyboardLayout() {
+        const container = document.getElementById('admin-keyboard-layout-view');
+        container.innerHTML = '<p style="font-size:11.5px; color:var(--text-sub); text-align:center;">Loading...</p>';
+        try {
+            const res = await fetch(`${ENGINE_API_ENDPOINT}/api/admin/keyboard-layout?adminId=${sessionUserUid}`);
+            const r = await res.json();
+            if (!r.success || !r.layout) {
+                container.innerHTML = '<p style="font-size:11.5px; color:var(--text-sub); text-align:center;">Failed to load.</p>';
+                return;
+            }
+            window.__adminKbLayout = r.layout;
+            window.__adminKbStyles = r.styles || {};
+            container.innerHTML = '';
+            r.layout.forEach((row, rIdx) => {
+                const rowDiv = document.createElement('div');
+                rowDiv.style.cssText = 'display:flex; gap:6px; margin-bottom:8px;';
+                row.forEach((btn, cIdx) => {
+                    const styleKey = r.styles?.[`${rIdx}_${cIdx}`];
+                    const styleLabel = styleKey ? ` [${styleKey}]` : '';
+                    const b = document.createElement('button');
+                    b.className = 'glass-btn';
+                    b.style.cssText = 'flex:1; padding:8px 4px; font-size:10.5px;';
+                    b.innerText = btn + styleLabel;
+                    b.onclick = () => openKeyboardEditor(rIdx, cIdx);
+                    rowDiv.appendChild(b);
+                });
+                container.appendChild(rowDiv);
+            });
+        } catch (e) {
+            container.innerHTML = '<p style="font-size:11.5px; color:var(--text-sub); text-align:center;">Error loading.</p>';
+        }
+    }
+
+    function openKeyboardEditor(rIdx, cIdx) {
+        const editor = document.getElementById('admin-keyboard-editor');
+        const layout = window.__adminKbLayout || [];
+        const currentName = layout[rIdx]?.[cIdx] || '';
+        const currentStyle = window.__adminKbStyles?.[`${rIdx}_${cIdx}`] || 'none';
+        editor.innerHTML = `
+            <div class="glass-card" style="border-color:var(--purple-accent);">
+                <h4 style="font-size:13px; margin-bottom:10px;">✏️ Edit Button [Row ${rIdx + 1}, Col ${cIdx + 1}]</h4>
+                <p style="font-size:12px; color:var(--text-sub); margin-bottom:10px;">Current: <b>${sanitizeText(currentName)}</b></p>
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:6px; margin-bottom:10px;">
+                    <button class="glass-btn" style="font-size:11px; padding:8px;" onclick="adminMoveKeyboard(${rIdx}, ${cIdx}, 'up')">⬆️ Up</button>
+                    <button class="glass-btn" style="font-size:11px; padding:8px;" onclick="adminMoveKeyboard(${rIdx}, ${cIdx}, 'down')">⬇️ Down</button>
+                    <button class="glass-btn" style="font-size:11px; padding:8px;" onclick="adminMoveKeyboard(${rIdx}, ${cIdx}, 'left')">⬅️ Left</button>
+                    <button class="glass-btn" style="font-size:11px; padding:8px;" onclick="adminMoveKeyboard(${rIdx}, ${cIdx}, 'right')">➡️ Right</button>
+                </div>
+                <input type="text" id="kb-edit-name" class="glass-input" value="${sanitizeText(currentName)}" placeholder="Button name">
+                <select id="kb-edit-style" class="glass-input">
+                    <option value="none" ${currentStyle==='none'?'selected':''}>No Style</option>
+                    <option value="primary" ${currentStyle==='primary'?'selected':''}>🔵 Primary</option>
+                    <option value="success" ${currentStyle==='success'?'selected':''}>🟢 Success</option>
+                    <option value="danger" ${currentStyle==='danger'?'selected':''}>🔴 Danger</option>
+                </select>
+                <button class="glass-btn primary" onclick="adminSaveKeyboardButton(${rIdx}, ${cIdx})"><i class="fa-solid fa-save"></i> Save</button>
+                <button class="glass-btn" style="margin-top:6px;" onclick="document.getElementById('admin-keyboard-editor').innerHTML=''"><i class="fa-solid fa-xmark"></i> Close</button>
+            </div>
+        `;
+        editor.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    async function adminMoveKeyboard(rIdx, cIdx, direction) {
+        try {
+            const res = await fetch(`${ENGINE_API_ENDPOINT}/api/admin/keyboard-layout/move`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ adminId: sessionUserUid, r: rIdx, c: cIdx, direction })
+            });
+            const r = await res.json();
+            if (r.success) {
+                showToast('Moved!', '#10b981');
+                loadAdminKeyboardLayout();
+                document.getElementById('admin-keyboard-editor').innerHTML = '';
+            } else showToast(r.error || 'Failed', '#ef4444');
+        } catch (e) { showToast('Network error', '#ef4444'); }
+    }
+
+    async function adminSaveKeyboardButton(rIdx, cIdx) {
+        const newName = document.getElementById('kb-edit-name').value.trim();
+        const newStyle = document.getElementById('kb-edit-style').value;
+        if (!newName) return showToast('Enter a name', '#ef4444');
+        try {
+            const res = await fetch(`${ENGINE_API_ENDPOINT}/api/admin/keyboard-layout/edit`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ adminId: sessionUserUid, r: rIdx, c: cIdx, name: newName, style: newStyle })
+            });
+            const r = await res.json();
+            if (r.success) {
+                showToast('Saved!', '#10b981');
+                loadAdminKeyboardLayout();
+                document.getElementById('admin-keyboard-editor').innerHTML = '';
+            } else showToast(r.error || 'Failed', '#ef4444');
+        } catch (e) { showToast('Network error', '#ef4444'); }
+    }
+
+    async function adminToggleKeyboardLayout() {
+        try {
+            const res = await fetch(`${ENGINE_API_ENDPOINT}/api/admin/keyboard-layout/toggle`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ adminId: sessionUserUid })
+            });
+            const r = await res.json();
+            if (r.success) {
+                showToast('Layout toggled!', '#10b981');
+                loadAdminKeyboardLayout();
+            } else showToast(r.error || 'Failed', '#ef4444');
+        } catch (e) { showToast('Network error', '#ef4444'); }
+    }
+
+    async function adminResetKeyboard() {
+        showConfirm('Reset Keyboard', 'Reset reply keyboard to default?', async () => {
+            try {
+                await fetch(`${ENGINE_API_ENDPOINT}/api/admin/keyboard-layout/reset`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ adminId: sessionUserUid })
+                });
+                showToast('Keyboard reset!', '#10b981');
+                loadAdminKeyboardLayout();
+            } catch (e) { showToast('Failed', '#ef4444'); }
+        });
+    }
+
+    async function adminPreviewKeyboard() {
+        try {
+            const res = await fetch(`${ENGINE_API_ENDPOINT}/api/admin/keyboard-layout/preview`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ adminId: sessionUserUid })
+            });
+            const r = await res.json();
+            if (r.success) showToast('Preview sent to bot!', '#3b82f6');
+            else showToast(r.error || 'Failed', '#ef4444');
+        } catch (e) { showToast('Network error', '#ef4444'); }
+    }
+
+    // ==================== ADMIN: ERROR LOGS ====================
+    async function loadErrorLogs() {
+        const container = document.getElementById('admin-error-logs-list');
+        container.innerHTML = '<p style="font-size:11.5px; color:var(--text-sub); text-align:center;">Loading...</p>';
+        try {
+            const res = await fetch(`${ENGINE_API_ENDPOINT}/api/admin/error-logs?adminId=${sessionUserUid}`);
+            const r = await res.json();
+            if (!r.success || !r.logs || r.logs.length === 0) {
+                container.innerHTML = '<div style="padding:20px; text-align:center;"><i class="fa-solid fa-circle-check" style="font-size:32px; color:var(--green-accent); margin-bottom:10px;"></i><p style="font-size:12px; color:var(--text-sub);">No errors logged. Bot running smoothly! 🎉</p></div>';
+                return;
+            }
+            container.innerHTML = '';
+            r.logs.slice(0, 15).forEach((log, i) => {
+                const row = document.createElement('div');
+                row.style.cssText = 'padding:10px; background:rgba(239,68,68,0.08); border:1px solid rgba(239,68,68,0.25); border-radius:10px; margin-bottom:8px; font-size:11.5px;';
+                row.innerHTML = `<div style="display:flex; justify-content:space-between; margin-bottom:4px;"><b style="color:#f87171;">Error #${i+1}</b><span style="color:var(--text-sub); font-size:10px;">${sanitizeText(log.time || 'N/A')}</span></div><div style="color:var(--text-sub); margin-bottom:4px;">User: <code>${log.user || 'N/A'}</code></div><div style="font-family:monospace; font-size:11px; word-break:break-word;">${sanitizeText(log.error || 'Unknown')}</div>`;
+                container.appendChild(row);
+            });
+        } catch (e) {
+            container.innerHTML = '<p style="font-size:11.5px; color:var(--text-sub); text-align:center;">Error loading.</p>';
+        }
+    }
+
+    async function adminClearErrorLogs() {
+        showConfirm('Clear Logs', 'Clear all error logs?', async () => {
+            try {
+                await fetch(`${ENGINE_API_ENDPOINT}/api/admin/error-logs/clear`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ adminId: sessionUserUid })
+                });
+                showToast('Logs cleared!', '#10b981');
+                loadErrorLogs();
+            } catch (e) { showToast('Failed', '#ef4444'); }
+        });
+    }
+
+    // ==================== ADMIN: BOT MESSAGES ====================
+    async function loadBotMessages() {
+        try {
+            const res = await fetch(`${ENGINE_API_ENDPOINT}/api/admin/messages?adminId=${sessionUserUid}`);
+            const r = await res.json();
+            if (r.success && r.messages) {
+                const m = r.messages;
+                document.getElementById('msg-start').value = m.startMessage || '';
+                document.getElementById('msg-dash').value = m.msgDashText || '';
+                document.getElementById('msg-support').value = m.supportDetails || '';
+                document.getElementById('msg-link').value = m.teamLink || '';
+                document.getElementById('msg-unknown').value = m.unknownCommandMsg || '';
+                document.getElementById('msg-task-app').value = m.alertTaskApprove || '';
+                document.getElementById('msg-task-rej').value = m.alertTaskReject || '';
+                document.getElementById('msg-wd-app').value = m.alertWithdrawApprove || '';
+                document.getElementById('msg-wd-rej').value = m.alertWithdrawReject || '';
+                document.getElementById('msg-bal-adj').value = m.alertBalanceAdjust || '';
+                document.getElementById('msg-referral').value = m.alertReferral || '';
+            }
+        } catch (e) { console.warn('Messages load failed:', e); }
+    }
+
+    async function adminSaveBotMessages() {
+        const payload = {
+            adminId: sessionUserUid,
+            startMessage: document.getElementById('msg-start').value,
+            msgDashText: document.getElementById('msg-dash').value,
+            supportDetails: document.getElementById('msg-support').value,
+            teamLink: document.getElementById('msg-link').value,
+            unknownCommandMsg: document.getElementById('msg-unknown').value,
+            alertTaskApprove: document.getElementById('msg-task-app').value,
+            alertTaskReject: document.getElementById('msg-task-rej').value,
+            alertWithdrawApprove: document.getElementById('msg-wd-app').value,
+            alertWithdrawReject: document.getElementById('msg-wd-rej').value,
+            alertBalanceAdjust: document.getElementById('msg-bal-adj').value,
+            alertReferral: document.getElementById('msg-referral').value
+        };
+        try {
+            const res = await fetch(`${ENGINE_API_ENDPOINT}/api/admin/messages`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+            const r = await res.json();
+            if (r.success) showToast('All messages saved!', '#10b981');
+            else showToast(r.error || 'Failed', '#ef4444');
+        } catch (e) { showToast('Network error', '#ef4444'); }
+    }
+
+    // ==================== ADMIN: TRANSFER OWNERSHIP ====================
+    async function adminTransferOwnership() {
+        const newUid = document.getElementById('admin-new-owner-uid').value.trim();
+        if (!newUid) return showToast('Enter new owner ID', '#ef4444');
+        if (String(newUid) === String(sessionUserUid)) return showToast('Already you are the owner', '#ef4444');
+
+        showConfirm('⚠️ CRITICAL', `Transfer bot ownership to ${newUid}? You will lose admin access!`, async () => {
+            try {
+                const res = await fetch(`${ENGINE_API_ENDPOINT}/api/admin/transfer-ownership`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ adminId: sessionUserUid, newOwnerId: newUid })
+                });
+                const r = await res.json();
+                if (r.success) {
+                    showToast('Ownership transferred!', '#10b981');
+                    setTimeout(() => {
+                        closeSubPage('page-admin-control-hub');
+                        document.getElementById('admin-terminal-btn').style.display = 'none';
+                    }, 2000);
+                } else showToast(r.error || 'Failed', '#ef4444');
+            } catch (e) { showToast('Network error', '#ef4444'); }
+        });
     }
 </script>
 </body>
