@@ -2,301 +2,736 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Extra Earn - Premium Glassmorphism Application</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="theme-color" content="#000000">
+    <title>Extra Earn - Premium</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    
+
     <style>
         :root {
-            --bg-glow: #060913; 
-            --glass-base: rgba(255, 255, 255, 0.04);
-            --glass-card-hover: rgba(255, 255, 255, 0.08);
-            --glass-border: rgba(255, 255, 255, 0.1);
-            --glass-border-bright: rgba(255, 255, 255, 0.2);
+            --bg: #000000;
+            --bg-soft: #0a0a0a;
+            --glass-base: rgba(255, 255, 255, 0.05);
+            --glass-hover: rgba(255, 255, 255, 0.09);
+            --glass-border: rgba(255, 255, 255, 0.09);
+            --glass-border-bright: rgba(255, 255, 255, 0.18);
             --red-brand: #ff2a4b;
             --green-accent: #10b981;
             --blue-accent: #3b82f6;
+            --yellow-accent: #f59e0b;
+            --purple-accent: #8b5cf6;
             --text-main: #ffffff;
             --text-sub: #94a3b8;
             --blur-strong: 32px;
+            --radius-lg: 22px;
+            --radius-md: 16px;
+            --radius-sm: 12px;
         }
 
-        * { 
-            margin: 0; padding: 0; 
-            box-sizing: border-box; 
-            font-family: 'Plus Jakarta Sans', sans-serif; 
+        * {
+            margin: 0; padding: 0;
+            box-sizing: border-box;
+            font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
             -webkit-tap-highlight-color: transparent;
             user-select: none;
+            -webkit-font-smoothing: antialiased;
         }
 
-        body { 
-            background: var(--bg-glow); 
-            color: var(--text-main); 
-            overflow-x: hidden; 
-            min-height: 100vh;
+        html, body {
+            height: 100%;
+            overflow-x: hidden;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text-main);
+            min-height: 100dvh;
             display: flex;
             justify-content: center;
-            background-image: 
-                radial-gradient(circle at 0% 0%, rgba(255, 42, 75, 0.12) 0%, transparent 45%),
-                radial-gradient(circle at 100% 100%, rgba(59, 130, 246, 0.1) 0%, transparent 45%),
-                radial-gradient(circle at 50% 50%, rgba(16, 185, 129, 0.04) 0%, transparent 60%);
+            background-image:
+                radial-gradient(circle at 0% 0%, rgba(255, 42, 75, 0.10) 0%, transparent 40%),
+                radial-gradient(circle at 100% 100%, rgba(59, 130, 246, 0.08) 0%, transparent 40%),
+                radial-gradient(circle at 50% 50%, rgba(16, 185, 129, 0.04) 0%, transparent 55%);
             background-attachment: fixed;
         }
 
+        /* ====== APP CONTAINER (Mobile First) ====== */
         .app-container {
-            width: 100%; max-width: 480px; min-height: 100vh;
-            position: relative; padding-bottom: 110px;
-            display: flex; flex-direction: column;
+            width: 100%;
+            max-width: 500px;
+            min-height: 100dvh;
+            position: relative;
+            padding-bottom: calc(105px + env(safe-area-inset-bottom, 0px));
+            display: flex;
+            flex-direction: column;
         }
 
+        @media (min-width: 501px) {
+            body {
+                background: #000;
+                background-image: none;
+            }
+            .app-container {
+                border-left: 1px solid rgba(255,255,255,0.05);
+                border-right: 1px solid rgba(255,255,255,0.05);
+                background: var(--bg);
+                background-image:
+                    radial-gradient(circle at 0% 0%, rgba(255, 42, 75, 0.10) 0%, transparent 40%),
+                    radial-gradient(circle at 100% 100%, rgba(59, 130, 246, 0.08) 0%, transparent 40%);
+            }
+        }
+
+        /* ====== HEADER ====== */
         .header {
-            height: 74px; padding: 0 20px; display: flex;
-            justify-content: space-between; align-items: center;
-            background: rgba(6, 9, 19, 0.7); 
-            backdrop-filter: blur(var(--blur-strong));
-            -webkit-backdrop-filter: blur(var(--blur-strong));
+            height: 66px;
+            padding: 0 18px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.65);
+            backdrop-filter: blur(var(--blur-strong)) saturate(180%);
+            -webkit-backdrop-filter: blur(var(--blur-strong)) saturate(180%);
             border-bottom: 1px solid var(--glass-border);
-            position: sticky; top: 0; z-index: 999;
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
+            position: sticky;
+            top: 0;
+            z-index: 999;
         }
 
-        .logo-section h1 { 
-            font-size: 22px; 
-            font-weight: 800; 
-            letter-spacing: -0.5px; 
+        .logo-section h1 {
+            font-size: 20px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
         }
-        .logo-section h1 span.extra { color: var(--red-brand); text-shadow: 0 0 20px rgba(255, 42, 75, 0.6); }
+        .logo-section h1 span.extra { color: var(--red-brand); text-shadow: 0 0 18px rgba(255, 42, 75, 0.55); }
         .logo-section h1 span.earn { color: #ffffff; }
 
         .header-bal-badge {
             background: rgba(16, 185, 129, 0.12);
             border: 1px solid rgba(16, 185, 129, 0.35);
             color: var(--green-accent);
-            padding: 8px 18px;
+            padding: 7px 15px;
             border-radius: 30px;
             font-weight: 800;
-            font-size: 14px;
-            letter-spacing: 0.3px;
+            font-size: 13px;
             backdrop-filter: blur(10px);
-            box-shadow: 0 4px 20px rgba(16, 185, 129, 0.15);
+            box-shadow: 0 4px 18px rgba(16, 185, 129, 0.15);
         }
 
-        .view-section { flex: 1; padding: 20px; display: none; animation: fadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
+        /* ====== VIEWS ====== */
+        .view-section {
+            flex: 1;
+            padding: 16px;
+            display: none;
+            animation: fadeIn 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+        }
         .view-section.active { display: block; }
 
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
-
-        .glass-card {
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.02)); 
-            border: 1px solid var(--glass-border);
-            backdrop-filter: blur(var(--blur-strong)); 
-            -webkit-backdrop-filter: blur(var(--blur-strong));
-            border-radius: 24px; padding: 20px; margin-bottom: 16px; position: relative;
-            box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.45);
-            transition: all 0.3s ease;
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
+        /* ====== GLASS CARD ====== */
+        .glass-card {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.055), rgba(255, 255, 255, 0.015));
+            border: 1px solid var(--glass-border);
+            backdrop-filter: blur(var(--blur-strong));
+            -webkit-backdrop-filter: blur(var(--blur-strong));
+            border-radius: var(--radius-lg);
+            padding: 18px;
+            margin-bottom: 14px;
+            box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.5);
+            transition: all 0.25s ease;
+        }
+
+        /* ====== BANNER ====== */
         .banner-wrapper {
             display: none;
             width: 100%;
-            margin-bottom: 20px;
+            margin-bottom: 16px;
         }
-
         .banner-slider {
             display: flex;
-            gap: 14px;
+            gap: 12px;
             overflow-x: auto;
             scroll-snap-type: x mandatory;
             scrollbar-width: none;
+            padding-bottom: 4px;
         }
         .banner-slider::-webkit-scrollbar { display: none; }
 
         .banner-item {
             flex: 0 0 100%;
             scroll-snap-align: start;
-            border-radius: 22px;
+            border-radius: var(--radius-lg);
             overflow: hidden;
             border: 1px solid var(--glass-border-bright);
             background: rgba(0,0,0,0.4);
             box-shadow: 0 10px 25px rgba(0,0,0,0.5);
             cursor: pointer;
         }
-
         .banner-item img {
             width: 100%;
             height: auto;
-            max-height: 200px;
+            max-height: 180px;
             object-fit: contain;
             display: block;
             background: #000;
         }
 
+        /* ====== INPUTS & BUTTONS ====== */
         .glass-input {
-            width: 100%; background: rgba(255, 255, 255, 0.04); border: 1px solid var(--glass-border);
-            padding: 14px 16px; border-radius: 16px; color: white; font-size: 14px; outline: none; margin-bottom: 12px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.045);
+            border: 1px solid var(--glass-border);
+            padding: 13px 15px;
+            border-radius: var(--radius-md);
+            color: white;
+            font-size: 14px;
+            outline: none;
+            margin-bottom: 11px;
             transition: border-color 0.2s;
+            font-family: inherit;
         }
+        .glass-input::placeholder { color: #64748b; }
         .glass-input:focus { border-color: var(--red-brand); }
 
         .glass-btn {
-            width: 100%; background: var(--glass-base); border: 1px solid var(--glass-border);
-            color: white; padding: 15px; border-radius: 18px; font-weight: 700; font-size: 14px;
-            cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; transition: all 0.25s;
+            width: 100%;
+            background: var(--glass-base);
+            border: 1px solid var(--glass-border);
+            color: white;
+            padding: 13px;
+            border-radius: var(--radius-md);
+            font-weight: 700;
+            font-size: 13.5px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.22s;
             backdrop-filter: blur(10px);
+            font-family: inherit;
         }
-        .glass-btn.primary { background: linear-gradient(135deg, var(--red-brand), #d61c38); border: none; box-shadow: 0 6px 25px rgba(255, 42, 75, 0.35); }
-        .glass-btn.danger { background: rgba(239, 68, 68, 0.2); border: 1px solid rgba(239, 68, 68, 0.4); color: #f87171; }
-        .glass-btn:active { transform: scale(0.98); }
+        .glass-btn.primary {
+            background: linear-gradient(135deg, var(--red-brand), #d61c38);
+            border: none;
+            box-shadow: 0 6px 22px rgba(255, 42, 75, 0.35);
+        }
+        .glass-btn.danger {
+            background: rgba(239, 68, 68, 0.18);
+            border: 1px solid rgba(239, 68, 68, 0.4);
+            color: #f87171;
+        }
+        .glass-btn.success {
+            background: rgba(16, 185, 129, 0.18);
+            border: 1px solid rgba(16, 185, 129, 0.4);
+            color: var(--green-accent);
+        }
+        .glass-btn.warning {
+            background: rgba(245, 158, 11, 0.18);
+            border: 1px solid rgba(245, 158, 11, 0.4);
+            color: var(--yellow-accent);
+        }
+        .glass-btn:active { transform: scale(0.97); }
 
+        /* ====== QUICK PAY CONTACTS ====== */
         .quickpay-people-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 14px;
-            margin-top: 14px;
-            margin-bottom: 20px;
+            gap: 12px;
+            margin-top: 12px;
+            margin-bottom: 16px;
         }
-
         .quickpay-person-item {
-            display: flex; flex-direction: column; align-items: center; cursor: pointer; text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            text-align: center;
         }
-
         .quickpay-avatar {
-            width: 56px; height: 56px; border-radius: 50%;
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
             background: linear-gradient(135deg, var(--blue-accent), var(--red-brand));
-            display: flex; align-items: center; justify-content: center;
-            font-weight: 800; font-size: 18px; color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 17px;
+            color: #fff;
             border: 2px solid var(--glass-border-bright);
-            box-shadow: 0 6px 16px rgba(0,0,0,0.4); margin-bottom: 6px;
+            box-shadow: 0 6px 14px rgba(0,0,0,0.4);
+            margin-bottom: 5px;
         }
-
         .quickpay-person-name {
-            font-size: 11px; font-weight: 600; color: var(--text-main);
-            width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+            font-size: 10.5px;
+            font-weight: 600;
+            color: var(--text-main);
+            width: 100%;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
-        .search-box-wrapper { position: relative; margin-bottom: 16px; }
-        .search-box-wrapper i { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: var(--text-sub); font-size: 15px; }
-        .search-box-wrapper input { padding-left: 44px; margin-bottom: 0; }
+        /* ====== SEARCH ====== */
+        .search-box-wrapper { position: relative; margin-bottom: 14px; }
+        .search-box-wrapper i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-sub);
+            font-size: 14px;
+            pointer-events: none;
+        }
+        .search-box-wrapper input { padding-left: 42px; margin-bottom: 0; }
 
+        /* ====== TX HISTORY ====== */
         .tx-history-item {
-            display: flex; align-items: center; justify-content: space-between;
-            padding: 14px 16px; background: rgba(255,255,255,0.03);
-            border: 1px solid var(--glass-border); border-radius: 16px;
-            margin-bottom: 10px; cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 14px;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-md);
+            margin-bottom: 9px;
+            cursor: pointer;
         }
-        .tx-history-left { display: flex; align-items: center; gap: 12px; }
+        .tx-history-left { display: flex; align-items: center; gap: 11px; }
         .tx-history-icon {
-            width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 16px;
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
         }
         .tx-history-icon.out { background: rgba(239, 68, 68, 0.15); color: #f87171; }
         .tx-history-icon.in { background: rgba(16, 185, 129, 0.15); color: var(--green-accent); }
 
-        .profile-hero { display: flex; align-items: center; gap: 16px; margin-bottom: 20px; }
-        .profile-hero img { width: 68px; height: 68px; border-radius: 50%; border: 2px solid var(--red-brand); object-fit: cover; padding: 2px; }
-        .uid-badge { display: inline-flex; align-items: center; gap: 6px; background: var(--glass-base); border: 1px solid var(--glass-border); padding: 6px 14px; border-radius: 14px; font-size: 12px; color: var(--text-sub); cursor: pointer; margin-top: 6px; }
+        /* ====== PROFILE ====== */
+        .profile-hero {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 18px;
+        }
+        .profile-avatar-wrap {
+            width: 68px;
+            height: 68px;
+            border-radius: 50%;
+            border: 2px solid var(--red-brand);
+            padding: 2px;
+            position: relative;
+            background: linear-gradient(135deg, var(--blue-accent), var(--red-brand));
+            flex-shrink: 0;
+            overflow: hidden;
+            box-shadow: 0 0 20px rgba(255, 42, 75, 0.3);
+        }
+        .profile-avatar-wrap img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+            display: block;
+        }
+        .profile-avatar-fallback {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 26px;
+            font-weight: 800;
+            color: #fff;
+            background: linear-gradient(135deg, var(--blue-accent), var(--red-brand));
+        }
+        .uid-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: var(--glass-base);
+            border: 1px solid var(--glass-border);
+            padding: 5px 12px;
+            border-radius: 12px;
+            font-size: 11.5px;
+            color: var(--text-sub);
+            cursor: pointer;
+            margin-top: 5px;
+        }
 
+        /* ====== MENU LINKS ====== */
         .menu-list-link {
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 18px 20px; background: var(--glass-base); border: 1px solid var(--glass-border);
-            border-radius: 20px; margin-bottom: 12px; cursor: pointer; font-weight: 600; font-size: 14px;
-            transition: all 0.2s; backdrop-filter: blur(var(--blur-strong));
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 18px;
+            background: var(--glass-base);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-md);
+            margin-bottom: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 13.5px;
+            transition: all 0.2s;
         }
+        .menu-list-link:active { background: var(--glass-hover); transform: scale(0.99); }
 
+        /* ====== BOTTOM NAV (Transparent Blur) ====== */
         .bottom-nav {
-            position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
-            width: calc(100% - 40px); max-width: 440px; height: 74px;
-            background: rgba(10, 15, 28, 0.75); backdrop-filter: blur(35px);
-            -webkit-backdrop-filter: blur(35px);
-            border: 1px solid var(--glass-border-bright); border-radius: 28px;
-            display: flex; justify-around: space-around; align-items: center; z-index: 1000;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.7);
+            position: fixed;
+            bottom: 14px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: calc(100% - 28px);
+            max-width: 460px;
+            height: 68px;
+            background: rgba(255, 255, 255, 0.06);
+            backdrop-filter: blur(40px) saturate(200%);
+            -webkit-backdrop-filter: blur(40px) saturate(200%);
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            border-radius: 26px;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            z-index: 1000;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.08);
+            padding-bottom: env(safe-area-inset-bottom, 0px);
         }
-
         .nav-link {
-            display: flex; flex-direction: column; align-items: center; color: var(--text-sub);
-            font-size: 11px; font-weight: 700; gap: 4px; cursor: pointer; transition: all 0.3s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: var(--text-sub);
+            font-size: 10.5px;
+            font-weight: 700;
+            gap: 3px;
+            cursor: pointer;
+            transition: all 0.3s;
+            padding: 6px 14px;
+            border-radius: 14px;
         }
-        .nav-link i { font-size: 20px; }
-        .nav-link.active { color: var(--red-brand); text-shadow: 0 0 12px rgba(255, 42, 75, 0.6); }
+        .nav-link i { font-size: 18px; }
+        .nav-link.active {
+            color: var(--red-brand);
+            text-shadow: 0 0 12px rgba(255, 42, 75, 0.6);
+            background: rgba(255, 42, 75, 0.1);
+        }
 
+        /* ====== SUB PAGES ====== */
         .full-sub-page {
-            position: fixed; top: 0; left: 50%; transform: translateX(-50%);
-            width: 100%; max-width: 480px; height: 100vh; background: var(--bg-glow);
-            z-index: 2000; display: none; flex-direction: column; overflow-y: auto; padding: 20px;
-            background-image: radial-gradient(circle at 50% 0%, rgba(255, 42, 75, 0.1) 0%, transparent 50%);
+            position: fixed;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 500px;
+            height: 100dvh;
+            background: var(--bg);
+            z-index: 2000;
+            display: none;
+            flex-direction: column;
+            overflow-y: auto;
+            padding: 18px;
+            padding-top: max(18px, env(safe-area-inset-top, 18px));
+            padding-bottom: calc(30px + env(safe-area-inset-bottom, 0px));
+            background-image: radial-gradient(circle at 50% 0%, rgba(255, 42, 75, 0.08) 0%, transparent 50%);
         }
-        .sub-page-header { display: flex; align-items: center; gap: 14px; margin-bottom: 20px; }
+        .full-sub-page.active { display: flex; }
+
+        .sub-page-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 18px;
+            position: sticky;
+            top: 0;
+            background: rgba(0,0,0,0.85);
+            backdrop-filter: blur(20px);
+            margin-left: -18px;
+            margin-right: -18px;
+            padding: 12px 18px;
+            z-index: 10;
+            border-bottom: 1px solid var(--glass-border);
+        }
         .back-circle-btn {
-            width: 42px; height: 42px; border-radius: 50%; background: var(--glass-base);
-            border: 1px solid var(--glass-border); display: flex; align-items: center; justify-content: center;
-            font-size: 16px; color: #fff; cursor: pointer;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--glass-base);
+            border: 1px solid var(--glass-border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 15px;
+            color: #fff;
+            cursor: pointer;
+            flex-shrink: 0;
         }
 
+        /* ====== CHAT ====== */
         .chat-pay-page {
-            position: fixed; top: 0; left: 50%; transform: translateX(-50%);
-            width: 100%; max-width: 480px; height: 100vh; background: var(--bg-glow);
-            z-index: 3000; display: none; flex-direction: column;
+            position: fixed;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 500px;
+            height: 100dvh;
+            background: var(--bg);
+            z-index: 3000;
+            display: none;
+            flex-direction: column;
         }
+        .chat-pay-page.active { display: flex; }
+
         .chat-header {
-            padding: 16px 20px; background: rgba(10, 15, 28, 0.88); backdrop-filter: blur(25px);
-            border-bottom: 1px solid var(--glass-border); display: flex; align-items: center; justify-content: space-between;
+            padding: 14px 18px;
+            background: rgba(0, 0, 0, 0.88);
+            backdrop-filter: blur(25px);
+            border-bottom: 1px solid var(--glass-border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-top: max(14px, env(safe-area-inset-top, 14px));
         }
         .chat-body {
-            flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 14px;
+            flex: 1;
+            padding: 18px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
         }
-        
         .chat-text-msg {
-            background: rgba(255, 255, 255, 0.08); border: 1px solid var(--glass-border);
-            padding: 12px 16px; border-radius: 18px 18px 4px 18px; max-width: 75%;
-            align-self: flex-end; font-size: 13px; line-height: 1.4; color: #fff;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid var(--glass-border);
+            padding: 11px 15px;
+            border-radius: 16px 16px 4px 16px;
+            max-width: 78%;
+            align-self: flex-end;
+            font-size: 13px;
+            line-height: 1.4;
+            color: #fff;
             word-break: break-word;
         }
-
         .chat-bubble-card {
             background: linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.03));
-            border: 1px solid var(--glass-border-bright); border-radius: 20px; padding: 18px; max-width: 80%;
-            align-self: flex-end; box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+            border: 1px solid var(--glass-border-bright);
+            border-radius: 18px;
+            padding: 16px;
+            max-width: 80%;
+            align-self: flex-end;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.3);
         }
-
         .chat-footer-bar {
-            padding: 14px 16px; background: rgba(10, 15, 28, 0.95); border-top: 1px solid var(--glass-border);
-            display: flex; gap: 10px; align-items: center; flex-direction: column;
+            padding: 12px 14px;
+            background: rgba(0, 0, 0, 0.92);
+            backdrop-filter: blur(25px);
+            border-top: 1px solid var(--glass-border);
+            display: flex;
+            gap: 9px;
+            align-items: center;
+            flex-direction: column;
+            padding-bottom: max(12px, env(safe-area-inset-bottom, 12px));
         }
-
         .chat-input-row {
-            display: flex; gap: 10px; width: 100%; align-items: center;
+            display: flex;
+            gap: 8px;
+            width: 100%;
+            align-items: center;
         }
 
+        /* ====== MODAL ====== */
         .glass-modal {
-            position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(14px);
-            z-index: 10000; display: none; align-items: center; justify-content: center; padding: 20px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.88);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            z-index: 10000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
         }
+        .glass-modal.active { display: flex; }
         .modal-body {
-            background: rgba(15, 23, 42, 0.95); border: 1px solid var(--glass-border-bright);
-            width: 100%; max-width: 380px; border-radius: 28px; padding: 24px;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+            background: rgba(10, 10, 10, 0.97);
+            border: 1px solid var(--glass-border-bright);
+            width: 100%;
+            max-width: 380px;
+            border-radius: 24px;
+            padding: 22px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.85);
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        /* ====== ADMIN ====== */
+        .admin-stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-bottom: 14px;
+        }
+        .admin-stat-card {
+            background: linear-gradient(135deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-md);
+            padding: 14px;
+        }
+        .admin-stat-card .label {
+            font-size: 10.5px;
+            color: var(--text-sub);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+        .admin-stat-card .value {
+            font-size: 22px;
+            font-weight: 800;
+            color: #fff;
+        }
+
+        .admin-menu-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-bottom: 14px;
+        }
+        .admin-menu-btn {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 14px 8px;
+            background: linear-gradient(135deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+        }
+        .admin-menu-btn:active {
+            background: var(--glass-hover);
+            transform: scale(0.97);
+        }
+        .admin-menu-btn i { font-size: 20px; }
+        .admin-menu-btn span {
+            font-size: 11px;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        .admin-section {
+            display: none;
+            animation: fadeIn 0.25s ease;
+        }
+        .admin-section.active { display: block; }
+
+        .admin-section-title {
+            font-size: 14px;
+            font-weight: 800;
+            margin: 4px 0 12px 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #fff;
+        }
+        .admin-section-title i { color: var(--red-brand); }
+
+        .admin-toggle-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 14px;
+            background: var(--glass-base);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-md);
+            margin-bottom: 9px;
+        }
+        .admin-toggle-row span {
+            font-size: 12.5px;
+            font-weight: 600;
+        }
+        .switch {
+            position: relative;
+            width: 42px;
+            height: 24px;
+            flex-shrink: 0;
+        }
+        .switch input { display: none; }
+        .switch .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(255,255,255,0.12);
+            border-radius: 24px;
+            transition: 0.3s;
+        }
+        .switch .slider:before {
+            content: "";
+            position: absolute;
+            height: 18px;
+            width: 18px;
+            left: 3px;
+            bottom: 3px;
+            background: white;
+            border-radius: 50%;
+            transition: 0.3s;
+        }
+        .switch input:checked + .slider {
+            background: var(--green-accent);
+        }
+        .switch input:checked + .slider:before {
+            transform: translateX(18px);
         }
 
         .blocked-banner-bar {
-            background: rgba(239, 68, 68, 0.15); border: 1px solid rgba(239, 68, 68, 0.4);
-            color: #f87171; text-align: center; padding: 10px; border-radius: 14px; font-size: 12px; font-weight: 700;
+            background: rgba(239, 68, 68, 0.15);
+            border: 1px solid rgba(239, 68, 68, 0.4);
+            color: #f87171;
+            text-align: center;
+            padding: 9px;
+            border-radius: 12px;
+            font-size: 11.5px;
+            font-weight: 700;
+        }
+        .banner-manage-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(0,0,0,0.35);
+            border: 1px solid var(--glass-border);
+            padding: 9px 12px;
+            border-radius: 12px;
+            margin-bottom: 9px;
+            gap: 8px;
         }
 
-        .banner-manage-row {
-            display: flex; justify-content: space-between; align-items: center;
-            background: rgba(0,0,0,0.3); border: 1px solid var(--glass-border);
-            padding: 10px 14px; border-radius: 14px; margin-bottom: 10px; gap: 10px;
-        }
+        /* Scrollbar Hide */
+        ::-webkit-scrollbar { width: 0; height: 0; }
     </style>
 </head>
 <body>
 
 <div class="app-container">
 
-    <!-- Primary Top Navigation Header -->
+    <!-- HEADER -->
     <header class="header">
         <div class="logo-section">
             <h1><span class="extra">Extra</span> <span class="earn">Earn</span></h1>
@@ -304,33 +739,31 @@
         <div id="header-bal" class="header-bal-badge">₹0.00</div>
     </header>
 
-    <!-- Home Tab View -->
+    <!-- HOME -->
     <div id="view-home" class="view-section active">
         <div id="home-banner-wrapper" class="banner-wrapper">
             <div id="home-banner-slider" class="banner-slider"></div>
         </div>
-
-        <h4 style="font-size: 13px; color: var(--text-sub); margin: 16px 0 12px 0; text-transform: uppercase; letter-spacing: 0.8px; font-weight:700;">Available Tasks</h4>
-        
+        <h4 style="font-size: 12px; color: var(--text-sub); margin: 12px 0 10px 0; text-transform: uppercase; letter-spacing: 0.7px; font-weight:700;">Available Tasks</h4>
         <div id="home-tasks-container">
-            <div class="glass-card" style="text-align: center; color: var(--text-sub); padding: 32px;">
-                <i class="fa-solid fa-list-check" style="font-size: 32px; margin-bottom: 12px; opacity:0.35; color:var(--red-brand);"></i>
-                <p style="font-size: 13px;">Currently no active tasks available.</p>
+            <div class="glass-card" style="text-align: center; color: var(--text-sub); padding: 30px;">
+                <i class="fa-solid fa-list-check" style="font-size: 28px; margin-bottom: 10px; opacity:0.35; color:var(--red-brand);"></i>
+                <p style="font-size: 12.5px;">Currently no active tasks available.</p>
             </div>
         </div>
     </div>
 
-    <!-- Wallet Tab View -->
+    <!-- WALLET -->
     <div id="view-wallet" class="view-section">
-        <div class="glass-card" style="text-align: center; padding: 34px 20px;">
-            <p style="font-size: 12px; color: var(--text-sub); font-weight: 700; letter-spacing:1px;">TOTAL WALLET BALANCE</p>
-            <h1 id="lbl-wallet-bal" style="font-size: 42px; font-weight: 800; color: var(--green-accent); margin: 10px 0 22px 0;">₹0.00</h1>
+        <div class="glass-card" style="text-align: center; padding: 30px 18px;">
+            <p style="font-size: 11px; color: var(--text-sub); font-weight: 700; letter-spacing:1px;">TOTAL WALLET BALANCE</p>
+            <h1 id="lbl-wallet-bal" style="font-size: 38px; font-weight: 800; color: var(--green-accent); margin: 8px 0 18px 0;">₹0.00</h1>
             <button class="glass-btn primary" onclick="openModal('modal-withdraw')"><i class="fa-solid fa-wallet"></i> Instant Withdrawal</button>
         </div>
 
         <div class="glass-card">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
-                <span style="font-size:14px; font-weight:700;">Redeem Gift Voucher</span>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+                <span style="font-size:13.5px; font-weight:700;">Redeem Gift Voucher</span>
                 <i class="fa-solid fa-gift" style="color:var(--red-brand)"></i>
             </div>
             <input type="text" id="txt-voucher-code" class="glass-input" placeholder="Enter Gift / Promo Code">
@@ -338,67 +771,79 @@
         </div>
     </div>
 
-    <!-- Quick Pay Tab View -->
+    <!-- QUICK PAY -->
     <div id="view-pay" class="view-section">
         <div class="search-box-wrapper">
             <i class="fa-solid fa-magnifying-glass"></i>
-            <input type="text" id="quickpay-search-input" class="glass-input" placeholder="Search contact or enter UID..." oninput="filterQuickPayContacts()">
+            <input type="text" id="quickpay-search-input" class="glass-input" placeholder="Search contact or UID..." oninput="filterQuickPayContacts()">
         </div>
 
-        <div class="glass-card" style="padding:16px; display:flex; justify-content:space-between; align-items:center; cursor:pointer;" onclick="openNewPayPrompt()">
-            <div style="display:flex; align-items:center; gap:14px;">
-                <div style="width:44px; height:44px; border-radius:50%; background:rgba(255,42,75,0.15); color:var(--red-brand); display:flex; align-items:center; justify-content:center; font-size:18px;">
+        <div class="glass-card" style="padding:14px; display:flex; justify-content:space-between; align-items:center; cursor:pointer;" onclick="openNewPayPrompt()">
+            <div style="display:flex; align-items:center; gap:12px;">
+                <div style="width:42px; height:42px; border-radius:50%; background:rgba(255,42,75,0.15); color:var(--red-brand); display:flex; align-items:center; justify-content:center; font-size:17px;">
                     <i class="fa-solid fa-bolt"></i>
                 </div>
                 <div>
-                    <div style="font-weight:700; font-size:14px;">Quick Pay Transfer</div>
-                    <div style="font-size:11px; color:var(--text-sub);">Send money via Telegram User ID (UID)</div>
+                    <div style="font-weight:700; font-size:13.5px;">Quick Pay Transfer</div>
+                    <div style="font-size:10.5px; color:var(--text-sub);">Send money via UID</div>
                 </div>
             </div>
             <i class="fa-solid fa-chevron-right" style="color:var(--text-sub)"></i>
         </div>
 
-        <div style="margin-top:10px;">
-            <span style="font-size: 12px; font-weight:800; color:var(--text-sub); letter-spacing:0.8px; text-transform:uppercase;">Recent Contacts</span>
+        <div style="margin-top:8px;">
+            <span style="font-size: 11px; font-weight:800; color:var(--text-sub); letter-spacing:0.7px; text-transform:uppercase;">Recent Contacts</span>
             <div id="quickpay-people-container" class="quickpay-people-grid"></div>
         </div>
 
-        <div style="margin-top:10px;">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
-                <span style="font-size: 12px; font-weight:800; color:var(--text-sub); letter-spacing:0.8px; text-transform:uppercase;">Payment Activity</span>
-                <i class="fa-solid fa-clock-rotate-left" style="color:var(--text-sub); font-size:13px;"></i>
+        <div style="margin-top:8px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+                <span style="font-size: 11px; font-weight:800; color:var(--text-sub); letter-spacing:0.7px; text-transform:uppercase;">Payment Activity</span>
+                <i class="fa-solid fa-clock-rotate-left" style="color:var(--text-sub); font-size:12px;"></i>
             </div>
             <div id="quickpay-tx-history-list"></div>
         </div>
     </div>
 
-    <!-- Profile Tab View -->
+    <!-- PROFILE -->
     <div id="view-profile" class="view-section">
         <div class="profile-hero">
-            <img id="prof-avatar-node" src="https://img.icons8.com/colors/344/test-account.png" alt="User Avatar">
+            <div class="profile-avatar-wrap" id="prof-avatar-wrap">
+                <img id="prof-avatar-node" src="" alt="Avatar" onerror="handleAvatarError()">
+            </div>
             <div>
-                <h3 id="prof-name-node" style="font-size: 18px; font-weight: 800;">User</h3>
+                <h3 id="prof-name-node" style="font-size: 17px; font-weight: 800;">User</h3>
                 <div class="uid-badge" onclick="copyUserUID()"><i class="fa-solid fa-copy"></i> ID: <span id="prof-uid-string">000000000</span></div>
             </div>
         </div>
 
         <div class="menu-list-link" onclick="openSubPage('page-refer-hub')">
-            <div><i class="fa-solid fa-users" style="color:var(--blue-accent); margin-right:12px;"></i> Refer & Earn Friends</div>
+            <div><i class="fa-solid fa-users" style="color:var(--blue-accent); margin-right:10px;"></i> Refer & Earn Friends</div>
             <i class="fa-solid fa-chevron-right" style="color:var(--text-sub)"></i>
         </div>
 
         <div class="menu-list-link" onclick="openSubPage('page-leaderboard')">
-            <div><i class="fa-solid fa-trophy" style="color:gold; margin-right:12px;"></i> Top Earner Leaderboard</div>
+            <div><i class="fa-solid fa-trophy" style="color:gold; margin-right:10px;"></i> Top Earner Leaderboard</div>
             <i class="fa-solid fa-chevron-right" style="color:var(--text-sub)"></i>
         </div>
 
-        <div id="admin-terminal-btn" class="menu-list-link" style="display:none; margin-top:20px; border-color:var(--red-brand);" onclick="openSubPage('page-admin-control-hub')">
-            <div><i class="fa-solid fa-user-shield" style="color:var(--red-brand); margin-right:12px;"></i> Admin Control Panel</div>
+        <div class="menu-list-link" onclick="openSubPage('page-payout-setup')">
+            <div><i class="fa-solid fa-gear" style="color:var(--purple-accent); margin-right:10px;"></i> Payout Setup</div>
+            <i class="fa-solid fa-chevron-right" style="color:var(--text-sub)"></i>
+        </div>
+
+        <div class="menu-list-link" onclick="openSubPage('page-history')">
+            <div><i class="fa-solid fa-clock-rotate-left" style="color:var(--yellow-accent); margin-right:10px;"></i> Payout & Reward History</div>
+            <i class="fa-solid fa-chevron-right" style="color:var(--text-sub)"></i>
+        </div>
+
+        <div id="admin-terminal-btn" class="menu-list-link" style="display:none; margin-top:16px; border-color:var(--red-brand);" onclick="openSubPage('page-admin-control-hub')">
+            <div><i class="fa-solid fa-user-shield" style="color:var(--red-brand); margin-right:10px;"></i> Admin Control Panel</div>
             <i class="fa-solid fa-chevron-right" style="color:var(--red-brand)"></i>
         </div>
     </div>
 
-    <!-- Bottom Navigation Bar -->
+    <!-- BOTTOM NAV -->
     <nav class="bottom-nav">
         <div class="nav-link active" onclick="switchMainTab('home', this)"><i class="fa-solid fa-house"></i>Home</div>
         <div class="nav-link" onclick="switchMainTab('wallet', this)"><i class="fa-solid fa-wallet"></i>Wallet</div>
@@ -408,173 +853,547 @@
 
 </div>
 
-<!-- Full-Page Overlay: Peer-to-Peer Chat & Transfer -->
+<!-- ==================== QUICK PAY CHAT ==================== -->
 <div id="page-quickpay-chat" class="chat-pay-page">
     <div class="chat-header">
-        <div style="display:flex; align-items:center; gap:12px;">
+        <div style="display:flex; align-items:center; gap:10px;">
             <div class="back-circle-btn" onclick="closeQuickPayChat()"><i class="fa-solid fa-chevron-left"></i></div>
-            <div style="width:42px; height:42px; border-radius:50%; background:var(--red-brand); display:flex; align-items:center; justify-content:center; font-weight:800;" id="chat-user-avatar">U</div>
+            <div style="width:40px; height:40px; border-radius:50%; background:linear-gradient(135deg,var(--blue-accent),var(--red-brand)); display:flex; align-items:center; justify-content:center; font-weight:800;" id="chat-user-avatar">U</div>
             <div>
-                <div id="chat-user-title" style="font-weight:800; font-size:15px;">User Name</div>
-                <div id="chat-user-uid" style="font-size:11px; color:var(--text-sub);">UID: 000000</div>
+                <div id="chat-user-title" style="font-weight:800; font-size:14.5px;">User Name</div>
+                <div id="chat-user-uid" style="font-size:10.5px; color:var(--text-sub);">UID: 000000</div>
             </div>
         </div>
-
-        <button id="btn-block-user" class="glass-btn danger" style="width:auto; padding:8px 14px; font-size:12px;" onclick="toggleBlockUser()">
+        <button id="btn-block-user" class="glass-btn danger" style="width:auto; padding:7px 12px; font-size:11.5px;" onclick="toggleBlockUser()">
             <i class="fa-solid fa-ban"></i> Block
         </button>
     </div>
 
     <div class="chat-body" id="chat-messages-container"></div>
 
-    <div id="chat-blocked-notice" class="blocked-banner-bar" style="display:none; margin:0 20px 10px 20px;">
-        <i class="fa-solid fa-circle-exclamation"></i> You have blocked this user. Unblock to send messages or payments.
+    <div id="chat-blocked-notice" class="blocked-banner-bar" style="display:none; margin:0 18px 8px 18px;">
+        <i class="fa-solid fa-circle-exclamation"></i> You have blocked this user.
     </div>
 
     <div class="chat-footer-bar" id="chat-footer-controls">
         <div class="chat-input-row">
             <input type="text" id="chat-text-input" class="glass-input" style="margin-bottom:0;" placeholder="Write a message...">
-            <button class="glass-btn" style="width:auto; padding:14px 18px;" onclick="sendChatMessageSubmit()"><i class="fa-solid fa-paper-plane"></i></button>
+            <button class="glass-btn" style="width:auto; padding:13px 16px;" onclick="sendChatMessageSubmit()"><i class="fa-solid fa-paper-plane"></i></button>
         </div>
-
-        <div class="chat-input-row" style="margin-top:6px;">
+        <div class="chat-input-row">
             <input type="number" id="chat-pay-amount-input" class="glass-input" style="margin-bottom:0;" placeholder="Amount (₹)">
-            <button class="glass-btn primary" style="width:auto; padding:14px 22px; font-weight:800;" onclick="submitQuickPayTransfer()"><i class="fa-solid fa-indian-rupee-sign"></i> Pay Now</button>
+            <button class="glass-btn primary" style="width:auto; padding:13px 20px; font-weight:800;" onclick="submitQuickPayTransfer()"><i class="fa-solid fa-indian-rupee-sign"></i> Pay</button>
         </div>
     </div>
 </div>
 
-<!-- Full-Page Overlay: Referral System -->
+<!-- ==================== REFER HUB ==================== -->
 <div id="page-refer-hub" class="full-sub-page">
     <div class="sub-page-header">
         <div class="back-circle-btn" onclick="closeSubPage('page-refer-hub')"><i class="fa-solid fa-chevron-left"></i></div>
-        <h3 style="font-size:18px; font-weight:800;">Invite & Earn</h3>
+        <h3 style="font-size:16.5px; font-weight:800;">Invite & Earn</h3>
     </div>
     <div class="glass-card">
-        <p style="font-size:12px; color:var(--text-sub);">Your Referral Link:</p>
+        <p style="font-size:11.5px; color:var(--text-sub);">Your Referral Link:</p>
         <input type="text" id="txt-refer-link-box" class="glass-input" style="margin-top:8px;" readonly>
         <button class="glass-btn primary" onclick="copyReferLink()"><i class="fa-solid fa-copy"></i> Copy Referral Link</button>
     </div>
 </div>
 
-<!-- Full-Page Overlay: Leaderboard Display -->
+<!-- ==================== LEADERBOARD ==================== -->
 <div id="page-leaderboard" class="full-sub-page">
     <div class="sub-page-header">
         <div class="back-circle-btn" onclick="closeSubPage('page-leaderboard')"><i class="fa-solid fa-chevron-left"></i></div>
-        <h3 style="font-size:18px; font-weight:800;">Top Wealth Leaderboard</h3>
+        <h3 style="font-size:16.5px; font-weight:800;">Top Wealth Leaderboard</h3>
     </div>
     <div id="leaderboard-rank-dock">
-        <div class="glass-card" style="display:flex; justify-content:space-between; align-items:center;">
-            <span>🥇 Top User</span>
-            <b style="color:var(--green-accent)">₹500.00</b>
+        <div class="glass-card" style="text-align:center; padding:30px; color:var(--text-sub);">
+            <i class="fa-solid fa-trophy" style="font-size:32px; color:gold; margin-bottom:10px;"></i>
+            <p style="font-size:12.5px;">Loading rankings...</p>
         </div>
     </div>
 </div>
 
-<!-- Full-Page Overlay: Administrative Control Terminal -->
-<div id="page-admin-control-hub" class="full-sub-page">
+<!-- ==================== PAYOUT SETUP ==================== -->
+<div id="page-payout-setup" class="full-sub-page">
     <div class="sub-page-header">
-        <div class="back-circle-btn" onclick="closeSubPage('page-admin-control-hub')"><i class="fa-solid fa-chevron-left"></i></div>
-        <h3 style="font-size:18px; font-weight:800; color:var(--red-brand);">Admin Control Core</h3>
+        <div class="back-circle-btn" onclick="closeSubPage('page-payout-setup')"><i class="fa-solid fa-chevron-left"></i></div>
+        <h3 style="font-size:16.5px; font-weight:800;">Payout Setup</h3>
     </div>
-
     <div class="glass-card">
-        <h4 style="margin-bottom:14px; font-size:14px;"><i class="fa-solid fa-images" style="color:var(--red-brand);"></i> Add New Banner</h4>
-        
-        <label style="font-size:11px; color:var(--text-sub); display:block; margin-bottom:4px;">1. Choose Banner Image</label>
-        <input type="file" id="adm-banner-file-input" accept="image/*" class="glass-input">
-        
-        <label style="font-size:11px; color:var(--text-sub); display:block; margin-bottom:4px;">2. Target Link URL (Optional)</label>
-        <input type="url" id="adm-banner-link-input" class="glass-input" placeholder="https://t.me/yourchannel">
-        
-        <button class="glass-btn primary" onclick="addNewBannerSubmit()"><i class="fa-solid fa-plus"></i> Add Banner</button>
+        <h4 style="font-size:13.5px; margin-bottom:10px;"><i class="fa-solid fa-link" style="color:var(--purple-accent);"></i> UPI ID</h4>
+        <input type="text" id="setup-upi-input" class="glass-input" placeholder="e.g. name@upi">
+        <button class="glass-btn primary" onclick="saveUpiSetup()"><i class="fa-solid fa-save"></i> Save UPI</button>
     </div>
-
     <div class="glass-card">
-        <h4 style="margin-bottom:12px; font-size:14px;"><i class="fa-solid fa-list-ul" style="color:var(--red-brand);"></i> Manage Banners</h4>
-        <div id="adm-banner-list-container"></div>
-    </div>
-
-    <div class="glass-card">
-        <h4 style="margin-bottom:12px; font-size:14px;"><i class="fa-solid fa-ticket" style="color:var(--red-brand);"></i> Generate Voucher Code</h4>
-        <input type="text" id="adm-vch-code" class="glass-input" placeholder="Voucher Code (e.g. EXTRA50)">
-        <input type="number" id="adm-vch-value" class="glass-input" placeholder="Amount (₹)">
-        <button class="glass-btn primary" onclick="generateVoucherCodeUnified()"><i class="fa-solid fa-plus"></i> Create Voucher</button>
+        <h4 style="font-size:13.5px; margin-bottom:10px;"><i class="fa-solid fa-wallet" style="color:var(--yellow-accent);"></i> Wallet Address</h4>
+        <input type="text" id="setup-wallet-input" class="glass-input" placeholder="e.g. TRC20 / BEP20 address">
+        <button class="glass-btn primary" onclick="saveWalletSetup()"><i class="fa-solid fa-save"></i> Save Wallet</button>
     </div>
 </div>
 
-<!-- Modal Dialog: Fund Withdrawal -->
+<!-- ==================== HISTORY ==================== -->
+<div id="page-history" class="full-sub-page">
+    <div class="sub-page-header">
+        <div class="back-circle-btn" onclick="closeSubPage('page-history')"><i class="fa-solid fa-chevron-left"></i></div>
+        <h3 style="font-size:16.5px; font-weight:800;">Payout & Reward History</h3>
+    </div>
+    <div id="history-content-container"></div>
+</div>
+
+<!-- ==================== ADMIN CONTROL PANEL ==================== -->
+<div id="page-admin-control-hub" class="full-sub-page">
+    <div class="sub-page-header">
+        <div class="back-circle-btn" onclick="closeSubPage('page-admin-control-hub')"><i class="fa-solid fa-chevron-left"></i></div>
+        <h3 style="font-size:16.5px; font-weight:800; color:var(--red-brand);">Admin Control Core</h3>
+    </div>
+
+    <!-- ADMIN MAIN MENU -->
+    <div id="admin-main-menu">
+        <!-- Stats -->
+        <div class="admin-stats-grid" id="admin-stats-grid">
+            <div class="admin-stat-card"><div class="label">Total Users</div><div class="value" id="stat-users">-</div></div>
+            <div class="admin-stat-card"><div class="label">Banned</div><div class="value" id="stat-banned" style="color:#f87171;">-</div></div>
+            <div class="admin-stat-card"><div class="label">Active Tasks</div><div class="value" id="stat-tasks" style="color:var(--green-accent);">-</div></div>
+            <div class="admin-stat-card"><div class="label">Pending WD</div><div class="value" id="stat-pending" style="color:var(--yellow-accent);">-</div></div>
+        </div>
+
+        <h4 class="admin-section-title"><i class="fa-solid fa-sliders"></i> Control Modules</h4>
+        <div class="admin-menu-grid">
+            <div class="admin-menu-btn" onclick="openAdminSection('users')">
+                <i class="fa-solid fa-users" style="color:var(--blue-accent);"></i>
+                <span>Users Matrix</span>
+            </div>
+            <div class="admin-menu-btn" onclick="openAdminSection('tasks')">
+                <i class="fa-solid fa-list-check" style="color:var(--green-accent);"></i>
+                <span>Tasks</span>
+            </div>
+            <div class="admin-menu-btn" onclick="openAdminSection('withdrawals')">
+                <i class="fa-solid fa-money-bill-transfer" style="color:var(--yellow-accent);"></i>
+                <span>Withdrawals</span>
+            </div>
+            <div class="admin-menu-btn" onclick="openAdminSection('broadcast')">
+                <i class="fa-solid fa-bullhorn" style="color:var(--red-brand);"></i>
+                <span>Broadcast</span>
+            </div>
+            <div class="admin-menu-btn" onclick="openAdminSection('vouchers')">
+                <i class="fa-solid fa-ticket" style="color:var(--purple-accent);"></i>
+                <span>Gift Codes</span>
+            </div>
+            <div class="admin-menu-btn" onclick="openAdminSection('banners')">
+                <i class="fa-solid fa-images" style="color:var(--blue-accent);"></i>
+                <span>Banners</span>
+            </div>
+            <div class="admin-menu-btn" onclick="openAdminSection('channels')">
+                <i class="fa-solid fa-tower-broadcast" style="color:var(--green-accent);"></i>
+                <span>Channels</span>
+            </div>
+            <div class="admin-menu-btn" onclick="openAdminSection('gateways')">
+                <i class="fa-solid fa-credit-card" style="color:var(--yellow-accent);"></i>
+                <span>Gateways</span>
+            </div>
+            <div class="admin-menu-btn" onclick="openAdminSection('settings')">
+                <i class="fa-solid fa-gears" style="color:var(--red-brand);"></i>
+                <span>Settings</span>
+            </div>
+            <div class="admin-menu-btn" onclick="openAdminSection('bans')">
+                <i class="fa-solid fa-ban" style="color:#f87171;"></i>
+                <span>Ban Manager</span>
+            </div>
+            <div class="admin-menu-btn" onclick="openAdminSection('admins')">
+                <i class="fa-solid fa-user-shield" style="color:var(--purple-accent);"></i>
+                <span>Sub-Admins</span>
+            </div>
+            <div class="admin-menu-btn" onclick="openAdminSection('msg_user')">
+                <i class="fa-solid fa-comment-dots" style="color:var(--blue-accent);"></i>
+                <span>Message User</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- === SECTION: USERS === -->
+    <div id="admin-section-users" class="admin-section">
+        <div style="display:flex; align-items:center; gap:10px; margin-bottom:14px;">
+            <div class="back-circle-btn" onclick="closeAdminSection()"><i class="fa-solid fa-chevron-left"></i></div>
+            <h3 class="admin-section-title" style="margin:0;"><i class="fa-solid fa-users"></i> Users Matrix</h3>
+        </div>
+        <div class="glass-card">
+            <h4 style="font-size:13px; margin-bottom:10px;">🔍 View User Details</h4>
+            <input type="number" id="admin-view-user-id" class="glass-input" placeholder="Enter User ID">
+            <button class="glass-btn primary" onclick="adminViewUser()"><i class="fa-solid fa-search"></i> View User</button>
+        </div>
+        <div class="glass-card">
+            <h4 style="font-size:13px; margin-bottom:10px;">💰 Adjust Balance</h4>
+            <input type="number" id="admin-adj-uid" class="glass-input" placeholder="User ID">
+            <input type="number" id="admin-adj-amt" class="glass-input" placeholder="Amount (+add / -remove)">
+            <button class="glass-btn success" onclick="adminAdjustBalance()"><i class="fa-solid fa-check"></i> Adjust Balance</button>
+        </div>
+        <div id="admin-user-result"></div>
+    </div>
+
+    <!-- === SECTION: TASKS === -->
+    <div id="admin-section-tasks" class="admin-section">
+        <div style="display:flex; align-items:center; gap:10px; margin-bottom:14px;">
+            <div class="back-circle-btn" onclick="closeAdminSection()"><i class="fa-solid fa-chevron-left"></i></div>
+            <h3 class="admin-section-title" style="margin:0;"><i class="fa-solid fa-list-check"></i> Tasks Manager</h3>
+        </div>
+        <div class="glass-card">
+            <h4 style="font-size:13px; margin-bottom:10px;">➕ Create New Task</h4>
+            <input type="text" id="admin-task-title" class="glass-input" placeholder="Task Title">
+            <input type="text" id="admin-task-desc" class="glass-input" placeholder="Description">
+            <input type="url" id="admin-task-url" class="glass-input" placeholder="Task URL">
+            <input type="number" id="admin-task-amt" class="glass-input" placeholder="Reward Amount (₹)">
+            <button class="glass-btn primary" onclick="adminCreateTask()"><i class="fa-solid fa-plus"></i> Deploy Task</button>
+        </div>
+        <div class="glass-card">
+            <h4 style="font-size:13px; margin-bottom:10px;">📋 Active Tasks</h4>
+            <div id="admin-task-list"></div>
+        </div>
+    </div>
+
+    <!-- === SECTION: WITHDRAWALS === -->
+    <div id="admin-section-withdrawals" class="admin-section">
+        <div style="display:flex; align-items:center; gap:10px; margin-bottom:14px;">
+            <div class="back-circle-btn" onclick="closeAdminSection()"><i class="fa-solid fa-chevron-left"></i></div>
+            <h3 class="admin-section-title" style="margin:0;"><i class="fa-solid fa-money-bill-transfer"></i> Withdrawals</h3>
+        </div>
+        <div class="glass-card">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+                <span style="font-size:13px; font-weight:700;">Pending Requests</span>
+                <button class="glass-btn" style="width:auto; padding:6px 12px; font-size:11px;" onclick="loadPendingWithdrawals()"><i class="fa-solid fa-refresh"></i></button>
+            </div>
+            <div id="admin-withdrawals-list">
+                <p style="font-size:12px; color:var(--text-sub); text-align:center; padding:14px;">Click refresh to load</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- === SECTION: BROADCAST === -->
+    <div id="admin-section-broadcast" class="admin-section">
+        <div style="display:flex; align-items:center; gap:10px; margin-bottom:14px;">
+            <div class="back-circle-btn" onclick="closeAdminSection()"><i class="fa-solid fa-chevron-left"></i></div>
+            <h3 class="admin-section-title" style="margin:0;"><i class="fa-solid fa-bullhorn"></i> Broadcast</h3>
+        </div>
+        <div class="glass-card">
+            <h4 style="font-size:13px; margin-bottom:10px;">📣 Send Broadcast</h4>
+            <textarea id="admin-bc-text" class="glass-input" style="min-height:100px; resize:vertical; font-family:inherit;" placeholder="Type your broadcast message..."></textarea>
+            <div class="admin-toggle-row">
+                <span>Forward Mode</span>
+                <label class="switch"><input type="checkbox" id="admin-bc-forward"><span class="slider"></span></label>
+            </div>
+            <button class="glass-btn primary" onclick="adminSendBroadcast()"><i class="fa-solid fa-paper-plane"></i> Send to All Users</button>
+        </div>
+    </div>
+
+    <!-- === SECTION: VOUCHERS === -->
+    <div id="admin-section-vouchers" class="admin-section">
+        <div style="display:flex; align-items:center; gap:10px; margin-bottom:14px;">
+            <div class="back-circle-btn" onclick="closeAdminSection()"><i class="fa-solid fa-chevron-left"></i></div>
+            <h3 class="admin-section-title" style="margin:0;"><i class="fa-solid fa-ticket"></i> Gift Codes</h3>
+        </div>
+        <div class="glass-card">
+            <h4 style="font-size:13px; margin-bottom:10px;">➕ Create Gift Code</h4>
+            <input type="text" id="adm-vch-code" class="glass-input" placeholder="Code (e.g. EXTRA50)">
+            <input type="number" id="adm-vch-value" class="glass-input" placeholder="Amount (₹)">
+            <input type="number" id="adm-vch-max" class="glass-input" placeholder="Max Users (default: 1)">
+            <button class="glass-btn primary" onclick="generateVoucherCodeUnified()"><i class="fa-solid fa-plus"></i> Create Voucher</button>
+        </div>
+        <div class="glass-card">
+            <h4 style="font-size:13px; margin-bottom:10px;">📋 Active Codes</h4>
+            <div id="admin-voucher-list">
+                <p style="font-size:12px; color:var(--text-sub); text-align:center; padding:14px;">Loading...</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- === SECTION: BANNERS === -->
+    <div id="admin-section-banners" class="admin-section">
+        <div style="display:flex; align-items:center; gap:10px; margin-bottom:14px;">
+            <div class="back-circle-btn" onclick="closeAdminSection()"><i class="fa-solid fa-chevron-left"></i></div>
+            <h3 class="admin-section-title" style="margin:0;"><i class="fa-solid fa-images"></i> Banners</h3>
+        </div>
+        <div class="glass-card">
+            <h4 style="font-size:13px; margin-bottom:10px;">➕ Add New Banner</h4>
+            <label style="font-size:11px; color:var(--text-sub); display:block; margin-bottom:4px;">Choose Image</label>
+            <input type="file" id="adm-banner-file-input" accept="image/*" class="glass-input">
+            <label style="font-size:11px; color:var(--text-sub); display:block; margin-bottom:4px;">Target URL (Optional)</label>
+            <input type="url" id="adm-banner-link-input" class="glass-input" placeholder="https://t.me/yourchannel">
+            <button class="glass-btn primary" onclick="addNewBannerSubmit()"><i class="fa-solid fa-plus"></i> Add Banner</button>
+        </div>
+        <div class="glass-card">
+            <h4 style="font-size:13px; margin-bottom:10px;">📋 Manage Banners</h4>
+            <div id="adm-banner-list-container"></div>
+        </div>
+    </div>
+
+    <!-- === SECTION: CHANNELS === -->
+    <div id="admin-section-channels" class="admin-section">
+        <div style="display:flex; align-items:center; gap:10px; margin-bottom:14px;">
+            <div class="back-circle-btn" onclick="closeAdminSection()"><i class="fa-solid fa-chevron-left"></i></div>
+            <h3 class="admin-section-title" style="margin:0;"><i class="fa-solid fa-tower-broadcast"></i> Channels</h3>
+        </div>
+        <div class="glass-card">
+            <h4 style="font-size:13px; margin-bottom:10px;">📢 Set Mandatory Join Channel</h4>
+            <input type="text" id="admin-ch-name" class="glass-input" placeholder="Channel Name">
+            <input type="text" id="admin-ch-link" class="glass-input" placeholder="https://t.me/channel">
+            <input type="text" id="admin-ch-username" class="glass-input" placeholder="@username">
+            <button class="glass-btn primary" onclick="adminAddChannel()"><i class="fa-solid fa-plus"></i> Add Channel</button>
+        </div>
+        <div class="glass-card">
+            <h4 style="font-size:13px; margin-bottom:10px;">📋 Mandatory Channels</h4>
+            <div id="admin-channels-list">
+                <p style="font-size:12px; color:var(--text-sub); text-align:center; padding:14px;">Loading...</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- === SECTION: GATEWAYS === -->
+    <div id="admin-section-gateways" class="admin-section">
+        <div style="display:flex; align-items:center; gap:10px; margin-bottom:14px;">
+            <div class="back-circle-btn" onclick="closeAdminSection()"><i class="fa-solid fa-chevron-left"></i></div>
+            <h3 class="admin-section-title" style="margin:0;"><i class="fa-solid fa-credit-card"></i> Payment Gateways</h3>
+        </div>
+        <div class="glass-card">
+            <h4 style="font-size:13px; margin-bottom:10px;">➕ Add Custom Gateway</h4>
+            <input type="text" id="admin-gw-name" class="glass-input" placeholder="Gateway Name (e.g. paytm)">
+            <select id="admin-gw-type" class="glass-input">
+                <option value="UPI">UPI</option>
+                <option value="Wallet">Wallet</option>
+            </select>
+            <input type="url" id="admin-gw-url" class="glass-input" placeholder="API URL (with {upi}/{amount})">
+            <button class="glass-btn primary" onclick="adminAddGateway()"><i class="fa-solid fa-plus"></i> Add Gateway</button>
+        </div>
+        <div class="glass-card">
+            <h4 style="font-size:13px; margin-bottom:10px;">📋 Active Gateways</h4>
+            <div id="admin-gateways-list">
+                <p style="font-size:12px; color:var(--text-sub); text-align:center; padding:14px;">Loading...</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- === SECTION: SETTINGS === -->
+    <div id="admin-section-settings" class="admin-section">
+        <div style="display:flex; align-items:center; gap:10px; margin-bottom:14px;">
+            <div class="back-circle-btn" onclick="closeAdminSection()"><i class="fa-solid fa-chevron-left"></i></div>
+            <h3 class="admin-section-title" style="margin:0;"><i class="fa-solid fa-gears"></i> Bot Settings</h3>
+        </div>
+
+        <div class="glass-card">
+            <h4 style="font-size:13px; margin-bottom:10px;">🤖 System Controls</h4>
+            <div class="admin-toggle-row">
+                <span>🟢 Bot Status (ON/OFF)</span>
+                <label class="switch"><input type="checkbox" id="set-bot-status" checked><span class="slider"></span></label>
+            </div>
+            <div class="admin-toggle-row">
+                <span>🛡️ Verification Mode</span>
+                <label class="switch"><input type="checkbox" id="set-verification"><span class="slider"></span></label>
+            </div>
+            <div class="admin-toggle-row">
+                <span>🏧 Withdraw Mode</span>
+                <label class="switch"><input type="checkbox" id="set-withdraw" checked><span class="slider"></span></label>
+            </div>
+            <div class="admin-toggle-row">
+                <span>🔔 New User Alerts</span>
+                <label class="switch"><input type="checkbox" id="set-newuser" checked><span class="slider"></span></label>
+            </div>
+        </div>
+
+        <div class="glass-card">
+            <h4 style="font-size:13px; margin-bottom:10px;">💰 Financial Settings</h4>
+            <label style="font-size:11px; color:var(--text-sub); display:block; margin-bottom:4px;">Minimum Withdraw (₹)</label>
+            <input type="number" id="set-min-wd" class="glass-input" placeholder="Min amount">
+            <label style="font-size:11px; color:var(--text-sub); display:block; margin-bottom:4px;">Maximum Withdraw (₹)</label>
+            <input type="number" id="set-max-wd" class="glass-input" placeholder="Max amount">
+            <label style="font-size:11px; color:var(--text-sub); display:block; margin-bottom:4px;">Referral Reward (₹)</label>
+            <input type="number" id="set-refer-amt" class="glass-input" placeholder="Per referral amount">
+            <label style="font-size:11px; color:var(--text-sub); display:block; margin-bottom:4px;">Withdraw Tax (%)</label>
+            <input type="number" id="set-tax" class="glass-input" placeholder="Tax percentage">
+            <button class="glass-btn primary" onclick="adminSaveSettings()"><i class="fa-solid fa-save"></i> Save Settings</button>
+        </div>
+
+        <div class="glass-card">
+            <h4 style="font-size:13px; margin-bottom:10px;">📣 Broadcast Mode</h4>
+            <div class="admin-toggle-row">
+                <span>Copy Mode (Analytics)</span>
+                <label class="switch"><input type="checkbox" id="set-bc-copy" checked><span class="slider"></span></label>
+            </div>
+        </div>
+    </div>
+
+    <!-- === SECTION: BANS === -->
+    <div id="admin-section-bans" class="admin-section">
+        <div style="display:flex; align-items:center; gap:10px; margin-bottom:14px;">
+            <div class="back-circle-btn" onclick="closeAdminSection()"><i class="fa-solid fa-chevron-left"></i></div>
+            <h3 class="admin-section-title" style="margin:0;"><i class="fa-solid fa-ban"></i> Ban Manager</h3>
+        </div>
+        <div class="glass-card">
+            <h4 style="font-size:13px; margin-bottom:10px;">🚫 Ban a User</h4>
+            <input type="number" id="admin-ban-uid" class="glass-input" placeholder="User ID to ban">
+            <button class="glass-btn danger" onclick="adminBanUser()"><i class="fa-solid fa-ban"></i> Ban User</button>
+        </div>
+        <div class="glass-card">
+            <h4 style="font-size:13px; margin-bottom:10px;">🔓 Unban a User</h4>
+            <input type="number" id="admin-unban-uid" class="glass-input" placeholder="User ID to unban">
+            <button class="glass-btn success" onclick="adminUnbanUser()"><i class="fa-solid fa-unlock"></i> Unban User</button>
+        </div>
+        <div class="glass-card">
+            <h4 style="font-size:13px; margin-bottom:10px;">📋 Banned Users</h4>
+            <div id="admin-banned-list"><p style="font-size:12px; color:var(--text-sub); text-align:center; padding:14px;">Loading...</p></div>
+        </div>
+    </div>
+
+    <!-- === SECTION: ADMINS === -->
+    <div id="admin-section-admins" class="admin-section">
+        <div style="display:flex; align-items:center; gap:10px; margin-bottom:14px;">
+            <div class="back-circle-btn" onclick="closeAdminSection()"><i class="fa-solid fa-chevron-left"></i></div>
+            <h3 class="admin-section-title" style="margin:0;"><i class="fa-solid fa-user-shield"></i> Sub-Admins</h3>
+        </div>
+        <div class="glass-card">
+            <h4 style="font-size:13px; margin-bottom:10px;">➕ Add Sub-Admin</h4>
+            <input type="number" id="admin-new-subadm" class="glass-input" placeholder="User ID">
+            <button class="glass-btn primary" onclick="adminAddSubAdmin()"><i class="fa-solid fa-plus"></i> Add Sub-Admin</button>
+        </div>
+        <div class="glass-card">
+            <h4 style="font-size:13px; margin-bottom:10px;">📋 Current Sub-Admins</h4>
+            <div id="admin-subadmins-list"><p style="font-size:12px; color:var(--text-sub); text-align:center; padding:14px;">Loading...</p></div>
+        </div>
+    </div>
+
+    <!-- === SECTION: MESSAGE USER === -->
+    <div id="admin-section-msg_user" class="admin-section">
+        <div style="display:flex; align-items:center; gap:10px; margin-bottom:14px;">
+            <div class="back-circle-btn" onclick="closeAdminSection()"><i class="fa-solid fa-chevron-left"></i></div>
+            <h3 class="admin-section-title" style="margin:0;"><i class="fa-solid fa-comment-dots"></i> Message User</h3>
+        </div>
+        <div class="glass-card">
+            <h4 style="font-size:13px; margin-bottom:10px;">💬 Send Direct Message</h4>
+            <input type="number" id="admin-msg-uid" class="glass-input" placeholder="Target User ID">
+            <textarea id="admin-msg-content" class="glass-input" style="min-height:100px; resize:vertical; font-family:inherit;" placeholder="Type your message..."></textarea>
+            <button class="glass-btn primary" onclick="adminSendUserMessage()"><i class="fa-solid fa-paper-plane"></i> Send Message</button>
+        </div>
+    </div>
+
+</div>
+
+<!-- ==================== WITHDRAW MODAL ==================== -->
 <div id="modal-withdraw" class="glass-modal">
     <div class="modal-body">
-        <h3 style="font-size:16px; margin-bottom:14px;"><i class="fa-solid fa-wallet"></i> Withdraw Funds</h3>
-        <input type="text" id="txt-wd-address" class="glass-input" placeholder="Enter UPI ID (e.g. name@upi)">
+        <h3 style="font-size:15px; margin-bottom:14px;"><i class="fa-solid fa-wallet"></i> Withdraw Funds</h3>
+        <input type="text" id="txt-wd-address" class="glass-input" placeholder="Enter UPI ID (name@upi)">
         <input type="number" id="txt-wd-quantum" class="glass-input" placeholder="Amount (₹)">
-        <div style="display:flex; gap:10px;">
+        <div style="display:flex; gap:9px;">
             <button class="glass-btn" onclick="closeModal('modal-withdraw')">Cancel</button>
             <button class="glass-btn primary" onclick="submitWithdrawalClaimRequest()">Submit</button>
         </div>
     </div>
 </div>
 
-<!-- New Pay Modal for entering UID and Name without prompt -->
+<!-- ==================== NEW PAY MODAL ==================== -->
 <div id="modal-new-pay" class="glass-modal">
     <div class="modal-body">
-        <h3 style="font-size:16px; margin-bottom:14px;"><i class="fa-solid fa-user-plus"></i> New Payment</h3>
-        <input type="text" id="new-pay-uid" class="glass-input" placeholder="Recipient Telegram User ID (UID)">
+        <h3 style="font-size:15px; margin-bottom:14px;"><i class="fa-solid fa-user-plus"></i> New Payment</h3>
+        <input type="text" id="new-pay-uid" class="glass-input" placeholder="Recipient UID">
         <input type="text" id="new-pay-name" class="glass-input" placeholder="Contact Name (Optional)">
-        <div style="display:flex; gap:10px;">
+        <div style="display:flex; gap:9px;">
             <button class="glass-btn" onclick="closeModal('modal-new-pay')">Cancel</button>
             <button class="glass-btn primary" onclick="submitNewPayPrompt()">Continue</button>
         </div>
     </div>
 </div>
 
+<!-- ==================== USER DETAIL MODAL ==================== -->
+<div id="modal-user-detail" class="glass-modal">
+    <div class="modal-body">
+        <h3 style="font-size:15px; margin-bottom:14px;"><i class="fa-solid fa-user"></i> User Details</h3>
+        <div id="modal-user-detail-content" style="font-size:13px; line-height:1.7;"></div>
+        <div style="margin-top:16px;">
+            <button class="glass-btn" onclick="closeModal('modal-user-detail')">Close</button>
+        </div>
+    </div>
+</div>
+
+<!-- ==================== CONFIRM MODAL ==================== -->
+<div id="modal-confirm" class="glass-modal">
+    <div class="modal-body">
+        <h3 style="font-size:15px; margin-bottom:12px;" id="confirm-title">Confirm</h3>
+        <p style="font-size:13px; color:var(--text-sub); margin-bottom:16px;" id="confirm-msg">Are you sure?</p>
+        <div style="display:flex; gap:9px;">
+            <button class="glass-btn" onclick="closeModal('modal-confirm')">Cancel</button>
+            <button class="glass-btn danger" id="confirm-yes-btn">Confirm</button>
+        </div>
+    </div>
+</div>
+
 <script>
     /**
-     * Application Constants & Initialization Parameters
+     * ============================================================
+     *  EXTRA EARN MINI APP - CORE ENGINE
+     * ============================================================
      */
     const ENGINE_API_ENDPOINT = "https://extra-earn-bot.onrender.com";
     const ADMIN_ID = 501889840;
 
     const tg = window.Telegram.WebApp;
-    // Initialize Telegram WebApp properly
     tg.ready();
     tg.expand();
+    if (tg.setHeaderColor) tg.setHeaderColor('#000000');
+    if (tg.setBackgroundColor) tg.setBackgroundColor('#000000');
 
     const user = tg.initDataUnsafe?.user;
-    const sessionUserUid = user?.id || null; // Do not fallback to ADMIN_ID
+    const sessionUserUid = user?.id || null;
     const sessionUserName = (user?.first_name || "User") + (user?.last_name ? " " + user.last_name : "");
+    const sessionUserPhoto = user?.photo_url || null;
 
-    // If no user ID, show error and disable interaction
     if (!sessionUserUid) {
-        document.body.innerHTML = '<div style="color:white; text-align:center; padding:40px;">Error: Unable to identify user. Please open this app from Telegram.</div>';
+        document.body.innerHTML = '<div style="color:white; text-align:center; padding:40px; font-family:sans-serif;">Error: Unable to identify user. Please open via Telegram.</div>';
         throw new Error("No Telegram user ID");
     }
 
-    // Local state stores
+    // Local state
     let appBanners = JSON.parse(localStorage.getItem('extra_app_banners') || '[]');
     let quickPayContacts = JSON.parse(localStorage.getItem('quickpay_contacts') || '[]');
-    let quickPayThreads = JSON.parse(localStorage.getItem('quickpay_threads') || '{}'); 
+    let quickPayThreads = JSON.parse(localStorage.getItem('quickpay_threads') || '{}');
     let blockedUsersList = JSON.parse(localStorage.getItem('blocked_users_list') || '[]');
-
     let currentActiveChatContact = null;
 
-    /**
-     * DOM Safe Text Helper to mitigate XSS issues
-     */
+    // ==================== HELPERS ====================
     function sanitizeText(str) {
         const temp = document.createElement('div');
         temp.textContent = str || '';
         return temp.innerHTML;
     }
 
-    /**
-     * Application Entry Point Initialization
-     */
+    function showToast(msg, color = '#10b981') {
+        const el = document.createElement('div');
+        el.style.cssText = `position:fixed;top:80px;left:50%;transform:translateX(-50%);background:${color};color:white;padding:11px 22px;border-radius:14px;font-weight:700;font-size:13px;z-index:99999;box-shadow:0 8px 25px rgba(0,0,0,0.5);`;
+        el.innerText = msg;
+        document.body.appendChild(el);
+        setTimeout(() => { el.style.transition = 'opacity 0.4s'; el.style.opacity = '0'; }, 1600);
+        setTimeout(() => el.remove(), 2100);
+    }
+
+    function showConfirm(title, msg, onYes) {
+        document.getElementById('confirm-title').innerText = title;
+        document.getElementById('confirm-msg').innerText = msg;
+        const btn = document.getElementById('confirm-yes-btn');
+        btn.onclick = () => { closeModal('modal-confirm'); onYes(); };
+        openModal('modal-confirm');
+    }
+
+    // ==================== INIT ====================
     document.addEventListener("DOMContentLoaded", () => {
         document.getElementById('prof-uid-string').innerText = sessionUserUid;
         document.getElementById('prof-name-node').innerText = sessionUserName;
         document.getElementById('txt-refer-link-box').value = `https://t.me/ExtraEarnBot?start=${sessionUserUid}`;
+
+        // === AVATAR FIX ===
+        const avatarImg = document.getElementById('prof-avatar-node');
+        if (sessionUserPhoto) {
+            avatarImg.src = sessionUserPhoto;
+        } else {
+            // Fallback: initial-based avatar
+            renderInitialAvatar();
+        }
 
         if (Number(sessionUserUid) === ADMIN_ID) {
             document.getElementById('admin-terminal-btn').style.display = 'flex';
@@ -587,9 +1406,17 @@
         fetchUserData();
     });
 
-    /**
-     * Fetches user profile metrics and current wallet balance from backend server
-     */
+    function handleAvatarError() {
+        renderInitialAvatar();
+    }
+
+    function renderInitialAvatar() {
+        const wrap = document.getElementById('prof-avatar-wrap');
+        const initial = sessionUserName.charAt(0).toUpperCase();
+        wrap.innerHTML = `<div class="profile-avatar-fallback">${initial}</div>`;
+    }
+
+    // ==================== USER DATA ====================
     async function fetchUserData() {
         if (!sessionUserUid) return;
         try {
@@ -601,42 +1428,33 @@
                 document.getElementById('lbl-wallet-bal').innerText = balFormatted;
                 if (data.user.name) document.getElementById('prof-name-node').innerText = data.user.name;
             } else {
-                // If backend returns error, still show 0
                 document.getElementById('header-bal').innerText = '₹0.00';
                 document.getElementById('lbl-wallet-bal').innerText = '₹0.00';
             }
         } catch (err) {
-            console.error("Failed to query user profile:", err);
-            // Show offline fallback
+            console.error("Failed to query user:", err);
             document.getElementById('header-bal').innerText = '₹0.00';
             document.getElementById('lbl-wallet-bal').innerText = '₹0.00';
         }
     }
 
-    /**
-     * Renders Quick Pay contacts horizontal list or grid filtering by prompt
-     */
+    // ==================== QUICK PAY ====================
     function renderQuickPayPeopleGrid(filterQuery = '') {
         const container = document.getElementById('quickpay-people-container');
         container.innerHTML = '';
-
-        const filtered = quickPayContacts.filter(c => 
-            c.name.toLowerCase().includes(filterQuery.toLowerCase()) || 
+        const filtered = quickPayContacts.filter(c =>
+            c.name.toLowerCase().includes(filterQuery.toLowerCase()) ||
             String(c.uid).includes(filterQuery)
         );
-
         if (filtered.length === 0) {
-            container.innerHTML = `<div style="grid-column: span 4; font-size:12px; color:var(--text-sub); padding:12px 0; text-align:center;">No recent contacts.</div>`;
+            container.innerHTML = `<div style="grid-column: span 4; font-size:11.5px; color:var(--text-sub); padding:10px 0; text-align:center;">No recent contacts.</div>`;
             return;
         }
-
         filtered.forEach(c => {
             const item = document.createElement('div');
             item.className = 'quickpay-person-item';
             item.onclick = () => openQuickPayChat(c);
-
             const initial = sanitizeText(c.name.charAt(0).toUpperCase());
-
             item.innerHTML = `
                 <div class="quickpay-avatar">${initial}</div>
                 <div class="quickpay-person-name">${sanitizeText(c.name)}</div>
@@ -645,13 +1463,9 @@
         });
     }
 
-    /**
-     * Compiles and displays payment activity feed from user message stores
-     */
     function renderQuickPayTransactionHistory() {
         const container = document.getElementById('quickpay-tx-history-list');
         container.innerHTML = '';
-
         let allTxs = [];
         Object.keys(quickPayThreads).forEach(uid => {
             const thread = quickPayThreads[uid] || [];
@@ -659,38 +1473,24 @@
                 allTxs.push({ ...p, uid });
             });
         });
-
         if (allTxs.length === 0) {
-            container.innerHTML = `
-                <div class="glass-card" style="text-align:center; padding:20px; color:var(--text-sub); font-size:13px;">
-                    <i class="fa-solid fa-receipt" style="font-size:24px; margin-bottom:8px; opacity:0.4;"></i>
-                    <p>No transactions made yet.</p>
-                </div>
-            `;
+            container.innerHTML = `<div class="glass-card" style="text-align:center; padding:18px; color:var(--text-sub); font-size:12.5px;"><i class="fa-solid fa-receipt" style="font-size:22px; margin-bottom:8px; opacity:0.4;"></i><p>No transactions yet.</p></div>`;
             return;
         }
-
         allTxs.sort((a,b) => b.timestamp - a.timestamp).forEach(tx => {
             const item = document.createElement('div');
             item.className = 'tx-history-item';
-            
             const contact = quickPayContacts.find(c => c.uid === tx.uid) || { name: `User ${tx.uid}` };
-
             item.innerHTML = `
                 <div class="tx-history-left">
-                    <div class="tx-history-icon out">
-                        <i class="fa-solid fa-arrow-up-right"></i>
-                    </div>
+                    <div class="tx-history-icon out"><i class="fa-solid fa-arrow-up-right"></i></div>
                     <div>
-                        <div style="font-weight:700; font-size:14px;">${sanitizeText(contact.name)}</div>
-                        <div style="font-size:11px; color:var(--text-sub);">${sanitizeText(tx.time)}</div>
+                        <div style="font-weight:700; font-size:13px;">${sanitizeText(contact.name)}</div>
+                        <div style="font-size:10.5px; color:var(--text-sub);">${sanitizeText(tx.time)}</div>
                     </div>
                 </div>
-                <div style="font-weight:800; font-size:15px; color:#f87171;">
-                    -₹${Number(tx.amount).toFixed(2)}
-                </div>
+                <div style="font-weight:800; font-size:14.5px; color:#f87171;">-₹${Number(tx.amount).toFixed(2)}</div>
             `;
-            
             item.onclick = () => openQuickPayChat({ uid: tx.uid, name: contact.name });
             container.appendChild(item);
         });
@@ -702,7 +1502,6 @@
     }
 
     function openNewPayPrompt() {
-        // Instead of prompt, use custom modal
         document.getElementById('new-pay-uid').value = '';
         document.getElementById('new-pay-name').value = '';
         openModal('modal-new-pay');
@@ -711,12 +1510,8 @@
     function submitNewPayPrompt() {
         const uid = document.getElementById('new-pay-uid').value.trim();
         const name = document.getElementById('new-pay-name').value.trim() || `User ${uid}`;
-        if (!uid) {
-            alert('Please enter a valid UID.');
-            return;
-        }
+        if (!uid) return showToast('Please enter a valid UID', '#ef4444');
         const contactObj = { uid, name };
-        
         if (!quickPayContacts.some(c => c.uid === uid)) {
             quickPayContacts.push(contactObj);
             localStorage.setItem('quickpay_contacts', JSON.stringify(quickPayContacts));
@@ -731,28 +1526,25 @@
         document.getElementById('chat-user-title').innerText = contact.name;
         document.getElementById('chat-user-uid').innerText = `UID: ${contact.uid}`;
         document.getElementById('chat-user-avatar').innerText = contact.name.charAt(0).toUpperCase();
-
         updateBlockStatusUI();
         renderChatThread();
-        document.getElementById('page-quickpay-chat').style.display = 'flex';
+        document.getElementById('page-quickpay-chat').classList.add('active');
     }
 
     function closeQuickPayChat() {
-        document.getElementById('page-quickpay-chat').style.display = 'none';
+        document.getElementById('page-quickpay-chat').classList.remove('active');
         currentActiveChatContact = null;
     }
 
     function updateBlockStatusUI() {
         if (!currentActiveChatContact) return;
         const isBlocked = blockedUsersList.includes(currentActiveChatContact.uid);
-        
         const blockBtn = document.getElementById('btn-block-user');
         const blockedNotice = document.getElementById('chat-blocked-notice');
         const footerControls = document.getElementById('chat-footer-controls');
-
         if (isBlocked) {
             blockBtn.innerHTML = `<i class="fa-solid fa-lock-open"></i> Unblock`;
-            blockBtn.className = "glass-btn";
+            blockBtn.className = "glass-btn success";
             blockedNotice.style.display = 'block';
             footerControls.style.opacity = '0.3';
             footerControls.style.pointerEvents = 'none';
@@ -768,15 +1560,17 @@
     function toggleBlockUser() {
         if (!currentActiveChatContact) return;
         const uid = currentActiveChatContact.uid;
-        
         if (blockedUsersList.includes(uid)) {
             blockedUsersList = blockedUsersList.filter(id => id !== uid);
-            alert(`User ${currentActiveChatContact.name} Unblocked.`);
+            showToast(`Unblocked ${currentActiveChatContact.name}`, '#10b981');
         } else {
-            if (confirm(`Are you sure you want to block ${currentActiveChatContact.name}?`)) {
+            showConfirm('Block User', `Block ${currentActiveChatContact.name}?`, () => {
                 blockedUsersList.push(uid);
-                alert(`User ${currentActiveChatContact.name} Blocked.`);
-            }
+                localStorage.setItem('blocked_users_list', JSON.stringify(blockedUsersList));
+                updateBlockStatusUI();
+                showToast(`Blocked ${currentActiveChatContact.name}`, '#ef4444');
+            });
+            return;
         }
         localStorage.setItem('blocked_users_list', JSON.stringify(blockedUsersList));
         updateBlockStatusUI();
@@ -786,19 +1580,11 @@
         if (!currentActiveChatContact) return;
         const container = document.getElementById('chat-messages-container');
         container.innerHTML = '';
-
         const thread = quickPayThreads[currentActiveChatContact.uid] || [];
-
         if (thread.length === 0) {
-            container.innerHTML = `
-                <div style="text-align:center; padding:40px 20px; color:var(--text-sub); font-size:12px;">
-                    <i class="fa-solid fa-comments" style="font-size:32px; margin-bottom:10px; opacity:0.35;"></i>
-                    <p>Start conversation or payment with ${sanitizeText(currentActiveChatContact.name)}</p>
-                </div>
-            `;
+            container.innerHTML = `<div style="text-align:center; padding:40px 20px; color:var(--text-sub); font-size:12px;"><i class="fa-solid fa-comments" style="font-size:30px; margin-bottom:10px; opacity:0.35;"></i><p>Start conversation with ${sanitizeText(currentActiveChatContact.name)}</p></div>`;
             return;
         }
-
         thread.forEach(item => {
             if (item.kind === 'text') {
                 const msg = document.createElement('div');
@@ -809,33 +1595,30 @@
                 const bubble = document.createElement('div');
                 bubble.className = 'chat-bubble-card';
                 bubble.innerHTML = `
-                    <div style="font-size:11px; color:var(--text-sub); margin-bottom:6px;"><i class="fa-solid fa-circle-check" style="color:var(--green-accent);"></i> Payment Successful</div>
-                    <div style="font-size:26px; font-weight:800; color:var(--green-accent);">₹${Number(item.amount).toFixed(2)}</div>
+                    <div style="font-size:10.5px; color:var(--text-sub); margin-bottom:6px;"><i class="fa-solid fa-circle-check" style="color:var(--green-accent);"></i> Payment Sent</div>
+                    <div style="font-size:24px; font-weight:800; color:var(--green-accent);">₹${Number(item.amount).toFixed(2)}</div>
                     <div style="font-size:10px; color:var(--text-sub); margin-top:6px; text-align:right;">${sanitizeText(item.time)}</div>
                 `;
                 container.appendChild(bubble);
             }
         });
+        container.scrollTop = container.scrollHeight;
     }
 
     function sendChatMessageSubmit() {
         if (!currentActiveChatContact) return;
-        if (blockedUsersList.includes(currentActiveChatContact.uid)) return alert("User is blocked.");
-
+        if (blockedUsersList.includes(currentActiveChatContact.uid)) return showToast('User is blocked', '#ef4444');
         const txtInput = document.getElementById('chat-text-input');
         const text = txtInput.value.trim();
         if (!text) return;
-
         const uid = currentActiveChatContact.uid;
         if (!quickPayThreads[uid]) quickPayThreads[uid] = [];
-
         quickPayThreads[uid].push({
             kind: 'text',
             text: text,
             timestamp: Date.now(),
             time: new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})
         });
-
         localStorage.setItem('quickpay_threads', JSON.stringify(quickPayThreads));
         txtInput.value = '';
         renderChatThread();
@@ -843,76 +1626,60 @@
 
     async function submitQuickPayTransfer() {
         if (!currentActiveChatContact) return;
-        if (blockedUsersList.includes(currentActiveChatContact.uid)) return alert("User is blocked.");
-
+        if (blockedUsersList.includes(currentActiveChatContact.uid)) return showToast('User is blocked', '#ef4444');
         const amtInput = document.getElementById('chat-pay-amount-input');
         const amount = parseFloat(amtInput.value);
-        if (!amount || amount <= 0) return alert("Please enter a valid amount.");
-
+        if (!amount || amount <= 0) return showToast('Enter a valid amount', '#ef4444');
         try {
             const res = await fetch(`${ENGINE_API_ENDPOINT}/api/mini-app/peer-transfer`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ 
-                    sourceId: sessionUserUid, 
-                    targetId: currentActiveChatContact.uid, 
-                    amount 
-                })
+                body: JSON.stringify({ sourceId: sessionUserUid, targetId: currentActiveChatContact.uid, amount })
             });
             const r = await res.json();
-            if (r.error) {
-                alert(r.error);
-            } else {
-                alert("Payment Transfer Successful!");
-                recordPaymentInThread(amount);
-                amtInput.value = '';
-                fetchUserData();
-            }
-        } catch (err) {
-            // Offline fallback: record locally
+            if (r.error) return showToast(r.error, '#ef4444');
+            showToast('Payment sent!', '#10b981');
             recordPaymentInThread(amount);
             amtInput.value = '';
-            alert("Payment recorded locally (offline mode). Server will sync when online.");
+            fetchUserData();
+        } catch (err) {
+            recordPaymentInThread(amount);
+            amtInput.value = '';
+            showToast('Recorded locally', '#f59e0b');
         }
     }
 
     function recordPaymentInThread(amount) {
         const uid = currentActiveChatContact.uid;
         if (!quickPayThreads[uid]) quickPayThreads[uid] = [];
-
         quickPayThreads[uid].push({
             kind: 'payment',
             amount: amount,
             timestamp: Date.now(),
             time: new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})
         });
-
         localStorage.setItem('quickpay_threads', JSON.stringify(quickPayThreads));
         renderChatThread();
         renderQuickPayTransactionHistory();
     }
 
+    // ==================== BANNERS ====================
     function renderBannersOnHome() {
         const wrapper = document.getElementById('home-banner-wrapper');
         const slider = document.getElementById('home-banner-slider');
-        
         if (!appBanners || appBanners.length === 0) {
             wrapper.style.display = 'none';
             return;
         }
-
         wrapper.style.display = 'block';
         slider.innerHTML = '';
-
         appBanners.forEach(b => {
             const item = document.createElement('div');
             item.className = 'banner-item';
-            if (b.link && b.link.trim() !== '') item.onclick = () => { window.open(b.link, '_blank'); };
-
+            if (b.link && b.link.trim() !== '') item.onclick = () => window.open(b.link, '_blank');
             const img = document.createElement('img');
             img.src = b.imgData;
-            img.alt = "Banner Visual";
-
+            img.alt = "Banner";
             item.appendChild(img);
             slider.appendChild(item);
         });
@@ -920,24 +1687,23 @@
 
     function renderAdminBannerList() {
         const container = document.getElementById('adm-banner-list-container');
+        if (!container) return;
         if (!appBanners || appBanners.length === 0) {
-            container.innerHTML = `<p style="font-size:12px; color:var(--text-sub); text-align:center;">No active banners.</p>`;
+            container.innerHTML = `<p style="font-size:11.5px; color:var(--text-sub); text-align:center;">No active banners.</p>`;
             return;
         }
-
         container.innerHTML = '';
         appBanners.forEach((b, index) => {
             const row = document.createElement('div');
             row.className = 'banner-manage-row';
-            const targetLinkText = b.link ? sanitizeText(b.link) : 'No Link Attached';
-
+            const targetLinkText = b.link ? sanitizeText(b.link) : 'No Link';
             row.innerHTML = `
-                <img src="${b.imgData}" style="width:50px; height:35px; object-fit:contain; border-radius:6px; background:#000;" alt="Thumb">
-                <div style="flex:1; overflow:hidden; font-size:12px;">
+                <img src="${b.imgData}" style="width:48px; height:34px; object-fit:contain; border-radius:6px; background:#000;" alt="Thumb">
+                <div style="flex:1; overflow:hidden; font-size:11.5px;">
                     <div style="font-weight:700;">Banner #${index + 1}</div>
                     <div style="color:var(--text-sub); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${targetLinkText}</div>
                 </div>
-                <button class="glass-btn danger" style="padding:6px 12px; width:auto; font-size:12px;" onclick="removeBannerItem(${index})"><i class="fa-solid fa-trash"></i></button>
+                <button class="glass-btn danger" style="padding:6px 10px; width:auto; font-size:11.5px;" onclick="removeBannerItem(${index})"><i class="fa-solid fa-trash"></i></button>
             `;
             container.appendChild(row);
         });
@@ -947,8 +1713,7 @@
         const fileInput = document.getElementById('adm-banner-file-input');
         const linkInput = document.getElementById('adm-banner-link-input');
         const file = fileInput.files[0];
-        if (!file) return alert("Please select a banner image file first.");
-
+        if (!file) return showToast('Select a banner image', '#ef4444');
         const reader = new FileReader();
         reader.onload = function(e) {
             const newBanner = { id: Date.now(), imgData: e.target.result, link: linkInput.value.trim() };
@@ -956,19 +1721,21 @@
             localStorage.setItem('extra_app_banners', JSON.stringify(appBanners));
             fileInput.value = ''; linkInput.value = '';
             renderBannersOnHome(); renderAdminBannerList();
-            alert("New Banner Added Successfully!");
+            showToast('Banner added!', '#10b981');
         };
         reader.readAsDataURL(file);
     }
 
     function removeBannerItem(index) {
-        if (confirm("Are you sure you want to delete this banner?")) {
+        showConfirm('Delete Banner', 'Delete this banner?', () => {
             appBanners.splice(index, 1);
             localStorage.setItem('extra_app_banners', JSON.stringify(appBanners));
             renderBannersOnHome(); renderAdminBannerList();
-        }
+            showToast('Banner deleted', '#ef4444');
+        });
     }
 
+    // ==================== NAV & PAGES ====================
     function switchMainTab(target, el) {
         document.querySelectorAll('.view-section').forEach(v => v.classList.remove('active'));
         document.querySelectorAll('.nav-link').forEach(n => n.classList.remove('active'));
@@ -976,25 +1743,29 @@
         el.classList.add('active');
     }
 
-    function openSubPage(id) { document.getElementById(id).style.display = 'flex'; }
-    function closeSubPage(id) { document.getElementById(id).style.display = 'none'; }
-    function openModal(id) { document.getElementById(id).style.display = 'flex'; }
-    function closeModal(id) { document.getElementById(id).style.display = 'none'; }
+    function openSubPage(id) {
+        document.getElementById(id).classList.add('active');
+        if (id === 'page-admin-control-hub') loadAdminStats();
+        if (id === 'page-history') loadHistoryPage();
+        if (id === 'page-payout-setup') loadPayoutSetup();
+    }
+    function closeSubPage(id) { document.getElementById(id).classList.remove('active'); }
+    function openModal(id) { document.getElementById(id).classList.add('active'); }
+    function closeModal(id) { document.getElementById(id).classList.remove('active'); }
 
-    function copyUserUID() { 
-        navigator.clipboard.writeText(String(sessionUserUid)); 
-        alert("UID Copied to Clipboard!"); 
+    function copyUserUID() {
+        navigator.clipboard.writeText(String(sessionUserUid));
+        showToast('UID Copied!', '#3b82f6');
+    }
+    function copyReferLink() {
+        navigator.clipboard.writeText(document.getElementById('txt-refer-link-box').value);
+        showToast('Referral link copied!', '#3b82f6');
     }
 
-    function copyReferLink() { 
-        navigator.clipboard.writeText(document.getElementById('txt-refer-link-box').value); 
-        alert("Referral Link Copied!"); 
-    }
-
+    // ==================== VOUCHER ====================
     async function claimVoucherTokenSubmit() {
         const code = document.getElementById('txt-voucher-code').value.trim();
-        if (!code) return alert("Please enter a voucher code.");
-        
+        if (!code) return showToast('Enter a voucher code', '#ef4444');
         try {
             const res = await fetch(`${ENGINE_API_ENDPOINT}/api/mini-app/redeem-code`, {
                 method: 'POST',
@@ -1002,22 +1773,22 @@
                 body: JSON.stringify({ userId: sessionUserUid, code })
             });
             const r = await res.json();
-            if (r.error) alert(r.error); 
-            else { 
-                alert(`Success! Added ₹${r.amount}`); 
+            if (r.error) showToast(r.error, '#ef4444');
+            else {
+                showToast(`Added ₹${r.amount}!`, '#10b981');
                 document.getElementById('txt-voucher-code').value = '';
-                fetchUserData(); 
-            } 
+                fetchUserData();
+            }
         } catch (err) {
-            alert("Redeem code failed due to network error.");
+            showToast('Network error', '#ef4444');
         }
     }
 
+    // ==================== WITHDRAW ====================
     async function submitWithdrawalClaimRequest() {
         const upi = document.getElementById('txt-wd-address').value.trim();
         const amount = parseFloat(document.getElementById('txt-wd-quantum').value);
-        if (!upi || !amount) return alert("Please fill all details.");
-        
+        if (!upi || !amount) return showToast('Fill all details', '#ef4444');
         try {
             const res = await fetch(`${ENGINE_API_ENDPOINT}/api/mini-app/withdraw`, {
                 method: 'POST',
@@ -1025,38 +1796,616 @@
                 body: JSON.stringify({ userId: sessionUserUid, upi, amount })
             });
             const r = await res.json();
-            if (r.error) alert(r.error); 
-            else { 
-                alert("Withdrawal Request Submitted!"); 
-                closeModal('modal-withdraw'); 
-                fetchUserData(); 
-            } 
+            if (r.error) showToast(r.error, '#ef4444');
+            else {
+                showToast('Withdrawal submitted!', '#10b981');
+                closeModal('modal-withdraw');
+                fetchUserData();
+            }
         } catch (err) {
-            alert("Withdrawal submit failed due to network error.");
+            showToast('Network error', '#ef4444');
         }
     }
 
+    // ==================== ADMIN: CORE ====================
+    async function loadAdminStats() {
+        try {
+            const res = await fetch(`${ENGINE_API_ENDPOINT}/api/admin/stats?adminId=${sessionUserUid}`);
+            const data = await res.json();
+            if (data.success) {
+                document.getElementById('stat-users').innerText = data.stats.totalUsers ?? '-';
+                document.getElementById('stat-banned').innerText = data.stats.bannedUsers ?? '-';
+                document.getElementById('stat-tasks').innerText = data.stats.activeTasks ?? '-';
+                document.getElementById('stat-pending').innerText = data.stats.pendingWithdrawals ?? '-';
+            }
+        } catch (err) {
+            console.warn("Admin stats fetch failed:", err);
+        }
+    }
+
+    function openAdminSection(name) {
+        document.querySelectorAll('.admin-section').forEach(s => s.classList.remove('active'));
+        document.getElementById('admin-main-menu').style.display = 'none';
+        const sec = document.getElementById(`admin-section-${name}`);
+        if (sec) sec.classList.add('active');
+
+        // Lazy loads
+        if (name === 'withdrawals') loadPendingWithdrawals();
+        if (name === 'tasks') loadAdminTasks();
+        if (name === 'vouchers') loadAdminVouchers();
+        if (name === 'channels') loadAdminChannels();
+        if (name === 'gateways') loadAdminGateways();
+        if (name === 'bans') loadBannedUsers();
+        if (name === 'admins') loadSubAdmins();
+        if (name === 'settings') loadAdminSettings();
+    }
+
+    function closeAdminSection() {
+        document.querySelectorAll('.admin-section').forEach(s => s.classList.remove('active'));
+        document.getElementById('admin-main-menu').style.display = 'block';
+    }
+
+    // ==================== ADMIN: USERS ====================
+    async function adminViewUser() {
+        const uid = document.getElementById('admin-view-user-id').value.trim();
+        if (!uid) return showToast('Enter User ID', '#ef4444');
+        try {
+            const res = await fetch(`${ENGINE_API_ENDPOINT}/api/user/${uid}`);
+            const data = await res.json();
+            if (!data.success || !data.user) return showToast('User not found', '#ef4444');
+            const u = data.user;
+            document.getElementById('modal-user-detail-content').innerHTML = `
+                <div><b>Name:</b> ${sanitizeText(u.name)}</div>
+                <div><b>UID:</b> <code>${u.id}</code></div>
+                <div><b>Balance:</b> ₹${Number(u.balance || 0).toFixed(2)}</div>
+                <div><b>UPI:</b> ${sanitizeText(u.upi || 'not linked')}</div>
+                <div><b>Wallet:</b> ${sanitizeText(u.wallet || 'not linked')}</div>
+            `;
+            openModal('modal-user-detail');
+        } catch (err) {
+            showToast('Fetch failed', '#ef4444');
+        }
+    }
+
+    async function adminAdjustBalance() {
+        const uid = document.getElementById('admin-adj-uid').value.trim();
+        const amt = parseFloat(document.getElementById('admin-adj-amt').value);
+        if (!uid || isNaN(amt)) return showToast('Enter UID and amount', '#ef4444');
+        showConfirm('Adjust Balance', `Adjust ₹${amt} for user ${uid}?`, async () => {
+            try {
+                const res = await fetch(`${ENGINE_API_ENDPOINT}/api/admin/adjust-balance`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ adminId: sessionUserUid, targetId: uid, delta: amt })
+                });
+                const r = await res.json();
+                if (r.success) {
+                    showToast('Balance adjusted!', '#10b981');
+                    document.getElementById('admin-adj-uid').value = '';
+                    document.getElementById('admin-adj-amt').value = '';
+                } else showToast(r.error || 'Failed', '#ef4444');
+            } catch (e) { showToast('Network error', '#ef4444'); }
+        });
+    }
+
+    // ==================== ADMIN: TASKS ====================
+    async function adminCreateTask() {
+        const title = document.getElementById('admin-task-title').value.trim();
+        const desc = document.getElementById('admin-task-desc').value.trim();
+        const url = document.getElementById('admin-task-url').value.trim();
+        const amount = parseFloat(document.getElementById('admin-task-amt').value);
+        if (!title || !url || isNaN(amount)) return showToast('Fill all fields', '#ef4444');
+        try {
+            const res = await fetch(`${ENGINE_API_ENDPOINT}/api/admin/tasks`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ adminId: sessionUserUid, title, desc, url, amount })
+            });
+            const r = await res.json();
+            if (r.success) {
+                showToast('Task deployed!', '#10b981');
+                document.getElementById('admin-task-title').value = '';
+                document.getElementById('admin-task-desc').value = '';
+                document.getElementById('admin-task-url').value = '';
+                document.getElementById('admin-task-amt').value = '';
+                loadAdminTasks();
+            } else showToast(r.error || 'Failed', '#ef4444');
+        } catch (e) { showToast('Network error', '#ef4444'); }
+    }
+
+    async function loadAdminTasks() {
+        try {
+            const res = await fetch(`${ENGINE_API_ENDPOINT}/api/admin/tasks?adminId=${sessionUserUid}`);
+            const r = await res.json();
+            const container = document.getElementById('admin-task-list');
+            if (!r.success || !r.tasks || r.tasks.length === 0) {
+                container.innerHTML = `<p style="font-size:11.5px; color:var(--text-sub); text-align:center;">No tasks yet.</p>`;
+                return;
+            }
+            container.innerHTML = '';
+            r.tasks.forEach(t => {
+                const row = document.createElement('div');
+                row.style.cssText = 'padding:10px; background:rgba(255,255,255,0.03); border-radius:10px; margin-bottom:8px;';
+                row.innerHTML = `
+                    <div style="font-weight:700; font-size:12.5px;">${sanitizeText(t.title)}</div>
+                    <div style="font-size:11px; color:var(--text-sub);">Reward: ₹${t.amount} • ${t.active ? '🟢 Active' : '🔴 Off'}</div>
+                    <button class="glass-btn danger" style="padding:6px 10px; margin-top:8px; font-size:11px;" onclick="adminDeleteTask('${t.id}')"><i class="fa-solid fa-trash"></i> Delete</button>
+                `;
+                container.appendChild(row);
+            });
+        } catch (e) {
+            document.getElementById('admin-task-list').innerHTML = `<p style="font-size:11.5px; color:var(--text-sub); text-align:center;">Error loading tasks.</p>`;
+        }
+    }
+
+    async function adminDeleteTask(tid) {
+        showConfirm('Delete Task', 'Delete this task?', async () => {
+            try {
+                await fetch(`${ENGINE_API_ENDPOINT}/api/admin/tasks/${tid}?adminId=${sessionUserUid}`, { method: 'DELETE' });
+                showToast('Task deleted', '#ef4444');
+                loadAdminTasks();
+            } catch (e) { showToast('Failed', '#ef4444'); }
+        });
+    }
+
+    // ==================== ADMIN: WITHDRAWALS ====================
+    async function loadPendingWithdrawals() {
+        const container = document.getElementById('admin-withdrawals-list');
+        container.innerHTML = '<p style="font-size:11.5px; color:var(--text-sub); text-align:center;">Loading...</p>';
+        try {
+            const res = await fetch(`${ENGINE_API_ENDPOINT}/api/admin/withdrawals?adminId=${sessionUserUid}`);
+            const r = await res.json();
+            if (!r.success || !r.withdrawals || r.withdrawals.length === 0) {
+                container.innerHTML = `<p style="font-size:11.5px; color:var(--text-sub); text-align:center;">No pending requests.</p>`;
+                return;
+            }
+            container.innerHTML = '';
+            r.withdrawals.forEach(w => {
+                const row = document.createElement('div');
+                row.style.cssText = 'padding:12px; background:rgba(255,255,255,0.03); border:1px solid var(--glass-border); border-radius:12px; margin-bottom:10px;';
+                row.innerHTML = `
+                    <div style="font-weight:700; font-size:13px;">User: <code>${w.userId}</code></div>
+                    <div style="font-size:11.5px; color:var(--text-sub); margin:4px 0;">₹${w.amount} → ${sanitizeText(w.destination)}</div>
+                    <div style="display:flex; gap:8px; margin-top:8px;">
+                        <button class="glass-btn success" style="padding:8px; font-size:11.5px;" onclick="adminApproveWd('${w.id}')"><i class="fa-solid fa-check"></i> Approve</button>
+                        <button class="glass-btn danger" style="padding:8px; font-size:11.5px;" onclick="adminRejectWd('${w.id}')"><i class="fa-solid fa-xmark"></i> Reject</button>
+                    </div>
+                `;
+                container.appendChild(row);
+            });
+        } catch (e) {
+            container.innerHTML = `<p style="font-size:11.5px; color:var(--text-sub); text-align:center;">Error loading.</p>`;
+        }
+    }
+
+    async function adminApproveWd(wid) {
+        showConfirm('Approve', 'Approve this withdrawal?', async () => {
+            try {
+                await fetch(`${ENGINE_API_ENDPOINT}/api/admin/withdrawals/${wid}/approve`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ adminId: sessionUserUid })
+                });
+                showToast('Approved!', '#10b981');
+                loadPendingWithdrawals();
+            } catch (e) { showToast('Failed', '#ef4444'); }
+        });
+    }
+
+    async function adminRejectWd(wid) {
+        showConfirm('Reject', 'Reject this withdrawal?', async () => {
+            try {
+                await fetch(`${ENGINE_API_ENDPOINT}/api/admin/withdrawals/${wid}/reject`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ adminId: sessionUserUid })
+                });
+                showToast('Rejected', '#ef4444');
+                loadPendingWithdrawals();
+            } catch (e) { showToast('Failed', '#ef4444'); }
+        });
+    }
+
+    // ==================== ADMIN: BROADCAST ====================
+    async function adminSendBroadcast() {
+        const text = document.getElementById('admin-bc-text').value.trim();
+        if (!text) return showToast('Enter a message', '#ef4444');
+        const forward = document.getElementById('admin-bc-forward').checked;
+        showConfirm('Broadcast', `Send to ALL users?`, async () => {
+            try {
+                const res = await fetch(`${ENGINE_API_ENDPOINT}/api/admin/broadcast`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ adminId: sessionUserUid, text, mode: forward ? 'forward' : 'copy' })
+                });
+                const r = await res.json();
+                if (r.success) {
+                    showToast(`Sent to ${r.sent || 0} users`, '#10b981');
+                    document.getElementById('admin-bc-text').value = '';
+                } else showToast(r.error || 'Failed', '#ef4444');
+            } catch (e) { showToast('Network error', '#ef4444'); }
+        });
+    }
+
+    // ==================== ADMIN: VOUCHERS ====================
     async function generateVoucherCodeUnified() {
         const codeString = document.getElementById('adm-vch-code').value.trim();
         const awardValue = document.getElementById('adm-vch-value').value;
-        if (!codeString || !awardValue) return alert("Enter code parameters.");
-
+        const maxUsers = document.getElementById('adm-vch-max').value || 1;
+        if (!codeString || !awardValue) return showToast('Fill all fields', '#ef4444');
         try {
-            await fetch(`${ENGINE_API_ENDPOINT}/api/admin/create-code`, {
+            const res = await fetch(`${ENGINE_API_ENDPOINT}/api/admin/create-code`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ 
-                    adminId: sessionUserUid, 
-                    codeString, 
-                    awardValue 
-                })
+                body: JSON.stringify({ adminId: sessionUserUid, codeString, awardValue, maxUsers })
             });
-            alert(`Voucher [${codeString}] Created Successfully!`); 
-            document.getElementById('adm-vch-code').value = '';
-            document.getElementById('adm-vch-value').value = '';
-        } catch (err) {
-            alert("Failed to create voucher code.");
+            const r = await res.json();
+            if (r.success) {
+                showToast(`Voucher [${codeString}] created!`, '#10b981');
+                document.getElementById('adm-vch-code').value = '';
+                document.getElementById('adm-vch-value').value = '';
+                document.getElementById('adm-vch-max').value = '';
+                loadAdminVouchers();
+            } else showToast(r.error || 'Failed', '#ef4444');
+        } catch (err) { showToast('Network error', '#ef4444'); }
+    }
+
+    async function loadAdminVouchers() {
+        const container = document.getElementById('admin-voucher-list');
+        container.innerHTML = '<p style="font-size:11.5px; color:var(--text-sub); text-align:center;">Loading...</p>';
+        try {
+            const res = await fetch(`${ENGINE_API_ENDPOINT}/api/admin/codes?adminId=${sessionUserUid}`);
+            const r = await res.json();
+            if (!r.success || !r.codes || r.codes.length === 0) {
+                container.innerHTML = `<p style="font-size:11.5px; color:var(--text-sub); text-align:center;">No codes created.</p>`;
+                return;
+            }
+            container.innerHTML = '';
+            r.codes.forEach(c => {
+                const row = document.createElement('div');
+                row.style.cssText = 'padding:10px; background:rgba(255,255,255,0.03); border-radius:10px; margin-bottom:8px; font-size:12px;';
+                row.innerHTML = `<div><b>${sanitizeText(c.code)}</b> — ₹${c.amount}</div>
+                    <div style="color:var(--text-sub); font-size:11px;">Used: ${c.claimedBy?.length || 0}/${c.maxUsers}</div>`;
+                container.appendChild(row);
+            });
+        } catch (e) {
+            container.innerHTML = `<p style="font-size:11.5px; color:var(--text-sub); text-align:center;">Error loading.</p>`;
         }
+    }
+
+    // ==================== ADMIN: CHANNELS ====================
+    async function adminAddChannel() {
+        const name = document.getElementById('admin-ch-name').value.trim();
+        const link = document.getElementById('admin-ch-link').value.trim();
+        const username = document.getElementById('admin-ch-username').value.trim();
+        if (!name || !link) return showToast('Fill name and link', '#ef4444');
+        try {
+            const res = await fetch(`${ENGINE_API_ENDPOINT}/api/admin/channels`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ adminId: sessionUserUid, name, link, username })
+            });
+            const r = await res.json();
+            if (r.success) {
+                showToast('Channel added!', '#10b981');
+                document.getElementById('admin-ch-name').value = '';
+                document.getElementById('admin-ch-link').value = '';
+                document.getElementById('admin-ch-username').value = '';
+                loadAdminChannels();
+            } else showToast(r.error || 'Failed', '#ef4444');
+        } catch (e) { showToast('Network error', '#ef4444'); }
+    }
+
+    async function loadAdminChannels() {
+        const container = document.getElementById('admin-channels-list');
+        container.innerHTML = '<p style="font-size:11.5px; color:var(--text-sub); text-align:center;">Loading...</p>';
+        try {
+            const res = await fetch(`${ENGINE_API_ENDPOINT}/api/admin/channels?adminId=${sessionUserUid}`);
+            const r = await res.json();
+            if (!r.success || !r.channels || r.channels.length === 0) {
+                container.innerHTML = `<p style="font-size:11.5px; color:var(--text-sub); text-align:center;">No channels set.</p>`;
+                return;
+            }
+            container.innerHTML = '';
+            r.channels.forEach((c, i) => {
+                const row = document.createElement('div');
+                row.style.cssText = 'padding:10px; background:rgba(255,255,255,0.03); border-radius:10px; margin-bottom:8px; font-size:12px; display:flex; justify-content:space-between; align-items:center;';
+                row.innerHTML = `<div><b>${sanitizeText(c.name)}</b><div style="color:var(--text-sub); font-size:11px;">${sanitizeText(c.link)}</div></div>
+                    <button class="glass-btn danger" style="padding:5px 10px; width:auto; font-size:11px;" onclick="adminRemoveChannel(${i})">✕</button>`;
+                container.appendChild(row);
+            });
+        } catch (e) {
+            container.innerHTML = `<p style="font-size:11.5px; color:var(--text-sub); text-align:center;">Error loading.</p>`;
+        }
+    }
+
+    async function adminRemoveChannel(index) {
+        showConfirm('Remove Channel', 'Remove this channel?', async () => {
+            try {
+                await fetch(`${ENGINE_API_ENDPOINT}/api/admin/channels/${index}?adminId=${sessionUserUid}`, { method: 'DELETE' });
+                showToast('Channel removed', '#ef4444');
+                loadAdminChannels();
+            } catch (e) { showToast('Failed', '#ef4444'); }
+        });
+    }
+
+    // ==================== ADMIN: GATEWAYS ====================
+    async function adminAddGateway() {
+        const name = document.getElementById('admin-gw-name').value.trim().toLowerCase();
+        const type = document.getElementById('admin-gw-type').value;
+        const url = document.getElementById('admin-gw-url').value.trim();
+        if (!name || !url) return showToast('Fill all fields', '#ef4444');
+        try {
+            const res = await fetch(`${ENGINE_API_ENDPOINT}/api/admin/gateways`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ adminId: sessionUserUid, name, type, url })
+            });
+            const r = await res.json();
+            if (r.success) {
+                showToast('Gateway added!', '#10b981');
+                document.getElementById('admin-gw-name').value = '';
+                document.getElementById('admin-gw-url').value = '';
+                loadAdminGateways();
+            } else showToast(r.error || 'Failed', '#ef4444');
+        } catch (e) { showToast('Network error', '#ef4444'); }
+    }
+
+    async function loadAdminGateways() {
+        const container = document.getElementById('admin-gateways-list');
+        container.innerHTML = '<p style="font-size:11.5px; color:var(--text-sub); text-align:center;">Loading...</p>';
+        try {
+            const res = await fetch(`${ENGINE_API_ENDPOINT}/api/admin/gateways?adminId=${sessionUserUid}`);
+            const r = await res.json();
+            if (!r.success || !r.gateways || Object.keys(r.gateways).length === 0) {
+                container.innerHTML = `<p style="font-size:11.5px; color:var(--text-sub); text-align:center;">No gateways.</p>`;
+                return;
+            }
+            container.innerHTML = '';
+            Object.entries(r.gateways).forEach(([key, gw]) => {
+                const row = document.createElement('div');
+                row.style.cssText = 'padding:10px; background:rgba(255,255,255,0.03); border-radius:10px; margin-bottom:8px; font-size:12px;';
+                row.innerHTML = `<div><b>${sanitizeText(gw.displayName || key)}</b> [${gw.type}]</div>
+                    <div style="color:var(--text-sub); font-size:11px; word-break:break-all;">${sanitizeText(gw.url)}</div>`;
+                container.appendChild(row);
+            });
+        } catch (e) {
+            container.innerHTML = `<p style="font-size:11.5px; color:var(--text-sub); text-align:center;">Error loading.</p>`;
+        }
+    }
+
+    // ==================== ADMIN: SETTINGS ====================
+    async function loadAdminSettings() {
+        try {
+            const res = await fetch(`${ENGINE_API_ENDPOINT}/api/admin/settings?adminId=${sessionUserUid}`);
+            const r = await res.json();
+            if (r.success && r.settings) {
+                const s = r.settings;
+                document.getElementById('set-bot-status').checked = !!s.botStatus;
+                document.getElementById('set-verification').checked = s.verificationMode === 'Both On';
+                document.getElementById('set-withdraw').checked = s.withdrawMode === 'Both On';
+                document.getElementById('set-newuser').checked = !!s.newUserNotification;
+                document.getElementById('set-min-wd').value = s.minWithdraw || '';
+                document.getElementById('set-max-wd').value = s.maxWithdraw || '';
+                document.getElementById('set-refer-amt').value = s.perRefer || '';
+                document.getElementById('set-tax').value = s.withdrawTax || '';
+            }
+        } catch (e) { console.warn('Settings load failed:', e); }
+    }
+
+    async function adminSaveSettings() {
+        const payload = {
+            adminId: sessionUserUid,
+            botStatus: document.getElementById('set-bot-status').checked,
+            verificationMode: document.getElementById('set-verification').checked ? 'Both On' : 'Both Off',
+            withdrawMode: document.getElementById('set-withdraw').checked ? 'Both On' : 'Both Off',
+            newUserNotification: document.getElementById('set-newuser').checked,
+            minWithdraw: parseFloat(document.getElementById('set-min-wd').value) || 1,
+            maxWithdraw: parseFloat(document.getElementById('set-max-wd').value) || 500,
+            perRefer: parseFloat(document.getElementById('set-refer-amt').value) || 0,
+            withdrawTax: parseFloat(document.getElementById('set-tax').value) || 0
+        };
+        try {
+            const res = await fetch(`${ENGINE_API_ENDPOINT}/api/admin/settings`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+            const r = await res.json();
+            if (r.success) showToast('Settings saved!', '#10b981');
+            else showToast(r.error || 'Failed', '#ef4444');
+        } catch (e) { showToast('Network error', '#ef4444'); }
+    }
+
+    // ==================== ADMIN: BANS ====================
+    async function adminBanUser() {
+        const uid = document.getElementById('admin-ban-uid').value.trim();
+        if (!uid) return showToast('Enter User ID', '#ef4444');
+        showConfirm('Ban User', `Ban user ${uid}?`, async () => {
+            try {
+                await fetch(`${ENGINE_API_ENDPOINT}/api/admin/ban`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ adminId: sessionUserUid, targetId: uid })
+                });
+                showToast('User banned', '#ef4444');
+                document.getElementById('admin-ban-uid').value = '';
+                loadBannedUsers();
+            } catch (e) { showToast('Failed', '#ef4444'); }
+        });
+    }
+
+    async function adminUnbanUser() {
+        const uid = document.getElementById('admin-unban-uid').value.trim();
+        if (!uid) return showToast('Enter User ID', '#ef4444');
+        try {
+            await fetch(`${ENGINE_API_ENDPOINT}/api/admin/unban`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ adminId: sessionUserUid, targetId: uid })
+            });
+            showToast('User unbanned', '#10b981');
+            document.getElementById('admin-unban-uid').value = '';
+            loadBannedUsers();
+        } catch (e) { showToast('Failed', '#ef4444'); }
+    }
+
+    async function loadBannedUsers() {
+        const container = document.getElementById('admin-banned-list');
+        container.innerHTML = '<p style="font-size:11.5px; color:var(--text-sub); text-align:center;">Loading...</p>';
+        try {
+            const res = await fetch(`${ENGINE_API_ENDPOINT}/api/admin/banned?adminId=${sessionUserUid}`);
+            const r = await res.json();
+            if (!r.success || !r.users || r.users.length === 0) {
+                container.innerHTML = `<p style="font-size:11.5px; color:var(--text-sub); text-align:center;">No banned users.</p>`;
+                return;
+            }
+            container.innerHTML = '';
+            r.users.forEach(u => {
+                const row = document.createElement('div');
+                row.style.cssText = 'padding:10px; background:rgba(239,68,68,0.08); border-radius:10px; margin-bottom:8px; font-size:12px;';
+                row.innerHTML = `<b>${sanitizeText(u.name)}</b> — <code>${u.id}</code>`;
+                container.appendChild(row);
+            });
+        } catch (e) {
+            container.innerHTML = `<p style="font-size:11.5px; color:var(--text-sub); text-align:center;">Error loading.</p>`;
+        }
+    }
+
+    // ==================== ADMIN: SUB-ADMINS ====================
+    async function adminAddSubAdmin() {
+        const uid = document.getElementById('admin-new-subadm').value.trim();
+        if (!uid) return showToast('Enter User ID', '#ef4444');
+        try {
+            const res = await fetch(`${ENGINE_API_ENDPOINT}/api/admin/subadmins`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ adminId: sessionUserUid, targetId: uid })
+            });
+            const r = await res.json();
+            if (r.success) {
+                showToast('Sub-admin added!', '#10b981');
+                document.getElementById('admin-new-subadm').value = '';
+                loadSubAdmins();
+            } else showToast(r.error || 'Failed', '#ef4444');
+        } catch (e) { showToast('Network error', '#ef4444'); }
+    }
+
+    async function loadSubAdmins() {
+        const container = document.getElementById('admin-subadmins-list');
+        container.innerHTML = '<p style="font-size:11.5px; color:var(--text-sub); text-align:center;">Loading...</p>';
+        try {
+            const res = await fetch(`${ENGINE_API_ENDPOINT}/api/admin/subadmins?adminId=${sessionUserUid}`);
+            const r = await res.json();
+            if (!r.success || !r.subAdmins || r.subAdmins.length === 0) {
+                container.innerHTML = `<p style="font-size:11.5px; color:var(--text-sub); text-align:center;">No sub-admins yet.</p>`;
+                return;
+            }
+            container.innerHTML = '';
+            r.subAdmins.forEach(id => {
+                const row = document.createElement('div');
+                row.style.cssText = 'padding:10px; background:rgba(255,255,255,0.03); border-radius:10px; margin-bottom:8px; font-size:12px; display:flex; justify-content:space-between; align-items:center;';
+                row.innerHTML = `<code>${id}</code>
+                    <button class="glass-btn danger" style="padding:5px 10px; width:auto; font-size:11px;" onclick="adminRemoveSubAdmin('${id}')">Remove</button>`;
+                container.appendChild(row);
+            });
+        } catch (e) {
+            container.innerHTML = `<p style="font-size:11.5px; color:var(--text-sub); text-align:center;">Error loading.</p>`;
+        }
+    }
+
+    async function adminRemoveSubAdmin(id) {
+        showConfirm('Remove Sub-Admin', `Remove ${id}?`, async () => {
+            try {
+                await fetch(`${ENGINE_API_ENDPOINT}/api/admin/subadmins/${id}?adminId=${sessionUserUid}`, { method: 'DELETE' });
+                showToast('Removed', '#ef4444');
+                loadSubAdmins();
+            } catch (e) { showToast('Failed', '#ef4444'); }
+        });
+    }
+
+    // ==================== ADMIN: MESSAGE USER ====================
+    async function adminSendUserMessage() {
+        const uid = document.getElementById('admin-msg-uid').value.trim();
+        const text = document.getElementById('admin-msg-content').value.trim();
+        if (!uid || !text) return showToast('Fill all fields', '#ef4444');
+        try {
+            const res = await fetch(`${ENGINE_API_ENDPOINT}/api/admin/message-user`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ adminId: sessionUserUid, targetId: uid, text })
+            });
+            const r = await res.json();
+            if (r.success) {
+                showToast('Message sent!', '#10b981');
+                document.getElementById('admin-msg-uid').value = '';
+                document.getElementById('admin-msg-content').value = '';
+            } else showToast(r.error || 'Failed', '#ef4444');
+        } catch (e) { showToast('Network error', '#ef4444'); }
+    }
+
+    // ==================== HISTORY ====================
+    async function loadHistoryPage() {
+        const container = document.getElementById('history-content-container');
+        container.innerHTML = '<p style="font-size:12px; color:var(--text-sub); text-align:center; padding:20px;">Loading...</p>';
+        try {
+            const res = await fetch(`${ENGINE_API_ENDPOINT}/api/user/${sessionUserUid}`);
+            const data = await res.json();
+            if (data.success && data.user) {
+                container.innerHTML = `
+                    <div class="glass-card">
+                        <h4 style="font-size:13px; margin-bottom:8px;">💰 Total Withdrawn</h4>
+                        <div style="font-size:24px; font-weight:800; color:var(--green-accent);">₹${Number(data.user.totalWithdrawn || 0).toFixed(2)}</div>
+                    </div>
+                    <div class="glass-card">
+                        <h4 style="font-size:13px; margin-bottom:8px;">🎁 Reward Points</h4>
+                        <div style="font-size:24px; font-weight:800; color:var(--red-brand);">₹${Number(data.user.balance || 0).toFixed(2)}</div>
+                    </div>
+                `;
+            } else {
+                container.innerHTML = '<p style="font-size:12px; color:var(--text-sub); text-align:center;">No data.</p>';
+            }
+        } catch (e) {
+            container.innerHTML = '<p style="font-size:12px; color:var(--text-sub); text-align:center;">Error loading.</p>';
+        }
+    }
+
+    // ==================== PAYOUT SETUP ====================
+    async function loadPayoutSetup() {
+        try {
+            const res = await fetch(`${ENGINE_API_ENDPOINT}/api/user/${sessionUserUid}`);
+            const r = await res.json();
+            if (r.success && r.user) {
+                if (r.user.upi && r.user.upi !== 'not_linked') document.getElementById('setup-upi-input').value = r.user.upi;
+                if (r.user.wallet && r.user.wallet !== 'not_linked') document.getElementById('setup-wallet-input').value = r.user.wallet;
+            }
+        } catch (e) {}
+    }
+
+    async function saveUpiSetup() {
+        const upi = document.getElementById('setup-upi-input').value.trim();
+        if (!upi) return showToast('Enter UPI ID', '#ef4444');
+        try {
+            await fetch(`${ENGINE_API_ENDPOINT}/api/user/${sessionUserUid}/upi`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ upi })
+            });
+            showToast('UPI saved!', '#10b981');
+        } catch (e) { showToast('Network error', '#ef4444'); }
+    }
+
+    async function saveWalletSetup() {
+        const wallet = document.getElementById('setup-wallet-input').value.trim();
+        if (!wallet) return showToast('Enter wallet', '#ef4444');
+        try {
+            await fetch(`${ENGINE_API_ENDPOINT}/api/user/${sessionUserUid}/wallet`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ wallet })
+            });
+            showToast('Wallet saved!', '#10b981');
+        } catch (e) { showToast('Network error', '#ef4444'); }
     }
 </script>
 </body>
