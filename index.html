@@ -504,7 +504,6 @@
             margin-bottom: 9px; gap: 8px;
         }
 
-        /* User list item (NEW) */
         .user-list-item {
             display: flex;
             align-items: center;
@@ -671,6 +670,7 @@
             <i class="fa-solid fa-chevron-right" style="color:var(--text-sub)"></i>
         </div>
 
+        <!-- 🆕 ADMIN BUTTON (hidden by default, shown only if user is admin/sub-admin) -->
         <div id="admin-terminal-btn" class="menu-list-link" style="display:none; margin-top:16px; border-color:var(--red-brand);" onclick="openSubPage('page-admin-control-hub')">
             <div><i class="fa-solid fa-user-shield" style="color:var(--red-brand); margin-right:10px;"></i> Admin Control Panel</div>
             <i class="fa-solid fa-chevron-right" style="color:var(--red-brand)"></i>
@@ -866,7 +866,7 @@
         </div>
     </div>
 
-    <!-- 🆕 REGISTERED USERS LIST -->
+    <!-- REGISTERED USERS LIST -->
     <div id="admin-section-registered_users" class="admin-section">
         <div style="display:flex; align-items:center; gap:10px; margin-bottom:14px;">
             <div class="back-circle-btn" onclick="closeAdminSection()"><i class="fa-solid fa-chevron-left"></i></div>
@@ -1282,7 +1282,6 @@
 
 <script>
     const ENGINE_API_ENDPOINT = window.location.origin;
-    const ADMIN_ID = 501889840;
 
     const tg = window.Telegram.WebApp;
     tg.ready();
@@ -1300,7 +1299,9 @@
         throw new Error("No Telegram user ID");
     }
 
-    const isRealAdmin = Number(sessionUserUid) === ADMIN_ID;
+    // 🆕 Admin status - fetched dynamically from server
+    let isRealAdmin = false;      // true if user is owner OR sub-admin
+    let isOwnerUser = false;      // true if user is the bot owner
 
     let appBanners = [];
     let quickPayContacts = [];
@@ -1308,7 +1309,7 @@
     let blockedUsersList = [];
     let currentActiveChatContact = null;
 
-    // 🆕 Registered Users pagination
+    // Registered Users pagination
     let regUsersCache = [];
     let regUsersPage = 0;
     const REG_USERS_PAGE_SIZE = 30;
@@ -1359,7 +1360,7 @@
         } catch(e) { setBalance(0, true); }
     })();
 
-    document.addEventListener("DOMContentLoaded", () => {
+    document.addEventListener("DOMContentLoaded", async () => {
         document.getElementById('prof-uid-string').innerText = sessionUserUid;
         document.getElementById('prof-name-node').innerText = sessionUserName;
         document.getElementById('txt-refer-link-box').value = `https://t.me/ExtraEarnBot?start=${sessionUserUid}`;
@@ -1367,10 +1368,6 @@
         const avatarImg = document.getElementById('prof-avatar-node');
         if (sessionUserPhoto) avatarImg.src = sessionUserPhoto;
         else renderInitialAvatar();
-
-        if (isRealAdmin) {
-            document.getElementById('admin-terminal-btn').style.display = 'flex';
-        }
 
         try {
             appBanners = JSON.parse(localStorage.getItem('extra_app_banners') || '[]');
@@ -1382,10 +1379,60 @@
         renderBannersOnHome();
         renderQuickPayPeopleGrid();
         renderQuickPayTransactionHistory();
-        if (isRealAdmin) renderAdminBannerList();
+
+        // 🆕 CHECK ADMIN ACCESS FIRST
+        await checkAdminAccess();
 
         fetchUserData();
     });
+
+    // 🆕 ==================== CHECK ADMIN ACCESS ====================
+    async function checkAdminAccess() {
+        try {
+            const ctrl = new AbortController();
+            const timeout = setTimeout(() => ctrl.abort(), 10000);
+            const res = await fetch(`${ENGINE_API_ENDPOINT}/api/admin/check-access?userId=${sessionUserUid}`, { signal: ctrl.signal });
+            clearTimeout(timeout);
+            const data = await res.json();
+
+            if (data.success && data.isAdmin) {
+                isRealAdmin = true;
+                isOwnerUser = !!data.isOwner;
+
+                // Show admin button
+                document.getElementById('admin-terminal-btn').style.display = 'flex';
+
+                // Cache for faster next load
+                try {
+                    localStorage.setItem('cached_isAdmin_' + sessionUserUid, 'true');
+                    localStorage.setItem('cached_isOwner_' + sessionUserUid, String(isOwnerUser));
+                } catch(e) {}
+
+                // Preload admin banner list
+                renderAdminBannerList();
+            } else {
+                // Not an admin
+                isRealAdmin = false;
+                isOwnerUser = false;
+                document.getElementById('admin-terminal-btn').style.display = 'none';
+                try {
+                    localStorage.removeItem('cached_isAdmin_' + sessionUserUid);
+                } catch(e) {}
+            }
+        } catch (err) {
+            console.error("Admin access check failed:", err);
+            // Fallback: check cached value
+            try {
+                const cachedAdmin = localStorage.getItem('cached_isAdmin_' + sessionUserUid);
+                if (cachedAdmin === 'true') {
+                    isRealAdmin = true;
+                    isOwnerUser = localStorage.getItem('cached_isOwner_' + sessionUserUid) === 'true';
+                    document.getElementById('admin-terminal-btn').style.display = 'flex';
+                    renderAdminBannerList();
+                }
+            } catch(e) {}
+        }
+    }
 
     function handleAvatarError() { renderInitialAvatar(); }
     function renderInitialAvatar() {
@@ -1683,6 +1730,11 @@
     }
 
     function openSubPage(id) {
+        // 🆕 Block admin page if not admin
+        if (id === 'page-admin-control-hub' && !isRealAdmin) {
+            showToast('⛔ Access Denied', '#ef4444');
+            return;
+        }
         document.getElementById(id).classList.add('active');
         if (id === 'page-admin-control-hub') loadAdminStats();
         if (id === 'page-history') loadHistoryPage();
@@ -1854,6 +1906,12 @@
     }
 
     function openAdminSection(name) {
+        // 🆕 Double-check admin access
+        if (!isRealAdmin) {
+            showToast('⛔ Access Denied', '#ef4444');
+            return;
+        }
+
         document.querySelectorAll('.admin-section').forEach(s => s.classList.remove('active'));
         document.getElementById('admin-main-menu').style.display = 'none';
         const sec = document.getElementById(`admin-section-${name}`);
@@ -1871,7 +1929,7 @@
         if (name === 'keyboards') loadAdminKeyboardLayout();
         if (name === 'error_logs') loadErrorLogs();
         if (name === 'messages') loadBotMessages();
-        if (name === 'registered_users') loadRegisteredUsers(true); // 🆕
+        if (name === 'registered_users') loadRegisteredUsers(true);
     }
 
     function closeAdminSection() {
@@ -1879,7 +1937,7 @@
         document.getElementById('admin-main-menu').style.display = 'block';
     }
 
-    // ==================== 🆕 ADMIN: REGISTERED USERS ====================
+    // ==================== REGISTERED USERS ====================
     async function loadRegisteredUsers(reset = false) {
         const container = document.getElementById('registered-users-list-container');
         const loadMoreBtn = document.getElementById('registered-users-load-more');
@@ -1904,13 +1962,11 @@
             regUsersCache = regUsersCache.concat(newUsers);
             regUsersHasMore = !!r.hasMore;
 
-            // Update count
             const total = r.total || regUsersCache.length;
             countEl.innerText = `Showing: ${regUsersCache.length} / ${total} users`;
 
             renderRegisteredUsersList();
 
-            // Show/hide load more
             if (regUsersHasMore) {
                 loadMoreBtn.style.display = 'block';
                 regUsersPage++;
@@ -2770,6 +2826,7 @@
                     setTimeout(() => {
                         closeSubPage('page-admin-control-hub');
                         document.getElementById('admin-terminal-btn').style.display = 'none';
+                        isRealAdmin = false;
                     }, 2000);
                 } else showToast(r.error || 'Failed', '#ef4444');
             } catch (e) { showToast('Network error', '#ef4444'); }
