@@ -504,6 +504,62 @@
             margin-bottom: 9px; gap: 8px;
         }
 
+        /* User list item (NEW) */
+        .user-list-item {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+            padding: 11px 13px;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid var(--glass-border);
+            border-radius: 14px;
+            margin-bottom: 8px;
+            cursor: pointer;
+            transition: all 0.18s;
+        }
+        .user-list-item:active {
+            background: var(--glass-hover);
+            transform: scale(0.99);
+        }
+        .user-list-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--blue-accent), var(--purple-accent));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 15px;
+            color: #fff;
+            flex-shrink: 0;
+        }
+        .user-list-info {
+            flex: 1;
+            overflow: hidden;
+        }
+        .user-list-name {
+            font-weight: 700;
+            font-size: 13px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .user-list-meta {
+            font-size: 10.5px;
+            color: var(--text-sub);
+            margin-top: 2px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .user-list-bal {
+            font-weight: 800;
+            font-size: 13px;
+            color: var(--green-accent);
+            flex-shrink: 0;
+        }
+
         ::-webkit-scrollbar { width: 0; height: 0; }
     </style>
 </head>
@@ -737,6 +793,9 @@
             <div class="admin-menu-btn" onclick="openAdminSection('users')">
                 <i class="fa-solid fa-users" style="color:var(--blue-accent);"></i><span>Users Matrix</span>
             </div>
+            <div class="admin-menu-btn" onclick="openAdminSection('registered_users')">
+                <i class="fa-solid fa-address-book" style="color:var(--green-accent);"></i><span>Registered Users</span>
+            </div>
             <div class="admin-menu-btn" onclick="openAdminSection('tasks')">
                 <i class="fa-solid fa-list-check" style="color:var(--green-accent);"></i><span>Tasks</span>
             </div>
@@ -804,6 +863,39 @@
             <input type="number" id="admin-adj-uid" class="glass-input" placeholder="User ID">
             <input type="number" id="admin-adj-amt" class="glass-input" placeholder="Amount (+add / -remove)">
             <button class="glass-btn success" onclick="adminAdjustBalance()"><i class="fa-solid fa-check"></i> Adjust Balance</button>
+        </div>
+    </div>
+
+    <!-- 🆕 REGISTERED USERS LIST -->
+    <div id="admin-section-registered_users" class="admin-section">
+        <div style="display:flex; align-items:center; gap:10px; margin-bottom:14px;">
+            <div class="back-circle-btn" onclick="closeAdminSection()"><i class="fa-solid fa-chevron-left"></i></div>
+            <h3 class="admin-section-title" style="margin:0;"><i class="fa-solid fa-address-book"></i> Registered Users List</h3>
+        </div>
+
+        <div class="glass-card" style="padding:12px;">
+            <div class="search-box-wrapper" style="margin-bottom:0;">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" id="registered-users-search" class="glass-input" placeholder="Search by name or UID..." oninput="filterRegisteredUsers()">
+            </div>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-top:10px;">
+                <span style="font-size:11.5px; color:var(--text-sub);" id="registered-users-count">Total: 0 users</span>
+                <button class="glass-btn" style="width:auto; padding:6px 12px; font-size:11px;" onclick="loadRegisteredUsers(true)">
+                    <i class="fa-solid fa-refresh"></i> Refresh
+                </button>
+            </div>
+        </div>
+
+        <div id="registered-users-list-container">
+            <p style="font-size:12px; color:var(--text-sub); text-align:center; padding:20px;">
+                <i class="fa-solid fa-spinner fa-spin"></i> Loading users...
+            </p>
+        </div>
+
+        <div id="registered-users-load-more" style="display:none; margin-top:10px;">
+            <button class="glass-btn" onclick="loadRegisteredUsers(false)">
+                <i class="fa-solid fa-plus"></i> Load More Users
+            </button>
         </div>
     </div>
 
@@ -1216,6 +1308,12 @@
     let blockedUsersList = [];
     let currentActiveChatContact = null;
 
+    // 🆕 Registered Users pagination
+    let regUsersCache = [];
+    let regUsersPage = 0;
+    const REG_USERS_PAGE_SIZE = 30;
+    let regUsersHasMore = false;
+
     function sanitizeText(str) {
         const temp = document.createElement('div');
         temp.textContent = str || '';
@@ -1253,7 +1351,6 @@
         }
     }
 
-    // Instant boot from cache
     (function instantBoot() {
         try {
             const cachedBal = localStorage.getItem('cached_balance_' + sessionUserUid);
@@ -1774,6 +1871,7 @@
         if (name === 'keyboards') loadAdminKeyboardLayout();
         if (name === 'error_logs') loadErrorLogs();
         if (name === 'messages') loadBotMessages();
+        if (name === 'registered_users') loadRegisteredUsers(true); // 🆕
     }
 
     function closeAdminSection() {
@@ -1781,17 +1879,116 @@
         document.getElementById('admin-main-menu').style.display = 'block';
     }
 
-    async function adminViewUser() {
-        const uid = document.getElementById('admin-view-user-id').value.trim();
-        if (!uid) return showToast('Enter User ID', '#ef4444');
+    // ==================== 🆕 ADMIN: REGISTERED USERS ====================
+    async function loadRegisteredUsers(reset = false) {
+        const container = document.getElementById('registered-users-list-container');
+        const loadMoreBtn = document.getElementById('registered-users-load-more');
+        const countEl = document.getElementById('registered-users-count');
+
+        if (reset) {
+            regUsersPage = 0;
+            regUsersCache = [];
+            container.innerHTML = '<p style="font-size:12px; color:var(--text-sub); text-align:center; padding:20px;"><i class="fa-solid fa-spinner fa-spin"></i> Loading users...</p>';
+            loadMoreBtn.style.display = 'none';
+        }
+
+        try {
+            const res = await fetch(`${ENGINE_API_ENDPOINT}/api/admin/users/list?adminId=${sessionUserUid}&page=${regUsersPage}&limit=${REG_USERS_PAGE_SIZE}`);
+            const r = await res.json();
+            if (!r.success) {
+                container.innerHTML = `<p style="font-size:12px; color:#f87171; text-align:center; padding:20px;">❌ ${r.error || 'Failed to load users'}</p>`;
+                return;
+            }
+
+            const newUsers = r.users || [];
+            regUsersCache = regUsersCache.concat(newUsers);
+            regUsersHasMore = !!r.hasMore;
+
+            // Update count
+            const total = r.total || regUsersCache.length;
+            countEl.innerText = `Showing: ${regUsersCache.length} / ${total} users`;
+
+            renderRegisteredUsersList();
+
+            // Show/hide load more
+            if (regUsersHasMore) {
+                loadMoreBtn.style.display = 'block';
+                regUsersPage++;
+            } else {
+                loadMoreBtn.style.display = 'none';
+            }
+        } catch (e) {
+            console.error('Load registered users error:', e);
+            container.innerHTML = '<p style="font-size:12px; color:#f87171; text-align:center; padding:20px;">❌ Network error</p>';
+        }
+    }
+
+    function renderRegisteredUsersList() {
+        const container = document.getElementById('registered-users-list-container');
+        const searchQuery = (document.getElementById('registered-users-search')?.value || '').trim().toLowerCase();
+
+        const filtered = regUsersCache.filter(u => {
+            if (!searchQuery) return true;
+            const name = (u.name || '').toLowerCase();
+            const uid = String(u.id);
+            return name.includes(searchQuery) || uid.includes(searchQuery);
+        });
+
+        if (filtered.length === 0) {
+            container.innerHTML = `<p style="font-size:12px; color:var(--text-sub); text-align:center; padding:20px;">
+                ${regUsersCache.length === 0 ? 'No users registered yet.' : 'No matching users found.'}
+            </p>`;
+            return;
+        }
+
+        container.innerHTML = '';
+        filtered.forEach(u => {
+            const initial = sanitizeText((u.name || 'U').charAt(0).toUpperCase());
+            const item = document.createElement('div');
+            item.className = 'user-list-item';
+            item.onclick = () => openRegisteredUserDetail(u.id);
+            item.innerHTML = `
+                <div class="user-list-avatar">${initial}</div>
+                <div class="user-list-info">
+                    <div class="user-list-name">${sanitizeText(u.name || 'Unknown')}</div>
+                    <div class="user-list-meta">🆔 ${u.id} • ${u.isBanned ? '🚫 Banned' : '✅ Active'}</div>
+                </div>
+                <div class="user-list-bal">₹${Number(u.balance || 0).toFixed(2)}</div>
+            `;
+            container.appendChild(item);
+        });
+    }
+
+    function filterRegisteredUsers() {
+        renderRegisteredUsersList();
+    }
+
+    async function openRegisteredUserDetail(uid) {
         try {
             const res = await fetch(`${ENGINE_API_ENDPOINT}/api/user/${uid}`);
             const data = await res.json();
             if (!data.success || !data.user) return showToast('User not found', '#ef4444');
             const u = data.user;
-            document.getElementById('modal-user-detail-content').innerHTML = `<div><b>Name:</b> ${sanitizeText(u.name)}</div><div><b>UID:</b> <code>${u.id}</code></div><div><b>Balance:</b> ₹${Number(u.balance || 0).toFixed(2)}</div><div><b>UPI:</b> ${sanitizeText(u.upi || 'not linked')}</div><div><b>Wallet:</b> ${sanitizeText(u.wallet || 'not linked')}</div><div><b>Total Withdrawn:</b> ₹${Number(u.totalWithdrawn || 0).toFixed(2)}</div>`;
+            document.getElementById('modal-user-detail-content').innerHTML = `
+                <div><b>Name:</b> ${sanitizeText(u.name)}</div>
+                <div><b>UID:</b> <code>${u.id}</code></div>
+                <div><b>Balance:</b> <span style="color:var(--green-accent);font-weight:800;">₹${Number(u.balance || 0).toFixed(2)}</span></div>
+                <div><b>UPI:</b> ${sanitizeText(u.upi || 'not linked')}</div>
+                <div><b>Wallet:</b> ${sanitizeText(u.wallet || 'not linked')}</div>
+                <div><b>Total Withdrawn:</b> ₹${Number(u.totalWithdrawn || 0).toFixed(2)}</div>
+                <div><b>Invites:</b> ${(u.invites || []).length}</div>
+                <div><b>Status:</b> ${u.isBanned ? '🚫 Banned' : '✅ Active'}</div>
+            `;
             openModal('modal-user-detail');
-        } catch (err) { showToast('Fetch failed', '#ef4444'); }
+        } catch (e) {
+            showToast('Failed to load user', '#ef4444');
+        }
+    }
+
+    async function adminViewUser() {
+        const uid = document.getElementById('admin-view-user-id').value.trim();
+        if (!uid) return showToast('Enter User ID', '#ef4444');
+        await openRegisteredUserDetail(uid);
     }
 
     async function adminAdjustBalance() {
