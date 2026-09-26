@@ -62,18 +62,6 @@
             flex-direction: column;
         }
 
-        @media (min-width: 501px) {
-            body { background: #000; background-image: none; }
-            .app-container {
-                border-left: 1px solid rgba(255,255,255,0.05);
-                border-right: 1px solid rgba(255,255,255,0.05);
-                background: var(--bg);
-                background-image:
-                    radial-gradient(circle at 0% 0%, rgba(255, 42, 75, 0.10) 0%, transparent 40%),
-                    radial-gradient(circle at 100% 100%, rgba(59, 130, 246, 0.08) 0%, transparent 40%);
-            }
-        }
-
         .header {
             height: 66px;
             padding: 0 18px;
@@ -89,11 +77,7 @@
             z-index: 999;
         }
 
-        .logo-section h1 {
-            font-size: 20px;
-            font-weight: 800;
-            letter-spacing: -0.5px;
-        }
+        .logo-section h1 { font-size: 20px; font-weight: 800; letter-spacing: -0.5px; }
         .logo-section h1 span.extra { color: var(--red-brand); text-shadow: 0 0 18px rgba(255, 42, 75, 0.55); }
         .logo-section h1 span.earn { color: #ffffff; }
 
@@ -109,7 +93,6 @@
             box-shadow: 0 4px 18px rgba(16, 185, 129, 0.15);
             min-width: 80px;
             text-align: center;
-            transition: all 0.3s;
         }
         .header-bal-badge.loading {
             color: var(--text-sub);
@@ -172,7 +155,6 @@
             font-size: 14px;
             outline: none;
             margin-bottom: 11px;
-            transition: border-color 0.2s;
             font-family: inherit;
         }
         .glass-input::placeholder { color: #64748b; }
@@ -235,7 +217,6 @@
             display: flex; align-items: center; justify-content: center;
             font-weight: 800; font-size: 17px; color: #fff;
             border: 2px solid var(--glass-border-bright);
-            box-shadow: 0 6px 14px rgba(0,0,0,0.4);
             margin-bottom: 5px;
         }
         .quickpay-person-name {
@@ -264,16 +245,13 @@
             display: flex; align-items: center; justify-content: center; font-size: 14px;
         }
         .tx-history-icon.out { background: rgba(239, 68, 68, 0.15); color: #f87171; }
-        .tx-history-icon.in { background: rgba(16, 185, 129, 0.15); color: var(--green-accent); }
 
         .profile-hero { display: flex; align-items: center; gap: 14px; margin-bottom: 18px; }
         .profile-avatar-wrap {
             width: 68px; height: 68px; border-radius: 50%;
             border: 2px solid var(--red-brand); padding: 2px;
-            position: relative;
             background: linear-gradient(135deg, var(--blue-accent), var(--red-brand));
             flex-shrink: 0; overflow: hidden;
-            box-shadow: 0 0 20px rgba(255, 42, 75, 0.3);
         }
         .profile-avatar-wrap img {
             width: 100%; height: 100%;
@@ -299,7 +277,6 @@
             border: 1px solid var(--glass-border);
             border-radius: var(--radius-md); margin-bottom: 10px;
             cursor: pointer; font-weight: 600; font-size: 13.5px;
-            transition: all 0.2s;
         }
         .menu-list-link:active { background: var(--glass-hover); transform: scale(0.99); }
 
@@ -314,19 +291,16 @@
             border-radius: 26px;
             display: flex; justify-content: space-around; align-items: center;
             z-index: 1000;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.08);
             padding-bottom: env(safe-area-inset-bottom, 0px);
         }
         .nav-link {
             display: flex; flex-direction: column; align-items: center;
             color: var(--text-sub); font-size: 10.5px; font-weight: 700;
-            gap: 3px; cursor: pointer; transition: all 0.3s;
-            padding: 6px 14px; border-radius: 14px;
+            gap: 3px; cursor: pointer; padding: 6px 14px; border-radius: 14px;
         }
         .nav-link i { font-size: 18px; }
         .nav-link.active {
             color: var(--red-brand);
-            text-shadow: 0 0 12px rgba(255, 42, 75, 0.6);
             background: rgba(255, 42, 75, 0.1);
         }
 
@@ -339,7 +313,6 @@
             overflow-y: auto; padding: 18px;
             padding-top: max(18px, env(safe-area-inset-top, 18px));
             padding-bottom: calc(30px + env(safe-area-inset-bottom, 0px));
-            background-image: radial-gradient(circle at 50% 0%, rgba(255, 42, 75, 0.08) 0%, transparent 50%);
         }
         .full-sub-page.active { display: flex; }
 
@@ -374,7 +347,6 @@
             backdrop-filter: blur(25px);
             border-bottom: 1px solid var(--glass-border);
             display: flex; align-items: center; justify-content: space-between;
-            padding-top: max(14px, env(safe-area-inset-top, 14px));
         }
         .chat-body {
             flex: 1; padding: 18px; overflow-y: auto;
@@ -386,7 +358,7 @@
             padding: 11px 15px;
             border-radius: 16px 16px 4px 16px;
             max-width: 78%; align-self: flex-end;
-            font-size: 13px; line-height: 1.4; color: #fff;
+            font-size: 13px; line-height: 1.4;
             word-break: break-word;
         }
         .chat-bubble-card {
@@ -394,22 +366,20 @@
             border: 1px solid var(--glass-border-bright);
             border-radius: 18px; padding: 16px;
             max-width: 80%; align-self: flex-end;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.3);
         }
         .chat-footer-bar {
             padding: 12px 14px;
             background: rgba(0, 0, 0, 0.92);
             backdrop-filter: blur(25px);
             border-top: 1px solid var(--glass-border);
-            display: flex; gap: 9px; align-items: center; flex-direction: column;
-            padding-bottom: max(12px, env(safe-area-inset-bottom, 12px));
+            display: flex; gap: 9px; flex-direction: column;
         }
         .chat-input-row { display: flex; gap: 8px; width: 100%; align-items: center; }
 
         .glass-modal {
             position: fixed; top: 0; left: 0; right: 0; bottom: 0;
             background: rgba(0, 0, 0, 0.88);
-            backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+            backdrop-filter: blur(14px);
             z-index: 10000; display: none;
             align-items: center; justify-content: center; padding: 20px;
         }
@@ -419,7 +389,6 @@
             border: 1px solid var(--glass-border-bright);
             width: 100%; max-width: 380px;
             border-radius: 24px; padding: 22px;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.85);
             max-height: 90vh; overflow-y: auto;
         }
 
@@ -434,8 +403,7 @@
         }
         .admin-stat-card .label {
             font-size: 10.5px; color: var(--text-sub);
-            text-transform: uppercase; letter-spacing: 0.5px;
-            font-weight: 700; margin-bottom: 5px;
+            text-transform: uppercase; font-weight: 700; margin-bottom: 5px;
         }
         .admin-stat-card .value { font-size: 22px; font-weight: 800; color: #fff; }
 
@@ -449,20 +417,19 @@
             padding: 14px 8px;
             background: linear-gradient(135deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
             border: 1px solid var(--glass-border);
-            border-radius: var(--radius-md);
-            cursor: pointer; transition: all 0.2s; text-align: center;
+            border-radius: var(--radius-md); cursor: pointer; text-align: center;
         }
         .admin-menu-btn:active { background: var(--glass-hover); transform: scale(0.97); }
         .admin-menu-btn i { font-size: 20px; }
         .admin-menu-btn span { font-size: 11px; font-weight: 700; color: #fff; }
 
-        .admin-section { display: none; animation: fadeIn 0.25s ease; }
+        .admin-section { display: none; }
         .admin-section.active { display: block; }
 
         .admin-section-title {
             font-size: 14px; font-weight: 800;
             margin: 4px 0 12px 0;
-            display: flex; align-items: center; gap: 8px; color: #fff;
+            display: flex; align-items: center; gap: 8px;
         }
         .admin-section-title i { color: var(--red-brand); }
 
@@ -505,58 +472,29 @@
         }
 
         .user-list-item {
-            display: flex;
-            align-items: center;
-            gap: 11px;
-            padding: 11px 13px;
-            background: rgba(255,255,255,0.03);
+            display: flex; align-items: center; gap: 11px;
+            padding: 11px 13px; background: rgba(255,255,255,0.03);
             border: 1px solid var(--glass-border);
-            border-radius: 14px;
-            margin-bottom: 8px;
-            cursor: pointer;
-            transition: all 0.18s;
+            border-radius: 14px; margin-bottom: 8px; cursor: pointer;
         }
-        .user-list-item:active {
-            background: var(--glass-hover);
-            transform: scale(0.99);
-        }
+        .user-list-item:active { background: var(--glass-hover); transform: scale(0.99); }
         .user-list-avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
+            width: 40px; height: 40px; border-radius: 50%;
             background: linear-gradient(135deg, var(--blue-accent), var(--purple-accent));
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 800;
-            font-size: 15px;
-            color: #fff;
-            flex-shrink: 0;
+            display: flex; align-items: center; justify-content: center;
+            font-weight: 800; font-size: 15px; color: #fff; flex-shrink: 0;
         }
-        .user-list-info {
-            flex: 1;
-            overflow: hidden;
-        }
+        .user-list-info { flex: 1; overflow: hidden; }
         .user-list-name {
-            font-weight: 700;
-            font-size: 13px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
+            font-weight: 700; font-size: 13px;
+            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
         }
         .user-list-meta {
-            font-size: 10.5px;
-            color: var(--text-sub);
-            margin-top: 2px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
+            font-size: 10.5px; color: var(--text-sub); margin-top: 2px;
         }
         .user-list-bal {
-            font-weight: 800;
-            font-size: 13px;
-            color: var(--green-accent);
-            flex-shrink: 0;
+            font-weight: 800; font-size: 13px;
+            color: var(--green-accent); flex-shrink: 0;
         }
 
         ::-webkit-scrollbar { width: 0; height: 0; }
@@ -572,12 +510,11 @@
         <div id="header-bal" class="header-bal-badge loading">Loading...</div>
     </header>
 
-    <!-- HOME -->
     <div id="view-home" class="view-section active">
         <div id="home-banner-wrapper" class="banner-wrapper">
             <div id="home-banner-slider" class="banner-slider"></div>
         </div>
-        <h4 style="font-size: 12px; color: var(--text-sub); margin: 12px 0 10px 0; text-transform: uppercase; letter-spacing: 0.7px; font-weight:700;">Available Tasks</h4>
+        <h4 style="font-size: 12px; color: var(--text-sub); margin: 12px 0 10px 0; text-transform: uppercase; font-weight:700;">Available Tasks</h4>
         <div id="home-tasks-container">
             <div class="glass-card" style="text-align: center; color: var(--text-sub); padding: 30px;">
                 <i class="fa-solid fa-list-check" style="font-size: 28px; margin-bottom: 10px; opacity:0.35; color:var(--red-brand);"></i>
@@ -586,14 +523,12 @@
         </div>
     </div>
 
-    <!-- WALLET -->
     <div id="view-wallet" class="view-section">
         <div class="glass-card" style="text-align: center; padding: 30px 18px;">
-            <p style="font-size: 11px; color: var(--text-sub); font-weight: 700; letter-spacing:1px;">TOTAL WALLET BALANCE</p>
+            <p style="font-size: 11px; color: var(--text-sub); font-weight: 700;">TOTAL WALLET BALANCE</p>
             <h1 id="lbl-wallet-bal" style="font-size: 38px; font-weight: 800; color: var(--green-accent); margin: 8px 0 18px 0;">₹0.00</h1>
             <button class="glass-btn primary" onclick="openModal('modal-withdraw')"><i class="fa-solid fa-wallet"></i> Instant Withdrawal</button>
         </div>
-
         <div class="glass-card">
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
                 <span style="font-size:13.5px; font-weight:700;">Redeem Gift Voucher</span>
@@ -604,13 +539,11 @@
         </div>
     </div>
 
-    <!-- QUICK PAY -->
     <div id="view-pay" class="view-section">
         <div class="search-box-wrapper">
             <i class="fa-solid fa-magnifying-glass"></i>
             <input type="text" id="quickpay-search-input" class="glass-input" placeholder="Search contact or UID..." oninput="filterQuickPayContacts()">
         </div>
-
         <div class="glass-card" style="padding:14px; display:flex; justify-content:space-between; align-items:center; cursor:pointer;" onclick="openNewPayPrompt()">
             <div style="display:flex; align-items:center; gap:12px;">
                 <div style="width:42px; height:42px; border-radius:50%; background:rgba(255,42,75,0.15); color:var(--red-brand); display:flex; align-items:center; justify-content:center; font-size:17px;">
@@ -623,22 +556,19 @@
             </div>
             <i class="fa-solid fa-chevron-right" style="color:var(--text-sub)"></i>
         </div>
-
         <div style="margin-top:8px;">
-            <span style="font-size: 11px; font-weight:800; color:var(--text-sub); letter-spacing:0.7px; text-transform:uppercase;">Recent Contacts</span>
+            <span style="font-size: 11px; font-weight:800; color:var(--text-sub); text-transform:uppercase;">Recent Contacts</span>
             <div id="quickpay-people-container" class="quickpay-people-grid"></div>
         </div>
-
         <div style="margin-top:8px;">
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-                <span style="font-size: 11px; font-weight:800; color:var(--text-sub); letter-spacing:0.7px; text-transform:uppercase;">Payment Activity</span>
+                <span style="font-size: 11px; font-weight:800; color:var(--text-sub); text-transform:uppercase;">Payment Activity</span>
                 <i class="fa-solid fa-clock-rotate-left" style="color:var(--text-sub); font-size:12px;"></i>
             </div>
             <div id="quickpay-tx-history-list"></div>
         </div>
     </div>
 
-    <!-- PROFILE -->
     <div id="view-profile" class="view-section">
         <div class="profile-hero">
             <div class="profile-avatar-wrap" id="prof-avatar-wrap">
@@ -654,23 +584,19 @@
             <div><i class="fa-solid fa-users" style="color:var(--blue-accent); margin-right:10px;"></i> Refer & Earn Friends</div>
             <i class="fa-solid fa-chevron-right" style="color:var(--text-sub)"></i>
         </div>
-
         <div class="menu-list-link" onclick="openSubPage('page-leaderboard')">
             <div><i class="fa-solid fa-trophy" style="color:gold; margin-right:10px;"></i> Top Earner Leaderboard</div>
             <i class="fa-solid fa-chevron-right" style="color:var(--text-sub)"></i>
         </div>
-
         <div class="menu-list-link" onclick="openSubPage('page-payout-setup')">
             <div><i class="fa-solid fa-gear" style="color:var(--purple-accent); margin-right:10px;"></i> Payout Setup</div>
             <i class="fa-solid fa-chevron-right" style="color:var(--text-sub)"></i>
         </div>
-
         <div class="menu-list-link" onclick="openSubPage('page-history')">
             <div><i class="fa-solid fa-clock-rotate-left" style="color:var(--yellow-accent); margin-right:10px;"></i> Payout & Reward History</div>
             <i class="fa-solid fa-chevron-right" style="color:var(--text-sub)"></i>
         </div>
 
-        <!-- 🆕 ADMIN BUTTON (hidden by default, shown only if user is admin/sub-admin) -->
         <div id="admin-terminal-btn" class="menu-list-link" style="display:none; margin-top:16px; border-color:var(--red-brand);" onclick="openSubPage('page-admin-control-hub')">
             <div><i class="fa-solid fa-user-shield" style="color:var(--red-brand); margin-right:10px;"></i> Admin Control Panel</div>
             <i class="fa-solid fa-chevron-right" style="color:var(--red-brand)"></i>
@@ -700,13 +626,10 @@
             <i class="fa-solid fa-ban"></i> Block
         </button>
     </div>
-
     <div class="chat-body" id="chat-messages-container"></div>
-
     <div id="chat-blocked-notice" class="blocked-banner-bar" style="display:none; margin:0 18px 8px 18px;">
         <i class="fa-solid fa-circle-exclamation"></i> You have blocked this user.
     </div>
-
     <div class="chat-footer-bar" id="chat-footer-controls">
         <div class="chat-input-row">
             <input type="text" id="chat-text-input" class="glass-input" style="margin-bottom:0;" placeholder="Write a message...">
@@ -866,13 +789,12 @@
         </div>
     </div>
 
-    <!-- REGISTERED USERS LIST -->
+    <!-- REGISTERED USERS -->
     <div id="admin-section-registered_users" class="admin-section">
         <div style="display:flex; align-items:center; gap:10px; margin-bottom:14px;">
             <div class="back-circle-btn" onclick="closeAdminSection()"><i class="fa-solid fa-chevron-left"></i></div>
             <h3 class="admin-section-title" style="margin:0;"><i class="fa-solid fa-address-book"></i> Registered Users List</h3>
         </div>
-
         <div class="glass-card" style="padding:12px;">
             <div class="search-box-wrapper" style="margin-bottom:0;">
                 <i class="fa-solid fa-magnifying-glass"></i>
@@ -885,13 +807,11 @@
                 </button>
             </div>
         </div>
-
         <div id="registered-users-list-container">
             <p style="font-size:12px; color:var(--text-sub); text-align:center; padding:20px;">
                 <i class="fa-solid fa-spinner fa-spin"></i> Loading users...
             </p>
         </div>
-
         <div id="registered-users-load-more" style="display:none; margin-top:10px;">
             <button class="glass-btn" onclick="loadRegisteredUsers(false)">
                 <i class="fa-solid fa-plus"></i> Load More Users
@@ -944,7 +864,7 @@
         </div>
         <div class="glass-card">
             <h4 style="font-size:13px; margin-bottom:10px;">📣 Send Broadcast</h4>
-            <textarea id="admin-bc-text" class="glass-input" style="min-height:100px; resize:vertical; font-family:inherit;" placeholder="Type your broadcast message..."></textarea>
+            <textarea id="admin-bc-text" class="glass-input" style="min-height:100px; resize:vertical;" placeholder="Type your broadcast message..."></textarea>
             <button class="glass-btn primary" onclick="adminSendBroadcast()"><i class="fa-solid fa-paper-plane"></i> Send to All Users</button>
         </div>
     </div>
@@ -982,7 +902,7 @@
             <input type="file" id="adm-banner-file-input" accept="image/*" class="glass-input">
             <label style="font-size:11px; color:var(--text-sub); display:block; margin-bottom:4px;">Target URL (Optional)</label>
             <input type="url" id="adm-banner-link-input" class="glass-input" placeholder="https://t.me/yourchannel">
-            <button class="glass-btn primary" onclick="addNewBannerSubmit()"><i class="fa-solid fa-plus"></i> Add Banner</button>
+            <button class="glass-btn primary" onclick="addNewBannerSubmit()"><i class="fa-solid fa-plus"></i> Upload Banner</button>
         </div>
         <div class="glass-card">
             <h4 style="font-size:13px; margin-bottom:10px;">📋 Manage Banners</h4>
@@ -1122,7 +1042,7 @@
         <div class="glass-card">
             <h4 style="font-size:13px; margin-bottom:10px;">💬 Send Direct Message</h4>
             <input type="number" id="admin-msg-uid" class="glass-input" placeholder="Target User ID">
-            <textarea id="admin-msg-content" class="glass-input" style="min-height:100px; resize:vertical; font-family:inherit;" placeholder="Type your message..."></textarea>
+            <textarea id="admin-msg-content" class="glass-input" style="min-height:100px; resize:vertical;" placeholder="Type your message..."></textarea>
             <button class="glass-btn primary" onclick="adminSendUserMessage()"><i class="fa-solid fa-paper-plane"></i> Send Message</button>
         </div>
     </div>
@@ -1135,7 +1055,6 @@
         </div>
         <div class="glass-card">
             <h4 style="font-size:13px; margin-bottom:10px;">🎨 Dynamic Inline Button Customizer</h4>
-            <p style="font-size:11.5px; color:var(--text-sub); margin-bottom:12px;">Tap any button to edit its name or style.</p>
             <div id="admin-inline-buttons-list">
                 <p style="font-size:11.5px; color:var(--text-sub); text-align:center;">Loading...</p>
             </div>
@@ -1189,27 +1108,27 @@
             <h4 style="font-size:13px; margin-bottom:10px;">📝 Customize Bot Texts</h4>
             <p style="font-size:11.5px; color:var(--text-sub); margin-bottom:12px;">Placeholders: <code>{username}</code>, <code>{amount}</code>, <code>{balance}</code></p>
             <label style="font-size:11px; color:var(--text-sub); display:block; margin-bottom:4px;">🚀 Start Welcome</label>
-            <textarea id="msg-start" class="glass-input" style="min-height:70px; resize:vertical; font-family:inherit;"></textarea>
+            <textarea id="msg-start" class="glass-input" style="min-height:70px; resize:vertical;"></textarea>
             <label style="font-size:11px; color:var(--text-sub); display:block; margin-bottom:4px;">📊 Dashboard Text</label>
             <input type="text" id="msg-dash" class="glass-input">
             <label style="font-size:11px; color:var(--text-sub); display:block; margin-bottom:4px;">💬 Support Details</label>
-            <textarea id="msg-support" class="glass-input" style="min-height:60px; resize:vertical; font-family:inherit;"></textarea>
+            <textarea id="msg-support" class="glass-input" style="min-height:60px; resize:vertical;"></textarea>
             <label style="font-size:11px; color:var(--text-sub); display:block; margin-bottom:4px;">🔗 Support Link</label>
             <input type="text" id="msg-link" class="glass-input" placeholder="https://t.me/username">
             <label style="font-size:11px; color:var(--text-sub); display:block; margin-bottom:4px;">❓ Unknown Command</label>
-            <textarea id="msg-unknown" class="glass-input" style="min-height:60px; resize:vertical; font-family:inherit;"></textarea>
+            <textarea id="msg-unknown" class="glass-input" style="min-height:60px; resize:vertical;"></textarea>
             <label style="font-size:11px; color:var(--text-sub); display:block; margin-bottom:4px;">✅ Task Approve</label>
-            <textarea id="msg-task-app" class="glass-input" style="min-height:60px; resize:vertical; font-family:inherit;"></textarea>
+            <textarea id="msg-task-app" class="glass-input" style="min-height:60px; resize:vertical;"></textarea>
             <label style="font-size:11px; color:var(--text-sub); display:block; margin-bottom:4px;">❌ Task Reject</label>
-            <textarea id="msg-task-rej" class="glass-input" style="min-height:60px; resize:vertical; font-family:inherit;"></textarea>
+            <textarea id="msg-task-rej" class="glass-input" style="min-height:60px; resize:vertical;"></textarea>
             <label style="font-size:11px; color:var(--text-sub); display:block; margin-bottom:4px;">🎉 Withdraw Approve</label>
-            <textarea id="msg-wd-app" class="glass-input" style="min-height:60px; resize:vertical; font-family:inherit;"></textarea>
+            <textarea id="msg-wd-app" class="glass-input" style="min-height:60px; resize:vertical;"></textarea>
             <label style="font-size:11px; color:var(--text-sub); display:block; margin-bottom:4px;">❌ Withdraw Reject</label>
-            <textarea id="msg-wd-rej" class="glass-input" style="min-height:60px; resize:vertical; font-family:inherit;"></textarea>
+            <textarea id="msg-wd-rej" class="glass-input" style="min-height:60px; resize:vertical;"></textarea>
             <label style="font-size:11px; color:var(--text-sub); display:block; margin-bottom:4px;">💰 Balance Adjust</label>
-            <textarea id="msg-bal-adj" class="glass-input" style="min-height:60px; resize:vertical; font-family:inherit;"></textarea>
+            <textarea id="msg-bal-adj" class="glass-input" style="min-height:60px; resize:vertical;"></textarea>
             <label style="font-size:11px; color:var(--text-sub); display:block; margin-bottom:4px;">🎁 Referral Bonus</label>
-            <textarea id="msg-referral" class="glass-input" style="min-height:60px; resize:vertical; font-family:inherit;"></textarea>
+            <textarea id="msg-referral" class="glass-input" style="min-height:60px; resize:vertical;"></textarea>
             <button class="glass-btn primary" style="margin-top:12px;" onclick="adminSaveBotMessages()"><i class="fa-solid fa-save"></i> Save All Messages</button>
         </div>
     </div>
@@ -1228,10 +1147,9 @@
             <button class="glass-btn danger" onclick="adminTransferOwnership()"><i class="fa-solid fa-crown"></i> Transfer Ownership</button>
         </div>
     </div>
-
 </div>
 
-<!-- WITHDRAW MODAL -->
+<!-- MODALS -->
 <div id="modal-withdraw" class="glass-modal">
     <div class="modal-body">
         <h3 style="font-size:15px; margin-bottom:14px;"><i class="fa-solid fa-wallet"></i> Withdraw Funds</h3>
@@ -1244,7 +1162,6 @@
     </div>
 </div>
 
-<!-- NEW PAY MODAL -->
 <div id="modal-new-pay" class="glass-modal">
     <div class="modal-body">
         <h3 style="font-size:15px; margin-bottom:14px;"><i class="fa-solid fa-user-plus"></i> New Payment</h3>
@@ -1257,7 +1174,6 @@
     </div>
 </div>
 
-<!-- USER DETAIL MODAL -->
 <div id="modal-user-detail" class="glass-modal">
     <div class="modal-body">
         <h3 style="font-size:15px; margin-bottom:14px;"><i class="fa-solid fa-user"></i> User Details</h3>
@@ -1268,7 +1184,6 @@
     </div>
 </div>
 
-<!-- CONFIRM MODAL -->
 <div id="modal-confirm" class="glass-modal">
     <div class="modal-body">
         <h3 style="font-size:15px; margin-bottom:12px;" id="confirm-title">Confirm</h3>
@@ -1281,6 +1196,14 @@
 </div>
 
 <script>
+    /**
+     * ============================================================
+     *  EXTRA EARN MINI APP
+     *  ✅ Same Database as Bot (uses window.location.origin)
+     *  ✅ All data synced with MongoDB via API
+     *  ✅ Banners stored in DB (not localStorage)
+     * ============================================================
+     */
     const ENGINE_API_ENDPOINT = window.location.origin;
 
     const tg = window.Telegram.WebApp;
@@ -1299,17 +1222,18 @@
         throw new Error("No Telegram user ID");
     }
 
-    // 🆕 Admin status - fetched dynamically from server
-    let isRealAdmin = false;      // true if user is owner OR sub-admin
-    let isOwnerUser = false;      // true if user is the bot owner
+    let isRealAdmin = false;
+    let isOwnerUser = false;
 
-    let appBanners = [];
+    // Local-only (cosmetic) storage
     let quickPayContacts = [];
     let quickPayThreads = {};
     let blockedUsersList = [];
     let currentActiveChatContact = null;
 
-    // Registered Users pagination
+    // Banners (now from server/DB)
+    let appBanners = [];
+
     let regUsersCache = [];
     let regUsersPage = 0;
     const REG_USERS_PAGE_SIZE = 30;
@@ -1370,23 +1294,142 @@
         else renderInitialAvatar();
 
         try {
-            appBanners = JSON.parse(localStorage.getItem('extra_app_banners') || '[]');
             quickPayContacts = JSON.parse(localStorage.getItem('quickpay_contacts') || '[]');
             quickPayThreads = JSON.parse(localStorage.getItem('quickpay_threads') || '{}');
             blockedUsersList = JSON.parse(localStorage.getItem('blocked_users_list') || '[]');
         } catch(e) {}
 
-        renderBannersOnHome();
         renderQuickPayPeopleGrid();
         renderQuickPayTransactionHistory();
 
-        // 🆕 CHECK ADMIN ACCESS FIRST
+        // Load banners from DB
+        await loadBannersFromDB();
+
+        // Check admin access
         await checkAdminAccess();
 
         fetchUserData();
     });
 
-    // 🆕 ==================== CHECK ADMIN ACCESS ====================
+    // ==================== BANNERS (DB SYNC) ====================
+    async function loadBannersFromDB() {
+        try {
+            const res = await fetch(`${ENGINE_API_ENDPOINT}/api/banners`);
+            const r = await res.json();
+            if (r.success && r.banners) {
+                appBanners = r.banners;
+                renderBannersOnHome();
+                if (isRealAdmin) renderAdminBannerList();
+            } else {
+                appBanners = [];
+                renderBannersOnHome();
+            }
+        } catch (e) {
+            console.warn("Banner load failed:", e);
+            appBanners = [];
+            renderBannersOnHome();
+        }
+    }
+
+    function renderBannersOnHome() {
+        const wrapper = document.getElementById('home-banner-wrapper');
+        const slider = document.getElementById('home-banner-slider');
+        if (!appBanners || appBanners.length === 0) {
+            wrapper.style.display = 'none';
+            return;
+        }
+        wrapper.style.display = 'block';
+        slider.innerHTML = '';
+        appBanners.forEach(b => {
+            const item = document.createElement('div');
+            item.className = 'banner-item';
+            if (b.link && b.link.trim() !== '') item.onclick = () => window.open(b.link, '_blank');
+            const img = document.createElement('img');
+            img.src = b.imageData || b.imgData;
+            img.alt = "Banner";
+            item.appendChild(img);
+            slider.appendChild(item);
+        });
+    }
+
+    function renderAdminBannerList() {
+        const container = document.getElementById('adm-banner-list-container');
+        if (!container) return;
+        if (!appBanners || appBanners.length === 0) {
+            container.innerHTML = `<p style="font-size:11.5px; color:var(--text-sub); text-align:center;">No active banners.</p>`;
+            return;
+        }
+        container.innerHTML = '';
+        appBanners.forEach((b, index) => {
+            const row = document.createElement('div');
+            row.className = 'banner-manage-row';
+            const targetLinkText = b.link ? sanitizeText(b.link) : 'No Link';
+            row.innerHTML = `
+                <img src="${b.imageData || b.imgData}" style="width:48px; height:34px; object-fit:contain; border-radius:6px; background:#000;">
+                <div style="flex:1; overflow:hidden; font-size:11.5px;">
+                    <div style="font-weight:700;">Banner #${index + 1}</div>
+                    <div style="color:var(--text-sub); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${targetLinkText}</div>
+                </div>
+                <button class="glass-btn danger" style="padding:6px 10px; width:auto; font-size:11.5px;" onclick="removeBannerItem('${b.id}')">
+                    <i class="fa-solid fa-trash"></i>
+                </button>
+            `;
+            container.appendChild(row);
+        });
+    }
+
+    function addNewBannerSubmit() {
+        const fileInput = document.getElementById('adm-banner-file-input');
+        const linkInput = document.getElementById('adm-banner-link-input');
+        const file = fileInput.files[0];
+        if (!file) return showToast('Select a banner image', '#ef4444');
+
+        const reader = new FileReader();
+        reader.onload = async function(e) {
+            const imageData = e.target.result;
+            const link = linkInput.value.trim();
+
+            try {
+                const res = await fetch(`${ENGINE_API_ENDPOINT}/api/admin/banners`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ adminId: sessionUserUid, imageData, link })
+                });
+                const r = await res.json();
+                if (r.success) {
+                    showToast('Banner uploaded to DB!', '#10b981');
+                    fileInput.value = ''; linkInput.value = '';
+                    await loadBannersFromDB();
+                    renderAdminBannerList();
+                } else {
+                    showToast(r.error || 'Upload failed', '#ef4444');
+                }
+            } catch (err) {
+                showToast('Network error', '#ef4444');
+            }
+        };
+        reader.readAsDataURL(file);
+    }
+
+    function removeBannerItem(bannerId) {
+        showConfirm('Delete Banner', 'Delete this banner from DB?', async () => {
+            try {
+                const res = await fetch(`${ENGINE_API_ENDPOINT}/api/admin/banners/${bannerId}?adminId=${sessionUserUid}`, { method: 'DELETE' });
+                const r = await res.json();
+                if (r.success) {
+                    showToast('Banner deleted', '#ef4444');
+                    await loadBannersFromDB();
+                    renderAdminBannerList();
+                } else {
+                    showToast(r.error || 'Failed', '#ef4444');
+                }
+            } catch (e) {
+                showToast('Network error', '#ef4444');
+            }
+        });
+    }
+
+    // ==================== ADMIN ACCESS CHECK ====================
     async function checkAdminAccess() {
         try {
             const ctrl = new AbortController();
@@ -1398,37 +1441,26 @@
             if (data.success && data.isAdmin) {
                 isRealAdmin = true;
                 isOwnerUser = !!data.isOwner;
-
-                // Show admin button
                 document.getElementById('admin-terminal-btn').style.display = 'flex';
-
-                // Cache for faster next load
                 try {
                     localStorage.setItem('cached_isAdmin_' + sessionUserUid, 'true');
                     localStorage.setItem('cached_isOwner_' + sessionUserUid, String(isOwnerUser));
                 } catch(e) {}
-
-                // Preload admin banner list
                 renderAdminBannerList();
             } else {
-                // Not an admin
                 isRealAdmin = false;
                 isOwnerUser = false;
                 document.getElementById('admin-terminal-btn').style.display = 'none';
-                try {
-                    localStorage.removeItem('cached_isAdmin_' + sessionUserUid);
-                } catch(e) {}
+                try { localStorage.removeItem('cached_isAdmin_' + sessionUserUid); } catch(e) {}
             }
         } catch (err) {
             console.error("Admin access check failed:", err);
-            // Fallback: check cached value
             try {
                 const cachedAdmin = localStorage.getItem('cached_isAdmin_' + sessionUserUid);
                 if (cachedAdmin === 'true') {
                     isRealAdmin = true;
                     isOwnerUser = localStorage.getItem('cached_isOwner_' + sessionUserUid) === 'true';
                     document.getElementById('admin-terminal-btn').style.display = 'flex';
-                    renderAdminBannerList();
                 }
             } catch(e) {}
         }
@@ -1659,67 +1691,6 @@
         renderQuickPayTransactionHistory();
     }
 
-    // ==================== BANNERS ====================
-    function renderBannersOnHome() {
-        const wrapper = document.getElementById('home-banner-wrapper');
-        const slider = document.getElementById('home-banner-slider');
-        if (!appBanners || appBanners.length === 0) { wrapper.style.display = 'none'; return; }
-        wrapper.style.display = 'block';
-        slider.innerHTML = '';
-        appBanners.forEach(b => {
-            const item = document.createElement('div');
-            item.className = 'banner-item';
-            if (b.link && b.link.trim() !== '') item.onclick = () => window.open(b.link, '_blank');
-            const img = document.createElement('img');
-            img.src = b.imgData; img.alt = "Banner";
-            item.appendChild(img);
-            slider.appendChild(item);
-        });
-    }
-
-    function renderAdminBannerList() {
-        const container = document.getElementById('adm-banner-list-container');
-        if (!container) return;
-        if (!appBanners || appBanners.length === 0) {
-            container.innerHTML = `<p style="font-size:11.5px; color:var(--text-sub); text-align:center;">No active banners.</p>`;
-            return;
-        }
-        container.innerHTML = '';
-        appBanners.forEach((b, index) => {
-            const row = document.createElement('div');
-            row.className = 'banner-manage-row';
-            const targetLinkText = b.link ? sanitizeText(b.link) : 'No Link';
-            row.innerHTML = `<img src="${b.imgData}" style="width:48px; height:34px; object-fit:contain; border-radius:6px; background:#000;"><div style="flex:1; overflow:hidden; font-size:11.5px;"><div style="font-weight:700;">Banner #${index + 1}</div><div style="color:var(--text-sub); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${targetLinkText}</div></div><button class="glass-btn danger" style="padding:6px 10px; width:auto; font-size:11.5px;" onclick="removeBannerItem(${index})"><i class="fa-solid fa-trash"></i></button>`;
-            container.appendChild(row);
-        });
-    }
-
-    function addNewBannerSubmit() {
-        const fileInput = document.getElementById('adm-banner-file-input');
-        const linkInput = document.getElementById('adm-banner-link-input');
-        const file = fileInput.files[0];
-        if (!file) return showToast('Select a banner image', '#ef4444');
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            const newBanner = { id: Date.now(), imgData: e.target.result, link: linkInput.value.trim() };
-            appBanners.push(newBanner);
-            localStorage.setItem('extra_app_banners', JSON.stringify(appBanners));
-            fileInput.value = ''; linkInput.value = '';
-            renderBannersOnHome(); renderAdminBannerList();
-            showToast('Banner added!', '#10b981');
-        };
-        reader.readAsDataURL(file);
-    }
-
-    function removeBannerItem(index) {
-        showConfirm('Delete Banner', 'Delete this banner?', () => {
-            appBanners.splice(index, 1);
-            localStorage.setItem('extra_app_banners', JSON.stringify(appBanners));
-            renderBannersOnHome(); renderAdminBannerList();
-            showToast('Banner deleted', '#ef4444');
-        });
-    }
-
     // ==================== NAV ====================
     function switchMainTab(target, el) {
         document.querySelectorAll('.view-section').forEach(v => v.classList.remove('active'));
@@ -1730,7 +1701,6 @@
     }
 
     function openSubPage(id) {
-        // 🆕 Block admin page if not admin
         if (id === 'page-admin-control-hub' && !isRealAdmin) {
             showToast('⛔ Access Denied', '#ef4444');
             return;
@@ -1906,12 +1876,10 @@
     }
 
     function openAdminSection(name) {
-        // 🆕 Double-check admin access
         if (!isRealAdmin) {
             showToast('⛔ Access Denied', '#ef4444');
             return;
         }
-
         document.querySelectorAll('.admin-section').forEach(s => s.classList.remove('active'));
         document.getElementById('admin-main-menu').style.display = 'none';
         const sec = document.getElementById(`admin-section-${name}`);
@@ -1930,6 +1898,7 @@
         if (name === 'error_logs') loadErrorLogs();
         if (name === 'messages') loadBotMessages();
         if (name === 'registered_users') loadRegisteredUsers(true);
+        if (name === 'banners') { loadBannersFromDB().then(() => renderAdminBannerList()); }
     }
 
     function closeAdminSection() {
@@ -1957,16 +1926,12 @@
                 container.innerHTML = `<p style="font-size:12px; color:#f87171; text-align:center; padding:20px;">❌ ${r.error || 'Failed to load users'}</p>`;
                 return;
             }
-
             const newUsers = r.users || [];
             regUsersCache = regUsersCache.concat(newUsers);
             regUsersHasMore = !!r.hasMore;
-
             const total = r.total || regUsersCache.length;
             countEl.innerText = `Showing: ${regUsersCache.length} / ${total} users`;
-
             renderRegisteredUsersList();
-
             if (regUsersHasMore) {
                 loadMoreBtn.style.display = 'block';
                 regUsersPage++;
@@ -1974,7 +1939,6 @@
                 loadMoreBtn.style.display = 'none';
             }
         } catch (e) {
-            console.error('Load registered users error:', e);
             container.innerHTML = '<p style="font-size:12px; color:#f87171; text-align:center; padding:20px;">❌ Network error</p>';
         }
     }
@@ -1982,21 +1946,18 @@
     function renderRegisteredUsersList() {
         const container = document.getElementById('registered-users-list-container');
         const searchQuery = (document.getElementById('registered-users-search')?.value || '').trim().toLowerCase();
-
         const filtered = regUsersCache.filter(u => {
             if (!searchQuery) return true;
             const name = (u.name || '').toLowerCase();
             const uid = String(u.id);
             return name.includes(searchQuery) || uid.includes(searchQuery);
         });
-
         if (filtered.length === 0) {
             container.innerHTML = `<p style="font-size:12px; color:var(--text-sub); text-align:center; padding:20px;">
                 ${regUsersCache.length === 0 ? 'No users registered yet.' : 'No matching users found.'}
             </p>`;
             return;
         }
-
         container.innerHTML = '';
         filtered.forEach(u => {
             const initial = sanitizeText((u.name || 'U').charAt(0).toUpperCase());
@@ -2511,7 +2472,7 @@
         } catch (e) { showToast('Network error', '#ef4444'); }
     }
 
-    // ==================== ADMIN: INLINE BUTTONS ====================
+    // ==================== INLINE BUTTONS ====================
     async function loadAdminInlineButtons() {
         const container = document.getElementById('admin-inline-buttons-list');
         container.innerHTML = '<p style="font-size:11.5px; color:var(--text-sub); text-align:center;">Loading...</p>';
@@ -2581,7 +2542,7 @@
         });
     }
 
-    // ==================== ADMIN: REPLY KEYBOARD ====================
+    // ==================== REPLY KEYBOARD ====================
     async function loadAdminKeyboardLayout() {
         const container = document.getElementById('admin-keyboard-layout-view');
         container.innerHTML = '<p style="font-size:11.5px; color:var(--text-sub); text-align:center;">Loading...</p>';
@@ -2721,7 +2682,7 @@
         } catch (e) { showToast('Network error', '#ef4444'); }
     }
 
-    // ==================== ADMIN: ERROR LOGS ====================
+    // ==================== ERROR LOGS ====================
     async function loadErrorLogs() {
         const container = document.getElementById('admin-error-logs-list');
         container.innerHTML = '<p style="font-size:11.5px; color:var(--text-sub); text-align:center;">Loading...</p>';
@@ -2758,7 +2719,7 @@
         });
     }
 
-    // ==================== ADMIN: BOT MESSAGES ====================
+    // ==================== BOT MESSAGES ====================
     async function loadBotMessages() {
         try {
             const res = await fetch(`${ENGINE_API_ENDPOINT}/api/admin/messages?adminId=${sessionUserUid}`);
@@ -2802,12 +2763,12 @@
                 body: JSON.stringify(payload)
             });
             const r = await res.json();
-            if (r.success) showToast('All messages saved!', '#10b981');
+            if (r.success) showToast('All messages saved to DB!', '#10b981');
             else showToast(r.error || 'Failed', '#ef4444');
         } catch (e) { showToast('Network error', '#ef4444'); }
     }
 
-    // ==================== ADMIN: TRANSFER OWNERSHIP ====================
+    // ==================== TRANSFER OWNERSHIP ====================
     async function adminTransferOwnership() {
         const newUid = document.getElementById('admin-new-owner-uid').value.trim();
         if (!newUid) return showToast('Enter new owner ID', '#ef4444');
