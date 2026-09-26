@@ -46,9 +46,9 @@
             display: flex;
             justify-content: center;
             background-image:
-                radial-gradient(circle at 0% 0%, rgba(255, 42, 75, 0.10) 0%, transparent 40%),
-                radial-gradient(circle at 100% 100%, rgba(59, 130, 246, 0.08) 0%, transparent 40%),
-                radial-gradient(circle at 50% 50%, rgba(16, 185, 129, 0.04) 0%, transparent 55%);
+                radial-gradient(circle at 0% 0%, rgba(255, 42, 75, 0.15) 0%, transparent 45%),
+                radial-gradient(circle at 100% 100%, rgba(59, 130, 246, 0.12) 0%, transparent 45%),
+                radial-gradient(circle at 50% 50%, rgba(16, 185, 129, 0.06) 0%, transparent 60%);
             background-attachment: fixed;
         }
 
@@ -62,16 +62,18 @@
             flex-direction: column;
         }
 
+        /* ✅ TRANSPARENT HEADER WITH GLASS BLUR */
         .header {
             height: 66px;
             padding: 0 18px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: rgba(0, 0, 0, 0.65);
-            backdrop-filter: blur(var(--blur-strong)) saturate(180%);
-            -webkit-backdrop-filter: blur(var(--blur-strong)) saturate(180%);
-            border-bottom: 1px solid var(--glass-border);
+            background: rgba(15, 15, 20, 0.35);
+            backdrop-filter: blur(40px) saturate(180%);
+            -webkit-backdrop-filter: blur(40px) saturate(180%);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.06);
             position: sticky;
             top: 0;
             z-index: 999;
@@ -115,7 +117,7 @@
         }
 
         .glass-card {
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.055), rgba(255, 255, 255, 0.015));
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.02));
             border: 1px solid var(--glass-border);
             backdrop-filter: blur(var(--blur-strong));
             -webkit-backdrop-filter: blur(var(--blur-strong));
@@ -125,13 +127,13 @@
             box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.5);
         }
 
+        /* BANNERS */
         .banner-wrapper { display: none; width: 100%; margin-bottom: 16px; }
         .banner-slider {
             display: flex; gap: 12px; overflow-x: auto;
             scroll-snap-type: x mandatory; scrollbar-width: none; padding-bottom: 4px;
         }
         .banner-slider::-webkit-scrollbar { display: none; }
-
         .banner-item {
             flex: 0 0 100%; scroll-snap-align: start;
             border-radius: var(--radius-lg); overflow: hidden;
@@ -143,6 +145,51 @@
         .banner-item img {
             width: 100%; height: auto; max-height: 180px;
             object-fit: contain; display: block; background: #000;
+        }
+
+        /* 🆕 CATEGORY PILLS */
+        .category-scroll {
+            display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none;
+            padding-bottom: 6px; margin-bottom: 12px;
+        }
+        .category-scroll::-webkit-scrollbar { display: none; }
+        .category-pill {
+            flex-shrink: 0;
+            padding: 8px 18px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid var(--glass-border);
+            border-radius: 30px;
+            font-size: 12.5px; font-weight: 700;
+            color: var(--text-sub);
+            cursor: pointer; transition: all 0.22s;
+            backdrop-filter: blur(10px);
+        }
+        .category-pill.active {
+            background: linear-gradient(135deg, var(--red-brand), #d61c38);
+            border-color: transparent;
+            color: white;
+            box-shadow: 0 4px 16px rgba(255, 42, 75, 0.4);
+        }
+
+        /* 🆕 TASK LIST ITEM */
+        .task-list-item {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 15px 16px;
+            background: linear-gradient(135deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-md); margin-bottom: 10px;
+            cursor: pointer; transition: all 0.2s;
+            backdrop-filter: blur(20px);
+        }
+        .task-list-item:active { transform: scale(0.98); background: var(--glass-hover); }
+        .task-list-title { font-weight: 700; font-size: 13.5px; color: #fff; flex: 1; margin-right: 10px; }
+        .task-list-reward {
+            background: rgba(16, 185, 129, 0.15);
+            border: 1px solid rgba(16, 185, 129, 0.35);
+            color: var(--green-accent);
+            padding: 6px 13px; border-radius: 20px;
+            font-weight: 800; font-size: 12.5px;
+            white-space: nowrap;
         }
 
         .glass-input {
@@ -200,12 +247,107 @@
         }
         .glass-btn:active { transform: scale(0.97); }
 
+        .glass-btn.round {
+            border-radius: 50%;
+            width: 54px; height: 54px;
+            padding: 0;
+            flex: 0 0 54px;
+        }
+
+        /* 🆕 WALLET BALANCE CARD */
+        .wallet-balance-card {
+            position: relative;
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.15), rgba(59, 130, 246, 0.1));
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            border-radius: var(--radius-lg);
+            padding: 24px 20px;
+            margin-bottom: 14px;
+            text-align: center;
+            backdrop-filter: blur(30px);
+            box-shadow: 0 12px 40px rgba(16, 185, 129, 0.15);
+            overflow: hidden;
+        }
+        .wallet-balance-label {
+            font-size: 11px; color: var(--text-sub); font-weight: 700;
+            text-transform: uppercase; letter-spacing: 1px;
+        }
+        .wallet-balance-amount {
+            font-size: 42px; font-weight: 800; color: var(--green-accent);
+            margin: 10px 0; letter-spacing: -1px;
+            text-shadow: 0 0 30px rgba(16, 185, 129, 0.4);
+        }
+        .refresh-icon-btn {
+            position: absolute; top: 14px; left: 14px;
+            width: 38px; height: 38px; border-radius: 50%;
+            background: rgba(255,255,255,0.08);
+            border: 1px solid var(--glass-border);
+            display: flex; align-items: center; justify-content: center;
+            color: #fff; cursor: pointer; font-size: 14px;
+            transition: all 0.2s;
+        }
+        .refresh-icon-btn:active { transform: scale(0.92); }
+        .refresh-icon-btn.spinning i { animation: spin 0.8s linear infinite; }
+        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+        /* UPI CARD */
+        .upi-card {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 16px;
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(59, 130, 246, 0.06));
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            border-radius: var(--radius-md); margin-bottom: 12px;
+            cursor: pointer; transition: all 0.2s;
+        }
+        .upi-card:active { transform: scale(0.98); }
+        .upi-card-left { display: flex; align-items: center; gap: 12px; flex: 1; overflow: hidden; }
+        .upi-icon-circle {
+            width: 42px; height: 42px; border-radius: 50%;
+            background: rgba(139, 92, 246, 0.2);
+            color: var(--purple-accent);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 17px; flex-shrink: 0;
+        }
+        .upi-card-value {
+            font-size: 13px; font-weight: 700; color: #fff;
+            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+        }
+        .upi-card-sub { font-size: 10.5px; color: var(--text-sub); margin-top: 2px; }
+
+        /* Withdraw Modal */
+        .withdraw-quick-input {
+            font-size: 36px; font-weight: 800; text-align: center;
+            color: var(--green-accent); background: transparent;
+            border: none; outline: none; width: 100%;
+            margin: 8px 0;
+        }
+        .withdraw-limits {
+            display: flex; justify-content: space-between;
+            font-size: 11px; color: var(--text-sub);
+            padding: 0 4px; margin-bottom: 12px;
+        }
+
+        /* QUICK PAY G-PAY STYLE */
+        .gpay-search-result {
+            display: flex; align-items: center; gap: 12px;
+            padding: 13px 14px;
+            background: rgba(255,255,255,0.04);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-md);
+            margin-bottom: 8px; cursor: pointer;
+        }
+        .gpay-search-result:active { background: var(--glass-hover); }
+        .gpay-avatar {
+            width: 46px; height: 46px; border-radius: 50%;
+            background: linear-gradient(135deg, var(--blue-accent), var(--red-brand));
+            display: flex; align-items: center; justify-content: center;
+            font-weight: 800; font-size: 17px; color: #fff;
+            flex-shrink: 0;
+            object-fit: cover;
+        }
+
         .quickpay-people-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 12px;
-            margin-top: 12px;
-            margin-bottom: 16px;
+            display: grid; grid-template-columns: repeat(4, 1fr);
+            gap: 12px; margin-top: 12px; margin-bottom: 16px;
         }
         .quickpay-person-item {
             display: flex; flex-direction: column;
@@ -217,7 +359,7 @@
             display: flex; align-items: center; justify-content: center;
             font-weight: 800; font-size: 17px; color: #fff;
             border: 2px solid var(--glass-border-bright);
-            margin-bottom: 5px;
+            margin-bottom: 5px; object-fit: cover;
         }
         .quickpay-person-name {
             font-size: 10.5px; font-weight: 600;
@@ -246,6 +388,7 @@
         }
         .tx-history-icon.out { background: rgba(239, 68, 68, 0.15); color: #f87171; }
 
+        /* PROFILE */
         .profile-hero { display: flex; align-items: center; gap: 14px; margin-bottom: 18px; }
         .profile-avatar-wrap {
             width: 68px; height: 68px; border-radius: 50%;
@@ -270,6 +413,13 @@
             font-size: 11.5px; color: var(--text-sub);
             cursor: pointer; margin-top: 5px;
         }
+        .blue-tick-badge {
+            display: inline-flex; align-items: center; justify-content: center;
+            width: 18px; height: 18px; border-radius: 50%;
+            background: #1d9bf0;
+            color: white; font-size: 10px;
+            margin-left: 5px; vertical-align: middle;
+        }
 
         .menu-list-link {
             display: flex; justify-content: space-between; align-items: center;
@@ -280,28 +430,31 @@
         }
         .menu-list-link:active { background: var(--glass-hover); transform: scale(0.99); }
 
+        /* ✅ TRANSPARENT BOTTOM NAV WITH GLASS BLUR */
         .bottom-nav {
             position: fixed; bottom: 14px; left: 50%;
             transform: translateX(-50%);
             width: calc(100% - 28px); max-width: 460px; height: 68px;
-            background: rgba(255, 255, 255, 0.06);
+            background: rgba(15, 15, 20, 0.4);
             backdrop-filter: blur(40px) saturate(200%);
             -webkit-backdrop-filter: blur(40px) saturate(200%);
-            border: 1px solid rgba(255, 255, 255, 0.14);
+            border: 1px solid rgba(255, 255, 255, 0.12);
             border-radius: 26px;
             display: flex; justify-content: space-around; align-items: center;
             z-index: 1000;
             padding-bottom: env(safe-area-inset-bottom, 0px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.08);
         }
         .nav-link {
             display: flex; flex-direction: column; align-items: center;
             color: var(--text-sub); font-size: 10.5px; font-weight: 700;
             gap: 3px; cursor: pointer; padding: 6px 14px; border-radius: 14px;
+            transition: all 0.2s;
         }
         .nav-link i { font-size: 18px; }
         .nav-link.active {
             color: var(--red-brand);
-            background: rgba(255, 42, 75, 0.1);
+            background: rgba(255, 42, 75, 0.12);
         }
 
         .full-sub-page {
@@ -343,8 +496,8 @@
 
         .chat-header {
             padding: 14px 18px;
-            background: rgba(0, 0, 0, 0.88);
-            backdrop-filter: blur(25px);
+            background: rgba(15, 15, 20, 0.5);
+            backdrop-filter: blur(30px);
             border-bottom: 1px solid var(--glass-border);
             display: flex; align-items: center; justify-content: space-between;
         }
@@ -369,8 +522,8 @@
         }
         .chat-footer-bar {
             padding: 12px 14px;
-            background: rgba(0, 0, 0, 0.92);
-            backdrop-filter: blur(25px);
+            background: rgba(15, 15, 20, 0.5);
+            backdrop-filter: blur(30px);
             border-top: 1px solid var(--glass-border);
             display: flex; gap: 9px; flex-direction: column;
         }
@@ -390,6 +543,21 @@
             width: 100%; max-width: 380px;
             border-radius: 24px; padding: 22px;
             max-height: 90vh; overflow-y: auto;
+        }
+
+        /* Success Animation */
+        .success-anim {
+            width: 90px; height: 90px; border-radius: 50%;
+            background: rgba(16, 185, 129, 0.15);
+            border: 3px solid var(--green-accent);
+            display: flex; align-items: center; justify-content: center;
+            margin: 0 auto 18px auto;
+            animation: successPop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .success-anim i { font-size: 42px; color: var(--green-accent); }
+        @keyframes successPop {
+            0% { transform: scale(0); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
         }
 
         .admin-stats-grid {
@@ -497,6 +665,25 @@
             color: var(--green-accent); flex-shrink: 0;
         }
 
+        .detail-row {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 11px 14px;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px; margin-bottom: 8px;
+            font-size: 12.5px;
+        }
+        .detail-row .label { color: var(--text-sub); font-weight: 600; }
+        .detail-row .value { color: #fff; font-weight: 700; }
+
+        .list-item-row {
+            padding: 11px 13px;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px; margin-bottom: 8px;
+            font-size: 12px;
+        }
+
         ::-webkit-scrollbar { width: 0; height: 0; }
     </style>
 </head>
@@ -510,11 +697,16 @@
         <div id="header-bal" class="header-bal-badge loading">Loading...</div>
     </header>
 
+    <!-- HOME -->
     <div id="view-home" class="view-section active">
         <div id="home-banner-wrapper" class="banner-wrapper">
             <div id="home-banner-slider" class="banner-slider"></div>
         </div>
+
         <h4 style="font-size: 12px; color: var(--text-sub); margin: 12px 0 10px 0; text-transform: uppercase; font-weight:700;">Available Tasks</h4>
+        <div id="category-pill-row" class="category-scroll">
+            <div class="category-pill active" data-cat="All" onclick="selectCategory('All')">All</div>
+        </div>
         <div id="home-tasks-container">
             <div class="glass-card" style="text-align: center; color: var(--text-sub); padding: 30px;">
                 <i class="fa-solid fa-list-check" style="font-size: 28px; margin-bottom: 10px; opacity:0.35; color:var(--red-brand);"></i>
@@ -523,12 +715,32 @@
         </div>
     </div>
 
+    <!-- WALLET -->
     <div id="view-wallet" class="view-section">
-        <div class="glass-card" style="text-align: center; padding: 30px 18px;">
-            <p style="font-size: 11px; color: var(--text-sub); font-weight: 700;">TOTAL WALLET BALANCE</p>
-            <h1 id="lbl-wallet-bal" style="font-size: 38px; font-weight: 800; color: var(--green-accent); margin: 8px 0 18px 0;">₹0.00</h1>
-            <button class="glass-btn primary" onclick="openModal('modal-withdraw')"><i class="fa-solid fa-wallet"></i> Instant Withdrawal</button>
+        <div class="wallet-balance-card">
+            <div class="refresh-icon-btn" onclick="refreshWalletBalance()">
+                <i class="fa-solid fa-rotate-right"></i>
+            </div>
+            <div class="wallet-balance-label">Total Wallet Balance</div>
+            <div class="wallet-balance-amount" id="lbl-wallet-bal">₹0.00</div>
+            <button class="glass-btn primary" style="margin-top:10px;" onclick="openWithdrawSheet()">
+                <i class="fa-solid fa-wallet"></i> Instant Withdrawal
+            </button>
         </div>
+
+        <!-- UPI CARD -->
+        <div class="upi-card" onclick="openUpiEditor()">
+            <div class="upi-card-left">
+                <div class="upi-icon-circle"><i class="fa-solid fa-link"></i></div>
+                <div style="overflow:hidden;">
+                    <div class="upi-card-value" id="wallet-upi-display">Not linked</div>
+                    <div class="upi-card-sub">Tap to add/edit UPI ID</div>
+                </div>
+            </div>
+            <i class="fa-solid fa-chevron-right" style="color:var(--text-sub)"></i>
+        </div>
+
+        <!-- GIFT VOUCHER -->
         <div class="glass-card">
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
                 <span style="font-size:13.5px; font-weight:700;">Redeem Gift Voucher</span>
@@ -539,36 +751,30 @@
         </div>
     </div>
 
+    <!-- QUICK PAY -->
     <div id="view-pay" class="view-section">
         <div class="search-box-wrapper">
             <i class="fa-solid fa-magnifying-glass"></i>
-            <input type="text" id="quickpay-search-input" class="glass-input" placeholder="Search contact or UID..." oninput="filterQuickPayContacts()">
+            <input type="text" id="quickpay-search-input" class="glass-input" placeholder="Search name or enter UID..." oninput="handleQuickPaySearch()">
         </div>
-        <div class="glass-card" style="padding:14px; display:flex; justify-content:space-between; align-items:center; cursor:pointer;" onclick="openNewPayPrompt()">
-            <div style="display:flex; align-items:center; gap:12px;">
-                <div style="width:42px; height:42px; border-radius:50%; background:rgba(255,42,75,0.15); color:var(--red-brand); display:flex; align-items:center; justify-content:center; font-size:17px;">
-                    <i class="fa-solid fa-bolt"></i>
-                </div>
-                <div>
-                    <div style="font-weight:700; font-size:13.5px;">Quick Pay Transfer</div>
-                    <div style="font-size:10.5px; color:var(--text-sub);">Send money via UID</div>
-                </div>
+        <div id="quickpay-search-results"></div>
+
+        <div id="quickpay-default-section">
+            <div style="margin-top:8px;">
+                <span style="font-size: 11px; font-weight:800; color:var(--text-sub); text-transform:uppercase;">Recent Contacts</span>
+                <div id="quickpay-people-container" class="quickpay-people-grid"></div>
             </div>
-            <i class="fa-solid fa-chevron-right" style="color:var(--text-sub)"></i>
-        </div>
-        <div style="margin-top:8px;">
-            <span style="font-size: 11px; font-weight:800; color:var(--text-sub); text-transform:uppercase;">Recent Contacts</span>
-            <div id="quickpay-people-container" class="quickpay-people-grid"></div>
-        </div>
-        <div style="margin-top:8px;">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-                <span style="font-size: 11px; font-weight:800; color:var(--text-sub); text-transform:uppercase;">Payment Activity</span>
-                <i class="fa-solid fa-clock-rotate-left" style="color:var(--text-sub); font-size:12px;"></i>
+            <div style="margin-top:8px;">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+                    <span style="font-size: 11px; font-weight:800; color:var(--text-sub); text-transform:uppercase;">Payment Activity</span>
+                    <i class="fa-solid fa-clock-rotate-left" style="color:var(--text-sub); font-size:12px;"></i>
+                </div>
+                <div id="quickpay-tx-history-list"></div>
             </div>
-            <div id="quickpay-tx-history-list"></div>
         </div>
     </div>
 
+    <!-- PROFILE -->
     <div id="view-profile" class="view-section">
         <div class="profile-hero">
             <div class="profile-avatar-wrap" id="prof-avatar-wrap">
@@ -598,7 +804,7 @@
         </div>
 
         <div id="admin-terminal-btn" class="menu-list-link" style="display:none; margin-top:16px; border-color:var(--red-brand);" onclick="openSubPage('page-admin-control-hub')">
-            <div><i class="fa-solid fa-user-shield" style="color:var(--red-brand); margin-right:10px;"></i> Admin Control Panel</div>
+            <div><i class="fa-solid fa-user-shield" style="color:var(--red-brand); margin-right:10px;"></i> Admin Control Panel <span id="admin-badge-inline" style="display:none;background:var(--red-brand);color:white;font-size:9px;padding:2px 7px;border-radius:8px;margin-left:5px;">OWNER</span></div>
             <i class="fa-solid fa-chevron-right" style="color:var(--red-brand)"></i>
         </div>
     </div>
@@ -611,12 +817,75 @@
     </nav>
 </div>
 
+<!-- TASK DETAIL PAGE -->
+<div id="page-task-detail" class="full-sub-page">
+    <div class="sub-page-header">
+        <div class="back-circle-btn" onclick="closeSubPage('page-task-detail')"><i class="fa-solid fa-chevron-left"></i></div>
+        <h3 style="font-size:16.5px; font-weight:800;">Task Details</h3>
+    </div>
+    <div id="task-detail-content"></div>
+</div>
+
+<!-- ADMIN USER DETAIL PAGE -->
+<div id="page-admin-user-detail" class="full-sub-page">
+    <div class="sub-page-header">
+        <div class="back-circle-btn" onclick="closeSubPage('page-admin-user-detail')"><i class="fa-solid fa-chevron-left"></i></div>
+        <h3 style="font-size:16.5px; font-weight:800;">User Profile</h3>
+    </div>
+    <div id="admin-user-detail-content"></div>
+</div>
+
+<!-- UPI EDITOR MODAL -->
+<div id="modal-upi-editor" class="glass-modal">
+    <div class="modal-body">
+        <h3 style="font-size:15px; margin-bottom:14px;"><i class="fa-solid fa-link"></i> UPI ID Settings</h3>
+        <label style="font-size:11.5px; color:var(--text-sub); display:block; margin-bottom:6px;">Your UPI ID</label>
+        <input type="text" id="upi-editor-input" class="glass-input" placeholder="example@upi">
+        <div style="display:flex; gap:9px;">
+            <button class="glass-btn" onclick="closeModal('modal-upi-editor')">Cancel</button>
+            <button class="glass-btn primary" onclick="saveUpiFromEditor()">Save UPI</button>
+        </div>
+    </div>
+</div>
+
+<!-- WITHDRAW SHEET MODAL -->
+<div id="modal-withdraw-sheet" class="glass-modal">
+    <div class="modal-body" style="text-align:center;">
+        <h3 style="font-size:15px; margin-bottom:14px; text-align:left;"><i class="fa-solid fa-wallet"></i> Withdraw Funds</h3>
+        <div style="text-align:left; padding:12px; background:rgba(139,92,246,0.1); border:1px solid rgba(139,92,246,0.3); border-radius:12px; margin-bottom:14px;">
+            <div style="font-size:10.5px; color:var(--text-sub);">Withdrawing to:</div>
+            <div style="font-size:13.5px; font-weight:700; color:var(--purple-accent); margin-top:4px;" id="wd-upi-display">Not linked</div>
+        </div>
+        <label style="font-size:11px; color:var(--text-sub); display:block; text-align:left; margin-bottom:6px;">Enter Amount (₹)</label>
+        <input type="tel" inputmode="decimal" id="wd-amount-input" class="withdraw-quick-input" placeholder="0.00" autocomplete="off">
+        <div class="withdraw-limits">
+            <span id="wd-min-label">Min: ₹0</span>
+            <span id="wd-max-label">Max: ₹0</span>
+        </div>
+        <div style="display:flex; gap:14px; justify-content:center; margin-top:16px;">
+            <button class="glass-btn danger round" onclick="closeModal('modal-withdraw-sheet')" title="Cancel"><i class="fa-solid fa-xmark" style="font-size:18px;"></i></button>
+            <button class="glass-btn success round" onclick="submitWithdrawFromSheet()" title="Confirm"><i class="fa-solid fa-check" style="font-size:18px;"></i></button>
+        </div>
+    </div>
+</div>
+
+<!-- SUCCESS ANIMATION MODAL -->
+<div id="modal-success-anim" class="glass-modal">
+    <div class="modal-body" style="text-align:center;">
+        <div class="success-anim"><i class="fa-solid fa-check"></i></div>
+        <h3 style="font-size:16px; font-weight:800; margin-bottom:8px;">Withdrawal Request Submitted!</h3>
+        <p style="font-size:12.5px; color:var(--text-sub); margin-bottom:16px;">Your withdrawal request has been submitted and is pending approval.</p>
+        <button class="glass-btn primary" onclick="closeModal('modal-success-anim')">OK</button>
+    </div>
+</div>
+
 <!-- QUICK PAY CHAT -->
 <div id="page-quickpay-chat" class="chat-pay-page">
     <div class="chat-header">
         <div style="display:flex; align-items:center; gap:10px;">
             <div class="back-circle-btn" onclick="closeQuickPayChat()"><i class="fa-solid fa-chevron-left"></i></div>
-            <div style="width:40px; height:40px; border-radius:50%; background:linear-gradient(135deg,var(--blue-accent),var(--red-brand)); display:flex; align-items:center; justify-content:center; font-weight:800;" id="chat-user-avatar">U</div>
+            <img id="chat-user-avatar-img" src="" style="width:40px; height:40px; border-radius:50%; object-fit:cover; display:none;">
+            <div id="chat-user-avatar" style="width:40px; height:40px; border-radius:50%; background:linear-gradient(135deg,var(--blue-accent),var(--red-brand)); display:flex; align-items:center; justify-content:center; font-weight:800;">U</div>
             <div>
                 <div id="chat-user-title" style="font-weight:800; font-size:14.5px;">User Name</div>
                 <div id="chat-user-uid" style="font-size:10.5px; color:var(--text-sub);">UID: 000000</div>
@@ -636,7 +905,7 @@
             <button class="glass-btn" style="width:auto; padding:13px 16px;" onclick="sendChatMessageSubmit()"><i class="fa-solid fa-paper-plane"></i></button>
         </div>
         <div class="chat-input-row">
-            <input type="number" id="chat-pay-amount-input" class="glass-input" style="margin-bottom:0;" placeholder="Amount (₹)">
+            <input type="tel" inputmode="decimal" id="chat-pay-amount-input" class="glass-input" style="margin-bottom:0;" placeholder="Amount (₹)">
             <button class="glass-btn primary" style="width:auto; padding:13px 20px; font-weight:800;" onclick="submitQuickPayTransfer()"><i class="fa-solid fa-indian-rupee-sign"></i> Pay</button>
         </div>
     </div>
@@ -713,11 +982,11 @@
 
         <h4 class="admin-section-title"><i class="fa-solid fa-sliders"></i> Control Modules</h4>
         <div class="admin-menu-grid">
-            <div class="admin-menu-btn" onclick="openAdminSection('users')">
-                <i class="fa-solid fa-users" style="color:var(--blue-accent);"></i><span>Users Matrix</span>
-            </div>
             <div class="admin-menu-btn" onclick="openAdminSection('registered_users')">
-                <i class="fa-solid fa-address-book" style="color:var(--green-accent);"></i><span>Registered Users</span>
+                <i class="fa-solid fa-address-book" style="color:var(--green-accent);"></i><span>Users List</span>
+            </div>
+            <div class="admin-menu-btn" onclick="openAdminSection('categories')">
+                <i class="fa-solid fa-tags" style="color:var(--purple-accent);"></i><span>Categories</span>
             </div>
             <div class="admin-menu-btn" onclick="openAdminSection('tasks')">
                 <i class="fa-solid fa-list-check" style="color:var(--green-accent);"></i><span>Tasks</span>
@@ -770,30 +1039,11 @@
         </div>
     </div>
 
-    <!-- USERS -->
-    <div id="admin-section-users" class="admin-section">
-        <div style="display:flex; align-items:center; gap:10px; margin-bottom:14px;">
-            <div class="back-circle-btn" onclick="closeAdminSection()"><i class="fa-solid fa-chevron-left"></i></div>
-            <h3 class="admin-section-title" style="margin:0;"><i class="fa-solid fa-users"></i> Users Matrix</h3>
-        </div>
-        <div class="glass-card">
-            <h4 style="font-size:13px; margin-bottom:10px;">🔍 View User Details</h4>
-            <input type="number" id="admin-view-user-id" class="glass-input" placeholder="Enter User ID">
-            <button class="glass-btn primary" onclick="adminViewUser()"><i class="fa-solid fa-search"></i> View User</button>
-        </div>
-        <div class="glass-card">
-            <h4 style="font-size:13px; margin-bottom:10px;">💰 Adjust Balance</h4>
-            <input type="number" id="admin-adj-uid" class="glass-input" placeholder="User ID">
-            <input type="number" id="admin-adj-amt" class="glass-input" placeholder="Amount (+add / -remove)">
-            <button class="glass-btn success" onclick="adminAdjustBalance()"><i class="fa-solid fa-check"></i> Adjust Balance</button>
-        </div>
-    </div>
-
     <!-- REGISTERED USERS -->
     <div id="admin-section-registered_users" class="admin-section">
         <div style="display:flex; align-items:center; gap:10px; margin-bottom:14px;">
             <div class="back-circle-btn" onclick="closeAdminSection()"><i class="fa-solid fa-chevron-left"></i></div>
-            <h3 class="admin-section-title" style="margin:0;"><i class="fa-solid fa-address-book"></i> Registered Users List</h3>
+            <h3 class="admin-section-title" style="margin:0;"><i class="fa-solid fa-address-book"></i> Users List</h3>
         </div>
         <div class="glass-card" style="padding:12px;">
             <div class="search-box-wrapper" style="margin-bottom:0;">
@@ -819,6 +1069,23 @@
         </div>
     </div>
 
+    <!-- CATEGORIES -->
+    <div id="admin-section-categories" class="admin-section">
+        <div style="display:flex; align-items:center; gap:10px; margin-bottom:14px;">
+            <div class="back-circle-btn" onclick="closeAdminSection()"><i class="fa-solid fa-chevron-left"></i></div>
+            <h3 class="admin-section-title" style="margin:0;"><i class="fa-solid fa-tags"></i> Categories</h3>
+        </div>
+        <div class="glass-card">
+            <h4 style="font-size:13px; margin-bottom:10px;">➕ Add Category</h4>
+            <input type="text" id="admin-new-category" class="glass-input" placeholder="e.g. YouTube, Telegram">
+            <button class="glass-btn primary" onclick="adminAddCategory()"><i class="fa-solid fa-plus"></i> Add Category</button>
+        </div>
+        <div class="glass-card">
+            <h4 style="font-size:13px; margin-bottom:10px;">📋 All Categories</h4>
+            <div id="admin-category-list"><p style="font-size:11.5px; color:var(--text-sub); text-align:center;">Loading...</p></div>
+        </div>
+    </div>
+
     <!-- TASKS -->
     <div id="admin-section-tasks" class="admin-section">
         <div style="display:flex; align-items:center; gap:10px; margin-bottom:14px;">
@@ -830,7 +1097,11 @@
             <input type="text" id="admin-task-title" class="glass-input" placeholder="Task Title">
             <input type="text" id="admin-task-desc" class="glass-input" placeholder="Description">
             <input type="url" id="admin-task-url" class="glass-input" placeholder="Task URL">
-            <input type="number" id="admin-task-amt" class="glass-input" placeholder="Reward Amount (₹)">
+            <input type="tel" inputmode="decimal" id="admin-task-amt" class="glass-input" placeholder="Reward Amount (₹)">
+            <label style="font-size:11px; color:var(--text-sub); display:block; margin-bottom:4px;">Category</label>
+            <select id="admin-task-category" class="glass-input">
+                <option value="">-- No Category --</option>
+            </select>
             <button class="glass-btn primary" onclick="adminCreateTask()"><i class="fa-solid fa-plus"></i> Deploy Task</button>
         </div>
         <div class="glass-card">
@@ -878,15 +1149,13 @@
         <div class="glass-card">
             <h4 style="font-size:13px; margin-bottom:10px;">➕ Create Gift Code</h4>
             <input type="text" id="adm-vch-code" class="glass-input" placeholder="Code (e.g. EXTRA50)">
-            <input type="number" id="adm-vch-value" class="glass-input" placeholder="Amount (₹)">
-            <input type="number" id="adm-vch-max" class="glass-input" placeholder="Max Users (default: 1)">
+            <input type="tel" inputmode="decimal" id="adm-vch-value" class="glass-input" placeholder="Amount (₹)">
+            <input type="tel" inputmode="numeric" id="adm-vch-max" class="glass-input" placeholder="Max Users (default: 1)">
             <button class="glass-btn primary" onclick="generateVoucherCodeUnified()"><i class="fa-solid fa-plus"></i> Create Voucher</button>
         </div>
         <div class="glass-card">
             <h4 style="font-size:13px; margin-bottom:10px;">📋 Active Codes</h4>
-            <div id="admin-voucher-list">
-                <p style="font-size:12px; color:var(--text-sub); text-align:center; padding:14px;">Loading...</p>
-            </div>
+            <div id="admin-voucher-list"><p style="font-size:12px; color:var(--text-sub); text-align:center; padding:14px;">Loading...</p></div>
         </div>
     </div>
 
@@ -925,9 +1194,7 @@
         </div>
         <div class="glass-card">
             <h4 style="font-size:13px; margin-bottom:10px;">📋 Mandatory Channels</h4>
-            <div id="admin-channels-list">
-                <p style="font-size:12px; color:var(--text-sub); text-align:center; padding:14px;">Loading...</p>
-            </div>
+            <div id="admin-channels-list"><p style="font-size:12px; color:var(--text-sub); text-align:center; padding:14px;">Loading...</p></div>
         </div>
     </div>
 
@@ -949,9 +1216,7 @@
         </div>
         <div class="glass-card">
             <h4 style="font-size:13px; margin-bottom:10px;">📋 Active Gateways</h4>
-            <div id="admin-gateways-list">
-                <p style="font-size:12px; color:var(--text-sub); text-align:center; padding:14px;">Loading...</p>
-            </div>
+            <div id="admin-gateways-list"><p style="font-size:12px; color:var(--text-sub); text-align:center; padding:14px;">Loading...</p></div>
         </div>
     </div>
 
@@ -963,33 +1228,21 @@
         </div>
         <div class="glass-card">
             <h4 style="font-size:13px; margin-bottom:10px;">🤖 System Controls</h4>
-            <div class="admin-toggle-row">
-                <span>🟢 Bot Status (ON/OFF)</span>
-                <label class="switch"><input type="checkbox" id="set-bot-status" checked><span class="slider"></span></label>
-            </div>
-            <div class="admin-toggle-row">
-                <span>🛡️ Verification Mode</span>
-                <label class="switch"><input type="checkbox" id="set-verification"><span class="slider"></span></label>
-            </div>
-            <div class="admin-toggle-row">
-                <span>🏧 Withdraw Mode</span>
-                <label class="switch"><input type="checkbox" id="set-withdraw" checked><span class="slider"></span></label>
-            </div>
-            <div class="admin-toggle-row">
-                <span>🔔 New User Alerts</span>
-                <label class="switch"><input type="checkbox" id="set-newuser" checked><span class="slider"></span></label>
-            </div>
+            <div class="admin-toggle-row"><span>🟢 Bot Status (ON/OFF)</span><label class="switch"><input type="checkbox" id="set-bot-status" checked><span class="slider"></span></label></div>
+            <div class="admin-toggle-row"><span>🛡️ Verification Mode</span><label class="switch"><input type="checkbox" id="set-verification"><span class="slider"></span></label></div>
+            <div class="admin-toggle-row"><span>🏧 Withdraw Mode</span><label class="switch"><input type="checkbox" id="set-withdraw" checked><span class="slider"></span></label></div>
+            <div class="admin-toggle-row"><span>🔔 New User Alerts</span><label class="switch"><input type="checkbox" id="set-newuser" checked><span class="slider"></span></label></div>
         </div>
         <div class="glass-card">
             <h4 style="font-size:13px; margin-bottom:10px;">💰 Financial Settings</h4>
             <label style="font-size:11px; color:var(--text-sub); display:block; margin-bottom:4px;">Minimum Withdraw (₹)</label>
-            <input type="number" id="set-min-wd" class="glass-input" placeholder="Min amount">
+            <input type="tel" inputmode="decimal" id="set-min-wd" class="glass-input" placeholder="Min amount">
             <label style="font-size:11px; color:var(--text-sub); display:block; margin-bottom:4px;">Maximum Withdraw (₹)</label>
-            <input type="number" id="set-max-wd" class="glass-input" placeholder="Max amount">
+            <input type="tel" inputmode="decimal" id="set-max-wd" class="glass-input" placeholder="Max amount">
             <label style="font-size:11px; color:var(--text-sub); display:block; margin-bottom:4px;">Referral Reward (₹)</label>
-            <input type="number" id="set-refer-amt" class="glass-input" placeholder="Per referral amount">
+            <input type="tel" inputmode="decimal" id="set-refer-amt" class="glass-input" placeholder="Per referral amount">
             <label style="font-size:11px; color:var(--text-sub); display:block; margin-bottom:4px;">Withdraw Tax (%)</label>
-            <input type="number" id="set-tax" class="glass-input" placeholder="Tax percentage">
+            <input type="tel" inputmode="decimal" id="set-tax" class="glass-input" placeholder="Tax percentage">
             <button class="glass-btn primary" onclick="adminSaveSettings()"><i class="fa-solid fa-save"></i> Save Settings</button>
         </div>
     </div>
@@ -1002,12 +1255,12 @@
         </div>
         <div class="glass-card">
             <h4 style="font-size:13px; margin-bottom:10px;">🚫 Ban a User</h4>
-            <input type="number" id="admin-ban-uid" class="glass-input" placeholder="User ID to ban">
+            <input type="tel" inputmode="numeric" id="admin-ban-uid" class="glass-input" placeholder="User ID to ban">
             <button class="glass-btn danger" onclick="adminBanUser()"><i class="fa-solid fa-ban"></i> Ban User</button>
         </div>
         <div class="glass-card">
             <h4 style="font-size:13px; margin-bottom:10px;">🔓 Unban a User</h4>
-            <input type="number" id="admin-unban-uid" class="glass-input" placeholder="User ID to unban">
+            <input type="tel" inputmode="numeric" id="admin-unban-uid" class="glass-input" placeholder="User ID to unban">
             <button class="glass-btn success" onclick="adminUnbanUser()"><i class="fa-solid fa-unlock"></i> Unban User</button>
         </div>
         <div class="glass-card">
@@ -1024,7 +1277,7 @@
         </div>
         <div class="glass-card">
             <h4 style="font-size:13px; margin-bottom:10px;">➕ Add Sub-Admin</h4>
-            <input type="number" id="admin-new-subadm" class="glass-input" placeholder="User ID">
+            <input type="tel" inputmode="numeric" id="admin-new-subadm" class="glass-input" placeholder="User ID">
             <button class="glass-btn primary" onclick="adminAddSubAdmin()"><i class="fa-solid fa-plus"></i> Add Sub-Admin</button>
         </div>
         <div class="glass-card">
@@ -1041,7 +1294,7 @@
         </div>
         <div class="glass-card">
             <h4 style="font-size:13px; margin-bottom:10px;">💬 Send Direct Message</h4>
-            <input type="number" id="admin-msg-uid" class="glass-input" placeholder="Target User ID">
+            <input type="tel" inputmode="numeric" id="admin-msg-uid" class="glass-input" placeholder="Target User ID">
             <textarea id="admin-msg-content" class="glass-input" style="min-height:100px; resize:vertical;" placeholder="Type your message..."></textarea>
             <button class="glass-btn primary" onclick="adminSendUserMessage()"><i class="fa-solid fa-paper-plane"></i> Send Message</button>
         </div>
@@ -1055,9 +1308,7 @@
         </div>
         <div class="glass-card">
             <h4 style="font-size:13px; margin-bottom:10px;">🎨 Dynamic Inline Button Customizer</h4>
-            <div id="admin-inline-buttons-list">
-                <p style="font-size:11.5px; color:var(--text-sub); text-align:center;">Loading...</p>
-            </div>
+            <div id="admin-inline-buttons-list"><p style="font-size:11.5px; color:var(--text-sub); text-align:center;">Loading...</p></div>
             <button class="glass-btn warning" style="margin-top:12px;" onclick="adminResetAllInline()"><i class="fa-solid fa-rotate-left"></i> Reset All to Default</button>
         </div>
     </div>
@@ -1070,9 +1321,7 @@
         </div>
         <div class="glass-card">
             <h4 style="font-size:13px; margin-bottom:10px;">⌨️ Current Layout</h4>
-            <div id="admin-keyboard-layout-view">
-                <p style="font-size:11.5px; color:var(--text-sub); text-align:center;">Loading...</p>
-            </div>
+            <div id="admin-keyboard-layout-view"><p style="font-size:11.5px; color:var(--text-sub); text-align:center;">Loading...</p></div>
             <button class="glass-btn primary" style="margin-top:12px;" onclick="adminPreviewKeyboard()"><i class="fa-solid fa-eye"></i> Preview Live Keyboard</button>
             <button class="glass-btn warning" style="margin-top:8px;" onclick="adminToggleKeyboardLayout()"><i class="fa-solid fa-arrows-rotate"></i> Toggle Layout Mode</button>
             <button class="glass-btn danger" style="margin-top:8px;" onclick="adminResetKeyboard()"><i class="fa-solid fa-rotate-left"></i> Reset All</button>
@@ -1091,9 +1340,7 @@
                 <h4 style="font-size:13px; margin:0;">⚠️ Real-time Error Logs</h4>
                 <button class="glass-btn" style="width:auto; padding:6px 12px; font-size:11px;" onclick="loadErrorLogs()"><i class="fa-solid fa-refresh"></i></button>
             </div>
-            <div id="admin-error-logs-list">
-                <p style="font-size:11.5px; color:var(--text-sub); text-align:center;">Loading...</p>
-            </div>
+            <div id="admin-error-logs-list"><p style="font-size:11.5px; color:var(--text-sub); text-align:center;">Loading...</p></div>
             <button class="glass-btn danger" style="margin-top:12px;" onclick="adminClearErrorLogs()"><i class="fa-solid fa-trash"></i> Clear All Logs</button>
         </div>
     </div>
@@ -1143,43 +1390,21 @@
             <h4 style="font-size:13px; margin-bottom:10px; color:var(--red-brand);">⚠️ Danger Zone</h4>
             <p style="font-size:11.5px; color:var(--text-sub); margin-bottom:14px;">Transfer full bot ownership. You will lose admin access immediately.</p>
             <label style="font-size:11px; color:var(--text-sub); display:block; margin-bottom:4px;">New Owner User ID</label>
-            <input type="number" id="admin-new-owner-uid" class="glass-input" placeholder="Enter Telegram User ID">
+            <input type="tel" inputmode="numeric" id="admin-new-owner-uid" class="glass-input" placeholder="Enter Telegram User ID">
             <button class="glass-btn danger" onclick="adminTransferOwnership()"><i class="fa-solid fa-crown"></i> Transfer Ownership</button>
         </div>
     </div>
 </div>
 
-<!-- MODALS -->
-<div id="modal-withdraw" class="glass-modal">
-    <div class="modal-body">
-        <h3 style="font-size:15px; margin-bottom:14px;"><i class="fa-solid fa-wallet"></i> Withdraw Funds</h3>
-        <input type="text" id="txt-wd-address" class="glass-input" placeholder="Enter UPI ID (name@upi)">
-        <input type="number" id="txt-wd-quantum" class="glass-input" placeholder="Amount (₹)">
-        <div style="display:flex; gap:9px;">
-            <button class="glass-btn" onclick="closeModal('modal-withdraw')">Cancel</button>
-            <button class="glass-btn primary" onclick="submitWithdrawalClaimRequest()">Submit</button>
-        </div>
-    </div>
-</div>
-
+<!-- MODAL: NEW PAY -->
 <div id="modal-new-pay" class="glass-modal">
     <div class="modal-body">
         <h3 style="font-size:15px; margin-bottom:14px;"><i class="fa-solid fa-user-plus"></i> New Payment</h3>
-        <input type="text" id="new-pay-uid" class="glass-input" placeholder="Recipient UID">
+        <input type="tel" inputmode="numeric" id="new-pay-uid" class="glass-input" placeholder="Recipient UID">
         <input type="text" id="new-pay-name" class="glass-input" placeholder="Contact Name (Optional)">
         <div style="display:flex; gap:9px;">
             <button class="glass-btn" onclick="closeModal('modal-new-pay')">Cancel</button>
             <button class="glass-btn primary" onclick="submitNewPayPrompt()">Continue</button>
-        </div>
-    </div>
-</div>
-
-<div id="modal-user-detail" class="glass-modal">
-    <div class="modal-body">
-        <h3 style="font-size:15px; margin-bottom:14px;"><i class="fa-solid fa-user"></i> User Details</h3>
-        <div id="modal-user-detail-content" style="font-size:13px; line-height:1.7;"></div>
-        <div style="margin-top:16px;">
-            <button class="glass-btn" onclick="closeModal('modal-user-detail')">Close</button>
         </div>
     </div>
 </div>
@@ -1194,1605 +1419,3 @@
         </div>
     </div>
 </div>
-
-<script>
-    /**
-     * ============================================================
-     *  EXTRA EARN MINI APP
-     *  ✅ Same Database as Bot (uses window.location.origin)
-     *  ✅ All data synced with MongoDB via API
-     *  ✅ Banners stored in DB (not localStorage)
-     * ============================================================
-     */
-    const ENGINE_API_ENDPOINT = window.location.origin;
-
-    const tg = window.Telegram.WebApp;
-    tg.ready();
-    tg.expand();
-    if (tg.setHeaderColor) tg.setHeaderColor('#000000');
-    if (tg.setBackgroundColor) tg.setBackgroundColor('#000000');
-
-    const user = tg.initDataUnsafe?.user;
-    const sessionUserUid = user?.id || null;
-    const sessionUserName = (user?.first_name || "User") + (user?.last_name ? " " + user.last_name : "");
-    const sessionUserPhoto = user?.photo_url || null;
-
-    if (!sessionUserUid) {
-        document.body.innerHTML = '<div style="color:white; text-align:center; padding:40px; font-family:sans-serif;">Error: Please open via Telegram.</div>';
-        throw new Error("No Telegram user ID");
-    }
-
-    let isRealAdmin = false;
-    let isOwnerUser = false;
-
-    // Local-only (cosmetic) storage
-    let quickPayContacts = [];
-    let quickPayThreads = {};
-    let blockedUsersList = [];
-    let currentActiveChatContact = null;
-
-    // Banners (now from server/DB)
-    let appBanners = [];
-
-    let regUsersCache = [];
-    let regUsersPage = 0;
-    const REG_USERS_PAGE_SIZE = 30;
-    let regUsersHasMore = false;
-
-    function sanitizeText(str) {
-        const temp = document.createElement('div');
-        temp.textContent = str || '';
-        return temp.innerHTML;
-    }
-
-    function showToast(msg, color = '#10b981') {
-        const el = document.createElement('div');
-        el.style.cssText = `position:fixed;top:80px;left:50%;transform:translateX(-50%);background:${color};color:white;padding:11px 22px;border-radius:14px;font-weight:700;font-size:13px;z-index:99999;box-shadow:0 8px 25px rgba(0,0,0,0.5);max-width:90%;text-align:center;`;
-        el.innerText = msg;
-        document.body.appendChild(el);
-        setTimeout(() => { el.style.transition = 'opacity 0.4s'; el.style.opacity = '0'; }, 1800);
-        setTimeout(() => el.remove(), 2300);
-    }
-
-    function showConfirm(title, msg, onYes) {
-        document.getElementById('confirm-title').innerText = title;
-        document.getElementById('confirm-msg').innerText = msg;
-        const btn = document.getElementById('confirm-yes-btn');
-        btn.onclick = () => { closeModal('modal-confirm'); onYes(); };
-        openModal('modal-confirm');
-    }
-
-    function setBalance(amount, isLoading = false) {
-        const balFormatted = '₹' + Number(amount || 0).toFixed(2);
-        const header = document.getElementById('header-bal');
-        const wallet = document.getElementById('lbl-wallet-bal');
-        header.innerText = balFormatted;
-        wallet.innerText = balFormatted;
-        if (isLoading) {
-            header.classList.add('loading');
-            header.innerText = 'Loading...';
-        } else {
-            header.classList.remove('loading');
-        }
-    }
-
-    (function instantBoot() {
-        try {
-            const cachedBal = localStorage.getItem('cached_balance_' + sessionUserUid);
-            if (cachedBal !== null) setBalance(parseFloat(cachedBal), false);
-            else setBalance(0, true);
-        } catch(e) { setBalance(0, true); }
-    })();
-
-    document.addEventListener("DOMContentLoaded", async () => {
-        document.getElementById('prof-uid-string').innerText = sessionUserUid;
-        document.getElementById('prof-name-node').innerText = sessionUserName;
-        document.getElementById('txt-refer-link-box').value = `https://t.me/ExtraEarnBot?start=${sessionUserUid}`;
-
-        const avatarImg = document.getElementById('prof-avatar-node');
-        if (sessionUserPhoto) avatarImg.src = sessionUserPhoto;
-        else renderInitialAvatar();
-
-        try {
-            quickPayContacts = JSON.parse(localStorage.getItem('quickpay_contacts') || '[]');
-            quickPayThreads = JSON.parse(localStorage.getItem('quickpay_threads') || '{}');
-            blockedUsersList = JSON.parse(localStorage.getItem('blocked_users_list') || '[]');
-        } catch(e) {}
-
-        renderQuickPayPeopleGrid();
-        renderQuickPayTransactionHistory();
-
-        // Load banners from DB
-        await loadBannersFromDB();
-
-        // Check admin access
-        await checkAdminAccess();
-
-        fetchUserData();
-    });
-
-    // ==================== BANNERS (DB SYNC) ====================
-    async function loadBannersFromDB() {
-        try {
-            const res = await fetch(`${ENGINE_API_ENDPOINT}/api/banners`);
-            const r = await res.json();
-            if (r.success && r.banners) {
-                appBanners = r.banners;
-                renderBannersOnHome();
-                if (isRealAdmin) renderAdminBannerList();
-            } else {
-                appBanners = [];
-                renderBannersOnHome();
-            }
-        } catch (e) {
-            console.warn("Banner load failed:", e);
-            appBanners = [];
-            renderBannersOnHome();
-        }
-    }
-
-    function renderBannersOnHome() {
-        const wrapper = document.getElementById('home-banner-wrapper');
-        const slider = document.getElementById('home-banner-slider');
-        if (!appBanners || appBanners.length === 0) {
-            wrapper.style.display = 'none';
-            return;
-        }
-        wrapper.style.display = 'block';
-        slider.innerHTML = '';
-        appBanners.forEach(b => {
-            const item = document.createElement('div');
-            item.className = 'banner-item';
-            if (b.link && b.link.trim() !== '') item.onclick = () => window.open(b.link, '_blank');
-            const img = document.createElement('img');
-            img.src = b.imageData || b.imgData;
-            img.alt = "Banner";
-            item.appendChild(img);
-            slider.appendChild(item);
-        });
-    }
-
-    function renderAdminBannerList() {
-        const container = document.getElementById('adm-banner-list-container');
-        if (!container) return;
-        if (!appBanners || appBanners.length === 0) {
-            container.innerHTML = `<p style="font-size:11.5px; color:var(--text-sub); text-align:center;">No active banners.</p>`;
-            return;
-        }
-        container.innerHTML = '';
-        appBanners.forEach((b, index) => {
-            const row = document.createElement('div');
-            row.className = 'banner-manage-row';
-            const targetLinkText = b.link ? sanitizeText(b.link) : 'No Link';
-            row.innerHTML = `
-                <img src="${b.imageData || b.imgData}" style="width:48px; height:34px; object-fit:contain; border-radius:6px; background:#000;">
-                <div style="flex:1; overflow:hidden; font-size:11.5px;">
-                    <div style="font-weight:700;">Banner #${index + 1}</div>
-                    <div style="color:var(--text-sub); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${targetLinkText}</div>
-                </div>
-                <button class="glass-btn danger" style="padding:6px 10px; width:auto; font-size:11.5px;" onclick="removeBannerItem('${b.id}')">
-                    <i class="fa-solid fa-trash"></i>
-                </button>
-            `;
-            container.appendChild(row);
-        });
-    }
-
-    function addNewBannerSubmit() {
-        const fileInput = document.getElementById('adm-banner-file-input');
-        const linkInput = document.getElementById('adm-banner-link-input');
-        const file = fileInput.files[0];
-        if (!file) return showToast('Select a banner image', '#ef4444');
-
-        const reader = new FileReader();
-        reader.onload = async function(e) {
-            const imageData = e.target.result;
-            const link = linkInput.value.trim();
-
-            try {
-                const res = await fetch(`${ENGINE_API_ENDPOINT}/api/admin/banners`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ adminId: sessionUserUid, imageData, link })
-                });
-                const r = await res.json();
-                if (r.success) {
-                    showToast('Banner uploaded to DB!', '#10b981');
-                    fileInput.value = ''; linkInput.value = '';
-                    await loadBannersFromDB();
-                    renderAdminBannerList();
-                } else {
-                    showToast(r.error || 'Upload failed', '#ef4444');
-                }
-            } catch (err) {
-                showToast('Network error', '#ef4444');
-            }
-        };
-        reader.readAsDataURL(file);
-    }
-
-    function removeBannerItem(bannerId) {
-        showConfirm('Delete Banner', 'Delete this banner from DB?', async () => {
-            try {
-                const res = await fetch(`${ENGINE_API_ENDPOINT}/api/admin/banners/${bannerId}?adminId=${sessionUserUid}`, { method: 'DELETE' });
-                const r = await res.json();
-                if (r.success) {
-                    showToast('Banner deleted', '#ef4444');
-                    await loadBannersFromDB();
-                    renderAdminBannerList();
-                } else {
-                    showToast(r.error || 'Failed', '#ef4444');
-                }
-            } catch (e) {
-                showToast('Network error', '#ef4444');
-            }
-        });
-    }
-
-    // ==================== ADMIN ACCESS CHECK ====================
-    async function checkAdminAccess() {
-        try {
-            const ctrl = new AbortController();
-            const timeout = setTimeout(() => ctrl.abort(), 10000);
-            const res = await fetch(`${ENGINE_API_ENDPOINT}/api/admin/check-access?userId=${sessionUserUid}`, { signal: ctrl.signal });
-            clearTimeout(timeout);
-            const data = await res.json();
-
-            if (data.success && data.isAdmin) {
-                isRealAdmin = true;
-                isOwnerUser = !!data.isOwner;
-                document.getElementById('admin-terminal-btn').style.display = 'flex';
-                try {
-                    localStorage.setItem('cached_isAdmin_' + sessionUserUid, 'true');
-                    localStorage.setItem('cached_isOwner_' + sessionUserUid, String(isOwnerUser));
-                } catch(e) {}
-                renderAdminBannerList();
-            } else {
-                isRealAdmin = false;
-                isOwnerUser = false;
-                document.getElementById('admin-terminal-btn').style.display = 'none';
-                try { localStorage.removeItem('cached_isAdmin_' + sessionUserUid); } catch(e) {}
-            }
-        } catch (err) {
-            console.error("Admin access check failed:", err);
-            try {
-                const cachedAdmin = localStorage.getItem('cached_isAdmin_' + sessionUserUid);
-                if (cachedAdmin === 'true') {
-                    isRealAdmin = true;
-                    isOwnerUser = localStorage.getItem('cached_isOwner_' + sessionUserUid) === 'true';
-                    document.getElementById('admin-terminal-btn').style.display = 'flex';
-                }
-            } catch(e) {}
-        }
-    }
-
-    function handleAvatarError() { renderInitialAvatar(); }
-    function renderInitialAvatar() {
-        const wrap = document.getElementById('prof-avatar-wrap');
-        const initial = sessionUserName.charAt(0).toUpperCase();
-        wrap.innerHTML = `<div class="profile-avatar-fallback">${initial}</div>`;
-    }
-
-    async function fetchUserData() {
-        if (!sessionUserUid) return;
-        try {
-            const ctrl = new AbortController();
-            const timeout = setTimeout(() => ctrl.abort(), 12000);
-            const res = await fetch(`${ENGINE_API_ENDPOINT}/api/user/${sessionUserUid}`, { signal: ctrl.signal });
-            clearTimeout(timeout);
-            const data = await res.json();
-            if (data.success && data.user) {
-                const bal = Number(data.user.balance || 0);
-                setBalance(bal, false);
-                if (data.user.name) document.getElementById('prof-name-node').innerText = data.user.name;
-                try {
-                    localStorage.setItem('cached_balance_' + sessionUserUid, String(bal));
-                    localStorage.setItem('cached_name_' + sessionUserUid, data.user.name || '');
-                } catch(e) {}
-                window.__userData = data.user;
-            } else {
-                setBalance(0, false);
-            }
-        } catch (err) {
-            const cached = localStorage.getItem('cached_balance_' + sessionUserUid);
-            setBalance(cached !== null ? parseFloat(cached) : 0, false);
-        }
-    }
-
-    // ==================== QUICK PAY ====================
-    function renderQuickPayPeopleGrid(filterQuery = '') {
-        const container = document.getElementById('quickpay-people-container');
-        container.innerHTML = '';
-        const filtered = quickPayContacts.filter(c =>
-            (c.name || '').toLowerCase().includes(filterQuery.toLowerCase()) ||
-            String(c.uid).includes(filterQuery)
-        );
-        if (filtered.length === 0) {
-            container.innerHTML = `<div style="grid-column: span 4; font-size:11.5px; color:var(--text-sub); padding:10px 0; text-align:center;">No recent contacts.</div>`;
-            return;
-        }
-        filtered.forEach(c => {
-            const item = document.createElement('div');
-            item.className = 'quickpay-person-item';
-            item.onclick = () => openQuickPayChat(c);
-            const initial = sanitizeText((c.name || 'U').charAt(0).toUpperCase());
-            item.innerHTML = `<div class="quickpay-avatar">${initial}</div><div class="quickpay-person-name">${sanitizeText(c.name)}</div>`;
-            container.appendChild(item);
-        });
-    }
-
-    function renderQuickPayTransactionHistory() {
-        const container = document.getElementById('quickpay-tx-history-list');
-        container.innerHTML = '';
-        let allTxs = [];
-        Object.keys(quickPayThreads).forEach(uid => {
-            const thread = quickPayThreads[uid] || [];
-            thread.filter(item => item.kind === 'payment').forEach(p => allTxs.push({ ...p, uid }));
-        });
-        if (allTxs.length === 0) {
-            container.innerHTML = `<div class="glass-card" style="text-align:center; padding:18px; color:var(--text-sub); font-size:12.5px;"><i class="fa-solid fa-receipt" style="font-size:22px; margin-bottom:8px; opacity:0.4;"></i><p>No transactions yet.</p></div>`;
-            return;
-        }
-        allTxs.sort((a,b) => b.timestamp - a.timestamp).forEach(tx => {
-            const item = document.createElement('div');
-            item.className = 'tx-history-item';
-            const contact = quickPayContacts.find(c => c.uid === tx.uid) || { name: `User ${tx.uid}` };
-            item.innerHTML = `<div class="tx-history-left"><div class="tx-history-icon out"><i class="fa-solid fa-arrow-up-right"></i></div><div><div style="font-weight:700; font-size:13px;">${sanitizeText(contact.name)}</div><div style="font-size:10.5px; color:var(--text-sub);">${sanitizeText(tx.time)}</div></div></div><div style="font-weight:800; font-size:14.5px; color:#f87171;">-₹${Number(tx.amount).toFixed(2)}</div>`;
-            item.onclick = () => openQuickPayChat({ uid: tx.uid, name: contact.name });
-            container.appendChild(item);
-        });
-    }
-
-    function filterQuickPayContacts() {
-        const q = document.getElementById('quickpay-search-input').value.trim();
-        renderQuickPayPeopleGrid(q);
-    }
-
-    function openNewPayPrompt() {
-        document.getElementById('new-pay-uid').value = '';
-        document.getElementById('new-pay-name').value = '';
-        openModal('modal-new-pay');
-    }
-
-    function submitNewPayPrompt() {
-        const uid = document.getElementById('new-pay-uid').value.trim();
-        const name = document.getElementById('new-pay-name').value.trim() || `User ${uid}`;
-        if (!uid) return showToast('Please enter a valid UID', '#ef4444');
-        const contactObj = { uid, name };
-        if (!quickPayContacts.some(c => c.uid === uid)) {
-            quickPayContacts.push(contactObj);
-            localStorage.setItem('quickpay_contacts', JSON.stringify(quickPayContacts));
-            renderQuickPayPeopleGrid();
-        }
-        closeModal('modal-new-pay');
-        openQuickPayChat(contactObj);
-    }
-
-    function openQuickPayChat(contact) {
-        currentActiveChatContact = contact;
-        document.getElementById('chat-user-title').innerText = contact.name;
-        document.getElementById('chat-user-uid').innerText = `UID: ${contact.uid}`;
-        document.getElementById('chat-user-avatar').innerText = (contact.name || 'U').charAt(0).toUpperCase();
-        updateBlockStatusUI();
-        renderChatThread();
-        document.getElementById('page-quickpay-chat').classList.add('active');
-    }
-
-    function closeQuickPayChat() {
-        document.getElementById('page-quickpay-chat').classList.remove('active');
-        currentActiveChatContact = null;
-    }
-
-    function updateBlockStatusUI() {
-        if (!currentActiveChatContact) return;
-        const isBlocked = blockedUsersList.includes(currentActiveChatContact.uid);
-        const blockBtn = document.getElementById('btn-block-user');
-        const blockedNotice = document.getElementById('chat-blocked-notice');
-        const footerControls = document.getElementById('chat-footer-controls');
-        if (isBlocked) {
-            blockBtn.innerHTML = `<i class="fa-solid fa-lock-open"></i> Unblock`;
-            blockBtn.className = "glass-btn success";
-            blockedNotice.style.display = 'block';
-            footerControls.style.opacity = '0.3';
-            footerControls.style.pointerEvents = 'none';
-        } else {
-            blockBtn.innerHTML = `<i class="fa-solid fa-ban"></i> Block`;
-            blockBtn.className = "glass-btn danger";
-            blockedNotice.style.display = 'none';
-            footerControls.style.opacity = '1';
-            footerControls.style.pointerEvents = 'auto';
-        }
-    }
-
-    function toggleBlockUser() {
-        if (!currentActiveChatContact) return;
-        const uid = currentActiveChatContact.uid;
-        if (blockedUsersList.includes(uid)) {
-            blockedUsersList = blockedUsersList.filter(id => id !== uid);
-            localStorage.setItem('blocked_users_list', JSON.stringify(blockedUsersList));
-            updateBlockStatusUI();
-            showToast(`Unblocked ${currentActiveChatContact.name}`, '#10b981');
-            return;
-        }
-        showConfirm('Block User', `Block ${currentActiveChatContact.name}?`, () => {
-            blockedUsersList.push(uid);
-            localStorage.setItem('blocked_users_list', JSON.stringify(blockedUsersList));
-            updateBlockStatusUI();
-            showToast(`Blocked ${currentActiveChatContact.name}`, '#ef4444');
-        });
-    }
-
-    function renderChatThread() {
-        if (!currentActiveChatContact) return;
-        const container = document.getElementById('chat-messages-container');
-        container.innerHTML = '';
-        const thread = quickPayThreads[currentActiveChatContact.uid] || [];
-        if (thread.length === 0) {
-            container.innerHTML = `<div style="text-align:center; padding:40px 20px; color:var(--text-sub); font-size:12px;"><i class="fa-solid fa-comments" style="font-size:30px; margin-bottom:10px; opacity:0.35;"></i><p>Start conversation with ${sanitizeText(currentActiveChatContact.name)}</p></div>`;
-            return;
-        }
-        thread.forEach(item => {
-            if (item.kind === 'text') {
-                const msg = document.createElement('div');
-                msg.className = 'chat-text-msg';
-                msg.innerText = item.text;
-                container.appendChild(msg);
-            } else if (item.kind === 'payment') {
-                const bubble = document.createElement('div');
-                bubble.className = 'chat-bubble-card';
-                bubble.innerHTML = `<div style="font-size:10.5px; color:var(--text-sub); margin-bottom:6px;"><i class="fa-solid fa-circle-check" style="color:var(--green-accent);"></i> Payment Sent</div><div style="font-size:24px; font-weight:800; color:var(--green-accent);">₹${Number(item.amount).toFixed(2)}</div><div style="font-size:10px; color:var(--text-sub); margin-top:6px; text-align:right;">${sanitizeText(item.time)}</div>`;
-                container.appendChild(bubble);
-            }
-        });
-        container.scrollTop = container.scrollHeight;
-    }
-
-    function sendChatMessageSubmit() {
-        if (!currentActiveChatContact) return;
-        if (blockedUsersList.includes(currentActiveChatContact.uid)) return showToast('User is blocked', '#ef4444');
-        const txtInput = document.getElementById('chat-text-input');
-        const text = txtInput.value.trim();
-        if (!text) return;
-        const uid = currentActiveChatContact.uid;
-        if (!quickPayThreads[uid]) quickPayThreads[uid] = [];
-        quickPayThreads[uid].push({ kind: 'text', text, timestamp: Date.now(), time: new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) });
-        localStorage.setItem('quickpay_threads', JSON.stringify(quickPayThreads));
-        txtInput.value = '';
-        renderChatThread();
-    }
-
-    async function submitQuickPayTransfer() {
-        if (!currentActiveChatContact) return;
-        if (blockedUsersList.includes(currentActiveChatContact.uid)) return showToast('User is blocked', '#ef4444');
-        const amtInput = document.getElementById('chat-pay-amount-input');
-        const amount = parseFloat(amtInput.value);
-        if (!amount || amount <= 0) return showToast('Enter a valid amount', '#ef4444');
-        try {
-            const res = await fetch(`${ENGINE_API_ENDPOINT}/api/mini-app/peer-transfer`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ sourceId: sessionUserUid, targetId: currentActiveChatContact.uid, amount })
-            });
-            const r = await res.json();
-            if (r.error) return showToast(r.error, '#ef4444');
-            showToast('Payment sent!', '#10b981');
-            recordPaymentInThread(amount);
-            amtInput.value = '';
-            fetchUserData();
-        } catch (err) { showToast('Network error', '#ef4444'); }
-    }
-
-    function recordPaymentInThread(amount) {
-        const uid = currentActiveChatContact.uid;
-        if (!quickPayThreads[uid]) quickPayThreads[uid] = [];
-        quickPayThreads[uid].push({ kind: 'payment', amount, timestamp: Date.now(), time: new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) });
-        localStorage.setItem('quickpay_threads', JSON.stringify(quickPayThreads));
-        renderChatThread();
-        renderQuickPayTransactionHistory();
-    }
-
-    // ==================== NAV ====================
-    function switchMainTab(target, el) {
-        document.querySelectorAll('.view-section').forEach(v => v.classList.remove('active'));
-        document.querySelectorAll('.nav-link').forEach(n => n.classList.remove('active'));
-        document.getElementById(`view-${target}`).classList.add('active');
-        el.classList.add('active');
-        if (target === 'wallet') fetchUserData();
-    }
-
-    function openSubPage(id) {
-        if (id === 'page-admin-control-hub' && !isRealAdmin) {
-            showToast('⛔ Access Denied', '#ef4444');
-            return;
-        }
-        document.getElementById(id).classList.add('active');
-        if (id === 'page-admin-control-hub') loadAdminStats();
-        if (id === 'page-history') loadHistoryPage();
-        if (id === 'page-payout-setup') loadPayoutSetup();
-        if (id === 'page-leaderboard') loadLeaderboard();
-    }
-    function closeSubPage(id) { document.getElementById(id).classList.remove('active'); }
-    function openModal(id) { document.getElementById(id).classList.add('active'); }
-    function closeModal(id) { document.getElementById(id).classList.remove('active'); }
-
-    function copyUserUID() {
-        navigator.clipboard.writeText(String(sessionUserUid));
-        showToast('UID Copied!', '#3b82f6');
-    }
-    function copyReferLink() {
-        navigator.clipboard.writeText(document.getElementById('txt-refer-link-box').value);
-        showToast('Referral link copied!', '#3b82f6');
-    }
-
-    // ==================== VOUCHER ====================
-    async function claimVoucherTokenSubmit() {
-        const code = document.getElementById('txt-voucher-code').value.trim();
-        if (!code) return showToast('Enter a voucher code', '#ef4444');
-        try {
-            const res = await fetch(`${ENGINE_API_ENDPOINT}/api/mini-app/redeem-code`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ userId: sessionUserUid, code })
-            });
-            const r = await res.json();
-            if (r.error) showToast(r.error, '#ef4444');
-            else {
-                showToast(`Added ₹${r.amount}!`, '#10b981');
-                document.getElementById('txt-voucher-code').value = '';
-                fetchUserData();
-            }
-        } catch (err) { showToast('Network error', '#ef4444'); }
-    }
-
-    // ==================== WITHDRAW ====================
-    async function submitWithdrawalClaimRequest() {
-        const upi = document.getElementById('txt-wd-address').value.trim();
-        const amount = parseFloat(document.getElementById('txt-wd-quantum').value);
-        if (!upi || !amount) return showToast('Fill all details', '#ef4444');
-        try {
-            const res = await fetch(`${ENGINE_API_ENDPOINT}/api/mini-app/withdraw`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ userId: sessionUserUid, upi, amount })
-            });
-            const r = await res.json();
-            if (r.error) showToast(r.error, '#ef4444');
-            else {
-                showToast('Withdrawal submitted!', '#10b981');
-                closeModal('modal-withdraw');
-                fetchUserData();
-            }
-        } catch (err) { showToast('Network error', '#ef4444'); }
-    }
-
-    // ==================== PAYOUT SETUP ====================
-    async function loadPayoutSetup() {
-        if (window.__userData) {
-            const r = window.__userData;
-            if (r.upi && r.upi !== 'not_linked') document.getElementById('setup-upi-input').value = r.upi;
-            if (r.wallet && r.wallet !== 'not_linked') document.getElementById('setup-wallet-input').value = r.wallet;
-            return;
-        }
-        try {
-            const res = await fetch(`${ENGINE_API_ENDPOINT}/api/user/${sessionUserUid}`);
-            const r = await res.json();
-            if (r.success && r.user) {
-                window.__userData = r.user;
-                if (r.user.upi && r.user.upi !== 'not_linked') document.getElementById('setup-upi-input').value = r.user.upi;
-                if (r.user.wallet && r.user.wallet !== 'not_linked') document.getElementById('setup-wallet-input').value = r.user.wallet;
-            }
-        } catch (e) {}
-    }
-
-    async function saveUpiSetup() {
-        const upi = document.getElementById('setup-upi-input').value.trim();
-        if (!upi) return showToast('Enter UPI ID', '#ef4444');
-        try {
-            const res = await fetch(`${ENGINE_API_ENDPOINT}/api/user/${sessionUserUid}/upi`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ upi })
-            });
-            const r = await res.json();
-            if (r.success) { showToast('UPI saved!', '#10b981'); if (window.__userData) window.__userData.upi = upi; }
-            else showToast(r.error || 'Failed', '#ef4444');
-        } catch (e) { showToast('Network error', '#ef4444'); }
-    }
-
-    async function saveWalletSetup() {
-        const wallet = document.getElementById('setup-wallet-input').value.trim();
-        if (!wallet) return showToast('Enter wallet', '#ef4444');
-        try {
-            const res = await fetch(`${ENGINE_API_ENDPOINT}/api/user/${sessionUserUid}/wallet`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ wallet })
-            });
-            const r = await res.json();
-            if (r.success) { showToast('Wallet saved!', '#10b981'); if (window.__userData) window.__userData.wallet = wallet; }
-            else showToast(r.error || 'Failed', '#ef4444');
-        } catch (e) { showToast('Network error', '#ef4444'); }
-    }
-
-    // ==================== HISTORY ====================
-    async function loadHistoryPage() {
-        const container = document.getElementById('history-content-container');
-        container.innerHTML = '<p style="font-size:12px; color:var(--text-sub); text-align:center; padding:20px;">Loading...</p>';
-        try {
-            const res = await fetch(`${ENGINE_API_ENDPOINT}/api/user/${sessionUserUid}`);
-            const data = await res.json();
-            if (data.success && data.user) {
-                const u = data.user;
-                const histHtml = (u.history && u.history.length > 0)
-                    ? u.history.slice(0, 10).map(h => `<div style="padding:8px; border-bottom:1px solid var(--glass-border); font-size:12px;">• ${sanitizeText(h.method || 'N/A')}: ₹${h.amount || 0} → ${sanitizeText(h.status || '')}</div>`).join('')
-                    : '<p style="font-size:12px; color:var(--text-sub); text-align:center; padding:10px;">No payout records.</p>';
-                container.innerHTML = `<div class="glass-card"><h4 style="font-size:13px; margin-bottom:8px;">💰 Total Withdrawn</h4><div style="font-size:24px; font-weight:800; color:var(--green-accent);">₹${Number(u.totalWithdrawn || 0).toFixed(2)}</div></div><div class="glass-card"><h4 style="font-size:13px; margin-bottom:8px;">🎁 Current Balance</h4><div style="font-size:24px; font-weight:800; color:var(--red-brand);">₹${Number(u.balance || 0).toFixed(2)}</div></div><div class="glass-card"><h4 style="font-size:13px; margin-bottom:8px;">📜 Payout History</h4>${histHtml}</div>`;
-            } else {
-                container.innerHTML = '<p style="font-size:12px; color:var(--text-sub); text-align:center;">No data.</p>';
-            }
-        } catch (e) {
-            container.innerHTML = '<p style="font-size:12px; color:var(--text-sub); text-align:center;">Error loading.</p>';
-        }
-    }
-
-    // ==================== LEADERBOARD ====================
-    async function loadLeaderboard() {
-        const container = document.getElementById('leaderboard-rank-dock');
-        container.innerHTML = '<div class="glass-card" style="text-align:center; padding:20px; color:var(--text-sub);"><i class="fa-solid fa-spinner fa-spin"></i> Loading...</div>';
-        try {
-            const res = await fetch(`${ENGINE_API_ENDPOINT}/api/leaderboard`);
-            const r = await res.json();
-            if (r.success && r.leaders && r.leaders.length > 0) {
-                container.innerHTML = '';
-                r.leaders.forEach((u, i) => {
-                    const medal = i === 0 ? '🥇' : i === 1 ? '🥈' : i === 2 ? '🥉' : `#${i+1}`;
-                    const row = document.createElement('div');
-                    row.className = 'glass-card';
-                    row.style.cssText = 'display:flex; justify-content:space-between; align-items:center; padding:14px;';
-                    row.innerHTML = `<div style="display:flex; align-items:center; gap:10px;"><span style="font-size:20px;">${medal}</span><span style="font-weight:700; font-size:13px;">${sanitizeText(u.name)}</span></div><b style="color:var(--green-accent); font-size:14px;">₹${Number(u.balance).toFixed(2)}</b>`;
-                    container.appendChild(row);
-                });
-            } else {
-                container.innerHTML = '<div class="glass-card" style="text-align:center; padding:30px; color:var(--text-sub);"><i class="fa-solid fa-trophy" style="font-size:32px; color:gold; margin-bottom:10px;"></i><p style="font-size:12.5px;">No rankings yet.</p></div>';
-            }
-        } catch(e) {
-            container.innerHTML = '<div class="glass-card" style="text-align:center; padding:20px; color:var(--text-sub);">Error loading.</div>';
-        }
-    }
-
-    // ==================== ADMIN: CORE ====================
-    async function loadAdminStats() {
-        if (!isRealAdmin) return;
-        try {
-            const res = await fetch(`${ENGINE_API_ENDPOINT}/api/admin/stats?adminId=${sessionUserUid}`);
-            const data = await res.json();
-            if (data.success) {
-                document.getElementById('stat-users').innerText = data.stats.totalUsers ?? '-';
-                document.getElementById('stat-banned').innerText = data.stats.bannedUsers ?? '-';
-                document.getElementById('stat-tasks').innerText = data.stats.activeTasks ?? '-';
-                document.getElementById('stat-pending').innerText = data.stats.pendingWithdrawals ?? '-';
-            }
-        } catch (err) { console.warn("Admin stats fetch failed:", err); }
-    }
-
-    function openAdminSection(name) {
-        if (!isRealAdmin) {
-            showToast('⛔ Access Denied', '#ef4444');
-            return;
-        }
-        document.querySelectorAll('.admin-section').forEach(s => s.classList.remove('active'));
-        document.getElementById('admin-main-menu').style.display = 'none';
-        const sec = document.getElementById(`admin-section-${name}`);
-        if (sec) sec.classList.add('active');
-
-        if (name === 'withdrawals') loadPendingWithdrawals();
-        if (name === 'tasks') loadAdminTasks();
-        if (name === 'vouchers') loadAdminVouchers();
-        if (name === 'channels') loadAdminChannels();
-        if (name === 'gateways') loadAdminGateways();
-        if (name === 'bans') loadBannedUsers();
-        if (name === 'admins') loadSubAdmins();
-        if (name === 'settings') loadAdminSettings();
-        if (name === 'inline_customizer') loadAdminInlineButtons();
-        if (name === 'keyboards') loadAdminKeyboardLayout();
-        if (name === 'error_logs') loadErrorLogs();
-        if (name === 'messages') loadBotMessages();
-        if (name === 'registered_users') loadRegisteredUsers(true);
-        if (name === 'banners') { loadBannersFromDB().then(() => renderAdminBannerList()); }
-    }
-
-    function closeAdminSection() {
-        document.querySelectorAll('.admin-section').forEach(s => s.classList.remove('active'));
-        document.getElementById('admin-main-menu').style.display = 'block';
-    }
-
-    // ==================== REGISTERED USERS ====================
-    async function loadRegisteredUsers(reset = false) {
-        const container = document.getElementById('registered-users-list-container');
-        const loadMoreBtn = document.getElementById('registered-users-load-more');
-        const countEl = document.getElementById('registered-users-count');
-
-        if (reset) {
-            regUsersPage = 0;
-            regUsersCache = [];
-            container.innerHTML = '<p style="font-size:12px; color:var(--text-sub); text-align:center; padding:20px;"><i class="fa-solid fa-spinner fa-spin"></i> Loading users...</p>';
-            loadMoreBtn.style.display = 'none';
-        }
-
-        try {
-            const res = await fetch(`${ENGINE_API_ENDPOINT}/api/admin/users/list?adminId=${sessionUserUid}&page=${regUsersPage}&limit=${REG_USERS_PAGE_SIZE}`);
-            const r = await res.json();
-            if (!r.success) {
-                container.innerHTML = `<p style="font-size:12px; color:#f87171; text-align:center; padding:20px;">❌ ${r.error || 'Failed to load users'}</p>`;
-                return;
-            }
-            const newUsers = r.users || [];
-            regUsersCache = regUsersCache.concat(newUsers);
-            regUsersHasMore = !!r.hasMore;
-            const total = r.total || regUsersCache.length;
-            countEl.innerText = `Showing: ${regUsersCache.length} / ${total} users`;
-            renderRegisteredUsersList();
-            if (regUsersHasMore) {
-                loadMoreBtn.style.display = 'block';
-                regUsersPage++;
-            } else {
-                loadMoreBtn.style.display = 'none';
-            }
-        } catch (e) {
-            container.innerHTML = '<p style="font-size:12px; color:#f87171; text-align:center; padding:20px;">❌ Network error</p>';
-        }
-    }
-
-    function renderRegisteredUsersList() {
-        const container = document.getElementById('registered-users-list-container');
-        const searchQuery = (document.getElementById('registered-users-search')?.value || '').trim().toLowerCase();
-        const filtered = regUsersCache.filter(u => {
-            if (!searchQuery) return true;
-            const name = (u.name || '').toLowerCase();
-            const uid = String(u.id);
-            return name.includes(searchQuery) || uid.includes(searchQuery);
-        });
-        if (filtered.length === 0) {
-            container.innerHTML = `<p style="font-size:12px; color:var(--text-sub); text-align:center; padding:20px;">
-                ${regUsersCache.length === 0 ? 'No users registered yet.' : 'No matching users found.'}
-            </p>`;
-            return;
-        }
-        container.innerHTML = '';
-        filtered.forEach(u => {
-            const initial = sanitizeText((u.name || 'U').charAt(0).toUpperCase());
-            const item = document.createElement('div');
-            item.className = 'user-list-item';
-            item.onclick = () => openRegisteredUserDetail(u.id);
-            item.innerHTML = `
-                <div class="user-list-avatar">${initial}</div>
-                <div class="user-list-info">
-                    <div class="user-list-name">${sanitizeText(u.name || 'Unknown')}</div>
-                    <div class="user-list-meta">🆔 ${u.id} • ${u.isBanned ? '🚫 Banned' : '✅ Active'}</div>
-                </div>
-                <div class="user-list-bal">₹${Number(u.balance || 0).toFixed(2)}</div>
-            `;
-            container.appendChild(item);
-        });
-    }
-
-    function filterRegisteredUsers() {
-        renderRegisteredUsersList();
-    }
-
-    async function openRegisteredUserDetail(uid) {
-        try {
-            const res = await fetch(`${ENGINE_API_ENDPOINT}/api/user/${uid}`);
-            const data = await res.json();
-            if (!data.success || !data.user) return showToast('User not found', '#ef4444');
-            const u = data.user;
-            document.getElementById('modal-user-detail-content').innerHTML = `
-                <div><b>Name:</b> ${sanitizeText(u.name)}</div>
-                <div><b>UID:</b> <code>${u.id}</code></div>
-                <div><b>Balance:</b> <span style="color:var(--green-accent);font-weight:800;">₹${Number(u.balance || 0).toFixed(2)}</span></div>
-                <div><b>UPI:</b> ${sanitizeText(u.upi || 'not linked')}</div>
-                <div><b>Wallet:</b> ${sanitizeText(u.wallet || 'not linked')}</div>
-                <div><b>Total Withdrawn:</b> ₹${Number(u.totalWithdrawn || 0).toFixed(2)}</div>
-                <div><b>Invites:</b> ${(u.invites || []).length}</div>
-                <div><b>Status:</b> ${u.isBanned ? '🚫 Banned' : '✅ Active'}</div>
-            `;
-            openModal('modal-user-detail');
-        } catch (e) {
-            showToast('Failed to load user', '#ef4444');
-        }
-    }
-
-    async function adminViewUser() {
-        const uid = document.getElementById('admin-view-user-id').value.trim();
-        if (!uid) return showToast('Enter User ID', '#ef4444');
-        await openRegisteredUserDetail(uid);
-    }
-
-    async function adminAdjustBalance() {
-        const uid = document.getElementById('admin-adj-uid').value.trim();
-        const amt = parseFloat(document.getElementById('admin-adj-amt').value);
-        if (!uid || isNaN(amt)) return showToast('Enter UID and amount', '#ef4444');
-        showConfirm('Adjust Balance', `Adjust ₹${amt} for user ${uid}?`, async () => {
-            try {
-                const res = await fetch(`${ENGINE_API_ENDPOINT}/api/admin/adjust-balance`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ adminId: sessionUserUid, targetId: uid, delta: amt })
-                });
-                const r = await res.json();
-                if (r.success) {
-                    showToast('Balance adjusted!', '#10b981');
-                    document.getElementById('admin-adj-uid').value = '';
-                    document.getElementById('admin-adj-amt').value = '';
-                    if (String(uid) === String(sessionUserUid)) fetchUserData();
-                } else showToast(r.error || 'Failed', '#ef4444');
-            } catch (e) { showToast('Network error', '#ef4444'); }
-        });
-    }
-
-    async function adminCreateTask() {
-        const title = document.getElementById('admin-task-title').value.trim();
-        const desc = document.getElementById('admin-task-desc').value.trim();
-        const url = document.getElementById('admin-task-url').value.trim();
-        const amount = parseFloat(document.getElementById('admin-task-amt').value);
-        if (!title || !url || isNaN(amount)) return showToast('Fill all fields', '#ef4444');
-        try {
-            const res = await fetch(`${ENGINE_API_ENDPOINT}/api/admin/tasks`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ adminId: sessionUserUid, title, desc, url, amount })
-            });
-            const r = await res.json();
-            if (r.success) {
-                showToast('Task deployed!', '#10b981');
-                document.getElementById('admin-task-title').value = '';
-                document.getElementById('admin-task-desc').value = '';
-                document.getElementById('admin-task-url').value = '';
-                document.getElementById('admin-task-amt').value = '';
-                loadAdminTasks();
-            } else showToast(r.error || 'Failed', '#ef4444');
-        } catch (e) { showToast('Network error', '#ef4444'); }
-    }
-
-    async function loadAdminTasks() {
-        try {
-            const res = await fetch(`${ENGINE_API_ENDPOINT}/api/admin/tasks?adminId=${sessionUserUid}`);
-            const r = await res.json();
-            const container = document.getElementById('admin-task-list');
-            if (!r.success || !r.tasks || r.tasks.length === 0) {
-                container.innerHTML = `<p style="font-size:11.5px; color:var(--text-sub); text-align:center;">No tasks yet.</p>`;
-                return;
-            }
-            container.innerHTML = '';
-            r.tasks.forEach(t => {
-                const row = document.createElement('div');
-                row.style.cssText = 'padding:10px; background:rgba(255,255,255,0.03); border-radius:10px; margin-bottom:8px;';
-                row.innerHTML = `<div style="font-weight:700; font-size:12.5px;">${sanitizeText(t.title)}</div><div style="font-size:11px; color:var(--text-sub);">Reward: ₹${t.amount} • ${t.active ? '🟢 Active' : '🔴 Off'}</div><button class="glass-btn danger" style="padding:6px 10px; margin-top:8px; font-size:11px;" onclick="adminDeleteTask('${t.id}')"><i class="fa-solid fa-trash"></i> Delete</button>`;
-                container.appendChild(row);
-            });
-        } catch (e) {
-            document.getElementById('admin-task-list').innerHTML = `<p style="font-size:11.5px; color:var(--text-sub); text-align:center;">Error loading tasks.</p>`;
-        }
-    }
-
-    async function adminDeleteTask(tid) {
-        showConfirm('Delete Task', 'Delete this task?', async () => {
-            try {
-                await fetch(`${ENGINE_API_ENDPOINT}/api/admin/tasks/${tid}?adminId=${sessionUserUid}`, { method: 'DELETE' });
-                showToast('Task deleted', '#ef4444');
-                loadAdminTasks();
-            } catch (e) { showToast('Failed', '#ef4444'); }
-        });
-    }
-
-    async function loadPendingWithdrawals() {
-        const container = document.getElementById('admin-withdrawals-list');
-        container.innerHTML = '<p style="font-size:11.5px; color:var(--text-sub); text-align:center;">Loading...</p>';
-        try {
-            const res = await fetch(`${ENGINE_API_ENDPOINT}/api/admin/withdrawals?adminId=${sessionUserUid}`);
-            const r = await res.json();
-            if (!r.success || !r.withdrawals || r.withdrawals.length === 0) {
-                container.innerHTML = `<p style="font-size:11.5px; color:var(--text-sub); text-align:center;">No pending requests.</p>`;
-                return;
-            }
-            container.innerHTML = '';
-            r.withdrawals.forEach(w => {
-                const row = document.createElement('div');
-                row.style.cssText = 'padding:12px; background:rgba(255,255,255,0.03); border:1px solid var(--glass-border); border-radius:12px; margin-bottom:10px;';
-                row.innerHTML = `<div style="font-weight:700; font-size:13px;">User: <code>${w.userId}</code></div><div style="font-size:11.5px; color:var(--text-sub); margin:4px 0;">₹${w.amount} → ${sanitizeText(w.destination)}</div><div style="display:flex; gap:8px; margin-top:8px;"><button class="glass-btn success" style="padding:8px; font-size:11.5px;" onclick="adminApproveWd('${w.id}')"><i class="fa-solid fa-check"></i> Approve</button><button class="glass-btn danger" style="padding:8px; font-size:11.5px;" onclick="adminRejectWd('${w.id}')"><i class="fa-solid fa-xmark"></i> Reject</button></div>`;
-                container.appendChild(row);
-            });
-        } catch (e) {
-            container.innerHTML = `<p style="font-size:11.5px; color:var(--text-sub); text-align:center;">Error loading.</p>`;
-        }
-    }
-
-    async function adminApproveWd(wid) {
-        showConfirm('Approve', 'Approve this withdrawal?', async () => {
-            try {
-                await fetch(`${ENGINE_API_ENDPOINT}/api/admin/withdrawals/${wid}/approve`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ adminId: sessionUserUid })
-                });
-                showToast('Approved!', '#10b981');
-                loadPendingWithdrawals();
-            } catch (e) { showToast('Failed', '#ef4444'); }
-        });
-    }
-
-    async function adminRejectWd(wid) {
-        showConfirm('Reject', 'Reject this withdrawal?', async () => {
-            try {
-                await fetch(`${ENGINE_API_ENDPOINT}/api/admin/withdrawals/${wid}/reject`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ adminId: sessionUserUid })
-                });
-                showToast('Rejected', '#ef4444');
-                loadPendingWithdrawals();
-            } catch (e) { showToast('Failed', '#ef4444'); }
-        });
-    }
-
-    async function adminSendBroadcast() {
-        const text = document.getElementById('admin-bc-text').value.trim();
-        if (!text) return showToast('Enter a message', '#ef4444');
-        showConfirm('Broadcast', `Send to ALL users?`, async () => {
-            try {
-                const res = await fetch(`${ENGINE_API_ENDPOINT}/api/admin/broadcast`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ adminId: sessionUserUid, text, mode: 'copy' })
-                });
-                const r = await res.json();
-                if (r.success) {
-                    showToast(`Sent to ${r.sent || 0} users`, '#10b981');
-                    document.getElementById('admin-bc-text').value = '';
-                } else showToast(r.error || 'Failed', '#ef4444');
-            } catch (e) { showToast('Network error', '#ef4444'); }
-        });
-    }
-
-    async function generateVoucherCodeUnified() {
-        const codeString = document.getElementById('adm-vch-code').value.trim();
-        const awardValue = document.getElementById('adm-vch-value').value;
-        const maxUsers = document.getElementById('adm-vch-max').value || 1;
-        if (!codeString || !awardValue) return showToast('Fill all fields', '#ef4444');
-        try {
-            const res = await fetch(`${ENGINE_API_ENDPOINT}/api/admin/create-code`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ adminId: sessionUserUid, codeString, awardValue, maxUsers })
-            });
-            const r = await res.json();
-            if (r.success) {
-                showToast(`Voucher [${codeString}] created!`, '#10b981');
-                document.getElementById('adm-vch-code').value = '';
-                document.getElementById('adm-vch-value').value = '';
-                document.getElementById('adm-vch-max').value = '';
-                loadAdminVouchers();
-            } else showToast(r.error || 'Failed', '#ef4444');
-        } catch (err) { showToast('Network error', '#ef4444'); }
-    }
-
-    async function loadAdminVouchers() {
-        const container = document.getElementById('admin-voucher-list');
-        container.innerHTML = '<p style="font-size:11.5px; color:var(--text-sub); text-align:center;">Loading...</p>';
-        try {
-            const res = await fetch(`${ENGINE_API_ENDPOINT}/api/admin/codes?adminId=${sessionUserUid}`);
-            const r = await res.json();
-            if (!r.success || !r.codes || r.codes.length === 0) {
-                container.innerHTML = `<p style="font-size:11.5px; color:var(--text-sub); text-align:center;">No codes created.</p>`;
-                return;
-            }
-            container.innerHTML = '';
-            r.codes.forEach(c => {
-                const row = document.createElement('div');
-                row.style.cssText = 'padding:10px; background:rgba(255,255,255,0.03); border-radius:10px; margin-bottom:8px; font-size:12px;';
-                row.innerHTML = `<div><b>${sanitizeText(c.code)}</b> — ₹${c.amount}</div><div style="color:var(--text-sub); font-size:11px;">Used: ${c.claimedBy?.length || 0}/${c.maxUsers}</div>`;
-                container.appendChild(row);
-            });
-        } catch (e) {
-            container.innerHTML = `<p style="font-size:11.5px; color:var(--text-sub); text-align:center;">Error loading.</p>`;
-        }
-    }
-
-    async function adminAddChannel() {
-        const name = document.getElementById('admin-ch-name').value.trim();
-        const link = document.getElementById('admin-ch-link').value.trim();
-        const username = document.getElementById('admin-ch-username').value.trim();
-        if (!name || !link) return showToast('Fill name and link', '#ef4444');
-        try {
-            const res = await fetch(`${ENGINE_API_ENDPOINT}/api/admin/channels`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ adminId: sessionUserUid, name, link, username })
-            });
-            const r = await res.json();
-            if (r.success) {
-                showToast('Channel added!', '#10b981');
-                document.getElementById('admin-ch-name').value = '';
-                document.getElementById('admin-ch-link').value = '';
-                document.getElementById('admin-ch-username').value = '';
-                loadAdminChannels();
-            } else showToast(r.error || 'Failed', '#ef4444');
-        } catch (e) { showToast('Network error', '#ef4444'); }
-    }
-
-    async function loadAdminChannels() {
-        const container = document.getElementById('admin-channels-list');
-        container.innerHTML = '<p style="font-size:11.5px; color:var(--text-sub); text-align:center;">Loading...</p>';
-        try {
-            const res = await fetch(`${ENGINE_API_ENDPOINT}/api/admin/channels?adminId=${sessionUserUid}`);
-            const r = await res.json();
-            if (!r.success || !r.channels || r.channels.length === 0) {
-                container.innerHTML = `<p style="font-size:11.5px; color:var(--text-sub); text-align:center;">No channels set.</p>`;
-                return;
-            }
-            container.innerHTML = '';
-            r.channels.forEach((c, i) => {
-                const row = document.createElement('div');
-                row.style.cssText = 'padding:10px; background:rgba(255,255,255,0.03); border-radius:10px; margin-bottom:8px; font-size:12px; display:flex; justify-content:space-between; align-items:center;';
-                row.innerHTML = `<div><b>${sanitizeText(c.name)}</b><div style="color:var(--text-sub); font-size:11px;">${sanitizeText(c.link)}</div></div><button class="glass-btn danger" style="padding:5px 10px; width:auto; font-size:11px;" onclick="adminRemoveChannel(${i})">✕</button>`;
-                container.appendChild(row);
-            });
-        } catch (e) {
-            container.innerHTML = `<p style="font-size:11.5px; color:var(--text-sub); text-align:center;">Error loading.</p>`;
-        }
-    }
-
-    async function adminRemoveChannel(index) {
-        showConfirm('Remove Channel', 'Remove this channel?', async () => {
-            try {
-                await fetch(`${ENGINE_API_ENDPOINT}/api/admin/channels/${index}?adminId=${sessionUserUid}`, { method: 'DELETE' });
-                showToast('Channel removed', '#ef4444');
-                loadAdminChannels();
-            } catch (e) { showToast('Failed', '#ef4444'); }
-        });
-    }
-
-    async function adminAddGateway() {
-        const name = document.getElementById('admin-gw-name').value.trim().toLowerCase();
-        const type = document.getElementById('admin-gw-type').value;
-        const url = document.getElementById('admin-gw-url').value.trim();
-        if (!name || !url) return showToast('Fill all fields', '#ef4444');
-        try {
-            const res = await fetch(`${ENGINE_API_ENDPOINT}/api/admin/gateways`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ adminId: sessionUserUid, name, type, url })
-            });
-            const r = await res.json();
-            if (r.success) {
-                showToast('Gateway added!', '#10b981');
-                document.getElementById('admin-gw-name').value = '';
-                document.getElementById('admin-gw-url').value = '';
-                loadAdminGateways();
-            } else showToast(r.error || 'Failed', '#ef4444');
-        } catch (e) { showToast('Network error', '#ef4444'); }
-    }
-
-    async function loadAdminGateways() {
-        const container = document.getElementById('admin-gateways-list');
-        container.innerHTML = '<p style="font-size:11.5px; color:var(--text-sub); text-align:center;">Loading...</p>';
-        try {
-            const res = await fetch(`${ENGINE_API_ENDPOINT}/api/admin/gateways?adminId=${sessionUserUid}`);
-            const r = await res.json();
-            if (!r.success || !r.gateways || Object.keys(r.gateways).length === 0) {
-                container.innerHTML = `<p style="font-size:11.5px; color:var(--text-sub); text-align:center;">No gateways.</p>`;
-                return;
-            }
-            container.innerHTML = '';
-            Object.entries(r.gateways).forEach(([key, gw]) => {
-                const row = document.createElement('div');
-                row.style.cssText = 'padding:10px; background:rgba(255,255,255,0.03); border-radius:10px; margin-bottom:8px; font-size:12px;';
-                row.innerHTML = `<div><b>${sanitizeText(gw.displayName || key)}</b> [${gw.type}]</div><div style="color:var(--text-sub); font-size:11px; word-break:break-all;">${sanitizeText(gw.url)}</div>`;
-                container.appendChild(row);
-            });
-        } catch (e) {
-            container.innerHTML = `<p style="font-size:11.5px; color:var(--text-sub); text-align:center;">Error loading.</p>`;
-        }
-    }
-
-    async function loadAdminSettings() {
-        try {
-            const res = await fetch(`${ENGINE_API_ENDPOINT}/api/admin/settings?adminId=${sessionUserUid}`);
-            const r = await res.json();
-            if (r.success && r.settings) {
-                const s = r.settings;
-                document.getElementById('set-bot-status').checked = !!s.botStatus;
-                document.getElementById('set-verification').checked = s.verificationMode === 'Both On';
-                document.getElementById('set-withdraw').checked = s.withdrawMode === 'Both On';
-                document.getElementById('set-newuser').checked = !!s.newUserNotification;
-                document.getElementById('set-min-wd').value = s.minWithdraw || '';
-                document.getElementById('set-max-wd').value = s.maxWithdraw || '';
-                document.getElementById('set-refer-amt').value = s.perRefer || '';
-                document.getElementById('set-tax').value = s.withdrawTax || '';
-            }
-        } catch (e) { console.warn('Settings load failed:', e); }
-    }
-
-    async function adminSaveSettings() {
-        const payload = {
-            adminId: sessionUserUid,
-            botStatus: document.getElementById('set-bot-status').checked,
-            verificationMode: document.getElementById('set-verification').checked ? 'Both On' : 'Both Off',
-            withdrawMode: document.getElementById('set-withdraw').checked ? 'Both On' : 'Both Off',
-            newUserNotification: document.getElementById('set-newuser').checked,
-            minWithdraw: parseFloat(document.getElementById('set-min-wd').value) || 1,
-            maxWithdraw: parseFloat(document.getElementById('set-max-wd').value) || 500,
-            perRefer: parseFloat(document.getElementById('set-refer-amt').value) || 0,
-            withdrawTax: parseFloat(document.getElementById('set-tax').value) || 0
-        };
-        try {
-            const res = await fetch(`${ENGINE_API_ENDPOINT}/api/admin/settings`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(payload)
-            });
-            const r = await res.json();
-            if (r.success) showToast('Settings saved!', '#10b981');
-            else showToast(r.error || 'Failed', '#ef4444');
-        } catch (e) { showToast('Network error', '#ef4444'); }
-    }
-
-    async function adminBanUser() {
-        const uid = document.getElementById('admin-ban-uid').value.trim();
-        if (!uid) return showToast('Enter User ID', '#ef4444');
-        showConfirm('Ban User', `Ban user ${uid}?`, async () => {
-            try {
-                await fetch(`${ENGINE_API_ENDPOINT}/api/admin/ban`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ adminId: sessionUserUid, targetId: uid })
-                });
-                showToast('User banned', '#ef4444');
-                document.getElementById('admin-ban-uid').value = '';
-                loadBannedUsers();
-            } catch (e) { showToast('Failed', '#ef4444'); }
-        });
-    }
-
-    async function adminUnbanUser() {
-        const uid = document.getElementById('admin-unban-uid').value.trim();
-        if (!uid) return showToast('Enter User ID', '#ef4444');
-        try {
-            await fetch(`${ENGINE_API_ENDPOINT}/api/admin/unban`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ adminId: sessionUserUid, targetId: uid })
-            });
-            showToast('User unbanned', '#10b981');
-            document.getElementById('admin-unban-uid').value = '';
-            loadBannedUsers();
-        } catch (e) { showToast('Failed', '#ef4444'); }
-    }
-
-    async function loadBannedUsers() {
-        const container = document.getElementById('admin-banned-list');
-        container.innerHTML = '<p style="font-size:11.5px; color:var(--text-sub); text-align:center;">Loading...</p>';
-        try {
-            const res = await fetch(`${ENGINE_API_ENDPOINT}/api/admin/banned?adminId=${sessionUserUid}`);
-            const r = await res.json();
-            if (!r.success || !r.users || r.users.length === 0) {
-                container.innerHTML = `<p style="font-size:11.5px; color:var(--text-sub); text-align:center;">No banned users.</p>`;
-                return;
-            }
-            container.innerHTML = '';
-            r.users.forEach(u => {
-                const row = document.createElement('div');
-                row.style.cssText = 'padding:10px; background:rgba(239,68,68,0.08); border-radius:10px; margin-bottom:8px; font-size:12px; display:flex; justify-content:space-between; align-items:center;';
-                row.innerHTML = `<div><b>${sanitizeText(u.name)}</b><br><code>${u.id}</code></div><button class="glass-btn success" style="padding:5px 10px; width:auto; font-size:11px;" onclick="adminUnbanFromList('${u.id}')">Unban</button>`;
-                container.appendChild(row);
-            });
-        } catch (e) {
-            container.innerHTML = `<p style="font-size:11.5px; color:var(--text-sub); text-align:center;">Error loading.</p>`;
-        }
-    }
-
-    async function adminUnbanFromList(uid) {
-        try {
-            await fetch(`${ENGINE_API_ENDPOINT}/api/admin/unban`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ adminId: sessionUserUid, targetId: uid })
-            });
-            showToast('Unbanned', '#10b981');
-            loadBannedUsers();
-        } catch (e) { showToast('Failed', '#ef4444'); }
-    }
-
-    async function adminAddSubAdmin() {
-        const uid = document.getElementById('admin-new-subadm').value.trim();
-        if (!uid) return showToast('Enter User ID', '#ef4444');
-        try {
-            const res = await fetch(`${ENGINE_API_ENDPOINT}/api/admin/subadmins`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ adminId: sessionUserUid, targetId: uid })
-            });
-            const r = await res.json();
-            if (r.success) {
-                showToast('Sub-admin added!', '#10b981');
-                document.getElementById('admin-new-subadm').value = '';
-                loadSubAdmins();
-            } else showToast(r.error || 'Failed', '#ef4444');
-        } catch (e) { showToast('Network error', '#ef4444'); }
-    }
-
-    async function loadSubAdmins() {
-        const container = document.getElementById('admin-subadmins-list');
-        container.innerHTML = '<p style="font-size:11.5px; color:var(--text-sub); text-align:center;">Loading...</p>';
-        try {
-            const res = await fetch(`${ENGINE_API_ENDPOINT}/api/admin/subadmins?adminId=${sessionUserUid}`);
-            const r = await res.json();
-            if (!r.success || !r.subAdmins || r.subAdmins.length === 0) {
-                container.innerHTML = `<p style="font-size:11.5px; color:var(--text-sub); text-align:center;">No sub-admins yet.</p>`;
-                return;
-            }
-            container.innerHTML = '';
-            r.subAdmins.forEach(id => {
-                const row = document.createElement('div');
-                row.style.cssText = 'padding:10px; background:rgba(255,255,255,0.03); border-radius:10px; margin-bottom:8px; font-size:12px; display:flex; justify-content:space-between; align-items:center;';
-                row.innerHTML = `<code>${id}</code><button class="glass-btn danger" style="padding:5px 10px; width:auto; font-size:11px;" onclick="adminRemoveSubAdmin('${id}')">Remove</button>`;
-                container.appendChild(row);
-            });
-        } catch (e) {
-            container.innerHTML = `<p style="font-size:11.5px; color:var(--text-sub); text-align:center;">Error loading.</p>`;
-        }
-    }
-
-    async function adminRemoveSubAdmin(id) {
-        showConfirm('Remove Sub-Admin', `Remove ${id}?`, async () => {
-            try {
-                await fetch(`${ENGINE_API_ENDPOINT}/api/admin/subadmins/${id}?adminId=${sessionUserUid}`, { method: 'DELETE' });
-                showToast('Removed', '#ef4444');
-                loadSubAdmins();
-            } catch (e) { showToast('Failed', '#ef4444'); }
-        });
-    }
-
-    async function adminSendUserMessage() {
-        const uid = document.getElementById('admin-msg-uid').value.trim();
-        const text = document.getElementById('admin-msg-content').value.trim();
-        if (!uid || !text) return showToast('Fill all fields', '#ef4444');
-        try {
-            const res = await fetch(`${ENGINE_API_ENDPOINT}/api/admin/message-user`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ adminId: sessionUserUid, targetId: uid, text })
-            });
-            const r = await res.json();
-            if (r.success) {
-                showToast('Message sent!', '#10b981');
-                document.getElementById('admin-msg-uid').value = '';
-                document.getElementById('admin-msg-content').value = '';
-            } else showToast(r.error || 'Failed', '#ef4444');
-        } catch (e) { showToast('Network error', '#ef4444'); }
-    }
-
-    // ==================== INLINE BUTTONS ====================
-    async function loadAdminInlineButtons() {
-        const container = document.getElementById('admin-inline-buttons-list');
-        container.innerHTML = '<p style="font-size:11.5px; color:var(--text-sub); text-align:center;">Loading...</p>';
-        try {
-            const res = await fetch(`${ENGINE_API_ENDPOINT}/api/admin/inline-buttons?adminId=${sessionUserUid}`);
-            const r = await res.json();
-            if (!r.success || !r.buttons) {
-                container.innerHTML = '<p style="font-size:11.5px; color:var(--text-sub); text-align:center;">Failed to load.</p>';
-                return;
-            }
-            container.innerHTML = '';
-            r.buttons.forEach(b => {
-                const row = document.createElement('div');
-                row.style.cssText = 'display:flex; align-items:center; gap:8px; padding:8px; background:rgba(255,255,255,0.03); border:1px solid var(--glass-border); border-radius:10px; margin-bottom:8px;';
-                const styleLabel = b.style && b.style !== 'none' ? `[${b.style}]` : '';
-                row.innerHTML = `<div style="flex:1; overflow:hidden;"><div style="font-size:11px; color:var(--text-sub);">${sanitizeText(b.key)}</div><div style="font-weight:700; font-size:12.5px;">${sanitizeText(b.label)} <span style="color:var(--purple-accent);font-size:10px;">${styleLabel}</span></div></div><button class="glass-btn" style="width:auto; padding:6px 10px; font-size:11px;" onclick="adminEditInlineName('${b.key}')"><i class="fa-solid fa-pen"></i></button><button class="glass-btn" style="width:auto; padding:6px 10px; font-size:11px;" onclick="adminEditInlineStyle('${b.key}', '${b.style || 'none'}')"><i class="fa-solid fa-palette"></i></button>`;
-                container.appendChild(row);
-            });
-        } catch (e) {
-            container.innerHTML = '<p style="font-size:11.5px; color:var(--text-sub); text-align:center;">Error loading.</p>';
-        }
-    }
-
-    function adminEditInlineName(key) {
-        const newName = prompt(`Enter new label for "${key}":`);
-        if (newName === null || newName.trim() === '') return;
-        saveInlineButtonUpdate(key, newName.trim(), null);
-    }
-
-    function adminEditInlineStyle(key, currentStyle) {
-        const styles = ['primary', 'success', 'danger', 'none'];
-        const choice = prompt(`Select style for "${key}"\nOptions: ${styles.join(', ')}\nCurrent: ${currentStyle}`, currentStyle);
-        if (choice === null) return;
-        if (!styles.includes(choice.trim().toLowerCase())) return showToast('Invalid style', '#ef4444');
-        saveInlineButtonUpdate(key, null, choice.trim().toLowerCase());
-    }
-
-    async function saveInlineButtonUpdate(key, newLabel, newStyle) {
-        try {
-            const payload = { adminId: sessionUserUid, key };
-            if (newLabel) payload.label = newLabel;
-            if (newStyle) payload.style = newStyle;
-            const res = await fetch(`${ENGINE_API_ENDPOINT}/api/admin/inline-buttons`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(payload)
-            });
-            const r = await res.json();
-            if (r.success) {
-                showToast('Button updated!', '#10b981');
-                loadAdminInlineButtons();
-            } else showToast(r.error || 'Failed', '#ef4444');
-        } catch (e) { showToast('Network error', '#ef4444'); }
-    }
-
-    async function adminResetAllInline() {
-        showConfirm('Reset All Inline', 'Reset all inline buttons to default?', async () => {
-            try {
-                await fetch(`${ENGINE_API_ENDPOINT}/api/admin/inline-buttons/reset`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ adminId: sessionUserUid })
-                });
-                showToast('All reset!', '#10b981');
-                loadAdminInlineButtons();
-            } catch (e) { showToast('Failed', '#ef4444'); }
-        });
-    }
-
-    // ==================== REPLY KEYBOARD ====================
-    async function loadAdminKeyboardLayout() {
-        const container = document.getElementById('admin-keyboard-layout-view');
-        container.innerHTML = '<p style="font-size:11.5px; color:var(--text-sub); text-align:center;">Loading...</p>';
-        try {
-            const res = await fetch(`${ENGINE_API_ENDPOINT}/api/admin/keyboard-layout?adminId=${sessionUserUid}`);
-            const r = await res.json();
-            if (!r.success || !r.layout) {
-                container.innerHTML = '<p style="font-size:11.5px; color:var(--text-sub); text-align:center;">Failed to load.</p>';
-                return;
-            }
-            window.__adminKbLayout = r.layout;
-            window.__adminKbStyles = r.styles || {};
-            container.innerHTML = '';
-            r.layout.forEach((row, rIdx) => {
-                const rowDiv = document.createElement('div');
-                rowDiv.style.cssText = 'display:flex; gap:6px; margin-bottom:8px;';
-                row.forEach((btn, cIdx) => {
-                    const styleKey = r.styles?.[`${rIdx}_${cIdx}`];
-                    const styleLabel = styleKey ? ` [${styleKey}]` : '';
-                    const b = document.createElement('button');
-                    b.className = 'glass-btn';
-                    b.style.cssText = 'flex:1; padding:8px 4px; font-size:10.5px;';
-                    b.innerText = btn + styleLabel;
-                    b.onclick = () => openKeyboardEditor(rIdx, cIdx);
-                    rowDiv.appendChild(b);
-                });
-                container.appendChild(rowDiv);
-            });
-        } catch (e) {
-            container.innerHTML = '<p style="font-size:11.5px; color:var(--text-sub); text-align:center;">Error loading.</p>';
-        }
-    }
-
-    function openKeyboardEditor(rIdx, cIdx) {
-        const editor = document.getElementById('admin-keyboard-editor');
-        const layout = window.__adminKbLayout || [];
-        const currentName = layout[rIdx]?.[cIdx] || '';
-        const currentStyle = window.__adminKbStyles?.[`${rIdx}_${cIdx}`] || 'none';
-        editor.innerHTML = `
-            <div class="glass-card" style="border-color:var(--purple-accent);">
-                <h4 style="font-size:13px; margin-bottom:10px;">✏️ Edit Button [Row ${rIdx + 1}, Col ${cIdx + 1}]</h4>
-                <p style="font-size:12px; color:var(--text-sub); margin-bottom:10px;">Current: <b>${sanitizeText(currentName)}</b></p>
-                <div style="display:grid; grid-template-columns:1fr 1fr; gap:6px; margin-bottom:10px;">
-                    <button class="glass-btn" style="font-size:11px; padding:8px;" onclick="adminMoveKeyboard(${rIdx}, ${cIdx}, 'up')">⬆️ Up</button>
-                    <button class="glass-btn" style="font-size:11px; padding:8px;" onclick="adminMoveKeyboard(${rIdx}, ${cIdx}, 'down')">⬇️ Down</button>
-                    <button class="glass-btn" style="font-size:11px; padding:8px;" onclick="adminMoveKeyboard(${rIdx}, ${cIdx}, 'left')">⬅️ Left</button>
-                    <button class="glass-btn" style="font-size:11px; padding:8px;" onclick="adminMoveKeyboard(${rIdx}, ${cIdx}, 'right')">➡️ Right</button>
-                </div>
-                <input type="text" id="kb-edit-name" class="glass-input" value="${sanitizeText(currentName)}" placeholder="Button name">
-                <select id="kb-edit-style" class="glass-input">
-                    <option value="none" ${currentStyle==='none'?'selected':''}>No Style</option>
-                    <option value="primary" ${currentStyle==='primary'?'selected':''}>🔵 Primary</option>
-                    <option value="success" ${currentStyle==='success'?'selected':''}>🟢 Success</option>
-                    <option value="danger" ${currentStyle==='danger'?'selected':''}>🔴 Danger</option>
-                </select>
-                <button class="glass-btn primary" onclick="adminSaveKeyboardButton(${rIdx}, ${cIdx})"><i class="fa-solid fa-save"></i> Save</button>
-                <button class="glass-btn" style="margin-top:6px;" onclick="document.getElementById('admin-keyboard-editor').innerHTML=''"><i class="fa-solid fa-xmark"></i> Close</button>
-            </div>
-        `;
-        editor.scrollIntoView({ behavior: 'smooth' });
-    }
-
-    async function adminMoveKeyboard(rIdx, cIdx, direction) {
-        try {
-            const res = await fetch(`${ENGINE_API_ENDPOINT}/api/admin/keyboard-layout/move`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ adminId: sessionUserUid, r: rIdx, c: cIdx, direction })
-            });
-            const r = await res.json();
-            if (r.success) {
-                showToast('Moved!', '#10b981');
-                loadAdminKeyboardLayout();
-                document.getElementById('admin-keyboard-editor').innerHTML = '';
-            } else showToast(r.error || 'Failed', '#ef4444');
-        } catch (e) { showToast('Network error', '#ef4444'); }
-    }
-
-    async function adminSaveKeyboardButton(rIdx, cIdx) {
-        const newName = document.getElementById('kb-edit-name').value.trim();
-        const newStyle = document.getElementById('kb-edit-style').value;
-        if (!newName) return showToast('Enter a name', '#ef4444');
-        try {
-            const res = await fetch(`${ENGINE_API_ENDPOINT}/api/admin/keyboard-layout/edit`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ adminId: sessionUserUid, r: rIdx, c: cIdx, name: newName, style: newStyle })
-            });
-            const r = await res.json();
-            if (r.success) {
-                showToast('Saved!', '#10b981');
-                loadAdminKeyboardLayout();
-                document.getElementById('admin-keyboard-editor').innerHTML = '';
-            } else showToast(r.error || 'Failed', '#ef4444');
-        } catch (e) { showToast('Network error', '#ef4444'); }
-    }
-
-    async function adminToggleKeyboardLayout() {
-        try {
-            const res = await fetch(`${ENGINE_API_ENDPOINT}/api/admin/keyboard-layout/toggle`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ adminId: sessionUserUid })
-            });
-            const r = await res.json();
-            if (r.success) {
-                showToast('Layout toggled!', '#10b981');
-                loadAdminKeyboardLayout();
-            } else showToast(r.error || 'Failed', '#ef4444');
-        } catch (e) { showToast('Network error', '#ef4444'); }
-    }
-
-    async function adminResetKeyboard() {
-        showConfirm('Reset Keyboard', 'Reset reply keyboard to default?', async () => {
-            try {
-                await fetch(`${ENGINE_API_ENDPOINT}/api/admin/keyboard-layout/reset`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ adminId: sessionUserUid })
-                });
-                showToast('Keyboard reset!', '#10b981');
-                loadAdminKeyboardLayout();
-            } catch (e) { showToast('Failed', '#ef4444'); }
-        });
-    }
-
-    async function adminPreviewKeyboard() {
-        try {
-            const res = await fetch(`${ENGINE_API_ENDPOINT}/api/admin/keyboard-layout/preview`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ adminId: sessionUserUid })
-            });
-            const r = await res.json();
-            if (r.success) showToast('Preview sent to bot!', '#3b82f6');
-            else showToast(r.error || 'Failed', '#ef4444');
-        } catch (e) { showToast('Network error', '#ef4444'); }
-    }
-
-    // ==================== ERROR LOGS ====================
-    async function loadErrorLogs() {
-        const container = document.getElementById('admin-error-logs-list');
-        container.innerHTML = '<p style="font-size:11.5px; color:var(--text-sub); text-align:center;">Loading...</p>';
-        try {
-            const res = await fetch(`${ENGINE_API_ENDPOINT}/api/admin/error-logs?adminId=${sessionUserUid}`);
-            const r = await res.json();
-            if (!r.success || !r.logs || r.logs.length === 0) {
-                container.innerHTML = '<div style="padding:20px; text-align:center;"><i class="fa-solid fa-circle-check" style="font-size:32px; color:var(--green-accent); margin-bottom:10px;"></i><p style="font-size:12px; color:var(--text-sub);">No errors logged. Bot running smoothly! 🎉</p></div>';
-                return;
-            }
-            container.innerHTML = '';
-            r.logs.slice(0, 15).forEach((log, i) => {
-                const row = document.createElement('div');
-                row.style.cssText = 'padding:10px; background:rgba(239,68,68,0.08); border:1px solid rgba(239,68,68,0.25); border-radius:10px; margin-bottom:8px; font-size:11.5px;';
-                row.innerHTML = `<div style="display:flex; justify-content:space-between; margin-bottom:4px;"><b style="color:#f87171;">Error #${i+1}</b><span style="color:var(--text-sub); font-size:10px;">${sanitizeText(log.time || 'N/A')}</span></div><div style="color:var(--text-sub); margin-bottom:4px;">User: <code>${log.user || 'N/A'}</code></div><div style="font-family:monospace; font-size:11px; word-break:break-word;">${sanitizeText(log.error || 'Unknown')}</div>`;
-                container.appendChild(row);
-            });
-        } catch (e) {
-            container.innerHTML = '<p style="font-size:11.5px; color:var(--text-sub); text-align:center;">Error loading.</p>';
-        }
-    }
-
-    async function adminClearErrorLogs() {
-        showConfirm('Clear Logs', 'Clear all error logs?', async () => {
-            try {
-                await fetch(`${ENGINE_API_ENDPOINT}/api/admin/error-logs/clear`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ adminId: sessionUserUid })
-                });
-                showToast('Logs cleared!', '#10b981');
-                loadErrorLogs();
-            } catch (e) { showToast('Failed', '#ef4444'); }
-        });
-    }
-
-    // ==================== BOT MESSAGES ====================
-    async function loadBotMessages() {
-        try {
-            const res = await fetch(`${ENGINE_API_ENDPOINT}/api/admin/messages?adminId=${sessionUserUid}`);
-            const r = await res.json();
-            if (r.success && r.messages) {
-                const m = r.messages;
-                document.getElementById('msg-start').value = m.startMessage || '';
-                document.getElementById('msg-dash').value = m.msgDashText || '';
-                document.getElementById('msg-support').value = m.supportDetails || '';
-                document.getElementById('msg-link').value = m.teamLink || '';
-                document.getElementById('msg-unknown').value = m.unknownCommandMsg || '';
-                document.getElementById('msg-task-app').value = m.alertTaskApprove || '';
-                document.getElementById('msg-task-rej').value = m.alertTaskReject || '';
-                document.getElementById('msg-wd-app').value = m.alertWithdrawApprove || '';
-                document.getElementById('msg-wd-rej').value = m.alertWithdrawReject || '';
-                document.getElementById('msg-bal-adj').value = m.alertBalanceAdjust || '';
-                document.getElementById('msg-referral').value = m.alertReferral || '';
-            }
-        } catch (e) { console.warn('Messages load failed:', e); }
-    }
-
-    async function adminSaveBotMessages() {
-        const payload = {
-            adminId: sessionUserUid,
-            startMessage: document.getElementById('msg-start').value,
-            msgDashText: document.getElementById('msg-dash').value,
-            supportDetails: document.getElementById('msg-support').value,
-            teamLink: document.getElementById('msg-link').value,
-            unknownCommandMsg: document.getElementById('msg-unknown').value,
-            alertTaskApprove: document.getElementById('msg-task-app').value,
-            alertTaskReject: document.getElementById('msg-task-rej').value,
-            alertWithdrawApprove: document.getElementById('msg-wd-app').value,
-            alertWithdrawReject: document.getElementById('msg-wd-rej').value,
-            alertBalanceAdjust: document.getElementById('msg-bal-adj').value,
-            alertReferral: document.getElementById('msg-referral').value
-        };
-        try {
-            const res = await fetch(`${ENGINE_API_ENDPOINT}/api/admin/messages`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(payload)
-            });
-            const r = await res.json();
-            if (r.success) showToast('All messages saved to DB!', '#10b981');
-            else showToast(r.error || 'Failed', '#ef4444');
-        } catch (e) { showToast('Network error', '#ef4444'); }
-    }
-
-    // ==================== TRANSFER OWNERSHIP ====================
-    async function adminTransferOwnership() {
-        const newUid = document.getElementById('admin-new-owner-uid').value.trim();
-        if (!newUid) return showToast('Enter new owner ID', '#ef4444');
-        if (String(newUid) === String(sessionUserUid)) return showToast('Already you are the owner', '#ef4444');
-
-        showConfirm('⚠️ CRITICAL', `Transfer bot ownership to ${newUid}? You will lose admin access!`, async () => {
-            try {
-                const res = await fetch(`${ENGINE_API_ENDPOINT}/api/admin/transfer-ownership`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ adminId: sessionUserUid, newOwnerId: newUid })
-                });
-                const r = await res.json();
-                if (r.success) {
-                    showToast('Ownership transferred!', '#10b981');
-                    setTimeout(() => {
-                        closeSubPage('page-admin-control-hub');
-                        document.getElementById('admin-terminal-btn').style.display = 'none';
-                        isRealAdmin = false;
-                    }, 2000);
-                } else showToast(r.error || 'Failed', '#ef4444');
-            } catch (e) { showToast('Network error', '#ef4444'); }
-        });
-    }
-</script>
-</body>
-</html>
