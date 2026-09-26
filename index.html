@@ -62,7 +62,6 @@
             flex-direction: column;
         }
 
-        /* ✅ TRANSPARENT HEADER WITH GLASS BLUR */
         .header {
             height: 66px;
             padding: 0 18px;
@@ -127,7 +126,6 @@
             box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.5);
         }
 
-        /* BANNERS */
         .banner-wrapper { display: none; width: 100%; margin-bottom: 16px; }
         .banner-slider {
             display: flex; gap: 12px; overflow-x: auto;
@@ -147,7 +145,6 @@
             object-fit: contain; display: block; background: #000;
         }
 
-        /* 🆕 CATEGORY PILLS */
         .category-scroll {
             display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none;
             padding-bottom: 6px; margin-bottom: 12px;
@@ -171,7 +168,6 @@
             box-shadow: 0 4px 16px rgba(255, 42, 75, 0.4);
         }
 
-        /* 🆕 TASK LIST ITEM */
         .task-list-item {
             display: flex; justify-content: space-between; align-items: center;
             padding: 15px 16px;
@@ -254,7 +250,6 @@
             flex: 0 0 54px;
         }
 
-        /* 🆕 WALLET BALANCE CARD */
         .wallet-balance-card {
             position: relative;
             background: linear-gradient(135deg, rgba(16, 185, 129, 0.15), rgba(59, 130, 246, 0.1));
@@ -289,7 +284,6 @@
         .refresh-icon-btn.spinning i { animation: spin 0.8s linear infinite; }
         @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 
-        /* UPI CARD */
         .upi-card {
             display: flex; justify-content: space-between; align-items: center;
             padding: 16px;
@@ -313,7 +307,6 @@
         }
         .upi-card-sub { font-size: 10.5px; color: var(--text-sub); margin-top: 2px; }
 
-        /* Withdraw Modal */
         .withdraw-quick-input {
             font-size: 36px; font-weight: 800; text-align: center;
             color: var(--green-accent); background: transparent;
@@ -326,7 +319,6 @@
             padding: 0 4px; margin-bottom: 12px;
         }
 
-        /* QUICK PAY G-PAY STYLE */
         .gpay-search-result {
             display: flex; align-items: center; gap: 12px;
             padding: 13px 14px;
@@ -388,7 +380,6 @@
         }
         .tx-history-icon.out { background: rgba(239, 68, 68, 0.15); color: #f87171; }
 
-        /* PROFILE */
         .profile-hero { display: flex; align-items: center; gap: 14px; margin-bottom: 18px; }
         .profile-avatar-wrap {
             width: 68px; height: 68px; border-radius: 50%;
@@ -430,7 +421,6 @@
         }
         .menu-list-link:active { background: var(--glass-hover); transform: scale(0.99); }
 
-        /* ✅ TRANSPARENT BOTTOM NAV WITH GLASS BLUR */
         .bottom-nav {
             position: fixed; bottom: 14px; left: 50%;
             transform: translateX(-50%);
@@ -545,7 +535,6 @@
             max-height: 90vh; overflow-y: auto;
         }
 
-        /* Success Animation */
         .success-anim {
             width: 90px; height: 90px; border-radius: 50%;
             background: rgba(16, 185, 129, 0.15);
@@ -728,7 +717,6 @@
             </button>
         </div>
 
-        <!-- UPI CARD -->
         <div class="upi-card" onclick="openUpiEditor()">
             <div class="upi-card-left">
                 <div class="upi-icon-circle"><i class="fa-solid fa-link"></i></div>
@@ -740,7 +728,6 @@
             <i class="fa-solid fa-chevron-right" style="color:var(--text-sub)"></i>
         </div>
 
-        <!-- GIFT VOUCHER -->
         <div class="glass-card">
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
                 <span style="font-size:13.5px; font-weight:700;">Redeem Gift Voucher</span>
@@ -1419,3 +1406,2185 @@
         </div>
     </div>
 </div>
+
+<!-- Hidden file input for task submission -->
+<input type="file" id="task-proof-input" accept="image/*" style="display:none;">
+
+<script>
+    /**
+     * ============================================================
+     *  EXTRA EARN MINI APP - Premium JavaScript
+     * ============================================================
+     */
+    const ENGINE_API_ENDPOINT = window.location.origin;
+
+    const tg = window.Telegram.WebApp;
+    tg.ready();
+    tg.expand();
+    if (tg.setHeaderColor) tg.setHeaderColor('#000000');
+    if (tg.setBackgroundColor) tg.setBackgroundColor('#000000');
+
+    const user = tg.initDataUnsafe?.user;
+    const sessionUserUid = user?.id || null;
+    const sessionUserName = (user?.first_name || "User") + (user?.last_name ? " " + user.last_name : "");
+    const sessionUserPhoto = user?.photo_url || null;
+    const sessionUsername = user?.username || null;
+
+    if (!sessionUserUid) {
+        document.body.innerHTML = '<div style="color:white; text-align:center; padding:40px; font-family:sans-serif;">Error: Please open via Telegram.</div>';
+        throw new Error("No Telegram user ID");
+    }
+
+    // ==================== STATE ====================
+    let isRealAdmin = false;
+    let isOwnerUser = false;
+    let allCategories = ['All'];
+    let selectedCategory = 'All';
+    let allTasksCache = [];
+    let quickPayContacts = [];
+    let quickPayThreads = {};
+    let blockedUsersList = [];
+    let currentActiveChatContact = null;
+    let appBanners = [];
+    let regUsersCache = [];
+    let regUsersPage = 0;
+    const REG_USERS_PAGE_SIZE = 30;
+    let regUsersHasMore = false;
+    let currentDetailUserId = null;
+    let userProfileCache = {};
+
+    // ==================== HELPERS ====================
+    function sanitizeText(str) {
+        const temp = document.createElement('div');
+        temp.textContent = str || '';
+        return temp.innerHTML;
+    }
+
+    function showToast(msg, color = '#10b981') {
+        const el = document.createElement('div');
+        el.style.cssText = `position:fixed;top:80px;left:50%;transform:translateX(-50%);background:${color};color:white;padding:11px 22px;border-radius:14px;font-weight:700;font-size:13px;z-index:99999;box-shadow:0 8px 25px rgba(0,0,0,0.5);max-width:90%;text-align:center;transition:opacity 0.3s;`;
+        el.innerText = msg;
+        document.body.appendChild(el);
+        setTimeout(() => { el.style.opacity = '0'; }, 1800);
+        setTimeout(() => el.remove(), 2300);
+    }
+
+    function showConfirm(title, msg, onYes) {
+        document.getElementById('confirm-title').innerText = title;
+        document.getElementById('confirm-msg').innerText = msg;
+        const btn = document.getElementById('confirm-yes-btn');
+        btn.onclick = () => { closeModal('modal-confirm'); onYes(); };
+        openModal('modal-confirm');
+    }
+
+    function openModal(id) { document.getElementById(id).classList.add('active'); }
+    function closeModal(id) { document.getElementById(id).classList.remove('active'); }
+    function openSubPage(id) {
+        if (id === 'page-admin-control-hub' && !isRealAdmin) {
+            showToast('⛔ Access Denied', '#ef4444');
+            return;
+        }
+        document.getElementById(id).classList.add('active');
+        if (id === 'page-admin-control-hub') loadAdminStats();
+        if (id === 'page-history') loadHistoryPage();
+        if (id === 'page-payout-setup') loadPayoutSetup();
+        if (id === 'page-leaderboard') loadLeaderboard();
+    }
+    function closeSubPage(id) { document.getElementById(id).classList.remove('active'); }
+
+    function copyUserUID() {
+        navigator.clipboard.writeText(String(sessionUserUid));
+        showToast('UID Copied!', '#3b82f6');
+    }
+    function copyReferLink() {
+        navigator.clipboard.writeText(document.getElementById('txt-refer-link-box').value);
+        showToast('Referral link copied!', '#3b82f6');
+    }
+
+    // ==================== BALANCE COUNTER ANIMATION ====================
+    let currentDisplayedBalance = 0;
+    let balanceAnimationId = null;
+
+    function animateBalanceTo(targetValue, duration = 900) {
+        const start = currentDisplayedBalance;
+        const end = Number(targetValue) || 0;
+        if (balanceAnimationId) cancelAnimationFrame(balanceAnimationId);
+
+        const startTime = performance.now();
+        const wallet = document.getElementById('lbl-wallet-bal');
+        const header = document.getElementById('header-bal');
+
+        function tick(now) {
+            const elapsed = now - startTime;
+            const progress = Math.min(elapsed / duration, 1);
+            const eased = 1 - Math.pow(1 - progress, 3);
+            const current = start + (end - start) * eased;
+            const formatted = '₹' + current.toFixed(2);
+            if (wallet) wallet.innerText = formatted;
+            if (header) header.innerText = formatted;
+            currentDisplayedBalance = current;
+            if (progress < 1) {
+                balanceAnimationId = requestAnimationFrame(tick);
+            } else {
+                currentDisplayedBalance = end;
+                if (wallet) wallet.innerText = '₹' + end.toFixed(2);
+                if (header) header.innerText = '₹' + end.toFixed(2);
+            }
+        }
+        balanceAnimationId = requestAnimationFrame(tick);
+    }
+
+    function setBalanceInstant(amount) {
+        currentDisplayedBalance = Number(amount) || 0;
+        const formatted = '₹' + currentDisplayedBalance.toFixed(2);
+        const header = document.getElementById('header-bal');
+        const wallet = document.getElementById('lbl-wallet-bal');
+        if (header) header.innerText = formatted;
+        if (wallet) wallet.innerText = formatted;
+    }
+
+    function setBalanceLoading() {
+        const header = document.getElementById('header-bal');
+        if (header) {
+            header.classList.add('loading');
+            header.innerText = 'Loading...';
+        }
+    }
+
+    async function refreshWalletBalance() {
+        const btn = document.querySelector('.refresh-icon-btn');
+        if (btn) btn.classList.add('spinning');
+        try {
+            await fetchUserData(true);
+            showToast('Balance refreshed!', '#10b981');
+        } catch(e) {
+            showToast('Refresh failed', '#ef4444');
+        }
+        setTimeout(() => { if (btn) btn.classList.remove('spinning'); }, 800);
+    }
+
+    // ==================== BOOT ====================
+    (function instantBoot() {
+        try {
+            const cachedBal = localStorage.getItem('cached_balance_' + sessionUserUid);
+            if (cachedBal !== null) setBalanceInstant(parseFloat(cachedBal));
+            else setBalanceLoading();
+        } catch(e) { setBalanceLoading(); }
+    })();
+
+    document.addEventListener("DOMContentLoaded", async () => {
+        document.getElementById('prof-uid-string').innerText = sessionUserUid;
+        document.getElementById('prof-name-node').innerText = sessionUserName;
+        document.getElementById('txt-refer-link-box').value = `https://t.me/ExtraEarnBot?start=${sessionUserUid}`;
+
+        loadProfileAvatar();
+
+        try {
+            quickPayContacts = JSON.parse(localStorage.getItem('quickpay_contacts') || '[]');
+            quickPayThreads = JSON.parse(localStorage.getItem('quickpay_threads') || '{}');
+            blockedUsersList = JSON.parse(localStorage.getItem('blocked_users_list') || '[]');
+        } catch(e) {}
+
+        renderQuickPayPeopleGrid();
+        renderQuickPayTransactionHistory();
+
+        await Promise.all([
+            loadBannersFromDB(),
+            loadCategoriesFromDB(),
+            loadTasksFromDB(),
+            checkAdminAccess()
+        ]);
+
+        fetchUserData();
+    });
+
+    function loadProfileAvatar() {
+        const img = document.getElementById('prof-avatar-node');
+        const wrap = document.getElementById('prof-avatar-wrap');
+        if (!img || !wrap) return;
+
+        if (sessionUserPhoto) {
+            img.onload = () => { img.style.display = 'block'; };
+            img.onerror = () => { img.style.display = 'none'; renderInitialAvatar(); };
+            img.crossOrigin = 'anonymous';
+            img.src = sessionUserPhoto;
+            setTimeout(() => {
+                if (!img.complete || img.naturalWidth === 0) {
+                    img.style.display = 'none';
+                    renderInitialAvatar();
+                }
+            }, 2000);
+        } else {
+            img.style.display = 'none';
+            renderInitialAvatar();
+        }
+    }
+
+    function handleAvatarError() { 
+        const img = document.getElementById('prof-avatar-node');
+        if (img) img.style.display = 'none';
+        renderInitialAvatar(); 
+    }
+
+    function renderInitialAvatar() {
+        const wrap = document.getElementById('prof-avatar-wrap');
+        if (!wrap) return;
+        const initial = sanitizeText((sessionUserName || 'U').charAt(0).toUpperCase());
+        wrap.innerHTML = `<div class="profile-avatar-fallback">${initial}</div>`;
+    }
+
+    async function fetchUserData(animate = false) {
+        if (!sessionUserUid) return;
+        try {
+            const ctrl = new AbortController();
+            const timeout = setTimeout(() => ctrl.abort(), 12000);
+            const res = await fetch(`${ENGINE_API_ENDPOINT}/api/user/${sessionUserUid}`, { signal: ctrl.signal });
+            clearTimeout(timeout);
+            const data = await res.json();
+            if (data.success && data.user) {
+                const bal = Number(data.user.balance || 0);
+                animateBalanceTo(bal);
+                if (data.user.name) document.getElementById('prof-name-node').innerText = data.user.name;
+                
+                const upiDisplay = document.getElementById('wallet-upi-display');
+                if (upiDisplay) {
+                    const upiVal = data.user.upi && data.user.upi !== 'not_linked' ? data.user.upi : 'Not linked';
+                    upiDisplay.innerText = upiVal;
+                }
+                
+                const nameNode = document.getElementById('prof-name-node');
+                if (nameNode && data.user.verified) {
+                    if (!nameNode.querySelector('.blue-tick-badge')) {
+                        nameNode.innerHTML += ' <span class="blue-tick-badge"><i class="fa-solid fa-check"></i></span>';
+                    }
+                }
+                
+                try {
+                    localStorage.setItem('cached_balance_' + sessionUserUid, String(bal));
+                    localStorage.setItem('cached_name_' + sessionUserUid, data.user.name || '');
+                } catch(e) {}
+                window.__userData = data.user;
+            }
+        } catch (err) {
+            const cached = localStorage.getItem('cached_balance_' + sessionUserUid);
+            if (cached !== null) setBalanceInstant(parseFloat(cached));
+        }
+    }
+
+    // ==================== BANNERS ====================
+    async function loadBannersFromDB() {
+        try {
+            const res = await fetch(`${ENGINE_API_ENDPOINT}/api/banners`);
+            const r = await res.json();
+            if (r.success && r.banners) {
+                appBanners = r.banners;
+                renderBannersOnHome();
+                if (isRealAdmin) renderAdminBannerList();
+            } else {
+                appBanners = [];
+                renderBannersOnHome();
+            }
+        } catch (e) {
+            appBanners = [];
+            renderBannersOnHome();
+        }
+    }
+
+    function renderBannersOnHome() {
+        const wrapper = document.getElementById('home-banner-wrapper');
+        const slider = document.getElementById('home-banner-slider');
+        if (!wrapper || !slider) return;
+        if (!appBanners || appBanners.length === 0) {
+            wrapper.style.display = 'none';
+            return;
+        }
+        wrapper.style.display = 'block';
+        slider.innerHTML = '';
+        appBanners.forEach(b => {
+            const item = document.createElement('div');
+            item.className = 'banner-item';
+            if (b.link && b.link.trim() !== '') item.onclick = () => window.open(b.link, '_blank');
+            const img = document.createElement('img');
+            img.src = b.imageData || b.imgData;
+            img.alt = "Banner";
+            item.appendChild(img);
+            slider.appendChild(item);
+        });
+    }
+
+    function renderAdminBannerList() {
+        const container = document.getElementById('adm-banner-list-container');
+        if (!container) return;
+        if (!appBanners || appBanners.length === 0) {
+            container.innerHTML = `<p style="font-size:11.5px; color:var(--text-sub); text-align:center;">No active banners.</p>`;
+            return;
+        }
+        container.innerHTML = '';
+        appBanners.forEach((b, index) => {
+            const row = document.createElement('div');
+            row.className = 'banner-manage-row';
+            const targetLinkText = b.link ? sanitizeText(b.link) : 'No Link';
+            row.innerHTML = `
+                <img src="${b.imageData || b.imgData}" style="width:48px; height:34px; object-fit:contain; border-radius:6px; background:#000;">
+                <div style="flex:1; overflow:hidden; font-size:11.5px;">
+                    <div style="font-weight:700;">Banner #${index + 1}</div>
+                    <div style="color:var(--text-sub); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${targetLinkText}</div>
+                </div>
+                <button class="glass-btn danger" style="padding:6px 10px; width:auto; font-size:11.5px;" onclick="removeBannerItem('${b.id}')">
+                    <i class="fa-solid fa-trash"></i>
+                </button>
+            `;
+            container.appendChild(row);
+        });
+    }
+
+    function addNewBannerSubmit() {
+        const fileInput = document.getElementById('adm-banner-file-input');
+        const linkInput = document.getElementById('adm-banner-link-input');
+        const file = fileInput.files[0];
+        if (!file) return showToast('Select a banner image', '#ef4444');
+
+        const reader = new FileReader();
+        reader.onload = async function(e) {
+            const imageData = e.target.result;
+            const link = linkInput.value.trim();
+            try {
+                const res = await fetch(`${ENGINE_API_ENDPOINT}/api/admin/banners`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ adminId: sessionUserUid, imageData, link })
+                });
+                const r = await res.json();
+                if (r.success) {
+                    showToast('Banner uploaded!', '#10b981');
+                    fileInput.value = ''; linkInput.value = '';
+                    await loadBannersFromDB();
+                    renderAdminBannerList();
+                } else showToast(r.error || 'Upload failed', '#ef4444');
+            } catch (err) { showToast('Network error', '#ef4444'); }
+        };
+        reader.readAsDataURL(file);
+    }
+
+    function removeBannerItem(bannerId) {
+        showConfirm('Delete Banner', 'Delete this banner?', async () => {
+            try {
+                const res = await fetch(`${ENGINE_API_ENDPOINT}/api/admin/banners/${bannerId}?adminId=${sessionUserUid}`, { method: 'DELETE' });
+                const r = await res.json();
+                if (r.success) {
+                    showToast('Banner deleted', '#ef4444');
+                    await loadBannersFromDB();
+                    renderAdminBannerList();
+                } else showToast(r.error || 'Failed', '#ef4444');
+            } catch (e) { showToast('Network error', '#ef4444'); }
+        });
+    }
+
+    // ==================== CATEGORIES ====================
+    async function loadCategoriesFromDB() {
+        try {
+            const res = await fetch(`${ENGINE_API_ENDPOINT}/api/categories`);
+            const r = await res.json();
+            if (r.success && r.categories) {
+                allCategories = r.categories;
+                renderCategoryPills();
+            }
+        } catch (e) {
+            allCategories = ['All'];
+            renderCategoryPills();
+        }
+    }
+
+    function renderCategoryPills() {
+        const row = document.getElementById('category-pill-row');
+        if (!row) return;
+        row.innerHTML = '';
+        allCategories.forEach(cat => {
+            const pill = document.createElement('div');
+            pill.className = 'category-pill' + (cat === selectedCategory ? ' active' : '');
+            pill.dataset.cat = cat;
+            pill.innerText = cat;
+            pill.onclick = () => selectCategory(cat);
+            row.appendChild(pill);
+        });
+    }
+
+    function selectCategory(cat) {
+        selectedCategory = cat;
+        document.querySelectorAll('.category-pill').forEach(p => {
+            p.classList.toggle('active', p.dataset.cat === cat);
+        });
+        renderTasksList();
+    }
+
+    // ==================== TASKS ====================
+    async function loadTasksFromDB() {
+        try {
+            const res = await fetch(`${ENGINE_API_ENDPOINT}/api/tasks`);
+            const r = await res.json();
+            if (r.success && r.tasks) {
+                allTasksCache = r.tasks;
+            } else {
+                allTasksCache = [];
+            }
+        } catch (e) {
+            allTasksCache = [];
+        }
+        renderTasksList();
+    }
+
+    function renderTasksList() {
+        const container = document.getElementById('home-tasks-container');
+        if (!container) return;
+
+        let filtered = allTasksCache.filter(t => t.active !== false);
+        filtered = filtered.filter(t => !t.targetUserId || t.targetUserId === sessionUserUid);
+        if (selectedCategory && selectedCategory !== 'All') {
+            filtered = filtered.filter(t => t.category === selectedCategory);
+        }
+
+        if (filtered.length === 0) {
+            container.innerHTML = `
+                <div class="glass-card" style="text-align: center; color: var(--text-sub); padding: 30px;">
+                    <i class="fa-solid fa-list-check" style="font-size: 28px; margin-bottom: 10px; opacity:0.35; color:var(--red-brand);"></i>
+                    <p style="font-size: 12.5px;">No tasks in "${sanitizeText(selectedCategory)}".</p>
+                </div>
+            `;
+            return;
+        }
+
+        container.innerHTML = '';
+        filtered.forEach(task => {
+            const item = document.createElement('div');
+            item.className = 'task-list-item';
+            item.onclick = () => openTaskDetail(task.id);
+            item.innerHTML = `
+                <div class="task-list-title">${sanitizeText(task.title || 'Untitled')}</div>
+                <div class="task-list-reward">₹${Number(task.amount || 0).toFixed(2)}</div>
+            `;
+            container.appendChild(item);
+        });
+    }
+
+    function openTaskDetail(taskId) {
+        const task = allTasksCache.find(t => String(t.id) === String(taskId));
+        if (!task) return showToast('Task not found', '#ef4444');
+
+        const container = document.getElementById('task-detail-content');
+        container.innerHTML = `
+            <div class="glass-card">
+                <h2 style="font-size:18px; font-weight:800; margin-bottom:8px;">${sanitizeText(task.title || 'Untitled Task')}</h2>
+                <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:14px;">
+                    <span style="background:rgba(16,185,129,0.15); border:1px solid rgba(16,185,129,0.35); color:var(--green-accent); padding:5px 12px; border-radius:20px; font-weight:800; font-size:12.5px;">Reward: ₹${Number(task.amount || 0).toFixed(2)}</span>
+                    ${task.category ? `<span style="background:rgba(139,92,246,0.15); border:1px solid rgba(139,92,246,0.35); color:var(--purple-accent); padding:5px 12px; border-radius:20px; font-weight:700; font-size:12.5px;">${sanitizeText(task.category)}</span>` : ''}
+                </div>
+                <h4 style="font-size:12px; color:var(--text-sub); text-transform:uppercase; font-weight:800; margin-bottom:6px;">Description</h4>
+                <p style="font-size:13px; line-height:1.6; color:#e2e8f0; margin-bottom:18px;">${sanitizeText(task.desc || 'No description provided.')}</p>
+                <div style="display:flex; gap:10px;">
+                    ${task.url ? `<button class="glass-btn" style="flex:1;" onclick="window.open('${sanitizeText(task.url)}', '_blank')"><i class="fa-solid fa-external-link"></i> Open Task</button>` : ''}
+                    <button class="glass-btn primary" style="flex:1;" onclick="openTaskProofGallery('${task.id}')"><i class="fa-solid fa-camera"></i> Submit Task</button>
+                </div>
+            </div>
+            <div id="task-submit-status"></div>
+        `;
+        openSubPage('page-task-detail');
+    }
+
+    let currentSubmittingTaskId = null;
+
+    function openTaskProofGallery(taskId) {
+        currentSubmittingTaskId = taskId;
+        const input = document.getElementById('task-proof-input');
+        input.value = '';
+        input.onchange = handleTaskProofUpload;
+        input.click();
+    }
+
+    async function handleTaskProofUpload(event) {
+        const file = event.target.files[0];
+        if (!file) return;
+        if (!currentSubmittingTaskId) return;
+
+        const statusEl = document.getElementById('task-submit-status');
+        statusEl.innerHTML = '<div class="glass-card" style="text-align:center;"><i class="fa-solid fa-spinner fa-spin"></i> Uploading proof...</div>';
+
+        const reader = new FileReader();
+        reader.onload = async function(e) {
+            const imageData = e.target.result;
+            try {
+                const res = await fetch(`${ENGINE_API_ENDPOINT}/api/mini-app/submit-task-proof`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        userId: sessionUserUid,
+                        taskId: currentSubmittingTaskId,
+                        imageData
+                    })
+                });
+                const r = await res.json();
+                if (r.success) {
+                    statusEl.innerHTML = '<div class="glass-card" style="text-align:center; border-color:var(--green-accent);"><i class="fa-solid fa-circle-check" style="font-size:32px; color:var(--green-accent); margin-bottom:8px;"></i><p style="font-size:13px; font-weight:700;">Task Submitted Successfully!</p><p style="font-size:11.5px; color:var(--text-sub); margin-top:4px;">Pending admin approval.</p></div>';
+                    showToast('Task submitted!', '#10b981');
+                } else {
+                    statusEl.innerHTML = `<div class="glass-card" style="text-align:center; border-color:var(--red-brand);"><p style="font-size:12.5px; color:#f87171;">❌ ${sanitizeText(r.error || 'Upload failed')}</p></div>`;
+                    showToast(r.error || 'Failed', '#ef4444');
+                }
+            } catch (err) {
+                statusEl.innerHTML = '<div class="glass-card" style="text-align:center; border-color:var(--red-brand);"><p style="font-size:12.5px; color:#f87171;">❌ Network error</p></div>';
+                showToast('Network error', '#ef4444');
+            }
+        };
+        reader.readAsDataURL(file);
+    }
+
+    // ==================== ADMIN ACCESS ====================
+    async function checkAdminAccess() {
+        try {
+            const ctrl = new AbortController();
+            const timeout = setTimeout(() => ctrl.abort(), 10000);
+            const res = await fetch(`${ENGINE_API_ENDPOINT}/api/admin/check-access?userId=${sessionUserUid}`, { signal: ctrl.signal });
+            clearTimeout(timeout);
+            const data = await res.json();
+
+            if (data.success && data.isAdmin) {
+                isRealAdmin = true;
+                isOwnerUser = !!data.isOwner;
+                document.getElementById('admin-terminal-btn').style.display = 'flex';
+                if (isOwnerUser) {
+                    const badge = document.getElementById('admin-badge-inline');
+                    if (badge) badge.style.display = 'inline-block';
+                }
+                try {
+                    localStorage.setItem('cached_isAdmin_' + sessionUserUid, 'true');
+                    localStorage.setItem('cached_isOwner_' + sessionUserUid, String(isOwnerUser));
+                } catch(e) {}
+                renderAdminBannerList();
+            } else {
+                isRealAdmin = false;
+                isOwnerUser = false;
+                document.getElementById('admin-terminal-btn').style.display = 'none';
+                try { localStorage.removeItem('cached_isAdmin_' + sessionUserUid); } catch(e) {}
+            }
+        } catch (err) {
+            console.error("Admin access check failed:", err);
+            try {
+                const cachedAdmin = localStorage.getItem('cached_isAdmin_' + sessionUserUid);
+                if (cachedAdmin === 'true') {
+                    isRealAdmin = true;
+                    isOwnerUser = localStorage.getItem('cached_isOwner_' + sessionUserUid) === 'true';
+                    document.getElementById('admin-terminal-btn').style.display = 'flex';
+                    if (isOwnerUser) {
+                        const badge = document.getElementById('admin-badge-inline');
+                        if (badge) badge.style.display = 'inline-block';
+                    }
+                }
+            } catch(e) {}
+        }
+    }
+
+    // ==================== QUICK PAY (GPAY STYLE) ====================
+    function renderQuickPayPeopleGrid(filterQuery = '') {
+        const container = document.getElementById('quickpay-people-container');
+        if (!container) return;
+        container.innerHTML = '';
+        const filtered = quickPayContacts.filter(c =>
+            (c.name || '').toLowerCase().includes(filterQuery.toLowerCase()) ||
+            String(c.uid).includes(filterQuery)
+        );
+        if (filtered.length === 0) {
+            container.innerHTML = `<div style="grid-column: span 4; font-size:11.5px; color:var(--text-sub); padding:10px 0; text-align:center;">No recent contacts.</div>`;
+            return;
+        }
+        filtered.forEach(c => {
+            const item = document.createElement('div');
+            item.className = 'quickpay-person-item';
+            item.onclick = () => openQuickPayChat(c);
+            const cached = userProfileCache[c.uid];
+            if (cached && cached.photo) {
+                item.innerHTML = `<img class="quickpay-avatar" src="${cached.photo}" onerror="this.outerHTML='<div class=\\'quickpay-avatar\\'>${sanitizeText((c.name || 'U').charAt(0).toUpperCase())}</div>'"><div class="quickpay-person-name">${sanitizeText(c.name)}</div>`;
+            } else {
+                item.innerHTML = `<div class="quickpay-avatar">${sanitizeText((c.name || 'U').charAt(0).toUpperCase())}</div><div class="quickpay-person-name">${sanitizeText(c.name)}</div>`;
+            }
+            container.appendChild(item);
+        });
+    }
+
+    function renderQuickPayTransactionHistory() {
+        const container = document.getElementById('quickpay-tx-history-list');
+        if (!container) return;
+        container.innerHTML = '';
+        let allTxs = [];
+        Object.keys(quickPayThreads).forEach(uid => {
+            const thread = quickPayThreads[uid] || [];
+            thread.filter(item => item.kind === 'payment').forEach(p => allTxs.push({ ...p, uid }));
+        });
+        if (allTxs.length === 0) {
+            container.innerHTML = `<div class="glass-card" style="text-align:center; padding:18px; color:var(--text-sub); font-size:12.5px;"><i class="fa-solid fa-receipt" style="font-size:22px; margin-bottom:8px; opacity:0.4;"></i><p>No transactions yet.</p></div>`;
+            return;
+        }
+        allTxs.sort((a,b) => b.timestamp - a.timestamp).forEach(tx => {
+            const item = document.createElement('div');
+            item.className = 'tx-history-item';
+            const contact = quickPayContacts.find(c => c.uid === tx.uid) || { name: `User ${tx.uid}` };
+            item.innerHTML = `<div class="tx-history-left"><div class="tx-history-icon out"><i class="fa-solid fa-arrow-up-right"></i></div><div><div style="font-weight:700; font-size:13px;">${sanitizeText(contact.name)}</div><div style="font-size:10.5px; color:var(--text-sub);">${sanitizeText(tx.time)}</div></div></div><div style="font-weight:800; font-size:14.5px; color:#f87171;">-₹${Number(tx.amount).toFixed(2)}</div>`;
+            item.onclick = () => openQuickPayChat({ uid: tx.uid, name: contact.name });
+            container.appendChild(item);
+        });
+    }
+
+    async function handleQuickPaySearch() {
+        const q = document.getElementById('quickpay-search-input').value.trim();
+        const resultsDiv = document.getElementById('quickpay-search-results');
+        const defaultSection = document.getElementById('quickpay-default-section');
+
+        if (!q) {
+            resultsDiv.innerHTML = '';
+            defaultSection.style.display = 'block';
+            return;
+        }
+
+        defaultSection.style.display = 'none';
+
+        const isNumeric = /^\d+$/.test(q);
+        let matchedUsers = [];
+
+        if (isNumeric) {
+            try {
+                const res = await fetch(`${ENGINE_API_ENDPOINT}/api/user/${q}`);
+                const r = await res.json();
+                if (r.success && r.user && r.user.name && r.user.name !== 'Unknown') {
+                    matchedUsers.push({ id: r.user.id, name: r.user.name });
+                }
+            } catch(e) {}
+        } else {
+            const lower = q.toLowerCase();
+            matchedUsers = regUsersCache.filter(u => 
+                (u.name || '').toLowerCase().includes(lower)
+            ).slice(0, 10);
+
+            if (matchedUsers.length === 0) {
+                try {
+                    const res = await fetch(`${ENGINE_API_ENDPOINT}/api/admin/users/list?adminId=${sessionUserUid}&page=0&limit=50`);
+                    const r = await res.json();
+                    if (r.success && r.users) {
+                        matchedUsers = r.users.filter(u => 
+                            (u.name || '').toLowerCase().includes(lower)
+                        ).slice(0, 10);
+                    }
+                } catch(e) {}
+            }
+        }
+
+        if (matchedUsers.length === 0) {
+            resultsDiv.innerHTML = `<div class="glass-card" style="text-align:center; padding:22px; color:var(--text-sub); font-size:12.5px;">
+                <i class="fa-solid fa-user-slash" style="font-size:24px; margin-bottom:8px; opacity:0.4;"></i>
+                <p>No user found for "${sanitizeText(q)}"</p>
+                ${isNumeric ? `<button class="glass-btn primary" style="margin-top:12px;" onclick="openQuickPayChat({uid:'${q}', name:'User ${q}'})"><i class="fa-solid fa-paper-plane"></i> Continue with UID</button>` : ''}
+            </div>`;
+            return;
+        }
+
+        resultsDiv.innerHTML = '';
+        matchedUsers.forEach(u => {
+            const item = document.createElement('div');
+            item.className = 'gpay-search-result';
+            item.onclick = () => openQuickPayChat({ uid: u.id, name: u.name });
+            const initial = sanitizeText((u.name || 'U').charAt(0).toUpperCase());
+            item.innerHTML = `
+                <div class="gpay-avatar">${initial}</div>
+                <div style="flex:1;">
+                    <div style="font-weight:700; font-size:13.5px;">${sanitizeText(u.name)}</div>
+                    <div style="font-size:10.5px; color:var(--text-sub);">UID: ${u.id}</div>
+                </div>
+                <i class="fa-solid fa-chevron-right" style="color:var(--text-sub);"></i>
+            `;
+            resultsDiv.appendChild(item);
+        });
+    }
+
+    function openNewPayPrompt() {
+        document.getElementById('new-pay-uid').value = '';
+        document.getElementById('new-pay-name').value = '';
+        openModal('modal-new-pay');
+    }
+
+    function submitNewPayPrompt() {
+        const uid = document.getElementById('new-pay-uid').value.trim();
+        const name = document.getElementById('new-pay-name').value.trim() || `User ${uid}`;
+        if (!uid) return showToast('Please enter a valid UID', '#ef4444');
+        const contactObj = { uid, name };
+        if (!quickPayContacts.some(c => c.uid === uid)) {
+            quickPayContacts.push(contactObj);
+            localStorage.setItem('quickpay_contacts', JSON.stringify(quickPayContacts));
+            renderQuickPayPeopleGrid();
+        }
+        closeModal('modal-new-pay');
+        openQuickPayChat(contactObj);
+    }
+
+    function openQuickPayChat(contact) {
+        currentActiveChatContact = contact;
+        document.getElementById('chat-user-title').innerText = contact.name;
+        document.getElementById('chat-user-uid').innerText = `UID: ${contact.uid}`;
+        
+        const avatarDiv = document.getElementById('chat-user-avatar');
+        const avatarImg = document.getElementById('chat-user-avatar-img');
+        const cached = userProfileCache[contact.uid];
+        if (cached && cached.photo) {
+            avatarImg.src = cached.photo;
+            avatarImg.style.display = 'block';
+            avatarDiv.style.display = 'none';
+        } else {
+            avatarDiv.style.display = 'flex';
+            avatarImg.style.display = 'none';
+            avatarDiv.innerText = (contact.name || 'U').charAt(0).toUpperCase();
+        }
+        
+        updateBlockStatusUI();
+        renderChatThread();
+        document.getElementById('page-quickpay-chat').classList.add('active');
+    }
+
+    function closeQuickPayChat() {
+        document.getElementById('page-quickpay-chat').classList.remove('active');
+        currentActiveChatContact = null;
+    }
+
+    function updateBlockStatusUI() {
+        if (!currentActiveChatContact) return;
+        const isBlocked = blockedUsersList.includes(currentActiveChatContact.uid);
+        const blockBtn = document.getElementById('btn-block-user');
+        const blockedNotice = document.getElementById('chat-blocked-notice');
+        const footerControls = document.getElementById('chat-footer-controls');
+        if (isBlocked) {
+            blockBtn.innerHTML = `<i class="fa-solid fa-lock-open"></i> Unblock`;
+            blockBtn.className = "glass-btn success";
+            blockedNotice.style.display = 'block';
+            footerControls.style.opacity = '0.3';
+            footerControls.style.pointerEvents = 'none';
+        } else {
+            blockBtn.innerHTML = `<i class="fa-solid fa-ban"></i> Block`;
+            blockBtn.className = "glass-btn danger";
+            blockedNotice.style.display = 'none';
+            footerControls.style.opacity = '1';
+            footerControls.style.pointerEvents = 'auto';
+        }
+    }
+
+    function toggleBlockUser() {
+        if (!currentActiveChatContact) return;
+        const uid = currentActiveChatContact.uid;
+        if (blockedUsersList.includes(uid)) {
+            blockedUsersList = blockedUsersList.filter(id => id !== uid);
+            localStorage.setItem('blocked_users_list', JSON.stringify(blockedUsersList));
+            updateBlockStatusUI();
+            showToast(`Unblocked ${currentActiveChatContact.name}`, '#10b981');
+            return;
+        }
+        showConfirm('Block User', `Block ${currentActiveChatContact.name}?`, () => {
+            blockedUsersList.push(uid);
+            localStorage.setItem('blocked_users_list', JSON.stringify(blockedUsersList));
+            updateBlockStatusUI();
+            showToast(`Blocked ${currentActiveChatContact.name}`, '#ef4444');
+        });
+    }
+
+    function renderChatThread() {
+        if (!currentActiveChatContact) return;
+        const container = document.getElementById('chat-messages-container');
+        container.innerHTML = '';
+        const thread = quickPayThreads[currentActiveChatContact.uid] || [];
+        if (thread.length === 0) {
+            container.innerHTML = `<div style="text-align:center; padding:40px 20px; color:var(--text-sub); font-size:12px;"><i class="fa-solid fa-comments" style="font-size:30px; margin-bottom:10px; opacity:0.35;"></i><p>Start conversation with ${sanitizeText(currentActiveChatContact.name)}</p></div>`;
+            return;
+        }
+        thread.forEach(item => {
+            if (item.kind === 'text') {
+                const msg = document.createElement('div');
+                msg.className = 'chat-text-msg';
+                msg.innerText = item.text;
+                container.appendChild(msg);
+            } else if (item.kind === 'payment') {
+                const bubble = document.createElement('div');
+                bubble.className = 'chat-bubble-card';
+                bubble.innerHTML = `<div style="font-size:10.5px; color:var(--text-sub); margin-bottom:6px;"><i class="fa-solid fa-circle-check" style="color:var(--green-accent);"></i> Payment Sent</div><div style="font-size:24px; font-weight:800; color:var(--green-accent);">₹${Number(item.amount).toFixed(2)}</div><div style="font-size:10px; color:var(--text-sub); margin-top:6px; text-align:right;">${sanitizeText(item.time)}</div>`;
+                container.appendChild(bubble);
+            }
+        });
+        container.scrollTop = container.scrollHeight;
+    }
+
+    function sendChatMessageSubmit() {
+        if (!currentActiveChatContact) return;
+        if (blockedUsersList.includes(currentActiveChatContact.uid)) return showToast('User is blocked', '#ef4444');
+        const txtInput = document.getElementById('chat-text-input');
+        const text = txtInput.value.trim();
+        if (!text) return;
+        const uid = currentActiveChatContact.uid;
+        if (!quickPayThreads[uid]) quickPayThreads[uid] = [];
+        quickPayThreads[uid].push({ kind: 'text', text, timestamp: Date.now(), time: new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) });
+        localStorage.setItem('quickpay_threads', JSON.stringify(quickPayThreads));
+        txtInput.value = '';
+        renderChatThread();
+    }
+
+    async function submitQuickPayTransfer() {
+        if (!currentActiveChatContact) return;
+        if (blockedUsersList.includes(currentActiveChatContact.uid)) return showToast('User is blocked', '#ef4444');
+        const amtInput = document.getElementById('chat-pay-amount-input');
+        const amount = parseFloat(amtInput.value);
+        if (!amount || amount <= 0) return showToast('Enter a valid amount', '#ef4444');
+        try {
+            const res = await fetch(`${ENGINE_API_ENDPOINT}/api/mini-app/peer-transfer`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ sourceId: sessionUserUid, targetId: currentActiveChatContact.uid, amount })
+            });
+            const r = await res.json();
+            if (r.error) return showToast(r.error, '#ef4444');
+            showToast('Payment sent!', '#10b981');
+            recordPaymentInThread(amount);
+            amtInput.value = '';
+            fetchUserData(true);
+        } catch (err) { showToast('Network error', '#ef4444'); }
+    }
+
+    function recordPaymentInThread(amount) {
+        const uid = currentActiveChatContact.uid;
+        if (!quickPayThreads[uid]) quickPayThreads[uid] = [];
+        quickPayThreads[uid].push({ kind: 'payment', amount, timestamp: Date.now(), time: new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) });
+        localStorage.setItem('quickpay_threads', JSON.stringify(quickPayThreads));
+        renderChatThread();
+        renderQuickPayTransactionHistory();
+    }
+
+    // ==================== NAV ====================
+    function switchMainTab(target, el) {
+        document.querySelectorAll('.view-section').forEach(v => v.classList.remove('active'));
+        document.querySelectorAll('.nav-link').forEach(n => n.classList.remove('active'));
+        document.getElementById(`view-${target}`).classList.add('active');
+        el.classList.add('active');
+        if (target === 'wallet') fetchUserData(true);
+        if (target === 'home') loadTasksFromDB();
+    }
+
+    // ==================== UPI EDITOR ====================
+    function openUpiEditor() {
+        const u = window.__userData || {};
+        document.getElementById('upi-editor-input').value = (u.upi && u.upi !== 'not_linked') ? u.upi : '';
+        openModal('modal-upi-editor');
+    }
+
+    async function saveUpiFromEditor() {
+        const upi = document.getElementById('upi-editor-input').value.trim();
+        if (!upi) return showToast('Enter UPI ID', '#ef4444');
+        try {
+            const res = await fetch(`${ENGINE_API_ENDPOINT}/api/user/${sessionUserUid}/upi`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ upi })
+            });
+            const r = await res.json();
+            if (r.success) {
+                showToast('UPI saved!', '#10b981');
+                if (window.__userData) window.__userData.upi = upi;
+                document.getElementById('wallet-upi-display').innerText = upi;
+                closeModal('modal-upi-editor');
+            } else showToast(r.error || 'Failed', '#ef4444');
+        } catch (e) { showToast('Network error', '#ef4444'); }
+    }
+
+    // ==================== WITHDRAW SHEET ====================
+    async function openWithdrawSheet() {
+        const u = window.__userData || {};
+        const upiVal = (u.upi && u.upi !== 'not_linked') ? u.upi : null;
+        if (!upiVal) {
+            showToast('Please add UPI ID first', '#ef4444');
+            openUpiEditor();
+            return;
+        }
+        document.getElementById('wd-upi-display').innerText = upiVal;
+        document.getElementById('wd-amount-input').value = '';
+        
+        try {
+            const res = await fetch(`${ENGINE_API_ENDPOINT}/api/admin/settings?adminId=${sessionUserUid}`);
+            const r = await res.json();
+            if (r.success && r.settings) {
+                document.getElementById('wd-min-label').innerText = `Min: ₹${r.settings.minWithdraw || 1}`;
+                document.getElementById('wd-max-label').innerText = `Max: ₹${r.settings.maxWithdraw || 500}`;
+            }
+        } catch(e) {
+            document.getElementById('wd-min-label').innerText = 'Min: ₹1';
+            document.getElementById('wd-max-label').innerText = 'Max: ₹500';
+        }
+        
+        openModal('modal-withdraw-sheet');
+    }
+
+    async function submitWithdrawFromSheet() {
+        const amount = parseFloat(document.getElementById('wd-amount-input').value);
+        if (!amount || amount <= 0) return showToast('Enter valid amount', '#ef4444');
+        const u = window.__userData || {};
+        const upiVal = u.upi;
+        if (!upiVal || upiVal === 'not_linked') return showToast('UPI not linked', '#ef4444');
+
+        try {
+            const res = await fetch(`${ENGINE_API_ENDPOINT}/api/mini-app/withdraw`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ userId: sessionUserUid, upi: upiVal, amount })
+            });
+            const r = await res.json();
+            if (r.error) return showToast(r.error, '#ef4444');
+            closeModal('modal-withdraw-sheet');
+            openModal('modal-success-anim');
+            fetchUserData(true);
+        } catch (err) { showToast('Network error', '#ef4444'); }
+    }
+
+    // ==================== VOUCHER ====================
+    async function claimVoucherTokenSubmit() {
+        const code = document.getElementById('txt-voucher-code').value.trim();
+        if (!code) return showToast('Enter a voucher code', '#ef4444');
+        try {
+            const res = await fetch(`${ENGINE_API_ENDPOINT}/api/mini-app/redeem-code`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ userId: sessionUserUid, code })
+            });
+            const r = await res.json();
+            if (r.error) showToast(r.error, '#ef4444');
+            else {
+                showToast(`Added ₹${r.amount}!`, '#10b981');
+                document.getElementById('txt-voucher-code').value = '';
+                fetchUserData(true);
+            }
+        } catch (err) { showToast('Network error', '#ef4444'); }
+    }
+
+    // ==================== PAYOUT SETUP ====================
+    async function loadPayoutSetup() {
+        if (window.__userData) {
+            const r = window.__userData;
+            if (r.upi && r.upi !== 'not_linked') document.getElementById('setup-upi-input').value = r.upi;
+            if (r.wallet && r.wallet !== 'not_linked') document.getElementById('setup-wallet-input').value = r.wallet;
+            return;
+        }
+        try {
+            const res = await fetch(`${ENGINE_API_ENDPOINT}/api/user/${sessionUserUid}`);
+            const r = await res.json();
+            if (r.success && r.user) {
+                window.__userData = r.user;
+                if (r.user.upi && r.user.upi !== 'not_linked') document.getElementById('setup-upi-input').value = r.user.upi;
+                if (r.user.wallet && r.user.wallet !== 'not_linked') document.getElementById('setup-wallet-input').value = r.user.wallet;
+            }
+        } catch (e) {}
+    }
+
+    async function saveUpiSetup() {
+        const upi = document.getElementById('setup-upi-input').value.trim();
+        if (!upi) return showToast('Enter UPI ID', '#ef4444');
+        try {
+            const res = await fetch(`${ENGINE_API_ENDPOINT}/api/user/${sessionUserUid}/upi`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ upi })
+            });
+            const r = await res.json();
+            if (r.success) { 
+                showToast('UPI saved!', '#10b981'); 
+                if (window.__userData) window.__userData.upi = upi;
+                document.getElementById('wallet-upi-display').innerText = upi;
+            }
+            else showToast(r.error || 'Failed', '#ef4444');
+        } catch (e) { showToast('Network error', '#ef4444'); }
+    }
+
+    async function saveWalletSetup() {
+        const wallet = document.getElementById('setup-wallet-input').value.trim();
+        if (!wallet) return showToast('Enter wallet', '#ef4444');
+        try {
+            const res = await fetch(`${ENGINE_API_ENDPOINT}/api/user/${sessionUserUid}/wallet`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ wallet })
+            });
+            const r = await res.json();
+            if (r.success) { showToast('Wallet saved!', '#10b981'); if (window.__userData) window.__userData.wallet = wallet; }
+            else showToast(r.error || 'Failed', '#ef4444');
+        } catch (e) { showToast('Network error', '#ef4444'); }
+    }
+
+    // ==================== HISTORY ====================
+    async function loadHistoryPage() {
+        const container = document.getElementById('history-content-container');
+        container.innerHTML = '<p style="font-size:12px; color:var(--text-sub); text-align:center; padding:20px;">Loading...</p>';
+        try {
+            const res = await fetch(`${ENGINE_API_ENDPOINT}/api/user/${sessionUserUid}`);
+            const data = await res.json();
+            if (data.success && data.user) {
+                const u = data.user;
+                const histHtml = (u.history && u.history.length > 0)
+                    ? u.history.slice(0, 20).map(h => `<div style="padding:8px; border-bottom:1px solid var(--glass-border); font-size:12px;">• ${sanitizeText(h.method || 'N/A')}: ₹${h.amount || 0} → ${sanitizeText(h.status || '')}</div>`).join('')
+                    : '<p style="font-size:12px; color:var(--text-sub); text-align:center; padding:10px;">No payout records.</p>';
+                container.innerHTML = `<div class="glass-card"><h4 style="font-size:13px; margin-bottom:8px;">💰 Total Withdrawn</h4><div style="font-size:24px; font-weight:800; color:var(--green-accent);">₹${Number(u.totalWithdrawn || 0).toFixed(2)}</div></div><div class="glass-card"><h4 style="font-size:13px; margin-bottom:8px;">🎁 Current Balance</h4><div style="font-size:24px; font-weight:800; color:var(--red-brand);">₹${Number(u.balance || 0).toFixed(2)}</div></div><div class="glass-card"><h4 style="font-size:13px; margin-bottom:8px;">📜 Payout History</h4>${histHtml}</div>`;
+            } else {
+                container.innerHTML = '<p style="font-size:12px; color:var(--text-sub); text-align:center;">No data.</p>';
+            }
+        } catch (e) {
+            container.innerHTML = '<p style="font-size:12px; color:var(--text-sub); text-align:center;">Error loading.</p>';
+        }
+    }
+
+    // ==================== LEADERBOARD ====================
+    async function loadLeaderboard() {
+        const container = document.getElementById('leaderboard-rank-dock');
+        container.innerHTML = '<div class="glass-card" style="text-align:center; padding:20px; color:var(--text-sub);"><i class="fa-solid fa-spinner fa-spin"></i> Loading...</div>';
+        try {
+            const res = await fetch(`${ENGINE_API_ENDPOINT}/api/leaderboard`);
+            const r = await res.json();
+            if (r.success && r.leaders && r.leaders.length > 0) {
+                container.innerHTML = '';
+                r.leaders.forEach((u, i) => {
+                    const medal = i === 0 ? '🥇' : i === 1 ? '🥈' : i === 2 ? '🥉' : `#${i+1}`;
+                    const row = document.createElement('div');
+                    row.className = 'glass-card';
+                    row.style.cssText = 'display:flex; justify-content:space-between; align-items:center; padding:14px;';
+                    row.innerHTML = `<div style="display:flex; align-items:center; gap:10px;"><span style="font-size:20px;">${medal}</span><span style="font-weight:700; font-size:13px;">${sanitizeText(u.name)}</span></div><b style="color:var(--green-accent); font-size:14px;">₹${Number(u.balance).toFixed(2)}</b>`;
+                    container.appendChild(row);
+                });
+            } else {
+                container.innerHTML = '<div class="glass-card" style="text-align:center; padding:30px; color:var(--text-sub);"><i class="fa-solid fa-trophy" style="font-size:32px; color:gold; margin-bottom:10px;"></i><p style="font-size:12.5px;">No rankings yet.</p></div>';
+            }
+        } catch(e) {
+            container.innerHTML = '<div class="glass-card" style="text-align:center; padding:20px; color:var(--text-sub);">Error loading.</div>';
+        }
+    }
+
+    // ==================== ADMIN: CORE ====================
+    async function loadAdminStats() {
+        if (!isRealAdmin) return;
+        try {
+            const res = await fetch(`${ENGINE_API_ENDPOINT}/api/admin/stats?adminId=${sessionUserUid}`);
+            const data = await res.json();
+            if (data.success) {
+                document.getElementById('stat-users').innerText = data.stats.totalUsers ?? '-';
+                document.getElementById('stat-banned').innerText = data.stats.bannedUsers ?? '-';
+                document.getElementById('stat-tasks').innerText = data.stats.activeTasks ?? '-';
+                document.getElementById('stat-pending').innerText = data.stats.pendingWithdrawals ?? '-';
+            }
+        } catch (err) { console.warn("Admin stats fetch failed:", err); }
+    }
+
+    function openAdminSection(name) {
+        if (!isRealAdmin) { showToast('⛔ Access Denied', '#ef4444'); return; }
+        document.querySelectorAll('.admin-section').forEach(s => s.classList.remove('active'));
+        document.getElementById('admin-main-menu').style.display = 'none';
+        const sec = document.getElementById(`admin-section-${name}`);
+        if (sec) sec.classList.add('active');
+
+        if (name === 'withdrawals') loadPendingWithdrawals();
+        if (name === 'tasks') { loadCategoriesForTaskForm(); loadAdminTasks(); }
+        if (name === 'vouchers') loadAdminVouchers();
+        if (name === 'channels') loadAdminChannels();
+        if (name === 'gateways') loadAdminGateways();
+        if (name === 'bans') loadBannedUsers();
+        if (name === 'admins') loadSubAdmins();
+        if (name === 'settings') loadAdminSettings();
+        if (name === 'inline_customizer') loadAdminInlineButtons();
+        if (name === 'keyboards') loadAdminKeyboardLayout();
+        if (name === 'error_logs') loadErrorLogs();
+        if (name === 'messages') loadBotMessages();
+        if (name === 'registered_users') loadRegisteredUsers(true);
+        if (name === 'categories') loadAdminCategories();
+        if (name === 'banners') { loadBannersFromDB().then(() => renderAdminBannerList()); }
+    }
+
+    function closeAdminSection() {
+        document.querySelectorAll('.admin-section').forEach(s => s.classList.remove('active'));
+        document.getElementById('admin-main-menu').style.display = 'block';
+    }
+
+    // ==================== ADMIN: CATEGORIES ====================
+    async function loadAdminCategories() {
+        const container = document.getElementById('admin-category-list');
+        if (!container) return;
+        container.innerHTML = '<p style="font-size:11.5px; color:var(--text-sub); text-align:center;">Loading...</p>';
+        try {
+            const res = await fetch(`${ENGINE_API_ENDPOINT}/api/categories`);
+            const r = await res.json();
+            if (r.success && r.categories) {
+                allCategories = r.categories;
+                container.innerHTML = '';
+                r.categories.forEach(cat => {
+                    const row = document.createElement('div');
+                    row.style.cssText = 'padding:11px 13px; background:rgba(255,255,255,0.03); border-radius:10px; margin-bottom:8px; font-size:12.5px; display:flex; justify-content:space-between; align-items:center;';
+                    row.innerHTML = `<b>${sanitizeText(cat)}</b>${cat !== 'All' ? `<button class="glass-btn danger" style="padding:5px 10px; width:auto; font-size:11px;" onclick="adminDeleteCategory('${sanitizeText(cat)}')">✕</button>` : '<span style="font-size:10px; color:var(--text-sub);">Default</span>'}`;
+                    container.appendChild(row);
+                });
+            }
+        } catch(e) { container.innerHTML = '<p style="font-size:11.5px; color:#f87171; text-align:center;">Error loading.</p>'; }
+    }
+
+    async function adminAddCategory() {
+        const input = document.getElementById('admin-new-category');
+        const name = input.value.trim();
+        if (!name) return showToast('Enter category name', '#ef4444');
+        try {
+            const res = await fetch(`${ENGINE_API_ENDPOINT}/api/admin/categories`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ adminId: sessionUserUid, name })
+            });
+            const r = await res.json();
+            if (r.success) {
+                showToast('Category added!', '#10b981');
+                input.value = '';
+                allCategories = r.categories;
+                await loadAdminCategories();
+                renderCategoryPills();
+            } else showToast(r.error || 'Failed', '#ef4444');
+        } catch(e) { showToast('Network error', '#ef4444'); }
+    }
+
+    async function adminDeleteCategory(name) {
+        showConfirm('Delete Category', `Delete "${name}"?`, async () => {
+            try {
+                const res = await fetch(`${ENGINE_API_ENDPOINT}/api/admin/categories/${encodeURIComponent(name)}?adminId=${sessionUserUid}`, { method: 'DELETE' });
+                const r = await res.json();
+                if (r.success) {
+                    showToast('Deleted', '#ef4444');
+                    await loadAdminCategories();
+                    await loadCategoriesFromDB();
+                } else showToast(r.error || 'Failed', '#ef4444');
+            } catch(e) { showToast('Network error', '#ef4444'); }
+        });
+    }
+
+    function loadCategoriesForTaskForm() {
+        const sel = document.getElementById('admin-task-category');
+        if (!sel) return;
+        sel.innerHTML = '<option value="">-- No Category --</option>';
+        allCategories.forEach(cat => {
+            if (cat === 'All') return;
+            const opt = document.createElement('option');
+            opt.value = cat;
+            opt.textContent = cat;
+            sel.appendChild(opt);
+        });
+    }
+
+    // ==================== ADMIN: TASKS ====================
+    async function adminCreateTask() {
+        const title = document.getElementById('admin-task-title').value.trim();
+        const desc = document.getElementById('admin-task-desc').value.trim();
+        const url = document.getElementById('admin-task-url').value.trim();
+        const amount = parseFloat(document.getElementById('admin-task-amt').value);
+        const category = document.getElementById('admin-task-category').value || '';
+        if (!title || !url || isNaN(amount)) return showToast('Fill title, URL and reward', '#ef4444');
+        try {
+            const res = await fetch(`${ENGINE_API_ENDPOINT}/api/admin/tasks`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ adminId: sessionUserUid, title, desc, url, amount, category })
+            });
+            const r = await res.json();
+            if (r.success) {
+                showToast('Task deployed!', '#10b981');
+                document.getElementById('admin-task-title').value = '';
+                document.getElementById('admin-task-desc').value = '';
+                document.getElementById('admin-task-url').value = '';
+                document.getElementById('admin-task-amt').value = '';
+                document.getElementById('admin-task-category').value = '';
+                loadAdminTasks();
+                loadTasksFromDB();
+            } else showToast(r.error || 'Failed', '#ef4444');
+        } catch (e) { showToast('Network error', '#ef4444'); }
+    }
+
+    async function loadAdminTasks() {
+        try {
+            const res = await fetch(`${ENGINE_API_ENDPOINT}/api/admin/tasks?adminId=${sessionUserUid}`);
+            const r = await res.json();
+            const container = document.getElementById('admin-task-list');
+            if (!r.success || !r.tasks || r.tasks.length === 0) {
+                container.innerHTML = `<p style="font-size:11.5px; color:var(--text-sub); text-align:center;">No tasks yet.</p>`;
+                return;
+            }
+            container.innerHTML = '';
+            r.tasks.forEach(t => {
+                const row = document.createElement('div');
+                row.style.cssText = 'padding:10px; background:rgba(255,255,255,0.03); border-radius:10px; margin-bottom:8px;';
+                row.innerHTML = `<div style="font-weight:700; font-size:12.5px;">${sanitizeText(t.title)} ${t.category ? `<span style="font-size:10px; color:var(--purple-accent);">[${sanitizeText(t.category)}]</span>` : ''}</div><div style="font-size:11px; color:var(--text-sub);">Reward: ₹${t.amount} • ${t.active ? '🟢 Active' : '🔴 Off'}</div><button class="glass-btn danger" style="padding:6px 10px; margin-top:8px; font-size:11px;" onclick="adminDeleteTask('${t.id}')"><i class="fa-solid fa-trash"></i> Delete</button>`;
+                container.appendChild(row);
+            });
+        } catch (e) {
+            document.getElementById('admin-task-list').innerHTML = `<p style="font-size:11.5px; color:var(--text-sub); text-align:center;">Error loading tasks.</p>`;
+        }
+    }
+
+    async function adminDeleteTask(tid) {
+        showConfirm('Delete Task', 'Delete this task?', async () => {
+            try {
+                await fetch(`${ENGINE_API_ENDPOINT}/api/admin/tasks/${tid}?adminId=${sessionUserUid}`, { method: 'DELETE' });
+                showToast('Task deleted', '#ef4444');
+                loadAdminTasks();
+                loadTasksFromDB();
+            } catch (e) { showToast('Failed', '#ef4444'); }
+        });
+    }
+
+    // ==================== ADMIN: WITHDRAWALS ====================
+    async function loadPendingWithdrawals() {
+        const container = document.getElementById('admin-withdrawals-list');
+        container.innerHTML = '<p style="font-size:11.5px; color:var(--text-sub); text-align:center;">Loading...</p>';
+        try {
+            const res = await fetch(`${ENGINE_API_ENDPOINT}/api/admin/withdrawals?adminId=${sessionUserUid}`);
+            const r = await res.json();
+            if (!r.success || !r.withdrawals || r.withdrawals.length === 0) {
+                container.innerHTML = `<p style="font-size:11.5px; color:var(--text-sub); text-align:center;">No pending requests.</p>`;
+                return;
+            }
+            container.innerHTML = '';
+            r.withdrawals.forEach(w => {
+                const row = document.createElement('div');
+                row.style.cssText = 'padding:12px; background:rgba(255,255,255,0.03); border:1px solid var(--glass-border); border-radius:12px; margin-bottom:10px;';
+                row.innerHTML = `<div style="font-weight:700; font-size:13px;">User: <code>${w.userId}</code></div><div style="font-size:11.5px; color:var(--text-sub); margin:4px 0;">₹${w.amount} → ${sanitizeText(w.destination)}</div><div style="display:flex; gap:8px; margin-top:8px;"><button class="glass-btn success" style="padding:8px; font-size:11.5px;" onclick="adminApproveWd('${w.id}')"><i class="fa-solid fa-check"></i> Approve</button><button class="glass-btn danger" style="padding:8px; font-size:11.5px;" onclick="adminRejectWd('${w.id}')"><i class="fa-solid fa-xmark"></i> Reject</button></div>`;
+                container.appendChild(row);
+            });
+        } catch (e) {
+            container.innerHTML = `<p style="font-size:11.5px; color:var(--text-sub); text-align:center;">Error loading.</p>`;
+        }
+    }
+
+    async function adminApproveWd(wid) {
+        showConfirm('Approve', 'Approve this withdrawal?', async () => {
+            try {
+                await fetch(`${ENGINE_API_ENDPOINT}/api/admin/withdrawals/${wid}/approve`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ adminId: sessionUserUid })
+                });
+                showToast('Approved!', '#10b981');
+                loadPendingWithdrawals();
+            } catch (e) { showToast('Failed', '#ef4444'); }
+        });
+    }
+
+    async function adminRejectWd(wid) {
+        showConfirm('Reject', 'Reject this withdrawal?', async () => {
+            try {
+                await fetch(`${ENGINE_API_ENDPOINT}/api/admin/withdrawals/${wid}/reject`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ adminId: sessionUserUid })
+                });
+                showToast('Rejected', '#ef4444');
+                loadPendingWithdrawals();
+            } catch (e) { showToast('Failed', '#ef4444'); }
+        });
+    }
+
+    async function adminSendBroadcast() {
+        const text = document.getElementById('admin-bc-text').value.trim();
+        if (!text) return showToast('Enter a message', '#ef4444');
+        showConfirm('Broadcast', `Send to ALL users?`, async () => {
+            try {
+                const res = await fetch(`${ENGINE_API_ENDPOINT}/api/admin/broadcast`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ adminId: sessionUserUid, text, mode: 'copy' })
+                });
+                const r = await res.json();
+                if (r.success) {
+                    showToast(`Sent to ${r.sent || 0} users`, '#10b981');
+                    document.getElementById('admin-bc-text').value = '';
+                } else showToast(r.error || 'Failed', '#ef4444');
+            } catch (e) { showToast('Network error', '#ef4444'); }
+        });
+    }
+
+    async function generateVoucherCodeUnified() {
+        const codeString = document.getElementById('adm-vch-code').value.trim();
+        const awardValue = document.getElementById('adm-vch-value').value;
+        const maxUsers = document.getElementById('adm-vch-max').value || 1;
+        if (!codeString || !awardValue) return showToast('Fill all fields', '#ef4444');
+        try {
+            const res = await fetch(`${ENGINE_API_ENDPOINT}/api/admin/create-code`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ adminId: sessionUserUid, codeString, awardValue, maxUsers })
+            });
+            const r = await res.json();
+            if (r.success) {
+                showToast(`Voucher [${codeString}] created!`, '#10b981');
+                document.getElementById('adm-vch-code').value = '';
+                document.getElementById('adm-vch-value').value = '';
+                document.getElementById('adm-vch-max').value = '';
+                loadAdminVouchers();
+            } else showToast(r.error || 'Failed', '#ef4444');
+        } catch (err) { showToast('Network error', '#ef4444'); }
+    }
+
+    async function loadAdminVouchers() {
+        const container = document.getElementById('admin-voucher-list');
+        container.innerHTML = '<p style="font-size:11.5px; color:var(--text-sub); text-align:center;">Loading...</p>';
+        try {
+            const res = await fetch(`${ENGINE_API_ENDPOINT}/api/admin/codes?adminId=${sessionUserUid}`);
+            const r = await res.json();
+            if (!r.success || !r.codes || r.codes.length === 0) {
+                container.innerHTML = `<p style="font-size:11.5px; color:var(--text-sub); text-align:center;">No codes created.</p>`;
+                return;
+            }
+            container.innerHTML = '';
+            r.codes.forEach(c => {
+                const row = document.createElement('div');
+                row.style.cssText = 'padding:10px; background:rgba(255,255,255,0.03); border-radius:10px; margin-bottom:8px; font-size:12px;';
+                row.innerHTML = `<div><b>${sanitizeText(c.code)}</b> — ₹${c.amount}</div><div style="color:var(--text-sub); font-size:11px;">Used: ${c.claimedBy?.length || 0}/${c.maxUsers}</div>`;
+                container.appendChild(row);
+            });
+        } catch (e) {
+            container.innerHTML = `<p style="font-size:11.5px; color:var(--text-sub); text-align:center;">Error loading.</p>`;
+        }
+    }
+
+    async function adminAddChannel() {
+        const name = document.getElementById('admin-ch-name').value.trim();
+        const link = document.getElementById('admin-ch-link').value.trim();
+        const username = document.getElementById('admin-ch-username').value.trim();
+        if (!name || !link) return showToast('Fill name and link', '#ef4444');
+        try {
+            const res = await fetch(`${ENGINE_API_ENDPOINT}/api/admin/channels`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ adminId: sessionUserUid, name, link, username })
+            });
+            const r = await res.json();
+            if (r.success) {
+                showToast('Channel added!', '#10b981');
+                document.getElementById('admin-ch-name').value = '';
+                document.getElementById('admin-ch-link').value = '';
+                document.getElementById('admin-ch-username').value = '';
+                loadAdminChannels();
+            } else showToast(r.error || 'Failed', '#ef4444');
+        } catch (e) { showToast('Network error', '#ef4444'); }
+    }
+
+    async function loadAdminChannels() {
+        const container = document.getElementById('admin-channels-list');
+        container.innerHTML = '<p style="font-size:11.5px; color:var(--text-sub); text-align:center;">Loading...</p>';
+        try {
+            const res = await fetch(`${ENGINE_API_ENDPOINT}/api/admin/channels?adminId=${sessionUserUid}`);
+            const r = await res.json();
+            if (!r.success || !r.channels || r.channels.length === 0) {
+                container.innerHTML = `<p style="font-size:11.5px; color:var(--text-sub); text-align:center;">No channels set.</p>`;
+                return;
+            }
+            container.innerHTML = '';
+            r.channels.forEach((c, i) => {
+                const row = document.createElement('div');
+                row.style.cssText = 'padding:10px; background:rgba(255,255,255,0.03); border-radius:10px; margin-bottom:8px; font-size:12px; display:flex; justify-content:space-between; align-items:center;';
+                row.innerHTML = `<div><b>${sanitizeText(c.name)}</b><div style="color:var(--text-sub); font-size:11px;">${sanitizeText(c.link)}</div></div><button class="glass-btn danger" style="padding:5px 10px; width:auto; font-size:11px;" onclick="adminRemoveChannel(${i})">✕</button>`;
+                container.appendChild(row);
+            });
+        } catch (e) {
+            container.innerHTML = `<p style="font-size:11.5px; color:var(--text-sub); text-align:center;">Error loading.</p>`;
+        }
+    }
+
+    async function adminRemoveChannel(index) {
+        showConfirm('Remove Channel', 'Remove this channel?', async () => {
+            try {
+                await fetch(`${ENGINE_API_ENDPOINT}/api/admin/channels/${index}?adminId=${sessionUserUid}`, { method: 'DELETE' });
+                showToast('Channel removed', '#ef4444');
+                loadAdminChannels();
+            } catch (e) { showToast('Failed', '#ef4444'); }
+        });
+    }
+
+    async function adminAddGateway() {
+        const name = document.getElementById('admin-gw-name').value.trim().toLowerCase();
+        const type = document.getElementById('admin-gw-type').value;
+        const url = document.getElementById('admin-gw-url').value.trim();
+        if (!name || !url) return showToast('Fill all fields', '#ef4444');
+        try {
+            const res = await fetch(`${ENGINE_API_ENDPOINT}/api/admin/gateways`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ adminId: sessionUserUid, name, type, url })
+            });
+            const r = await res.json();
+            if (r.success) {
+                showToast('Gateway added!', '#10b981');
+                document.getElementById('admin-gw-name').value = '';
+                document.getElementById('admin-gw-url').value = '';
+                loadAdminGateways();
+            } else showToast(r.error || 'Failed', '#ef4444');
+        } catch (e) { showToast('Network error', '#ef4444'); }
+    }
+
+    async function loadAdminGateways() {
+        const container = document.getElementById('admin-gateways-list');
+        container.innerHTML = '<p style="font-size:11.5px; color:var(--text-sub); text-align:center;">Loading...</p>';
+        try {
+            const res = await fetch(`${ENGINE_API_ENDPOINT}/api/admin/gateways?adminId=${sessionUserUid}`);
+            const r = await res.json();
+            if (!r.success || !r.gateways || Object.keys(r.gateways).length === 0) {
+                container.innerHTML = `<p style="font-size:11.5px; color:var(--text-sub); text-align:center;">No gateways.</p>`;
+                return;
+            }
+            container.innerHTML = '';
+            Object.entries(r.gateways).forEach(([key, gw]) => {
+                const row = document.createElement('div');
+                row.style.cssText = 'padding:10px; background:rgba(255,255,255,0.03); border-radius:10px; margin-bottom:8px; font-size:12px;';
+                row.innerHTML = `<div><b>${sanitizeText(gw.displayName || key)}</b> [${gw.type}]</div><div style="color:var(--text-sub); font-size:11px; word-break:break-all;">${sanitizeText(gw.url)}</div>`;
+                container.appendChild(row);
+            });
+        } catch (e) {
+            container.innerHTML = `<p style="font-size:11.5px; color:var(--text-sub); text-align:center;">Error loading.</p>`;
+        }
+    }
+
+    async function loadAdminSettings() {
+        try {
+            const res = await fetch(`${ENGINE_API_ENDPOINT}/api/admin/settings?adminId=${sessionUserUid}`);
+            const r = await res.json();
+            if (r.success && r.settings) {
+                const s = r.settings;
+                document.getElementById('set-bot-status').checked = !!s.botStatus;
+                document.getElementById('set-verification').checked = s.verificationMode === 'Both On';
+                document.getElementById('set-withdraw').checked = s.withdrawMode === 'Both On';
+                document.getElementById('set-newuser').checked = !!s.newUserNotification;
+                document.getElementById('set-min-wd').value = s.minWithdraw || '';
+                document.getElementById('set-max-wd').value = s.maxWithdraw || '';
+                document.getElementById('set-refer-amt').value = s.perRefer || '';
+                document.getElementById('set-tax').value = s.withdrawTax || '';
+            }
+        } catch (e) { console.warn('Settings load failed:', e); }
+    }
+
+    async function adminSaveSettings() {
+        const payload = {
+            adminId: sessionUserUid,
+            botStatus: document.getElementById('set-bot-status').checked,
+            verificationMode: document.getElementById('set-verification').checked ? 'Both On' : 'Both Off',
+            withdrawMode: document.getElementById('set-withdraw').checked ? 'Both On' : 'Both Off',
+            newUserNotification: document.getElementById('set-newuser').checked,
+            minWithdraw: parseFloat(document.getElementById('set-min-wd').value) || 1,
+            maxWithdraw: parseFloat(document.getElementById('set-max-wd').value) || 500,
+            perRefer: parseFloat(document.getElementById('set-refer-amt').value) || 0,
+            withdrawTax: parseFloat(document.getElementById('set-tax').value) || 0
+        };
+        try {
+            const res = await fetch(`${ENGINE_API_ENDPOINT}/api/admin/settings`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+            const r = await res.json();
+            if (r.success) showToast('Settings saved!', '#10b981');
+            else showToast(r.error || 'Failed', '#ef4444');
+        } catch (e) { showToast('Network error', '#ef4444'); }
+    }
+
+    async function adminBanUser() {
+        const uid = document.getElementById('admin-ban-uid').value.trim();
+        if (!uid) return showToast('Enter User ID', '#ef4444');
+        showConfirm('Ban User', `Ban user ${uid}?`, async () => {
+            try {
+                await fetch(`${ENGINE_API_ENDPOINT}/api/admin/ban`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ adminId: sessionUserUid, targetId: uid })
+                });
+                showToast('User banned', '#ef4444');
+                document.getElementById('admin-ban-uid').value = '';
+                loadBannedUsers();
+            } catch (e) { showToast('Failed', '#ef4444'); }
+        });
+    }
+
+    async function adminUnbanUser() {
+        const uid = document.getElementById('admin-unban-uid').value.trim();
+        if (!uid) return showToast('Enter User ID', '#ef4444');
+        try {
+            await fetch(`${ENGINE_API_ENDPOINT}/api/admin/unban`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ adminId: sessionUserUid, targetId: uid })
+            });
+            showToast('User unbanned', '#10b981');
+            document.getElementById('admin-unban-uid').value = '';
+            loadBannedUsers();
+        } catch (e) { showToast('Failed', '#ef4444'); }
+    }
+
+    async function loadBannedUsers() {
+        const container = document.getElementById('admin-banned-list');
+        container.innerHTML = '<p style="font-size:11.5px; color:var(--text-sub); text-align:center;">Loading...</p>';
+        try {
+            const res = await fetch(`${ENGINE_API_ENDPOINT}/api/admin/banned?adminId=${sessionUserUid}`);
+            const r = await res.json();
+            if (!r.success || !r.users || r.users.length === 0) {
+                container.innerHTML = `<p style="font-size:11.5px; color:var(--text-sub); text-align:center;">No banned users.</p>`;
+                return;
+            }
+            container.innerHTML = '';
+            r.users.forEach(u => {
+                const row = document.createElement('div');
+                row.style.cssText = 'padding:10px; background:rgba(239,68,68,0.08); border-radius:10px; margin-bottom:8px; font-size:12px; display:flex; justify-content:space-between; align-items:center;';
+                row.innerHTML = `<div><b>${sanitizeText(u.name)}</b><br><code>${u.id}</code></div><button class="glass-btn success" style="padding:5px 10px; width:auto; font-size:11px;" onclick="adminUnbanFromList('${u.id}')">Unban</button>`;
+                container.appendChild(row);
+            });
+        } catch (e) {
+            container.innerHTML = `<p style="font-size:11.5px; color:var(--text-sub); text-align:center;">Error loading.</p>`;
+        }
+    }
+
+    async function adminUnbanFromList(uid) {
+        try {
+            await fetch(`${ENGINE_API_ENDPOINT}/api/admin/unban`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ adminId: sessionUserUid, targetId: uid })
+            });
+            showToast('Unbanned', '#10b981');
+            loadBannedUsers();
+        } catch (e) { showToast('Failed', '#ef4444'); }
+    }
+
+    async function adminAddSubAdmin() {
+        const uid = document.getElementById('admin-new-subadm').value.trim();
+        if (!uid) return showToast('Enter User ID', '#ef4444');
+        try {
+            const res = await fetch(`${ENGINE_API_ENDPOINT}/api/admin/subadmins`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ adminId: sessionUserUid, targetId: uid })
+            });
+            const r = await res.json();
+            if (r.success) {
+                showToast('Sub-admin added!', '#10b981');
+                document.getElementById('admin-new-subadm').value = '';
+                loadSubAdmins();
+            } else showToast(r.error || 'Failed', '#ef4444');
+        } catch (e) { showToast('Network error', '#ef4444'); }
+    }
+
+    async function loadSubAdmins() {
+        const container = document.getElementById('admin-subadmins-list');
+        container.innerHTML = '<p style="font-size:11.5px; color:var(--text-sub); text-align:center;">Loading...</p>';
+        try {
+            const res = await fetch(`${ENGINE_API_ENDPOINT}/api/admin/subadmins?adminId=${sessionUserUid}`);
+            const r = await res.json();
+            if (!r.success || !r.subAdmins || r.subAdmins.length === 0) {
+                container.innerHTML = `<p style="font-size:11.5px; color:var(--text-sub); text-align:center;">No sub-admins yet.</p>`;
+                return;
+            }
+            container.innerHTML = '';
+            r.subAdmins.forEach(id => {
+                const row = document.createElement('div');
+                row.style.cssText = 'padding:10px; background:rgba(255,255,255,0.03); border-radius:10px; margin-bottom:8px; font-size:12px; display:flex; justify-content:space-between; align-items:center;';
+                row.innerHTML = `<code>${id}</code><button class="glass-btn danger" style="padding:5px 10px; width:auto; font-size:11px;" onclick="adminRemoveSubAdmin('${id}')">Remove</button>`;
+                container.appendChild(row);
+            });
+        } catch (e) {
+            container.innerHTML = `<p style="font-size:11.5px; color:var(--text-sub); text-align:center;">Error loading.</p>`;
+        }
+    }
+
+    async function adminRemoveSubAdmin(id) {
+        showConfirm('Remove Sub-Admin', `Remove ${id}?`, async () => {
+            try {
+                await fetch(`${ENGINE_API_ENDPOINT}/api/admin/subadmins/${id}?adminId=${sessionUserUid}`, { method: 'DELETE' });
+                showToast('Removed', '#ef4444');
+                loadSubAdmins();
+            } catch (e) { showToast('Failed', '#ef4444'); }
+        });
+    }
+
+    async function adminSendUserMessage() {
+        const uid = document.getElementById('admin-msg-uid').value.trim();
+        const text = document.getElementById('admin-msg-content').value.trim();
+        if (!uid || !text) return showToast('Fill all fields', '#ef4444');
+        try {
+            const res = await fetch(`${ENGINE_API_ENDPOINT}/api/admin/message-user`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ adminId: sessionUserUid, targetId: uid, text })
+            });
+            const r = await res.json();
+            if (r.success) {
+                showToast('Message sent!', '#10b981');
+                document.getElementById('admin-msg-uid').value = '';
+                document.getElementById('admin-msg-content').value = '';
+            } else showToast(r.error || 'Failed', '#ef4444');
+        } catch (e) { showToast('Network error', '#ef4444'); }
+    }
+
+    // ==================== REGISTERED USERS LIST ====================
+    async function loadRegisteredUsers(reset = false) {
+        const container = document.getElementById('registered-users-list-container');
+        const loadMoreBtn = document.getElementById('registered-users-load-more');
+        const countEl = document.getElementById('registered-users-count');
+
+        if (reset) {
+            regUsersPage = 0;
+            regUsersCache = [];
+            container.innerHTML = '<p style="font-size:12px; color:var(--text-sub); text-align:center; padding:20px;"><i class="fa-solid fa-spinner fa-spin"></i> Loading users...</p>';
+            loadMoreBtn.style.display = 'none';
+        }
+
+        try {
+            const res = await fetch(`${ENGINE_API_ENDPOINT}/api/admin/users/list?adminId=${sessionUserUid}&page=${regUsersPage}&limit=${REG_USERS_PAGE_SIZE}`);
+            const r = await res.json();
+            if (!r.success) {
+                container.innerHTML = `<p style="font-size:12px; color:#f87171; text-align:center; padding:20px;">❌ ${r.error || 'Failed to load users'}</p>`;
+                return;
+            }
+            const newUsers = r.users || [];
+            regUsersCache = regUsersCache.concat(newUsers);
+            regUsersHasMore = !!r.hasMore;
+            const total = r.total || regUsersCache.length;
+            countEl.innerText = `Showing: ${regUsersCache.length} / ${total} users`;
+            renderRegisteredUsersList();
+            if (regUsersHasMore) {
+                loadMoreBtn.style.display = 'block';
+                regUsersPage++;
+            } else {
+                loadMoreBtn.style.display = 'none';
+            }
+        } catch (e) {
+            container.innerHTML = '<p style="font-size:12px; color:#f87171; text-align:center; padding:20px;">❌ Network error</p>';
+        }
+    }
+
+    function renderRegisteredUsersList() {
+        const container = document.getElementById('registered-users-list-container');
+        const searchQuery = (document.getElementById('registered-users-search')?.value || '').trim().toLowerCase();
+        const filtered = regUsersCache.filter(u => {
+            if (!searchQuery) return true;
+            const name = (u.name || '').toLowerCase();
+            const uid = String(u.id);
+            return name.includes(searchQuery) || uid.includes(searchQuery);
+        });
+        if (filtered.length === 0) {
+            container.innerHTML = `<p style="font-size:12px; color:var(--text-sub); text-align:center; padding:20px;">${regUsersCache.length === 0 ? 'No users registered yet.' : 'No matching users found.'}</p>`;
+            return;
+        }
+        container.innerHTML = '';
+        filtered.forEach(u => {
+            const initial = sanitizeText((u.name || 'U').charAt(0).toUpperCase());
+            const item = document.createElement('div');
+            item.className = 'user-list-item';
+            item.onclick = () => openAdminUserDetailPage(u.id);
+            const tick = u.verified ? ' <span class="blue-tick-badge"><i class="fa-solid fa-check"></i></span>' : '';
+            item.innerHTML = `
+                <div class="user-list-avatar">${initial}</div>
+                <div class="user-list-info">
+                    <div class="user-list-name">${sanitizeText(u.name || 'Unknown')}${tick}</div>
+                    <div class="user-list-meta">🆔 ${u.id} • ${u.isBanned ? '🚫 Banned' : '✅ Active'}</div>
+                </div>
+                <div class="user-list-bal">₹${Number(u.balance || 0).toFixed(2)}</div>
+            `;
+            container.appendChild(item);
+        });
+    }
+
+    function filterRegisteredUsers() { renderRegisteredUsersList(); }
+
+    // ==================== ADMIN USER DETAIL PAGE ====================
+    async function openAdminUserDetailPage(uid) {
+        currentDetailUserId = uid;
+        const container = document.getElementById('admin-user-detail-content');
+        container.innerHTML = '<div class="glass-card" style="text-align:center;"><i class="fa-solid fa-spinner fa-spin"></i> Loading profile...</div>';
+        openSubPage('page-admin-user-detail');
+
+        try {
+            const res = await fetch(`${ENGINE_API_ENDPOINT}/api/admin/user-full/${uid}?adminId=${sessionUserUid}`);
+            const r = await res.json();
+            if (!r.success) {
+                container.innerHTML = `<div class="glass-card" style="text-align:center; color:#f87171;">❌ ${r.error || 'Failed to load user'}</div>`;
+                return;
+            }
+            const u = r.user;
+            const withdrawals = r.withdrawals || [];
+            const taskSubs = r.taskSubmissions || [];
+            const initial = sanitizeText((u.name || 'U').charAt(0).toUpperCase());
+            const tick = u.verified ? ' <span class="blue-tick-badge"><i class="fa-solid fa-check"></i></span>' : '';
+
+            container.innerHTML = `
+                <div class="glass-card" style="text-align:center;">
+                    <div style="width:80px; height:80px; border-radius:50%; background:linear-gradient(135deg,var(--blue-accent),var(--red-brand)); display:flex; align-items:center; justify-content:center; font-size:32px; font-weight:800; margin:0 auto 10px auto;">${initial}</div>
+                    <h3 style="font-size:17px; font-weight:800;">${sanitizeText(u.name)}${tick}</h3>
+                    <p style="font-size:11.5px; color:var(--text-sub); margin-top:4px;">UID: ${u.id}</p>
+                    <div style="display:flex; gap:8px; justify-content:center; margin-top:12px;">
+                        <button class="glass-btn" style="width:auto; padding:8px 14px; font-size:11.5px;" onclick="adminToggleBlueTick(${u.id}, ${!!u.verified})">
+                            <i class="fa-solid ${u.verified ? 'fa-circle-xmark' : 'fa-certificate'}"></i> ${u.verified ? 'Remove Tick' : 'Blue Tick'}
+                        </button>
+                        <button class="glass-btn" style="width:auto; padding:8px 14px; font-size:11.5px;" onclick="adminEditUserName(${u.id}, '${sanitizeText(u.name)}')">
+                            <i class="fa-solid fa-pen"></i> Edit Name
+                        </button>
+                    </div>
+                </div>
+
+                <div class="glass-card">
+                    <h4 class="admin-section-title" style="margin-top:0;"><i class="fa-solid fa-user"></i> Profile Details</h4>
+                    <div class="detail-row"><span class="label">Name</span><span class="value">${sanitizeText(u.name)}</span></div>
+                    <div class="detail-row"><span class="label">Username</span><span class="value">${sanitizeText(u.username || 'N/A')}</span></div>
+                    <div class="detail-row"><span class="label">Balance</span><span class="value" style="color:var(--green-accent);">₹${Number(u.balance || 0).toFixed(2)}</span></div>
+                    <div class="detail-row"><span class="label">UPI</span><span class="value">${sanitizeText(u.upi || 'not linked')}</span></div>
+                    <div class="detail-row"><span class="label">Wallet</span><span class="value">${sanitizeText(u.wallet || 'not linked')}</span></div>
+                    <div class="detail-row"><span class="label">Total Withdrawn</span><span class="value">₹${Number(u.totalWithdrawn || 0).toFixed(2)}</span></div>
+                    <div class="detail-row"><span class="label">Invites</span><span class="value">${(u.invites || []).length}</span></div>
+                    <div class="detail-row"><span class="label">Completed Tasks</span><span class="value">${(u.completedTasks || []).length}</span></div>
+                    <div class="detail-row"><span class="label">Status</span><span class="value" style="color:${u.isBanned ? '#f87171' : 'var(--green-accent)'};">${u.isBanned ? '🚫 Banned' : '✅ Active'}</span></div>
+                    <div class="detail-row"><span class="label">Verified</span><span class="value">${u.verified ? '✅ Yes' : '❌ No'}</span></div>
+                </div>
+
+                <div class="glass-card">
+                    <h4 class="admin-section-title" style="margin-top:0;"><i class="fa-solid fa-wallet"></i> Balance Adjust</h4>
+                    <input type="tel" inputmode="decimal" id="detail-adj-amt" class="glass-input" placeholder="Amount (+add / -remove)">
+                    <button class="glass-btn success" onclick="adminAdjustFromDetail(${u.id})"><i class="fa-solid fa-check"></i> Adjust Balance</button>
+                </div>
+
+                <div class="glass-card">
+                    <h4 class="admin-section-title" style="margin-top:0;"><i class="fa-solid fa-money-bill-transfer"></i> Withdrawals (${withdrawals.length})</h4>
+                    ${withdrawals.length === 0 ? '<p style="font-size:11.5px; color:var(--text-sub); text-align:center;">No withdrawal history.</p>' : withdrawals.map(w => `
+                        <div class="list-item-row">
+                            <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
+                                <b style="color:var(--green-accent);">₹${w.amount}</b>
+                                <span style="font-size:10.5px; color:${w.status === 'Approved' ? 'var(--green-accent)' : w.status === 'Rejected' ? '#f87171' : 'var(--yellow-accent)'};">${w.status}</span>
+                            </div>
+                            <div style="font-size:10.5px; color:var(--text-sub); word-break:break-all;">→ ${sanitizeText(w.destination)}</div>
+                            <div style="font-size:9.5px; color:var(--text-sub); margin-top:3px;">${w.timestamp ? new Date(w.timestamp).toLocaleString() : 'N/A'}</div>
+                        </div>
+                    `).join('')}
+                </div>
+
+                <div class="glass-card">
+                    <h4 class="admin-section-title" style="margin-top:0;"><i class="fa-solid fa-list-check"></i> Task Submissions (${taskSubs.length})</h4>
+                    ${taskSubs.length === 0 ? '<p style="font-size:11.5px; color:var(--text-sub); text-align:center;">No task submissions.</p>' : taskSubs.map(t => `
+                        <div class="list-item-row">
+                            <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
+                                <b>Task ID: ${sanitizeText(t.taskId)}</b>
+                                <span style="color:var(--green-accent);">₹${t.amount}</span>
+                            </div>
+                            <div style="font-size:10.5px; color:var(--text-sub);">${t.timestamp ? new Date(t.timestamp).toLocaleString() : 'N/A'}</div>
+                        </div>
+                    `).join('')}
+                </div>
+
+                <div class="glass-card">
+                    <h4 class="admin-section-title" style="margin-top:0;"><i class="fa-solid fa-receipt"></i> Recent Reward Logs</h4>
+                    ${(u.rewardHistory || []).length === 0 ? '<p style="font-size:11.5px; color:var(--text-sub); text-align:center;">No reward history.</p>' : u.rewardHistory.slice(0, 15).map(h => `<div class="list-item-row">${sanitizeText(h)}</div>`).join('')}
+                </div>
+
+                <div class="glass-card" style="border-color:var(--red-brand);">
+                    <h4 class="admin-section-title" style="margin-top:0; color:var(--red-brand);"><i class="fa-solid fa-ban"></i> Ban Control</h4>
+                    <button class="glass-btn ${u.isBanned ? 'success' : 'danger'}" onclick="adminToggleBanFromDetail(${u.id}, ${!!u.isBanned})">
+                        <i class="fa-solid ${u.isBanned ? 'fa-unlock' : 'fa-ban'}"></i> ${u.isBanned ? 'Unban User' : 'Ban User'}
+                    </button>
+                </div>
+            `;
+        } catch(e) {
+            container.innerHTML = '<div class="glass-card" style="text-align:center; color:#f87171;">❌ Network error</div>';
+        }
+    }
+
+    async function adminToggleBlueTick(uid, currentState) {
+        try {
+            const res = await fetch(`${ENGINE_API_ENDPOINT}/api/admin/toggle-bluetick`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ adminId: sessionUserUid, targetId: uid })
+            });
+            const r = await res.json();
+            if (r.success) {
+                showToast(r.verified ? '✅ Blue Tick Granted!' : 'Blue Tick Removed', r.verified ? '#1d9bf0' : '#ef4444');
+                openAdminUserDetailPage(uid);
+                loadRegisteredUsers(true);
+            } else showToast(r.error || 'Failed', '#ef4444');
+        } catch (e) { showToast('Network error', '#ef4444'); }
+    }
+
+    async function adminEditUserName(uid, currentName) {
+        const newName = prompt(`Enter new name:`, currentName);
+        if (newName === null || !newName.trim()) return;
+        try {
+            const res = await fetch(`${ENGINE_API_ENDPOINT}/api/admin/update-user-name`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ adminId: sessionUserUid, targetId: uid, newName: newName.trim() })
+            });
+            const r = await res.json();
+            if (r.success) {
+                showToast('Name updated!', '#10b981');
+                openAdminUserDetailPage(uid);
+                loadRegisteredUsers(true);
+            } else showToast(r.error || 'Failed', '#ef4444');
+        } catch (e) { showToast('Network error', '#ef4444'); }
+    }
+
+    async function adminAdjustFromDetail(uid) {
+        const amt = parseFloat(document.getElementById('detail-adj-amt').value);
+        if (isNaN(amt)) return showToast('Enter amount', '#ef4444');
+        showConfirm('Adjust Balance', `Adjust ₹${amt} for user ${uid}?`, async () => {
+            try {
+                const res = await fetch(`${ENGINE_API_ENDPOINT}/api/admin/adjust-balance`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ adminId: sessionUserUid, targetId: uid, delta: amt })
+                });
+                const r = await res.json();
+                if (r.success) {
+                    showToast('Balance adjusted!', '#10b981');
+                    document.getElementById('detail-adj-amt').value = '';
+                    openAdminUserDetailPage(uid);
+                    if (String(uid) === String(sessionUserUid)) fetchUserData(true);
+                } else showToast(r.error || 'Failed', '#ef4444');
+            } catch(e) { showToast('Network error', '#ef4444'); }
+        });
+    }
+
+    async function adminToggleBanFromDetail(uid, currentState) {
+        const endpoint = currentState ? '/api/admin/unban' : '/api/admin/ban';
+        try {
+            const res = await fetch(`${ENGINE_API_ENDPOINT}${endpoint}`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ adminId: sessionUserUid, targetId: uid })
+            });
+            const r = await res.json();
+            if (r.success || r.error === undefined) {
+                showToast(currentState ? 'Unbanned' : 'Banned', currentState ? '#10b981' : '#ef4444');
+                openAdminUserDetailPage(uid);
+                loadRegisteredUsers(true);
+            } else showToast(r.error || 'Failed', '#ef4444');
+        } catch(e) { showToast('Network error', '#ef4444'); }
+    }
+
+    // ==================== ADMIN: INLINE BUTTONS ====================
+    async function loadAdminInlineButtons() {
+        const container = document.getElementById('admin-inline-buttons-list');
+        container.innerHTML = '<p style="font-size:11.5px; color:var(--text-sub); text-align:center;">Loading...</p>';
+        try {
+            const res = await fetch(`${ENGINE_API_ENDPOINT}/api/admin/inline-buttons?adminId=${sessionUserUid}`);
+            const r = await res.json();
+            if (!r.success || !r.buttons) {
+                container.innerHTML = '<p style="font-size:11.5px; color:var(--text-sub); text-align:center;">Failed to load.</p>';
+                return;
+            }
+            container.innerHTML = '';
+            r.buttons.forEach(b => {
+                const row = document.createElement('div');
+                row.style.cssText = 'display:flex; align-items:center; gap:8px; padding:8px; background:rgba(255,255,255,0.03); border:1px solid var(--glass-border); border-radius:10px; margin-bottom:8px;';
+                const styleLabel = b.style && b.style !== 'none' ? `[${b.style}]` : '';
+                row.innerHTML = `<div style="flex:1; overflow:hidden;"><div style="font-size:11px; color:var(--text-sub);">${sanitizeText(b.key)}</div><div style="font-weight:700; font-size:12.5px;">${sanitizeText(b.label)} <span style="color:var(--purple-accent);font-size:10px;">${styleLabel}</span></div></div><button class="glass-btn" style="width:auto; padding:6px 10px; font-size:11px;" onclick="adminEditInlineName('${b.key}')"><i class="fa-solid fa-pen"></i></button><button class="glass-btn" style="width:auto; padding:6px 10px; font-size:11px;" onclick="adminEditInlineStyle('${b.key}', '${b.style || 'none'}')"><i class="fa-solid fa-palette"></i></button>`;
+                container.appendChild(row);
+            });
+        } catch (e) {
+            container.innerHTML = '<p style="font-size:11.5px; color:var(--text-sub); text-align:center;">Error loading.</p>';
+        }
+    }
+
+    function adminEditInlineName(key) {
+        const newName = prompt(`Enter new label for "${key}":`);
+        if (newName === null || newName.trim() === '') return;
+        saveInlineButtonUpdate(key, newName.trim(), null);
+    }
+
+    function adminEditInlineStyle(key, currentStyle) {
+        const styles = ['primary', 'success', 'danger', 'none'];
+        const choice = prompt(`Select style for "${key}"\nOptions: ${styles.join(', ')}\nCurrent: ${currentStyle}`, currentStyle);
+        if (choice === null) return;
+        if (!styles.includes(choice.trim().toLowerCase())) return showToast('Invalid style', '#ef4444');
+        saveInlineButtonUpdate(key, null, choice.trim().toLowerCase());
+    }
+
+    async function saveInlineButtonUpdate(key, newLabel, newStyle) {
+        try {
+            const payload = { adminId: sessionUserUid, key };
+            if (newLabel) payload.label = newLabel;
+            if (newStyle) payload.style = newStyle;
+            const res = await fetch(`${ENGINE_API_ENDPOINT}/api/admin/inline-buttons`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+            const r = await res.json();
+            if (r.success) {
+                showToast('Button updated!', '#10b981');
+                loadAdminInlineButtons();
+            } else showToast(r.error || 'Failed', '#ef4444');
+        } catch (e) { showToast('Network error', '#ef4444'); }
+    }
+
+    async function adminResetAllInline() {
+        showConfirm('Reset All Inline', 'Reset all inline buttons to default?', async () => {
+            try {
+                await fetch(`${ENGINE_API_ENDPOINT}/api/admin/inline-buttons/reset`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ adminId: sessionUserUid })
+                });
+                showToast('All reset!', '#10b981');
+                loadAdminInlineButtons();
+            } catch (e) { showToast('Failed', '#ef4444'); }
+        });
+    }
+
+    // ==================== ADMIN: KEYBOARDS ====================
+    async function loadAdminKeyboardLayout() {
+        const container = document.getElementById('admin-keyboard-layout-view');
+        container.innerHTML = '<p style="font-size:11.5px; color:var(--text-sub); text-align:center;">Loading...</p>';
+        try {
+            const res = await fetch(`${ENGINE_API_ENDPOINT}/api/admin/keyboard-layout?adminId=${sessionUserUid}`);
+            const r = await res.json();
+            if (!r.success || !r.layout) {
+                container.innerHTML = '<p style="font-size:11.5px; color:var(--text-sub); text-align:center;">Failed to load.</p>';
+                return;
+            }
+            window.__adminKbLayout = r.layout;
+            window.__adminKbStyles = r.styles || {};
+            container.innerHTML = '';
+            r.layout.forEach((row, rIdx) => {
+                const rowDiv = document.createElement('div');
+                rowDiv.style.cssText = 'display:flex; gap:6px; margin-bottom:8px;';
+                row.forEach((btn, cIdx) => {
+                    const styleKey = r.styles?.[`${rIdx}_${cIdx}`];
+                    const styleLabel = styleKey ? ` [${styleKey}]` : '';
+                    const b = document.createElement('button');
+                    b.className = 'glass-btn';
+                    b.style.cssText = 'flex:1; padding:8px 4px; font-size:10.5px;';
+                    b.innerText = btn + styleLabel;
+                    b.onclick = () => openKeyboardEditor(rIdx, cIdx);
+                    rowDiv.appendChild(b);
+                });
+                container.appendChild(rowDiv);
+            });
+        } catch (e) {
+            container.innerHTML = '<p style="font-size:11.5px; color:var(--text-sub); text-align:center;">Error loading.</p>';
+        }
+    }
+
+    function openKeyboardEditor(rIdx, cIdx) {
+        const editor = document.getElementById('admin-keyboard-editor');
+        const layout = window.__adminKbLayout || [];
+        const currentName = layout[rIdx]?.[cIdx] || '';
+        const currentStyle = window.__adminKbStyles?.[`${rIdx}_${cIdx}`] || 'none';
+        editor.innerHTML = `
+            <div class="glass-card" style="border-color:var(--purple-accent);">
+                <h4 style="font-size:13px; margin-bottom:10px;">✏️ Edit Button [Row ${rIdx + 1}, Col ${cIdx + 1}]</h4>
+                <p style="font-size:12px; color:var(--text-sub); margin-bottom:10px;">Current: <b>${sanitizeText(currentName)}</b></p>
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:6px; margin-bottom:10px;">
+                    <button class="glass-btn" style="font-size:11px; padding:8px;" onclick="adminMoveKeyboard(${rIdx}, ${cIdx}, 'up')">⬆️ Up</button>
+                    <button class="glass-btn" style="font-size:11px; padding:8px;" onclick="adminMoveKeyboard(${rIdx}, ${cIdx}, 'down')">⬇️ Down</button>
+                    <button class="glass-btn" style="font-size:11px; padding:8px;" onclick="adminMoveKeyboard(${rIdx}, ${cIdx}, 'left')">⬅️ Left</button>
+                    <button class="glass-btn" style="font-size:11px; padding:8px;" onclick="adminMoveKeyboard(${rIdx}, ${cIdx}, 'right')">➡️ Right</button>
+                </div>
+                <input type="text" id="kb-edit-name" class="glass-input" value="${sanitizeText(currentName)}" placeholder="Button name">
+                <select id="kb-edit-style" class="glass-input">
+                    <option value="none" ${currentStyle==='none'?'selected':''}>No Style</option>
+                    <option value="primary" ${currentStyle==='primary'?'selected':''}>🔵 Primary</option>
+                    <option value="success" ${currentStyle==='success'?'selected':''}>🟢 Success</option>
+                    <option value="danger" ${currentStyle==='danger'?'selected':''}>🔴 Danger</option>
+                </select>
+                <button class="glass-btn primary" onclick="adminSaveKeyboardButton(${rIdx}, ${cIdx})"><i class="fa-solid fa-save"></i> Save</button>
+                <button class="glass-btn" style="margin-top:6px;" onclick="document.getElementById('admin-keyboard-editor').innerHTML=''"><i class="fa-solid fa-xmark"></i> Close</button>
+            </div>
+        `;
+        editor.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    async function adminMoveKeyboard(rIdx, cIdx, direction) {
+        try {
+            const res = await fetch(`${ENGINE_API_ENDPOINT}/api/admin/keyboard-layout/move`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ adminId: sessionUserUid, r: rIdx, c: cIdx, direction })
+            });
+            const r = await res.json();
+            if (r.success) {
+                showToast('Moved!', '#10b981');
+                loadAdminKeyboardLayout();
+                document.getElementById('admin-keyboard-editor').innerHTML = '';
+            } else showToast(r.error || 'Failed', '#ef4444');
+        } catch (e) { showToast('Network error', '#ef4444'); }
+    }
+
+    async function adminSaveKeyboardButton(rIdx, cIdx) {
+        const newName = document.getElementById('kb-edit-name').value.trim();
+        const newStyle = document.getElementById('kb-edit-style').value;
+        if (!newName) return showToast('Enter a name', '#ef4444');
+        try {
+            const res = await fetch(`${ENGINE_API_ENDPOINT}/api/admin/keyboard-layout/edit`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ adminId: sessionUserUid, r: rIdx, c: cIdx, name: newName, style: newStyle })
+            });
+            const r = await res.json();
+            if (r.success) {
+                showToast('Saved!', '#10b981');
+                loadAdminKeyboardLayout();
+                document.getElementById('admin-keyboard-editor').innerHTML = '';
+            } else showToast(r.error || 'Failed', '#ef4444');
+        } catch (e) { showToast('Network error', '#ef4444'); }
+    }
+
+    async function adminToggleKeyboardLayout() {
+        try {
+            const res = await fetch(`${ENGINE_API_ENDPOINT}/api/admin/keyboard-layout/toggle`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ adminId: sessionUserUid })
+            });
+            const r = await res.json();
+            if (r.success) {
+                showToast('Layout toggled!', '#10b981');
+                loadAdminKeyboardLayout();
+            } else showToast(r.error || 'Failed', '#ef4444');
+        } catch (e) { showToast('Network error', '#ef4444'); }
+    }
+
+    async function adminResetKeyboard() {
+        showConfirm('Reset Keyboard', 'Reset reply keyboard to default?', async () => {
+            try {
+                await fetch(`${ENGINE_API_ENDPOINT}/api/admin/keyboard-layout/reset`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ adminId: sessionUserUid })
+                });
+                showToast('Keyboard reset!', '#10b981');
+                loadAdminKeyboardLayout();
+            } catch (e) { showToast('Failed', '#ef4444'); }
+        });
+    }
+
+    async function adminPreviewKeyboard() {
+        try {
+            const res = await fetch(`${ENGINE_API_ENDPOINT}/api/admin/keyboard-layout/preview`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ adminId: sessionUserUid })
+            });
+            const r = await res.json();
+            if (r.success) showToast('Preview sent to bot!', '#3b82f6');
+            else showToast(r.error || 'Failed', '#ef4444');
+        } catch (e) { showToast('Network error', '#ef4444'); }
+    }
+
+    // ==================== ADMIN: ERROR LOGS ====================
+    async function loadErrorLogs() {
+        const container = document.getElementById('admin-error-logs-list');
+        container.innerHTML = '<p style="font-size:11.5px; color:var(--text-sub); text-align:center;">Loading...</p>';
+        try {
+            const res = await fetch(`${ENGINE_API_ENDPOINT}/api/admin/error-logs?adminId=${sessionUserUid}`);
+            const r = await res.json();
+            if (!r.success || !r.logs || r.logs.length === 0) {
+                container.innerHTML = '<div style="padding:20px; text-align:center;"><i class="fa-solid fa-circle-check" style="font-size:32px; color:var(--green-accent); margin-bottom:10px;"></i><p style="font-size:12px; color:var(--text-sub);">No errors logged. Bot running smoothly! 🎉</p></div>';
+                return;
+            }
+            container.innerHTML = '';
+            r.logs.slice(0, 15).forEach((log, i) => {
+                const row = document.createElement('div');
+                row.style.cssText = 'padding:10px; background:rgba(239,68,68,0.08); border:1px solid rgba(239,68,68,0.25); border-radius:10px; margin-bottom:8px; font-size:11.5px;';
+                row.innerHTML = `<div style="display:flex; justify-content:space-between; margin-bottom:4px;"><b style="color:#f87171;">Error #${i+1}</b><span style="color:var(--text-sub); font-size:10px;">${sanitizeText(log.time || 'N/A')}</span></div><div style="color:var(--text-sub); margin-bottom:4px;">User: <code>${log.user || 'N/A'}</code></div><div style="font-family:monospace; font-size:11px; word-break:break-word;">${sanitizeText(log.error || 'Unknown')}</div>`;
+                container.appendChild(row);
+            });
+        } catch (e) {
+            container.innerHTML = '<p style="font-size:11.5px; color:var(--text-sub); text-align:center;">Error loading.</p>';
+        }
+    }
+
+    async function adminClearErrorLogs() {
+        showConfirm('Clear Logs', 'Clear all error logs?', async () => {
+            try {
+                await fetch(`${ENGINE_API_ENDPOINT}/api/admin/error-logs/clear`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ adminId: sessionUserUid })
+                });
+                showToast('Logs cleared!', '#10b981');
+                loadErrorLogs();
+            } catch (e) { showToast('Failed', '#ef4444'); }
+        });
+    }
+
+    // ==================== ADMIN: BOT MESSAGES ====================
+    async function loadBotMessages() {
+        try {
+            const res = await fetch(`${ENGINE_API_ENDPOINT}/api/admin/messages?adminId=${sessionUserUid}`);
+            const r = await res.json();
+            if (r.success && r.messages) {
+                const m = r.messages;
+                document.getElementById('msg-start').value = m.startMessage || '';
+                document.getElementById('msg-dash').value = m.msgDashText || '';
+                document.getElementById('msg-support').value = m.supportDetails || '';
+                document.getElementById('msg-link').value = m.teamLink || '';
+                document.getElementById('msg-unknown').value = m.unknownCommandMsg || '';
+                document.getElementById('msg-task-app').value = m.alertTaskApprove || '';
+                document.getElementById('msg-task-rej').value = m.alertTaskReject || '';
+                document.getElementById('msg-wd-app').value = m.alertWithdrawApprove || '';
+                document.getElementById('msg-wd-rej').value = m.alertWithdrawReject || '';
+                document.getElementById('msg-bal-adj').value = m.alertBalanceAdjust || '';
+                document.getElementById('msg-referral').value = m.alertReferral || '';
+            }
+        } catch (e) { console.warn('Messages load failed:', e); }
+    }
+
+    async function adminSaveBotMessages() {
+        const payload = {
+            adminId: sessionUserUid,
+            startMessage: document.getElementById('msg-start').value,
+            msgDashText: document.getElementById('msg-dash').value,
+            supportDetails: document.getElementById('msg-support').value,
+            teamLink: document.getElementById('msg-link').value,
+            unknownCommandMsg: document.getElementById('msg-unknown').value,
+            alertTaskApprove: document.getElementById('msg-task-app').value,
+            alertTaskReject: document.getElementById('msg-task-rej').value,
+            alertWithdrawApprove: document.getElementById('msg-wd-app').value,
+            alertWithdrawReject: document.getElementById('msg-wd-rej').value,
+            alertBalanceAdjust: document.getElementById('msg-bal-adj').value,
+            alertReferral: document.getElementById('msg-referral').value
+        };
+        try {
+            const res = await fetch(`${ENGINE_API_ENDPOINT}/api/admin/messages`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+            const r = await res.json();
+            if (r.success) showToast('All messages saved!', '#10b981');
+            else showToast(r.error || 'Failed', '#ef4444');
+        } catch (e) { showToast('Network error', '#ef4444'); }
+    }
+
+    // ==================== ADMIN: TRANSFER OWNERSHIP ====================
+    async function adminTransferOwnership() {
+        const newUid = document.getElementById('admin-new-owner-uid').value.trim();
+        if (!newUid) return showToast('Enter new owner ID', '#ef4444');
+        if (String(newUid) === String(sessionUserUid)) return showToast('Already you are the owner', '#ef4444');
+
+        showConfirm('⚠️ CRITICAL', `Transfer bot ownership to ${newUid}? You will lose admin access!`, async () => {
+            try {
+                const res = await fetch(`${ENGINE_API_ENDPOINT}/api/admin/transfer-ownership`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ adminId: sessionUserUid, newOwnerId: newUid })
+                });
+                const r = await res.json();
+                if (r.success) {
+                    showToast('Ownership transferred!', '#10b981');
+                    setTimeout(() => {
+                        closeSubPage('page-admin-control-hub');
+                        document.getElementById('admin-terminal-btn').style.display = 'none';
+                        isRealAdmin = false;
+                    }, 2000);
+                } else showToast(r.error || 'Failed', '#ef4444');
+            } catch (e) { showToast('Network error', '#ef4444'); }
+        });
+    }
+</script>
+</body>
+</html>
